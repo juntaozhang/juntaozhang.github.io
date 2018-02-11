@@ -565,7 +565,8 @@ checkpoint其实就是数据落地文件系统,目前为止RDD重复计算(SPARK
 action之所以会触发job,以下的所有方法都是触发了`sc.runJob`方法
 
 - `reduce`
-  ```
+
+  ```scala
     def reduce(f: (T, T) => T): T = withScope {
       val cleanF = sc.clean(f)
       //ResultTask中调用runTask=>func便是这个方法,所有这个方法是被executor执行
@@ -595,7 +596,7 @@ action之所以会触发job,以下的所有方法都是触发了`sc.runJob`方�
 
   最终还是调用,ResultTask中调用`func: (TaskContext, Iterator[T]) => U`,resultHandler处理每个partition返回结果
   
-  ```
+  ```scala
     def collect(): Array[T] = withScope {
       val results = sc.runJob(this, (iter: Iterator[T]) => iter.toArray)
       Array.concat(results: _*)
