@@ -2,6 +2,7 @@
 怎么产生的,给个rdd之间怎么依赖的,最后又怎么生成spark job
 
 我们还是先从一个例子下手:
+
 ```scala
 val sc = new SparkContext(sparkConf)
 
@@ -15,7 +16,7 @@ val res = sc
 res.foreach(tuple => println(tuple._1 + " => " + tuple._2))
 ```
 
-##RDD如何生成
+## RDD如何生成
 SparkContext是spark方法的主要的入口,代表着与spark集群建立连接了,它被用来创建RDDs,accumulators(累加器),
 broadcast var(广播变量),每个JVM只容许一个[SPARK-2243](https://issues.apache.org/jira/browse/SPARK-2243),
 这里我们只讨论与RDDs相关方法:
@@ -60,6 +61,7 @@ partition包装成`InterruptibleIterator`,需要注意的是此时并没有真�
 - `getPartitions`: 前一个RDD的partition
 - `compute`: 执行成员变量f,上面的例子中`line => line.split(" ")`空格分割返回数组,这是一个表达式,
 `iter.flapMap(f)`是这个RDD主要功能,写一个直观的小例子:
+
 ```scala
 val res = Seq(
     "Return a new RDD by applying",
@@ -79,7 +81,7 @@ val res = Seq(
 `mapPartitionsRDD.reduceByKey(_ + _)`,有同学发现RDD中没有这个方法,而PairRDDFunctions却有,那么就引入一个问题:
 
 
-###PairRDDFunctions与RDD关系
+### PairRDDFunctions与RDD关系
 `PairRDDFunctions`构造函数中接受的是`RDD[(K, V)`这种格式,我们可以推断出`mapPartitionsRDD.reduceByKey(_ + _)`
 真实执行逻辑`new PairRDDFunctions(mapPartitionsRDD).reduceByKey(_ + _)`,这其实涉及到了scala中隐式转换,
 而我们确实在`object RDD`中发现了`implicit def rddToPairRDDFunctions[K, V](rdd: RDD[(K, V)])`,说白了就是你定义好
@@ -132,11 +134,11 @@ MyShuffledRDD()
 这个例子最后`collect`,RDD提交job,实际调用`SparkContext.runJob`=>`DAGScheduler.handleJobSubmitted`,
 `newResultStage`转换stage,然后提交`submitStage`
 
-##RDD之间依赖关系
+## RDD之间依赖关系
 最终的RDD链如下:
 ![RDD链](img/workcount_rdd_deps.png)
 
-###Dependency
+### Dependency
 依赖可以分为:窄依赖(NarrowDependency),宽依赖(ShuffleDependency)
 NarrowDependency(窄依赖),parent RDD中的每个partition最多被child RDD中的一个partition使用，容许管道执行
 
@@ -150,7 +152,7 @@ ShuffleDependency, 宽依赖需要出发shuffle
 ![Dependency](img/dependency.png)
 
 
-##RDDs
+## RDDs
 - UnionRDD
 两个RDD合并成一个RDD,其实是概念上一种合并
 
@@ -365,9 +367,9 @@ checkpoint其实就是数据落地文件系统,目前为止RDD重复计算(SPARK
 
 有了这些RDD我们就可以相互拼接行程丰富多彩的方法
 
-###RDD方法分析
+### RDD方法分析
 
-####Transformations
+#### Transformations
 
 - `map(func)`
   迭代器对每个元素执行func,返回T
@@ -561,7 +563,7 @@ checkpoint其实就是数据落地文件系统,目前为止RDD重复计算(SPARK
       .keys
   ```
 
-####Actions
+#### Actions
 action之所以会触发job,以下的所有方法都是触发了`sc.runJob`方法
 
 - `reduce`
@@ -628,7 +630,7 @@ action之所以会触发job,以下的所有方法都是触发了`sc.runJob`方�
 - `saveAsObjectFile(path) `
 
 
-###DAGScheduler
+### DAGScheduler
 
 
 
