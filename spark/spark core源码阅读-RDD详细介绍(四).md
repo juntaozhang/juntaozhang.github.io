@@ -349,11 +349,12 @@ rdd2实质上是流式传输,源码如下:
 
 
 - ReliableCheckpointRDD
-RDD.checkpoint 
-  => RDD.doCheckpoint 
-    => RDDCheckpointData.checkpoint 
-      => ReliableRDDCheckpointData.doCheckpoint
-        => ReliableCheckpointRDD.writeRDDToCheckpointDirectory: 主要是通过sparkContext提交写文件job,返回ReliableCheckpointRDD
+
+=> RDD.checkpoint 
+=> RDD.doCheckpoint 
+=> RDDCheckpointData.checkpoint 
+=> ReliableRDDCheckpointData.doCheckpoint
+=> ReliableCheckpointRDD.writeRDDToCheckpointDirectory: 主要是通过sparkContext提交写文件job,返回ReliableCheckpointRDD
         
 checkpoint其实就是数据落地文件系统,目前为止RDD重复计算(SPARK-8582)还没有merge进来
         
@@ -361,11 +362,11 @@ checkpoint其实就是数据落地文件系统,目前为止RDD重复计算(SPARK
 
 
 
-从上面一系列分析我们基本可以了解RDD,有些数据源如HadoopRDD,有些RDD不需要shuffle如MapPartitionsRDD,有些会触发如ShuffledRDD,
-还有些可能会可能不会一切取决于dependencies如CoGroupedRDD,我这里只是分析具有代表性的RDD,覆盖了所有情况的Dependency,
-还有一些RDD,读者可以自行分析.
+从上面一系列分析我们基本可以了解RDD,有些数据源如HadoopRDD,有些RDD不需要shuffle如MapPartitionsRDD,有些会触发如
+ShuffledRDD,还有些可能会可能不会一切取决于dependencies如CoGroupedRDD,我这里只是分析具有代表性的RDD,覆盖了所有
+情况的Dependency,还有一些RDD,读者可以自行分析.
 
-有了这些RDD我们就可以相互拼接行程丰富多彩的方法
+有了这些RDD我们就可以相互组合成丰富多彩的方法
 
 ### RDD方法分析
 
@@ -458,11 +459,8 @@ checkpoint其实就是数据落地文件系统,目前为止RDD重复计算(SPARK
   ```
   
 - `aggregateByKey(zeroValue)(seqOp, combOp, [numTasks])`
-  
   dataset:(K, V) => (K, U)
-  
   来自PairRDDFunctions,生成ShuffledRDD
-  
   下面这个例子:
   
   ```
@@ -474,7 +472,6 @@ checkpoint其实就是数据落地文件系统,目前为止RDD重复计算(SPARK
   ```
 
 - `sortByKey([ascending], [numTasks])`
-
    来自OrderedRDDFunctions,根据key排序,生成ShuffledRDD
    
   ```
@@ -490,9 +487,7 @@ checkpoint其实就是数据落地文件系统,目前为止RDD重复计算(SPARK
 
 
 - `cogroup(otherDataset, [numTasks])`
-
   来自PairRDDFunctions,根据key合并两个RDD,生成CoGroupedRDD
-  
   (K, V) and (K, W) => (K, (Iterable<V>, Iterable<W>))
   
   ```
@@ -503,11 +498,8 @@ checkpoint其实就是数据落地文件系统,目前为止RDD重复计算(SPARK
   ```
 
 - `coalesce(numPartitions)`
-  
   partition 合并
-  
   生成CoalescedRDD
-  
   如果强制shuffle可以MapPartitionsRDD=>ShuffledRDD=>CoalescedRDD,这里提供了一个思路如何需要数据倾斜,
   可以通过这种方式解决
   
@@ -628,11 +620,3 @@ action之所以会触发job,以下的所有方法都是触发了`sc.runJob`方�
    
 - `saveAsSequenceFile(path) `
 - `saveAsObjectFile(path) `
-
-
-### DAGScheduler
-
-
-
-
-
