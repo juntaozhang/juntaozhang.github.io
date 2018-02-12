@@ -46,14 +46,16 @@ Job的最优调度.然后把stages转换成TaskSets提交给底层TaskScheduler.
 #### 提交Stage
 `=>submitStage`:解释该方法我们对上面例子稍作修改,把`rdd2 team`改成:
 `val team = sc.parallelize(List(("a", 1), ("b", 2))).distinct()`,多加一个方法`distinct()`,
-上一篇我们说过改方法内部执行逻辑`map(x => (x, null)).reduceByKey((x, y) => x, numPartitions).map(_._1)`,
+上一篇我们说过该方法内部执行逻辑`map(x => (x, null)).reduceByKey((x, y) => x, numPartitions).map(_._1)`,
 画出RDD依赖图应该不困难了,结合上面的图,我们发现这个job有2次shuffle,分别发生在CoGroupedRDD与ShuffledRDD,
 并且CoGroupedRDD依赖于ShuffledRDD,RDDs被转换成以下stages,他们的依赖关系如下图,`ShuffleMapStage 1`是
-ShuffledRDD因为划分的.
+ShuffledRDD划分的.
 
 ![submitJoin2Stage.png](img/submitJoin2Stage.png)
 
 通过这个例子我们再结合源码分析`submitStage(finalStage)`,这是一个递归调用,首先`getMissingParentStages`获取所
-依赖的stage,如果为空,直接通过`submitMissingTasks`(该方法stage转换taskSet提交TaskScheduler)提交stage,如果发现
+依赖的stage,如果为空,直接通过`submitMissingTasks`(该方法把stage转换taskSet提交TaskScheduler)提交stage,如果发现
 还有依赖的stage没有执行,再递归执行`submitStage(stage)`,依次执行下去.
+
+这样我们基本上理清楚RDD与Stage之间关系,以及执行逻辑.
 
