@@ -128,7 +128,7 @@ Spark工作由一个或多个阶段组成, 作业的最后一个阶段由多个R
 
 我们画一个流程图方便理解调度关系:
 
-![submitTasks.png](https://juntaozhang.github.io/spark/img/submitTasks.png)
+![submitTasks.png](img/submitTasks.png)
 
 
 ### TaskSetManager
@@ -151,7 +151,7 @@ Spark工作由一个或多个阶段组成, 作业的最后一个阶段由多个R
   executor执行器, 实现类如`CoarseGrainedExecutorBackend`粗粒度后台执行器,Executor中执行,
   接收SchedulerBackend提交的task任务,以线程TaskRunner方式执行,流程如下:
   
-  ![CoarseGrainedExecutorBackend.png](https://juntaozhang.github.io/spark/img/CoarseGrainedExecutorBackend.png)
+  ![CoarseGrainedExecutorBackend.png](img/CoarseGrainedExecutorBackend.png)
   
   TaskRunner首先反序列化task,调用`task.run`方法,task内部先设置上下文环境,然后执行`runTask`,该方法被子类实现:
 
