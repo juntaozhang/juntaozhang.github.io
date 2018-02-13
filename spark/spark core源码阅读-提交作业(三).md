@@ -32,23 +32,23 @@ println("Pi is roughly " + 4.0 * count / 500000L)
 ```
 
 - 2.任务提交之后,ResourceManager从NodeManager找到一个container作为ApplicationMaster(AM),AM同时也是Driver,AM向RM请求2个资源作为executor,如下图:
-![这里写图片描述](http://img.blog.csdn.net/20180207180135745?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2VpeGluXzQxNzA1Nzgw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![yarn-spark-dispatcher.png](./img/yarn-spark-dispatcher.png)
 
 - 3.在YARN资源管理UI中可以看到此Job
-![这里写图片描述](http://img.blog.csdn.net/20180207175453229?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2VpeGluXzQxNzA1Nzgw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![appMaster](./img/job-pi/appMaster.png)
 
 - 4.在spark UI中可以看到分配的executor
-![这里写图片描述](http://img.blog.csdn.net/20180207180303223?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2VpeGluXzQxNzA1Nzgw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![executor.png](./img/job-pi/executor.png)
 
 - 5.SparkUI中也描述此次Job执行情况:
 Job粒度:
-![这里写图片描述](http://img.blog.csdn.net/20180207180451858?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2VpeGluXzQxNzA1Nzgw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![driver.png](./img/job-pi/driver.png)
 
 - 6.stage粒度,该Job只有一个Stage,如下图:
-![这里写图片描述](http://img.blog.csdn.net/20180207180546058?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2VpeGluXzQxNzA1Nzgw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![job-stages.png](./img/job-pi/job-stages.png)
 
 - 7.task粒度,此级别是spark中实际最细的执行单元,从下图我们可以很清晰的看到Executor ID_1一共跑了3个tasks共花了2s,Executor ID_2跑了2个task共花了4s
-![这里写图片描述](http://img.blog.csdn.net/20180207180716151?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2VpeGluXzQxNzA1Nzgw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![stage-tasks.png](./img/job-pi/stage-tasks.png)
 
 至此我们已经有一个大体的认识:
 

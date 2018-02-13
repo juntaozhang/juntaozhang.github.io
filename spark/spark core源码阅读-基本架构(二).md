@@ -3,7 +3,7 @@
 ##Spark基本框架
 ###基本组件
 首先有一个大体感知,下图是spark standalone模型的架构图
-![这里写图片描述](http://spark.apache.org/docs/1.6.0/img/cluster-overview.png)
+![cluster-overview](http://spark.apache.org/docs/1.6.0/img/cluster-overview.png)
 
 ###几种模式
 - local:本地测试使用
@@ -11,7 +11,7 @@
 - Mesos: 一种比Yarn管理更细的资源管理器
 
 **YARN的架构图:**
-![这里写图片描述](https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/yarn_architecture.gif)
+![yarn_architecture](https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/yarn_architecture.gif)
 
 - ResourceManager: 集群资源管理器
 - NodeManager: 每个节点的资源管理器,管理container的生命周期
@@ -20,7 +20,7 @@
 
 ###基本术语
 **spark job提交运行图:**
-![这里写图片描述](http://img.blog.csdn.net/20180207140831419?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2VpeGluXzQxNzA1Nzgw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![spark-job-architecture.png](img/spark-job-architecture.png)
 
 - `Driver App`:客户端应用程序,将任务转换成RDD,DAG并与资源调度器保持通信
 - `Cluster Manager`: 常驻进程,Master是standalone模式下spark资源管理器,如果是yarn模式是托管给ResourceManager
