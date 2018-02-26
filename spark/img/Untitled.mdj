@@ -9256,27 +9256,6 @@
 									"defaultDiagram": false,
 									"ownedViews": [
 										{
-											"_type": "RectangleView",
-											"_id": "AAAAAAFh0bRJTSrMJy8=",
-											"_parent": {
-												"$ref": "AAAAAAFh0XQIrU8PT/g="
-											},
-											"visible": true,
-											"enabled": true,
-											"lineColor": "#000000",
-											"fillColor": "#ffffff",
-											"fontColor": "#000000",
-											"font": "Arial;13;0",
-											"showShadow": true,
-											"containerChangeable": false,
-											"containerExtending": false,
-											"left": 2000,
-											"top": 752,
-											"width": 1697,
-											"height": 441,
-											"autoResize": false
-										},
-										{
 											"_type": "UMLFrameView",
 											"_id": "AAAAAAFh0XQIrU8QJ2I=",
 											"_parent": {
@@ -9302,7 +9281,7 @@
 													"containerChangeable": false,
 													"containerExtending": false,
 													"left": 71,
-													"top": 5,
+													"top": 10,
 													"width": 107,
 													"height": 13,
 													"autoResize": false,
@@ -9328,7 +9307,7 @@
 													"containerChangeable": false,
 													"containerExtending": false,
 													"left": 5,
-													"top": 5,
+													"top": 10,
 													"width": 61,
 													"height": 13,
 													"autoResize": false,
@@ -9349,7 +9328,7 @@
 											"containerChangeable": false,
 											"containerExtending": false,
 											"left": 0,
-											"top": 0,
+											"top": 5,
 											"width": 3716,
 											"height": 1284,
 											"autoResize": false,
@@ -15086,7 +15065,7 @@
 													},
 													"edgePosition": 1,
 													"underline": false,
-													"text": "19 : RpcResponseCallback",
+													"text": "19 : RpcResponseCallback  onSuccess",
 													"horizontalAlignment": 2,
 													"verticalAlignment": 5,
 													"wordWrap": false
@@ -17360,7 +17339,7 @@
 													},
 													"edgePosition": 1,
 													"underline": false,
-													"text": "30 : fetchBlockSync.BlockFetchingListener",
+													"text": "30 : fetchBlockSync.BlockFetchingListener.onBlockFetchSuccess",
 													"horizontalAlignment": 2,
 													"verticalAlignment": 5,
 													"wordWrap": false
@@ -17505,17 +17484,17 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 1080,
-											"top": 600,
-											"width": 189,
+											"left": 1248,
+											"top": 560,
+											"width": 111,
 											"height": 51,
 											"autoResize": false,
-											"text": "netty server 发起获取块请求之前封装对象",
+											"text": "向netty server 发起获取块请求",
 											"wordWrap": true
 										},
 										{
 											"_type": "UMLNoteView",
-											"_id": "AAAAAAFh0aiXTSql5LE=",
+											"_id": "AAAAAAFh0acl/yFxD24=",
 											"_parent": {
 												"$ref": "AAAAAAFh0XQIrU8PT/g="
 											},
@@ -17528,104 +17507,12 @@
 											"showShadow": true,
 											"containerChangeable": false,
 											"containerExtending": false,
-											"left": 2256,
+											"left": 2336,
 											"top": 592,
-											"width": 200,
+											"width": 99,
 											"height": 51,
 											"autoResize": false,
-											"text": "Netty RPC请求 该RPC通知server准备好数据块",
-											"wordWrap": true
-										},
-										{
-											"_type": "UMLTextView",
-											"_id": "AAAAAAFh0bE7BCqypWc=",
-											"_parent": {
-												"$ref": "AAAAAAFh0XQIrU8PT/g="
-											},
-											"visible": true,
-											"enabled": true,
-											"lineColor": "#000000",
-											"fillColor": "#ffffff",
-											"fontColor": "#000000",
-											"font": "Arial;13;0",
-											"showShadow": true,
-											"containerChangeable": false,
-											"containerExtending": false,
-											"left": 2008,
-											"top": 664,
-											"width": 75,
-											"height": 25,
-											"autoResize": false,
-											"text": "onSuccess",
-											"wordWrap": true
-										},
-										{
-											"_type": "UMLTextView",
-											"_id": "AAAAAAFh0bGCkiq4WIc=",
-											"_parent": {
-												"$ref": "AAAAAAFh0XQIrU8PT/g="
-											},
-											"visible": true,
-											"enabled": true,
-											"lineColor": "#000000",
-											"fillColor": "#ffffff",
-											"fontColor": "#000000",
-											"font": "Arial;13;0",
-											"showShadow": true,
-											"containerChangeable": false,
-											"containerExtending": false,
-											"left": 1096,
-											"top": 1088,
-											"width": 141,
-											"height": 25,
-											"autoResize": false,
-											"text": "onBlockFetchSuccess",
-											"wordWrap": true
-										},
-										{
-											"_type": "UMLNoteView",
-											"_id": "AAAAAAFh0bHjVyq+niI=",
-											"_parent": {
-												"$ref": "AAAAAAFh0XQIrU8PT/g="
-											},
-											"visible": true,
-											"enabled": true,
-											"lineColor": "#000000",
-											"fillColor": "#ffffff",
-											"fontColor": "#000000",
-											"font": "Arial;13;0",
-											"showShadow": true,
-											"containerChangeable": false,
-											"containerExtending": false,
-											"left": 2008,
-											"top": 768,
-											"width": 216,
-											"height": 38,
-											"autoResize": false,
-											"text": "根据返回块数量分别发起netty RPC请求 loop",
-											"wordWrap": true
-										},
-										{
-											"_type": "UMLNoteView",
-											"_id": "AAAAAAFh0bVqhCrVkfc=",
-											"_parent": {
-												"$ref": "AAAAAAFh0XQIrU8PT/g="
-											},
-											"visible": true,
-											"enabled": true,
-											"lineColor": "#000000",
-											"fillColor": "#ffffff",
-											"fontColor": "#000000",
-											"font": "Arial;13;0",
-											"showShadow": true,
-											"containerChangeable": false,
-											"containerExtending": false,
-											"left": 3384,
-											"top": 944,
-											"width": 131,
-											"height": 51,
-											"autoResize": false,
-											"text": "netty RPC repsone回应数据块",
+											"text": "向netty server 发起RPC请求",
 											"wordWrap": true
 										}
 									],
@@ -17949,7 +17836,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFh0XQIrU8OQgs="
 									},
-									"name": "RpcResponseCallback",
+									"name": "RpcResponseCallback  onSuccess",
 									"source": {
 										"$ref": "AAAAAAFh0YR11FJ1Ow0="
 									},
@@ -18136,7 +18023,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFh0XQIrU8OQgs="
 									},
-									"name": "fetchBlockSync.BlockFetchingListener",
+									"name": "fetchBlockSync.BlockFetchingListener.onBlockFetchSuccess",
 									"source": {
 										"$ref": "AAAAAAFh0XnGN1Ec7MI="
 									},
