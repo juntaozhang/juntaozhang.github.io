@@ -102,6 +102,7 @@ Executor: `env.blockManager.initialize(conf.getAppId)`
   - 如果备份数目>1,调用`replicate`,将已经写入的数据同步到其他节点上
   
 ### 数据读取过程
+这里先分析IO没有容错情况
 
 ![getOrCompute-get](img/getOrCompute-get.png)
 
@@ -120,9 +121,89 @@ Executor: `env.blockManager.initialize(conf.getAppId)`
     None
   }
 ```
-`getRemote`方法比较复杂,第一次netty RPC请求准备数据块,第二次循环`fetchChunk`,最后通知`onBlockFetchSuccess`
 
-`OpenBlocks`events准备blocks
+`getRemote`触发2次RPC
+  - `client.sendRpc`注册一个ManagedBuffers流
+  - 成功之后`client.fetchChunk`(这里只有一个block)
+
+#### Netty Client
+
+1.`NettyBlockTransferService.fetchBlocks`,执行成功回调函数`BlockFetchingListener.onBlockFetchSuccess`,
+
+```scala
+  //BlockTransferService.fetchBlockSync
+  def fetchBlockSync(host: String, port: Int, execId: String, blockId: String): ManagedBuffer = {
+    // A monitor for the thread to wait on.
+    val result = Promise[ManagedBuffer]()
+    fetchBlocks(host, port, execId, Array(blockId),
+      new BlockFetchingListener {
+        override def onBlockFetchFailure(blockId: String, exception: Throwable): Unit = {
+          result.failure(exception)
+        }
+        override def onBlockFetchSuccess(blockId: String, data: ManagedBuffer): Unit = {
+          val ret = ByteBuffer.allocate(data.size.toInt)
+          ret.put(data.nioByteBuffer())
+          ret.flip()
+          result.success(new NioManagedBuffer(ret))
+        }
+      })
+
+    Await.result(result.future, Duration.Inf)
+  }
+```
+
+2.`OneForOneBlockFetcher.start`开始获取进程,`this.openMessage = new OpenBlocks(appId, execId, blockIds);`
+调用成功后,第二次发起第二次RPC请求`client.fetchChunk`
+
+```scala
+client.sendRpc(openMessage.toByteBuffer(), new RpcResponseCallback() {
+  @Override
+  public void onSuccess(ByteBuffer response) {
+    try {
+      streamHandle = (StreamHandle) BlockTransferMessage.Decoder.fromByteBuffer(response);
+      logger.trace("Successfully opened blocks {}, preparing to fetch chunks.", streamHandle);
+
+      // Immediately request all chunks -- we expect that the total size of the request is
+      // reasonable due to higher level chunking in [[ShuffleBlockFetcherIterator]].
+      for (int i = 0; i < streamHandle.numChunks; i++) {
+        client.fetchChunk(streamHandle.streamId, i, chunkCallback);
+      }
+    } catch (Exception e) {
+      logger.error("Failed while starting block fetches after success", e);
+      failRemainingBlocks(blockIds, e);
+    }
+  }
+
+  @Override
+  public void onFailure(Throwable e) {
+    logger.error("Failed while starting block fetches", e);
+    failRemainingBlocks(blockIds, e);
+  }
+});
+```
+
+3.第二次调用成功后触发`TransportResponseHandler.handle`,然后执行回调函数`ChunkCallback`
+```java
+if (message instanceof ChunkFetchSuccess) {
+      ChunkFetchSuccess resp = (ChunkFetchSuccess) message;
+      ChunkReceivedCallback listener = outstandingFetches.get(resp.streamChunkId);
+      if (listener == null) {
+        logger.warn("Ignoring response for block {} from {} since it is not outstanding",
+          resp.streamChunkId, remoteAddress);
+        resp.body().release();
+      } else {
+        outstandingFetches.remove(resp.streamChunkId);
+        listener.onSuccess(resp.streamChunkId.chunkIndex, resp.body());
+        resp.body().release();
+      }
+    }
+```
+
+### Netty Server
+
+1.相应第一次Client的请求`OpenBlocks`事件,`NettyBlockRpcServer.receive`,
+OneForOneStreamManager注册一个ManagedBuffers流,作为单独的块一次一个地推给调用者
+
 ```scala
   override def receive(
       client: TransportClient,
@@ -151,27 +232,9 @@ Executor: `env.blockManager.initialize(conf.getAppId)`
   }
 ```
 
+2.送回Client端的第二次RPC请求,`TransportRequestHandler.handle`执行`processFetchRequest`,
+`OneForOneStreamManager.getChunk`, 为响应fetchChunk()请求,封装`ManagedBuffer`返回
 
-调用成功后,第二次发起块RPC请求
-```java
-public void onSuccess(ByteBuffer response) {
-  try {
-    streamHandle = (StreamHandle) BlockTransferMessage.Decoder.fromByteBuffer(response);
-    logger.trace("Successfully opened blocks {}, preparing to fetch chunks.", streamHandle);
-
-    // Immediately request all chunks -- we expect that the total size of the request is
-    // reasonable due to higher level chunking in [[ShuffleBlockFetcherIterator]].
-    for (int i = 0; i < streamHandle.numChunks; i++) {
-      client.fetchChunk(streamHandle.streamId, i, chunkCallback);
-    }
-  } catch (Exception e) {
-    logger.error("Failed while starting block fetches after success", e);
-    failRemainingBlocks(blockIds, e);
-  }
-}
-```
-
-Netty server,得到请求之后,送回Client端的第二次RPC请求
 ```java
   private void processFetchRequest(final ChunkFetchRequest req) {
     final String client = NettyUtils.getRemoteAddress(channel);
@@ -194,42 +257,5 @@ Netty server,得到请求之后,送回Client端的第二次RPC请求
   }
 ```
 
-Client执行回调函数
-```java
-if (message instanceof ChunkFetchSuccess) {
-      ChunkFetchSuccess resp = (ChunkFetchSuccess) message;
-      ChunkReceivedCallback listener = outstandingFetches.get(resp.streamChunkId);
-      if (listener == null) {
-        logger.warn("Ignoring response for block {} from {} since it is not outstanding",
-          resp.streamChunkId, remoteAddress);
-        resp.body().release();
-      } else {
-        outstandingFetches.remove(resp.streamChunkId);
-        listener.onSuccess(resp.streamChunkId.chunkIndex, resp.body());
-        resp.body().release();
-      }
-    }
-```
-
-获取一个块,返回result
-```scala
-fetchBlocks(host, port, execId, Array(blockId),
-      new BlockFetchingListener {
-        override def onBlockFetchFailure(blockId: String, exception: Throwable): Unit = {
-          result.failure(exception)
-        }
-        override def onBlockFetchSuccess(blockId: String, data: ManagedBuffer): Unit = {
-          val ret = ByteBuffer.allocate(data.size.toInt)
-          ret.put(data.nioByteBuffer())
-          ret.flip()
-          result.success(new NioManagedBuffer(ret))
-        }
-      })
-```
-
-
-  
- 
-
-
+IO容错为实际fetcher封装在类`RetryingBlockFetcher`中
 
