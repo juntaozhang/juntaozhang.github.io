@@ -123,12 +123,13 @@ Executor: `env.blockManager.initialize(conf.getAppId)`
 ```
 
 `getRemote`触发2次RPC
+
   - `client.sendRpc`注册一个ManagedBuffers流
   - 成功之后`client.fetchChunk`(这里只有一个block)
 
 #### Netty Client
 
-1.`NettyBlockTransferService.fetchBlocks`,执行成功回调函数`BlockFetchingListener.onBlockFetchSuccess`,
+1.`NettyBlockTransferService.fetchBlocks`,执行成功回调函数`BlockFetchingListener.onBlockFetchSuccess`
 
 ```scala
   //BlockTransferService.fetchBlockSync
@@ -199,9 +200,9 @@ if (message instanceof ChunkFetchSuccess) {
     }
 ```
 
-### Netty Server
+#### Netty Server
 
-1.相应第一次Client的请求`OpenBlocks`事件,`NettyBlockRpcServer.receive`,
+1.响应第一次Client的请求`OpenBlocks`事件,`NettyBlockRpcServer.receive`,
 OneForOneStreamManager注册一个ManagedBuffers流,作为单独的块一次一个地推给调用者
 
 ```scala
