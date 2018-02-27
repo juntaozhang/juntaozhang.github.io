@@ -9271,7 +9271,7 @@
 											"containerChangeable": false,
 											"containerExtending": false,
 											"left": 2000,
-											"top": 752,
+											"top": 744,
 											"width": 1697,
 											"height": 441,
 											"autoResize": false
@@ -9350,7 +9350,7 @@
 											"containerExtending": false,
 											"left": 0,
 											"top": 0,
-											"width": 3716,
+											"width": 3777,
 											"height": 1284,
 											"autoResize": false,
 											"nameLabel": {
@@ -17530,10 +17530,10 @@
 											"containerExtending": false,
 											"left": 2256,
 											"top": 592,
-											"width": 200,
+											"width": 241,
 											"height": 51,
 											"autoResize": false,
-											"text": "Netty RPC请求 该RPC通知server准备好数据块",
+											"text": "Netty RPC请求 该RPC通知server准备好数据块(1个块)",
 											"wordWrap": true
 										},
 										{

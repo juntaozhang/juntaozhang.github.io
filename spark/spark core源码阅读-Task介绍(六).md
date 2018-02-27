@@ -1,4 +1,4 @@
-## Task
+## (一)Task介绍
 
 一个执行单位, Spark中有两种Task:
 Spark工作由一个或多个阶段组成, 作业的最后一个阶段由多个ResultTasks组成，而早期的阶段由ShuffleMapTasks组成
@@ -11,7 +11,7 @@ Spark工作由一个或多个阶段组成, 作业的最后一个阶段由多个R
 
 
 
-### task提交
+### (1)task提交
 
 `DAGScheduler.submitMissingTasks`
 
@@ -63,6 +63,7 @@ Spark工作由一个或多个阶段组成, 作业的最后一个阶段由多个R
   
   ShuffleMapStage: Seq(ShuffleMapTask)
   ResultStage: Seq(ResultTask)
+  
   ```scala
     val tasks: Seq[Task[_]] = try {
       stage match {
@@ -99,14 +100,14 @@ Spark工作由一个或多个阶段组成, 作业的最后一个阶段由多个R
   ```
 
 
-### TaskScheduler
+### (2)TaskScheduler
 
 该接口被不同调度器实现, 每个SparkContext中只有一个TaskScheduler实例来调度任务,
 从上面DAGScheduler分析也能看出,每个stage会提交taskSet到该调度器,由该调度器负责将任务发送到集群，运行它们，
 在出现故障时重试以及mitigating stragglers(???), 他们将活动返回给DAGScheduler。
 我们先分析`TaskSchedulerImpl`,
 
-`submitTasks`
+`override def submitTasks(taskSet: TaskSet)`
 
 - `createTaskSetManager`创建TaskSetManager
   
@@ -131,23 +132,23 @@ Spark工作由一个或多个阶段组成, 作业的最后一个阶段由多个R
 ![submitTasks.png](img/submitTasks.png)
 
 
-### TaskSetManager
+### (3)TaskSetManager
   在TaskSchedulerImpl的单个TaskSet中安排任务。 
-  此类跟踪的 每个任务在失败时重试任务（达到有限次数），以及通过延迟调度处理此TaskSet的区域感知调度。
+  此类跟踪的每个任务在失败时重试任务（达到有限次数），以及通过延迟调度处理此TaskSet的区域感知调度。
   它的主要接口是`resourceOffer`，它询问TaskSet是否想要在一个节点上运行任务，和`statusUpdate`，
   它告诉它它的一个任务改变了状态（例如finished）。
 
-### SchedulerBackend
+### (4)SchedulerBackend
   上面这行流程涉及到一些类这里解释一下:用于调度系统的后端接口，允许在TaskSchedulerImpl下插入不同的接口
   实现类如`CoarseGrainedSchedulerBackend`(先分析这个类): 粗粒度Driver后端调度器,
   `start`createDriverEndpoint`创建DriverEndpoint服务
   
   DriverEndpoint: 粗粒度Driver后端RPC服务,接收RPC发送的Events
   
-## executor如何执行task
+## (二)executor如何执行task
   启动Executor服务,初始化`Executor`,还可以接收不同的注册过的事件比如`LaunchTask`
 
-### ExecutorBackend 
+### (1)ExecutorBackend 
   executor执行器, 实现类如`CoarseGrainedExecutorBackend`粗粒度后台执行器,Executor中执行,
   接收SchedulerBackend提交的task任务,以线程TaskRunner方式执行,流程如下:
   
@@ -155,7 +156,7 @@ Spark工作由一个或多个阶段组成, 作业的最后一个阶段由多个R
   
   TaskRunner首先反序列化task,调用`task.run`方法,task内部先设置上下文环境,然后执行`runTask`,该方法被子类实现:
 
-### ShuffleMapTask
+### (2)ShuffleMapTask
   `runTask`:
   ShuffleMapTask将RDD的元素划分为多个桶（基于partitioner中的ShuffleDependency）
   首先把广播变量还原成RDD与dependency,从`ShuffleManager`获取`ShuffleWriter`,rdd.iterator管道流出来之后,
@@ -188,7 +189,7 @@ Spark工作由一个或多个阶段组成, 作业的最后一个阶段由多个R
   `HashShuffleManager`=>`HashShuffleWriter`
   
   
-### ResultTask
+### (3)ResultTask
   `runTask`:
   该Task会将执行结果发送回Driver端
   首先序列化广播变量,获得rdd与func,该func是之前ResultStage介绍过,Driver端定义的合并合并函数,
