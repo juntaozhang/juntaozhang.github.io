@@ -86,7 +86,7 @@ shuffle中Map端如何根据根据分区把数据写入文件.
 
 - `insertAll`
 
-  ![ExternalSorter.insertAll.png](img/ExternalSorter.insertAll.png)
+  ![PartitionedAppendOnlyMap.insertAll.png](img/PartitionedAppendOnlyMap.insertAll.png)
 
     迭代器循环处理数据
     内存不足溢出到磁盘
