@@ -1,7 +1,11 @@
-# spark core源码阅读-Storage shuffle(八)
+spark core源码阅读-Storage shuffle(八)
+---
 
-本节主要介绍`RDD.aggregateByKey`导致的shuffle,`ShuffleMapTask`中Task如何处理`rdd.iterator`,
-shuffle中Map端如何根据根据分区把数据写入文件.
+本节主要介绍`RDD.aggregateByKey`导致的shuffle,分两部分map shuffle,reduce shuffle
+
+# 一 map shuffle
+
+`ShuffleMapTask`中Task如何处理`rdd.iterator`,shuffle中Map端如何根据根据分区把数据写入文件.
 
 ## 主要类简述
 - ShuffleManager
@@ -41,17 +45,6 @@ shuffle中Map端如何根据根据分区把数据写入文件.
   
   HashShuffleManager=>HashShuffleWriter
     每个分区一个临时文件,完事之后重新命名
-  
-
-- BlockStoreShuffleReader
-  reducer在`ShuffledRDD.compute getReader`调用`read()`方法
-  该方法中:
-    
-    - 通过`ShuffleBlockFetcherIterator`远程获取各个map端相应的分区数据
-    - 需要map端合并,`combineCombinersByKey`,使用`ExternalAppendOnlyMap.insertAll`数据结构缓存,内存不足溢出文件
-    - 需要排序,`ExternalSorter.insertAll`循环排序
-    - `sorter.iterator`合并数据集(如果有多个溢出文件,合并成一个)
-    - 返回`CompletionIterator`
   
 
 - ExternalSorter
@@ -114,6 +107,33 @@ shuffle中Map端如何根据根据分区把数据写入文件.
 
 ![writePartitionedFile.png](img/writePartitionedFile.png)
 
+
+# 二 reduce shuffle
+
+看一下`ShuffledRDD`中的`compute`
+
+```scala
+  override def compute(split: Partition, context: TaskContext): Iterator[(K, C)] = {
+    val dep = dependencies.head.asInstanceOf[ShuffleDependency[K, V, C]]
+    SparkEnv.get.shuffleManager.getReader(dep.shuffleHandle, split.index, split.index + 1, context)
+      .read()
+      .asInstanceOf[Iterator[(K, C)]]
+  }
+```
+- BlockStoreShuffleReader
+
+  该方法中:
+    
+    - 通过`ShuffleBlockFetcherIterator`远程获取各个map端相应的分区数据
+    - 需要map端合并,`combineCombinersByKey`,使用`ExternalAppendOnlyMap.insertAll`数据结构缓存,内存不足溢出文件
+    - 需要排序,`ExternalSorter.insertAll`循环排序
+    - `sorter.iterator`合并数据集(如果有多个溢出文件,合并成一个)
+    - 返回`CompletionIterator`
+
+
+画了一幅图概述上述过程
+
+![map-reduce.png](img/map-reduce.png)
 
 **TODO**
 - [TimSort](http://blog.csdn.net/yangzhongblog/article/details/8184707) JDK ComparableTimSort
