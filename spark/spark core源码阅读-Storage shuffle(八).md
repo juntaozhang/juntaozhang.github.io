@@ -19,50 +19,73 @@ spark core源码阅读-Storage shuffle(八)
   `getReader`:在reduce任务中获取，以从mappers中读取被组合的记录
  
  分类:
- 
- (1) SortShuffleManager
+ - (1) HashShuffleManager
+   1.2.0版本shuffle方式,有一些缺点,主要是大量小文件,每一个mapper task根据reducer数量创建分区文件,假设有M个Mapper,
+   R个Reducer,总共会创建M*R个小文件,如果有46k个Mapper和46k个reducer就会在集群产生2billion的文件
+   目前的版本已经做了优化,在mapper端优化,executor中task写同样文件,不过在1.5版本删除了[SPARK-9808](https://issues.apache.org/jira/browse/SPARK-9808),
+   因为有更好的基于排序的shuffle改进
+   
+   优点:
+    - 快,不需要排序,不需要维护hash表
+    - 没有额外的排序内存消耗
+    - 没有IO开销,一次性写硬盘,一次性读硬盘
+   
+   缺点:
+    - partitions数量多,会产生大量小文件,影响性能
+    - 写入文件系统的大量文件导致IO倾向于随机IO，这通常比顺序IO慢100倍
+
+ - (2) SortShuffleManager
  
    default,在基于排序的shuffle中，rdd iter records将根据其目标分区ID进行排序写入单个map输出文件.
    reducer获取此文件的连续区域以便阅读他们的map输出部分。 在map输出数据太大而不适合缓存的情况下
    排序的输出子集可以被分散到磁盘上，并且这些磁盘上的文件被合并生成最终的输出文件。
   
- (2) HashShuffleManager
-    不需要排序的场景(reduce端不会基于排序处理相应逻辑),直接通过hash分区输出shuffle文件
     
 - ShuffleHandle
   `registerShuffle`,根据不同场景选择不同`ShuffleWriter`
   
 - ShuffleWriter
-  
-  SortShuffleManager根据不同`ShuffleHandle`有以下选择:
+  - HashShuffleManager=>HashShuffleWriter
+    过程如图:
+    ![HashShuffleManager.jpg](img/HashShuffleManager.jpg)
     
+  - SortShuffleManager
+    Manager按照以下顺序,根据不同条件选择`ShuffleHandle`:
+    - UnsafeShuffleWriter(Tungsten中优化项)
+          使用特殊高效内存排序`ShuffleExternalSorter`, 它对压缩记录指针和分区ID数组进行排序,通过在排序阵列中每个记录
+          仅使用8个字节的空间，CPU缓存可以更有效地工作
+          触发条件:
+             - 序列化策略支持如`UnsafeRowSerializer,KryoSerializer`,能直接在二进制上操作不需要反序列化数据
+             - 不需要聚合
+             - 分区数不能超过16 million
+    - BypassMergeSortShuffleWriter
+        HashShuffleWriter`SPARK-9808`放在该类,在`writePartitionedFile`方法中合并所有分区文件,这样每个map一个
+        output文件,`HashShuffleManager`2billion的shuffle文件就减少到46k
+        触发条件:
+          - `spark.shuffle.manager=sort`
+          - “reducers”<“spark.shuffle.sort.bypassMergeThreshold” (默认200)
     - SortShuffleWriter
+      过程如图:
+      ![SortShuffleWriter.png](img/SortShuffleWriter.png)
       
-      最终生成一个文件
-      
-    - UnsafeShuffleWriter TODO
-    - BypassMergeSortShuffleWriter TODO
+    
+    
+ 
   
-  HashShuffleManager=>HashShuffleWriter
-    每个分区一个临时文件,完事之后重新命名
   
 
 - ExternalSorter
-
   通过Partitioner把key分区,在每个分区内排序,为每个分区输出单个分区文件
 
 - IndexShuffleBlockResolver
-
   逻辑块与物理文件Mapping,生成数据文件块索引文件
   
 
 - PartitionedAppendOnlyMap
 
     具有以下特征:
-    
     - AppendOnlyMap 内存存储,只能添加
     - WritablePartitionedPairCollection
-    
       - 键值对都有分区信息
       - 支持高效的内存排序iter
       - 支持WritablePartitionedIterator直接以字节形式写入内容
@@ -131,9 +154,11 @@ spark core源码阅读-Storage shuffle(八)
     - 返回`CompletionIterator`
 
 
-画了一幅图概述上述过程
 
-![map-reduce.png](img/map-reduce.png)
+
+# 参考
+
+- [spark-architecture-shuffle](https://0x0fff.com/spark-architecture-shuffle/)
 
 **TODO**
 - [TimSort](http://blog.csdn.net/yangzhongblog/article/details/8184707) JDK ComparableTimSort
