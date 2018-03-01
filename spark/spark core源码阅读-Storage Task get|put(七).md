@@ -261,5 +261,6 @@ OneForOneStreamManager注册一个ManagedBuffers流,作为单独的块一次一�
 IO容错为实际fetcher封装在类`RetryingBlockFetcher`中
 
 ## 参考
-
+- [Spark Distributed Systems Architecture](https://0x0fff.com/spark-architecture/)
+- [Spark memory management](https://0x0fff.com/spark-memory-management/)
 - [Apache Spark 内存管理详解](https://www.ibm.com/developerworks/cn/analytics/library/ba-cn-apache-spark-memory-management/index.html)
