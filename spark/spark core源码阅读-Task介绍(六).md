@@ -196,4 +196,60 @@ Spark工作由一个或多个阶段组成, 作业的最后一个阶段由多个R
   同样执行`rdd.iterator`管道,但是与`ShuffleMapTask`不同的是,该类task可能需要到shuffledRDD,即依赖不同执行器中的
   partitions,从不同节点上拉数据的逻辑在`shuffledRDD.compute`方法中,之前介绍RDD时提到过
 
+## Question
 
+- 1.假设1个ResultTask依赖10个ShuffleMapTask,是否等MapTask全部执行完成才会执行ResultTask?
+  >众说纷纭[stackoverflow all map side tasks has finished?](https://stackoverflow.com/questions/42105985/spark-shuffle-how-workers-know-where-to-pull-data-from?rq=1),
+  [spark-dagscheduler-ShuffleMapStage](https://jaceklaskowski.gitbooks.io/mastering-apache-spark/spark-dagscheduler-ShuffleMapStage.html),
+  1.6.0版本看代码下来这个版本是需要等到所有的map执行完成之后,`ShuffleMapStage`才会被标记为available,由此可见spark
+  在shuffle中一定要等MapTask全部执行完成才会执行ResultTask
+  
+  DAGScheduler中提交一个stage执行`submitStage`首先执行`getMissingParentStages`查看有没有依赖的stage,在该方法
+  下我们可以看到如果是需要shuffle,`mapStage.isAvailable`方法内可以看到一定要在ShuffleMapStage分区的outputs全部完成
+  才返回true
+  
+  ```scala
+  private def getMissingParentStages(stage: Stage): List[Stage] = {
+      val missing = new HashSet[Stage]
+      val visited = new HashSet[RDD[_]]
+      // We are manually maintaining a stack here to prevent StackOverflowError
+      // caused by recursively visiting
+      val waitingForVisit = new Stack[RDD[_]]
+      def visit(rdd: RDD[_]) {
+        if (!visited(rdd)) {
+          visited += rdd
+          val rddHasUncachedPartitions = getCacheLocs(rdd).contains(Nil)
+          if (rddHasUncachedPartitions) {
+            for (dep <- rdd.dependencies) {
+              dep match {
+                case shufDep: ShuffleDependency[_, _, _] =>
+                  val mapStage = getShuffleMapStage(shufDep, stage.firstJobId)
+                  if (!mapStage.isAvailable) {
+                    missing += mapStage
+                  }
+                case narrowDep: NarrowDependency[_] =>
+                  waitingForVisit.push(narrowDep.rdd)
+              }
+            }
+          }
+        }
+      }
+      waitingForVisit.push(stage.rdd)
+      while (waitingForVisit.nonEmpty) {
+        visit(waitingForVisit.pop())
+      }
+      missing.toList
+    }
+  ```
+  ShuffleMapStage.isAvailable
+  ```scala
+      def isAvailable: Boolean = _numAvailableOutputs == numPartitions
+  ```
+  
+  通过实际结果
+  - stage-flow
+  ![is-reduce-after-all-map-side-tasks-has-finished.jpg](img/wordcount/is-reduce-after-all-map-side-tasks-has-finished.jpg)
+  - shuffle-stage
+  ![shuffle-stage.png](img/wordcount/shuffle-stage.png)
+  - result-stage
+  ![result-stage.png](img/wordcount/result-stage.png)
