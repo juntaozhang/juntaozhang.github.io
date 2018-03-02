@@ -95,7 +95,7 @@ OFF_HEAP(与MEMORY_ONLY_SER类似，但将数据存储在堆外存储器中)
 
 ### 结构图
 
-![CacheManager](img/CacheManager.png)
+![CacheManager](https://juntaozhang.github.io/spark/img/CacheManager.png)
 
 
 ### 初始化
@@ -144,7 +144,7 @@ Executor: `env.blockManager.initialize(conf.getAppId)`
 
 ### 数据写入过程分析
 
-![getOrCompute-put](img/getOrCompute-put.png)
+![getOrCompute-put](https://juntaozhang.github.io/spark/img/getOrCompute-put.png)
 
 上面分析了内存充足情况下,副本>1的情况
   
@@ -159,7 +159,7 @@ Executor: `env.blockManager.initialize(conf.getAppId)`
 ### 数据读取过程
 这里先分析IO没有容错情况
 
-![getOrCompute-get](img/getOrCompute-get.png)
+![getOrCompute-get](https://juntaozhang.github.io/spark/img/getOrCompute-get.png)
 
 ```scala
   def get(blockId: BlockId): Option[BlockResult] = {

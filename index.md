@@ -6,4 +6,5 @@
 - [spark core源码阅读-RDD详细介绍(四)](./spark/spark core源码阅读-RDD详细介绍(四))
 - [spark core源码阅读-Stage介绍(五)](./spark/spark core源码阅读-Stage介绍(五))
 - [spark core源码阅读-Task介绍(六)](./spark/spark core源码阅读-Task介绍(六))
-- [spark core源码阅读-Storage Task get|put(七)](./spark/spark core源码阅读-Storage Task get|put(七))
+- [spark core源码阅读-内存管理(七)](./spark/spark core源码阅读-内存管理(七))
+- [spark core源码阅读-Storage-Shuffle(八)](./spark/spark core源码阅读-Storage-Shuffle(八))
