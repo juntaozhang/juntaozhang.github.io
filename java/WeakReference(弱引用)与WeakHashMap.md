@@ -195,12 +195,11 @@ WeakHashMap有一个成员变量`Entry<K,V>[] table`, 类似于HashMap中的tabl
 下次使用又要重新计算;有人说你可以先把这个应用先加入强引用类似于上面的WeakHashMapTest,那么什么时候释放呢?
 如果你已经知道确切的释放时间,那么还用WeakReference有什么意义呢...~~
 
-(2018.3.6)
-WeakHashMap为什么把key作为弱引用而非value?
-用来处理当key被因为弱引用gc回收时map将删除kv,所以用作cache不是很合理,被用来保存一些对象的元数据,当这些对象有生命周期
-不需要你认为控制,比如Thread,当线程活的时候你直接可以使用该thread对应的value,一旦销毁之后,map自动回收value
+*WeakHashMap为什么把key作为弱引用而非value?(2018.3.6)*
+用来处理当key被因为弱引用gc回收时map将删除kv,所以用作cache不是很合理,被用来保存一些对象的元数据,当这些对象有生命周
+期,不需要你人为控制,比如Thread,当线程活的时候你直接可以使用该thread对应的value,一旦销毁之后,map自动回收value.
+代码如下:
 **MapMaker guava提供更多样的选择**
-
 ```java
 public class WeakHashMapTest {
   public static void main(String[] args) {
@@ -210,28 +209,31 @@ public class WeakHashMapTest {
       } catch (InterruptedException ignore) {
       }
     });
-    t1.start();
+
     WeakHashMap<Thread, String> map = new WeakHashMap<>();
     map.put(t1, "metadata");
+    t1.start();
     t1 = null;
+    System.gc();
+    System.out.println(map);//数据还在,thread 还活着
     try {
-      Thread.sleep(1000);
+      Thread.sleep(1500);
     } catch (InterruptedException ignore) {
     }
-    System.out.println(map);
+    System.out.println(map);//数据还在,thread销毁但没有触发GC
     System.gc();
-    System.out.println(map);
-
+    System.out.println(map);//数据被回收
   }
 }
 ```
 
 - 虚引用(PhantomReference)
-	>虚引用必须和引用队列(ReferenceQueue)联合使用才有意义,一定程度上它与finalize起到的作用大致相同,都在对象被gc回收之前做一些收尾工作. 如何使用见[利用 PhantomReference 替代 finalize.](https://www.dozer.cc/2015/10/phantom-reference.html)
 
-	*finalize如何使用,借助dubbo里面的源码:*
+	>虚引用必须和引用队列(ReferenceQueue)联合使用才有意义,一定程度上它与finalize起到的作用大致相同,都在对象被gc回
+	收之前做一些收尾工作. 如何使用见[利用 PhantomReference 替代 finalize.](https://www.dozer.cc/2015/10/phantom-reference.html)
 
-	```java
+*finalize如何使用,借助dubbo里面的源码:*
+```java
 private final Object finalizerguardian = new Object() {
         @Override
         protected void finalize() throws Throwable {
