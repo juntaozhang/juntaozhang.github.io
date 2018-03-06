@@ -185,9 +185,46 @@ after gc WeakHashMap are {9=9, 6=6, 0=0, 3=3}.
 ```
 原理:
 
-WeakHashMap有一个成员变量`Entry<K,V>[] table`, 类似于HashMap中的table,只是Entry中的key是弱引用`private static class Entry<K,V> extends WeakReference<Object> implements Map.Entry<K,V>`, 上面解释过,弱引用就是在每次GC都会清除该对象,key被清除之后,value是强引用,该怎么办?清理key时把key放在`private final ReferenceQueue<Object> queue = new ReferenceQueue<>();`, 大部分方法都会调用`expungeStaleEntries`,该方法主要作用就是清除弱引用key对应的value.
+WeakHashMap有一个成员变量`Entry<K,V>[] table`, 类似于HashMap中的table,只是Entry中的key是弱引用
+`private static class Entry<K,V> extends WeakReference<Object> implements Map.Entry<K,V>`, 
+上面解释过,弱引用就是在每次GC都会清除该对象,key被清除之后,value是强引用,该怎么办?清理key时把key放在
+`private final ReferenceQueue<Object> queue = new ReferenceQueue<>();`, 大部分方法都会调用
+`expungeStaleEntries`,该方法主要作用就是清除弱引用key对应的value.
 
-所以WeakHashMap的使用场景就是短时间cache的对象,当然这个也是有缺点的,假设刚计算出来的对象碰巧遇到gc,立刻又被回收了,下次使用又要重新计算;有人说你可以先把这个应用先加入强引用类似于上面的WeakHashMapTest,那么什么时候释放呢?如果你已经知道确切的释放时间,那么还用WeakReference有什么意义呢...
+~~所以WeakHashMap的使用场景就是短时间cache的对象,当然这个也是有缺点的,假设刚计算出来的对象碰巧遇到gc,立刻又被回收了,
+下次使用又要重新计算;有人说你可以先把这个应用先加入强引用类似于上面的WeakHashMapTest,那么什么时候释放呢?
+如果你已经知道确切的释放时间,那么还用WeakReference有什么意义呢...~~
+
+(2018.3.6)
+WeakHashMap为什么把key作为弱引用而非value?
+用来处理当key被因为弱引用gc回收时map将删除kv,所以用作cache不是很合理,被用来保存一些对象的元数据,当这些对象有生命周期
+不需要你认为控制,比如Thread,当线程活的时候你直接可以使用该thread对应的value,一旦销毁之后,map自动回收value
+**MapMaker guava提供更多样的选择**
+
+```java
+public class WeakHashMapTest {
+  public static void main(String[] args) {
+    Thread t1 = new Thread(() -> {
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException ignore) {
+      }
+    });
+    t1.start();
+    WeakHashMap<Thread, String> map = new WeakHashMap<>();
+    map.put(t1, "metadata");
+    t1 = null;
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException ignore) {
+    }
+    System.out.println(map);
+    System.gc();
+    System.out.println(map);
+
+  }
+}
+```
 
 - 虚引用(PhantomReference)
 	>虚引用必须和引用队列(ReferenceQueue)联合使用才有意义,一定程度上它与finalize起到的作用大致相同,都在对象被gc回收之前做一些收尾工作. 如何使用见[利用 PhantomReference 替代 finalize.](https://www.dozer.cc/2015/10/phantom-reference.html)
