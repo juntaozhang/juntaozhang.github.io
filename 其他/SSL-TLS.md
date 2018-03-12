@@ -40,4 +40,4 @@ TLS(transport layer security)安全传输层
 
 ## 参考
 - [SSL/TLS原理详解](https://segmentfault.com/a/1190000002554673)
-- [SL/TLS 握手过程详解](http://www.jianshu.com/p/7158568e4867)
+- [SSL/TLS 握手过程详解](http://www.jianshu.com/p/7158568e4867)
