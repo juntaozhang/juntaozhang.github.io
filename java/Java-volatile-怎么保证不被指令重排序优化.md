@@ -21,6 +21,11 @@
 
 ## happens-before（先行发生）
 actionA先行发生actionB，就是说A对B可见（B执行时可以看到A的执行结果）
+* 线程启动/终结规则
+* volatile规则
+* lock规则
+* Order规则,线程内书写前面的操作先行发生书写后面的操作
+* 中断规则 
 
 
 ## volatile禁止重排序原理
