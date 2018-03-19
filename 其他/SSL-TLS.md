@@ -15,10 +15,10 @@ TLS(transport layer security)安全传输层
 
 - 2.server hello
 
-  *Server Key Exchange
+  **Server Key Exchange**
   如果是DH算法，这里发送服务器使用的DH参数。RSA算法不需要这一步。
   
-  *Cerficate Request(可选)
+  **Cerficate Request(可选)**
     服务端可以向客户端发出 Cerficate Request 消息，要求客户端发送证书对客户端的合法性进行验证。比如，金融机构往往
     只允许认证客户连入自己的网络，就会向正式客户提供USB密钥，里面就包含了一张客户端证书
 
