@@ -1,4 +1,4 @@
-#WeakReference(弱引用)与WeakHashMap
+# WeakReference(弱引用)与WeakHashMap
 
 ## 是什么?
 
@@ -256,6 +256,6 @@ private final Object finalizerguardian = new Object() {
 
 
 ## 参考:
-[java中的4种reference的差别和使用场景（含理论、代码和执行结果）](http://blog.csdn.net/aitangyong/article/details/39453365)
-[Effective Java Item7:Avoid Finalizers,解释为什么finalize是不安全的，不建议使用](http://blog.csdn.net/aitangyong/article/details/39450341)
+* [java中的4种reference的差别和使用场景（含理论、代码和执行结果）](http://blog.csdn.net/aitangyong/article/details/39453365)
+* [Effective Java Item7:Avoid Finalizers,解释为什么finalize是不安全的，不建议使用](http://blog.csdn.net/aitangyong/article/details/39450341)
 
