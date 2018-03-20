@@ -1,4 +1,4 @@
-# JSSE-SSL
+# JSSE(Java(TM) Secure Socket Extension)
 
 ## 基本概念
 - keyStone: 密钥存储库,公钥私钥证书
@@ -50,4 +50,4 @@ openssl s_client -connect updates.jenkins.io:443
 
 - https://docs.oracle.com/javase/8/docs/technotes/tools/windows/keytool.html
 - https://www.ibm.com/developerworks/cn/java/j-lo-socketkeytool/index.html?ca=drs
-- ./其他/SSL-TLS.md
+- [SSL-TLS](/其他/SSL-TLS.md)
