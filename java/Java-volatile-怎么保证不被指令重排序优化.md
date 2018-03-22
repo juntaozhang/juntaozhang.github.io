@@ -35,16 +35,15 @@ ThreadB {
 ```
 **通过volatile,synchronized可以禁止重排序优化**
 
-## happens-before(hb)
-意义:内存模型通过hb原则并发操作过程中的有序性问题
+## [happens-before(hb)](./happens-before规则.md)
 
-actionA先行发生actionB，就是说A对B可见（A的结果在B执行时可见）
 * 线程启动/终结规则
 * volatile规则, volatile变量写操作hb后面读操作
 * lock规则, unlock hb lock
 * Order规则, 线程内书写前面的操作hb书写后面的操作
 * 中断规则, Thread.interrupt hb 被中断程序检测到的中断事件的发生
 * 传递性
+
 
 ## volatile禁止重排序原理
 如下图，1、2保证可见性，3禁止重排序
