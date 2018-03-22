@@ -1,0 +1,34 @@
+{
+    "author": "juntaozhang.cn@gmail.com",
+    "description": "open technical notebook",
+    "extension": null,
+    "generator": "site",
+    "isbn": "",
+    "language" : "zh-hans",
+    "links": {
+        "sharing": {
+            "all": null,
+            "facebook": null,
+            "google": null,
+            "twitter": null,
+            "weibo": null
+        }
+    },
+    "output": null,
+    "pdf": {
+        "fontSize": 12,
+        "footerTemplate": "",
+        "headerTemplate": "",
+        "margin": {
+            "bottom": 36,
+            "left": 62,
+            "right": 62,
+            "top": 36
+        },
+        "pageNumbers": false,
+        "paperSize": "a4"
+    },
+    "plugins": ["toggle-chapters"],
+    "title": "Open Technical NoteBook",
+    "variables": {}
+}
