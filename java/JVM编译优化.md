@@ -16,7 +16,7 @@
 3.机器代码
 >逃逸分析
 
-#### client vs erver
+#### client vs server
 > C1获取更高的编译速度
 > C2获取更好的编译质量
 
