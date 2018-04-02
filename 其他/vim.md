@@ -1,6 +1,5 @@
 
 
-
 ~/.bash_rc
 alias vi='vim'
 
@@ -12,6 +11,11 @@ syntax enable
 set background=light
 colorscheme solarized
 ```
+
+## 快捷键
+
+![vim](assets/vim.png)
+![vim2](assets/vim2.png)
 
 
 列编辑

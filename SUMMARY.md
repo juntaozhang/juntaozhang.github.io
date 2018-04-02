@@ -24,3 +24,5 @@
   * [linux](其他/linux.md)
   * [linux磁盘](其他/linux磁盘.md)
   * [linux中查看CPU信息](其他/linux中查看CPU信息.md)
+  * [nginx](其他/nginx.md)
+  * [vim](其他/vim.md)
