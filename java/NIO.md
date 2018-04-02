@@ -7,8 +7,8 @@
 ## Java标准IO回顾
 
 Java标准IO类库,是io面向对象的一种抽象。基于本地方法的底层实现，我们无须关注底层实现。 
-InputStream\OutputStream( 字节流 ) ：一次传送一个字节。 
-Reader\Writer( 字符流 ) ：一次一个字符。
+InputStream/OutputStream( 字节流 ) ：一次传送一个字节。 
+Reader/Writer( 字符流 ) ：一次一个字符。
 
 
 ## NIO
