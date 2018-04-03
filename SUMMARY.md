@@ -29,3 +29,6 @@
   * [linux中查看CPU信息](其他/linux中查看CPU信息.md)
   * [nginx](其他/nginx.md)
   * [vim](其他/vim.md)
+
+* [算法](算法/README.md)
+  * [字符匹配-KPM](算法/KMP.md)
