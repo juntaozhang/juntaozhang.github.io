@@ -31,4 +31,4 @@
   * [vim](其他/vim.md)
 
 * [算法](算法/README.md)
-  * [字符匹配-KPM](算法/KMP.md)
+  * [字符匹配-KMP](算法/KMP.md)

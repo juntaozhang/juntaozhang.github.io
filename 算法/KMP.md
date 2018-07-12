@@ -55,7 +55,7 @@ loop source str, 每次匹配`模式串target`(m), 一旦匹配到返回`文本�
 	i		0	1	2	3	4	5	6	7	8
 模式串		a	b	a	a	b	c	a	b	a
 next		-1	0	0	1	1	2	0	1	2
-newnext	-1	0	-1	1	0	2	-1	0	-1	
+newnext 	-1	0	-1	1	0	2	-1	0	-1	
 									
 i=0				-1						
 i=1		a		0						
@@ -84,7 +84,8 @@ void get_next(String target,int next[],int size){
     }
 }
 ```
-改进之后next值:
+
+如果模式串是`aaaab`,我们发现next值为{-1,0,1,2,0},匹配的时候我们发现性能还是很差,于是对next改进:
 
 ```c
 typedef char* String;
@@ -96,6 +97,7 @@ void get_next(String target,int next[],int size){
         if(-1==j||target[i]==target[j]){
             i++;
             j++;
+            //最主要是在这里加入判断,如果后面一位相同,则保持next值相同
             if(target[i]==target[j]){
                 next[i]=next[j];
             }else{
@@ -107,7 +109,8 @@ void get_next(String target,int next[],int size){
     }
 }
 ```
-对与字符串位置i
+
+修改普通字符串匹配算法:
 
 
 ```java
