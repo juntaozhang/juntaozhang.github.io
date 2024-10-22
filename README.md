@@ -6,5 +6,5 @@
 
 ### [其他笔记](/其他/README.md)
 
-### 算法
-迁移到[example-algorithm](https://git.oschina.net/zjt_hans/example/tree/master/algorithm)
+### [算法](/algorithm/README.md)
+

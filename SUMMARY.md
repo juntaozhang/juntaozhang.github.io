@@ -30,5 +30,5 @@
   * [nginx](其他/nginx.md)
   * [vim](其他/vim.md)
 
-* [算法](算法/README.md)
-  * [字符匹配-KMP](算法/KMP.md)
+* [算法](algorithm/README.md)
+  * [字符匹配-KMP](algorithm/KMP.md)
