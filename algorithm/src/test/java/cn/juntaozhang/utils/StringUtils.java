@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 /**
@@ -65,6 +66,12 @@ public class StringUtils {
     public static void print(String mat) {
         for (int i = 0; i < mat.length(); i++) {
             System.out.printf("%2c\t", mat.charAt(i));
+        }
+        System.out.println();
+    }
+    public static void print(Collection<?> collection) {
+        for( Object o : collection) {
+            System.out.printf("%s\t", o);
         }
         System.out.println();
     }
