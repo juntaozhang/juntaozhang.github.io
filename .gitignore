@@ -3,3 +3,4 @@ target/
 ebooks/
 _book/
 node_modules/
+*.jar
