@@ -45,13 +45,6 @@ kubectl run postgresql-client --rm --tty -i --restart='Never' \
   --command -- psql --host postgresql -U postgres -d postgres -p 5432
 ```
 
-#### Method 2: Port Forward (for external access)
-
-```bash
-kubectl port-forward svc/postgresql 5432:5432
-# Connect from local machine: psql -h localhost -U postgres -d postgres
-```
-
 ## CDC Configuration
 
 For Change Data Capture (CDC) functionality, configure Write-Ahead Logging:
@@ -82,6 +75,12 @@ helm upgrade postgresql bitnami/postgresql -f values.yaml
 ### 4. Configure Table Replica Identity
 
 ```sql
+
+-- To delete a replication slot in PostgreSQL
+SELECT pg_drop_replication_slot('pg_java_cdc_slot');
+
+SELECT * FROM pg_replication_slots;
+
 -- Set table to include all columns in CDC
 ALTER TABLE public.orders REPLICA IDENTITY FULL;
 
