@@ -1,0 +1,7 @@
+FROM flink:1.17.2-scala_2.12
+COPY ./paimon-flink-*.jar /opt/flink/lib/
+COPY ./flink-shaded-hadoop-2-uber-2.8.3-10.0.jar /opt/flink/lib/
+COPY ./flink-sql-connector-postgres-cdc-*.jar /opt/flink/lib/
+COPY ./flink-conf.yaml /opt/flink/conf/
+RUN  mkdir /opt/flink/plugins/s3-fs-hadoop
+COPY ./flink-s3-fs-hadoop-1.17.2.jar /opt/flink/plugins/s3-fs-hadoop/
