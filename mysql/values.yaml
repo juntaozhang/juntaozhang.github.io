@@ -1,0 +1,64 @@
+auth:
+  rootPassword: root123
+  database: test
+  username: test
+  password: test12345
+
+image:
+  registry: docker.io
+  repository: bitnami/mysql
+  tag: 9.4.0-debian-12-r1
+  pullPolicy: IfNotPresent
+
+primary:
+  persistence:
+    enabled: true
+    size: 5Gi
+  service:
+    type: LoadBalancer
+    ports:
+      mysql: 3307
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 1000m
+  configuration: |-
+    [mysqld]
+    log_bin=mysql-bin
+    server-id=1
+    binlog_format=ROW
+    binlog_row_image=FULL
+    binlog_expire_logs_seconds=86400
+    
+    authentication_policy='* ,,'
+    skip-name-resolve
+    explicit_defaults_for_timestamp
+    basedir=/opt/bitnami/mysql
+    plugin_dir=/opt/bitnami/mysql/lib/plugin
+    port=3306
+    mysqlx=0
+    mysqlx_port=33060
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    datadir=/bitnami/mysql/data
+    tmpdir=/opt/bitnami/mysql/tmp
+    max_allowed_packet=16M
+    bind-address=*
+    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+    log-error=/opt/bitnami/mysql/logs/mysqld.log
+    character-set-server=UTF8
+    slow_query_log=0
+    long_query_time=10.0
+
+    [client]
+    port=3306
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    default-character-set=UTF8
+    plugin_dir=/opt/bitnami/mysql/lib/plugin
+
+    [manager]
+    port=3306
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
