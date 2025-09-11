@@ -7,7 +7,8 @@ auth:
 image:
   registry: docker.io
   repository: bitnami/mysql
-  tag: 9.4.0-debian-12-r1
+  tag: 8.3.0-debian-12-r3
+#  tag: 9.4.0-debian-12-r1
   pullPolicy: IfNotPresent
 
 primary:

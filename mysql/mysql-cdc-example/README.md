@@ -18,7 +18,7 @@ This example monitors MySQL binlog events for INSERT, UPDATE, and DELETE operati
 
 - Java 17+
 - Maven 3.6+
-- MySQL 9.0+ with binlog enabled
+- MySQL 8.3.0 with binlog enabled
 
 ## Quick Start
 
