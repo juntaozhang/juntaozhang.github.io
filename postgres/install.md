@@ -75,15 +75,13 @@ helm upgrade postgresql bitnami/postgresql -f values.yaml
 ### 4. Configure Table Replica Identity
 
 ```sql
+SELECT * FROM pg_replication_slots;
 
 -- To delete a replication slot in PostgreSQL
 SELECT pg_drop_replication_slot('pg_java_cdc_slot');
 
-SELECT * FROM pg_replication_slots;
-
 -- Set table to include all columns in CDC
 ALTER TABLE public.orders REPLICA IDENTITY FULL;
-
 -- Verify setting (f = FULL, d = DEFAULT)
 SELECT relreplident FROM pg_class WHERE oid = 'public.orders'::regclass;
 ```
