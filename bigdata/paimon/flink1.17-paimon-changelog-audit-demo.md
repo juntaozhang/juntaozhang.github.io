@@ -102,7 +102,7 @@ SELECT * FROM order_fact_changelog$audit_log
 
 ### Drop Table
 ```sql
-DROP TABLE order_fact_changelog;
+DROP TABLE paimon_catalog.ods.order_fact_changelog;
 ```
 
 ### Remove Storage Files
