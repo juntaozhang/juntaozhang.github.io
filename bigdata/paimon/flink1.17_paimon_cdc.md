@@ -71,8 +71,7 @@ DROP TABLE IF EXISTS paimon_catalog.ods.orders;
 CREATE TABLE paimon_catalog.ods.orders (
 id         BIGINT                      NOT NULL,
 user_id    BIGINT                      NOT NULL,
--- amount     DECIMAL(10, 2)              NOT NULL,
-amount     float8                      NOT NULL,
+amount     DECIMAL(10, 2)              NOT NULL,
 status     VARCHAR(20),                -- 与 PG 一致（而不是 STRING）
 created_at TIMESTAMP(6),               -- 精度对齐 PG 的 (6)
 PRIMARY KEY (id) NOT ENFORCED

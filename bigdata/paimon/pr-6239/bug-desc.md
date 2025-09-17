@@ -97,8 +97,16 @@ vm.args:
 ```text
 --add-opens java.base/java.lang=ALL-UNNAMED
 --add-opens java.base/java.util=ALL-UNNAMED
--Drest.port=8083
--Dexecution.checkpointing.interval=10s
+```
+
+ActionBase add args:
+```java
+Configuration conf = new Configuration();
+conf.setInteger(RestOptions.PORT, 8083);
+conf.set(CoreOptions.DEFAULT_PARALLELISM, 1);
+conf.set(ExecutionCheckpointingOptions.CHECKPOINTING_INTERVAL, Duration.ofMillis(30_000));
+// use the default env if user doesn't pass one
+initFlinkEnv(StreamExecutionEnvironment.getExecutionEnvironment(conf));
 ```
 
 java args:
