@@ -46,39 +46,39 @@ USE CATALOG paimon_catalog;
 use ods;
 
 CREATE TABLE default_catalog.default_database.pg_orders_src (
-id BIGINT,
-user_id BIGINT,
-amount DECIMAL(10,2),
-status STRING,
-created_at TIMESTAMP(3),
-PRIMARY KEY (id) NOT ENFORCED
+    id BIGINT,
+    user_id BIGINT,
+    amount DECIMAL(10,2),
+    status STRING,
+    created_at TIMESTAMP(3),
+    PRIMARY KEY (id) NOT ENFORCED
 ) WITH (
-'connector' = 'postgres-cdc',
-'hostname' = 'postgresql.default.svc.cluster.local',
-'port' = '5432',
-'username' = 'postgres',
-'password' = 'postgres123',
-'database-name' = 'test',
-'schema-name' = 'public',
-'table-name' = 'orders',         -- 可支持正则
-'slot.name' = 'pg_cdc_slot',     -- 逻辑复制槽
-'decoding.plugin.name' = 'pgoutput',   -- Postgres 10+ 默认
-'scan.incremental.snapshot.enabled' = 'true'  -- 先快照后增量
+    'connector' = 'postgres-cdc',
+    'hostname' = 'postgresql.default.svc.cluster.local',
+    'port' = '5432',
+    'username' = 'postgres',
+    'password' = 'postgres123',
+    'database-name' = 'test',
+    'schema-name' = 'public',
+    'table-name' = 'orders',                      -- 可支持正则
+    'slot.name' = 'pg_cdc_slot',                  -- 逻辑复制槽
+    'decoding.plugin.name' = 'pgoutput',          -- Postgres 10+ 默认
+    'scan.incremental.snapshot.enabled' = 'true'  -- 先快照后增量
 );
 
 
 DROP TABLE IF EXISTS paimon_catalog.ods.orders;
 CREATE TABLE paimon_catalog.ods.orders (
-id         BIGINT                      NOT NULL,
-user_id    BIGINT                      NOT NULL,
-amount     DECIMAL(10, 2)              NOT NULL,
-status     VARCHAR(20),                -- 与 PG 一致（而不是 STRING）
-created_at TIMESTAMP(6),               -- 精度对齐 PG 的 (6)
-PRIMARY KEY (id) NOT ENFORCED
+    id         BIGINT                      NOT NULL,
+    user_id    BIGINT                      NOT NULL,
+    amount     DECIMAL(10, 2)              NOT NULL,
+    status     VARCHAR(20),                -- 与 PG 一致（而不是 STRING）
+    created_at TIMESTAMP(6),               -- 精度对齐 PG 的 (6)
+    PRIMARY KEY (id) NOT ENFORCED
 ) WITH (
-'bucket' = '1',
-'merge-engine' = 'deduplicate',
-'changelog-producer' = 'input'
+    'bucket' = '1',
+    'merge-engine' = 'deduplicate',
+    'changelog-producer' = 'input'
 );
 
 SET 'execution.runtime-mode' = 'STREAMING';

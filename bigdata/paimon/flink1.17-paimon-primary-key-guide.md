@@ -319,8 +319,8 @@ bin/flink run \
     lib/paimon-flink-action-1.3-20250828.003001-72.jar \
     compact \
     --warehouse s3a://warehouse/paimon \
-    --database default \
-    --table T \
+    --database ods \
+    --table t \
     --compact_strategy full
 ```
 获取manifest信息
