@@ -5,7 +5,7 @@ https://nightlies.apache.org/flink/flink-cdc-docs-master/docs/connectors/flink-s
 
 
 ### add table in PostgreSQL
-[install.md](../../postgres/install.md)
+[install.md](../../../postgres/install.md)
 
 
 ### PG SQL

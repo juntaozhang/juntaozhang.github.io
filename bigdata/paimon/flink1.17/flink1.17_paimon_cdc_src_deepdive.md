@@ -93,7 +93,7 @@ SELECT * FROM t$files;
 ```
 
 sparksql
-[Spark Paimon](spark3.5.5/README.md)
+[Spark Paimon](../spark3.5.5/README.md)
 
 batch:
 ```text
@@ -120,7 +120,7 @@ TableEnvironmentImpl.executeSql
 stream, row-tracking.enabled=true
 [FlinkRowTrackingExample.java](flink1.17-paimon1.3-example/src/main/java/com/example/paimon/FlinkRowTrackingExample.java)
 
-![FlinkRowTrackingExample](flink%20simple%20example.png)
+![FlinkRowTrackingExample](flink simple example.png)
 
 ```text
 SinkTransformation{id=9, name='end', outputType=CommittableTypeInfo, parallelism=1}

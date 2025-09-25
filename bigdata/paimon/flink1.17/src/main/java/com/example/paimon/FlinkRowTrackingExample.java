@@ -9,17 +9,20 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 import java.nio.file.Paths;
 
-public class FlinkSimpleExample {
+/**
+ * https://github.com/apache/paimon/issues/6022
+ */
+public class FlinkRowTrackingExample {
     public static void main(String[] args) {
-        String ckpDir = Paths.get("checkpoints/" + FlinkSimpleExample.class.getSimpleName())
+        String ckpDir = Paths.get("checkpoints/" + FlinkRowTrackingExample.class.getSimpleName())
                 .toUri()
                 .toString();
         Configuration conf = new Configuration();
         conf.set(RestOptions.PORT, 8082);
         conf.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, ckpDir);
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(conf);
-        env.setParallelism(1);
-        env.enableCheckpointing(10_000);
+        env.setParallelism(2);
+        env.enableCheckpointing(30_000);
         EnvironmentSettings settings = EnvironmentSettings.newInstance()
                 .withConfiguration(conf)
                 .inStreamingMode().build();
@@ -50,11 +53,9 @@ public class FlinkSimpleExample {
                   price DECIMAL(32, 2),
                   ts TIMESTAMP(3)
                 ) WITH (
-                    'format' = 'json',
                     'row-tracking.enabled' = 'true'
                 )
                 """;
-
         String query = "INSERT INTO my_order SELECT * FROM src_order";
         tEnv.executeSql("""
                 CREATE CATALOG paimon_catalog WITH (
@@ -64,7 +65,6 @@ public class FlinkSimpleExample {
                 """);
         tEnv.executeSql("USE CATALOG paimon_catalog");
         tEnv.executeSql("use ods");
-        tEnv.executeSql("SET 'execution.checkpointing.interval' = '10 s'");
         tEnv.executeSql(createSrcTable);
         tEnv.executeSql(createSinkTable);
         tEnv.executeSql(query);
