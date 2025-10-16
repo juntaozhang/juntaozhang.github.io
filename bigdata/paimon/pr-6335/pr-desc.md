@@ -1,7 +1,6 @@
+# Support UPDATE/DELETE by _ROW_ID for row tracking
 
-
-![RowWriter fields inconsistent](RowWriter_fields_inconsistent.png)
-
+![RowWriter-fields-inconsistent](rowwriter-fields-inconsistent.png)
 
 https://github.com/apache/paimon/pull/6335
 
@@ -65,3 +64,8 @@ Job aborted due to stage failure: Task 0 in stage 24.0 failed 4 times, most rece
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
 	at java.base/java.lang.Thread.run(Unknown Source)
 ```
+
+> mvn clean install -Dtest=RowTrackingTest -Pspark3 -DfailIfNoTests=false -rf :paimon-spark-3.5_2.12
+> mvn clean install -DfailIfNoTests=false -Dtest=RowTrackingTest -Pspark3,flink1,scala-2.13 -rf :paimon-spark-3.3_2.13
+
+

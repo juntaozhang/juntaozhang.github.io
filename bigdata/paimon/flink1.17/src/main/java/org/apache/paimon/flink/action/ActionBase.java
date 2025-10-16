@@ -30,11 +30,16 @@ import org.apache.paimon.options.Options;
 import org.apache.paimon.types.DataType;
 import org.apache.paimon.types.DataTypeCasts;
 
+import org.apache.flink.api.common.functions.OpenContext;
+import org.apache.flink.api.common.functions.RichFlatMapFunction;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.sink.v2.DiscardingSink;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.types.logical.LogicalType;
+import org.apache.flink.util.Collector;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -44,15 +49,22 @@ import java.util.stream.Collectors;
 import static org.apache.paimon.options.CatalogOptions.CACHE_ENABLED;
 
 /** Abstract base of {@link Action} for table. */
-public abstract class ActionBase implements Action {
+public abstract class ActionBase implements Action, Serializable {
 
     protected final Options catalogOptions;
-    protected final Catalog catalog;
-    protected final FlinkCatalog flinkCatalog;
+    protected transient Catalog catalog;
+    protected transient FlinkCatalog flinkCatalog;
     protected final String catalogName = "paimon-" + UUID.randomUUID();
 
-    protected StreamExecutionEnvironment env;
-    protected StreamTableEnvironment batchTEnv;
+    /**
+     * Forces LocalAction to run as a Flink job instead of local execution. This field only has
+     * effect on {@link LocalAction} implementations. For non-LocalAction implementations, this
+     * field is ignored.
+     */
+    protected boolean forceStartFlinkJob = false;
+
+    protected transient StreamExecutionEnvironment env;
+    protected transient StreamTableEnvironment batchTEnv;
 
     public ActionBase(Map<String, String> catalogConfig) {
         catalogOptions = Options.fromMap(catalogConfig);
@@ -62,15 +74,31 @@ public abstract class ActionBase implements Action {
             catalogOptions.set(CACHE_ENABLED, false);
         }
 
-        catalog = initPaimonCatalog();
-        flinkCatalog = initFlinkCatalog();
+        initCatalog();
 
         Configuration conf = new Configuration();
         conf.setInteger(RestOptions.PORT, 8083);
         conf.set(CoreOptions.DEFAULT_PARALLELISM, 2);
         conf.set(ExecutionCheckpointingOptions.CHECKPOINTING_INTERVAL, Duration.ofMillis(30_000));
         // use the default env if user doesn't pass one
-        initFlinkEnv(StreamExecutionEnvironment.getExecutionEnvironment(conf));
+        initFlinkEnv(StreamExecutionEnvironment.getExecutionEnvironment());
+    }
+
+    void initCatalog() {
+        catalog = initPaimonCatalog();
+        flinkCatalog = initFlinkCatalog();
+    }
+
+    /**
+     * Forces this action to run as a Flink job instead of local execution. This method only has
+     * effect on {@link LocalAction} implementations. For non-LocalAction implementations, this
+     * method has no effect.
+     *
+     * @return this ActionBase for method chaining
+     */
+    public ActionBase forceStartFlinkJob(boolean forceStartFlinkJob) {
+        this.forceStartFlinkJob = forceStartFlinkJob;
+        return this;
     }
 
     public ActionBase withStreamExecutionEnvironment(StreamExecutionEnvironment env) {
@@ -142,5 +170,52 @@ public abstract class ActionBase implements Action {
     @VisibleForTesting
     public Map<String, String> catalogConfig() {
         return catalogOptions.toMap();
+    }
+
+    @Override
+    public void run() throws Exception {
+        if (LocalAction.class.isAssignableFrom(this.getClass())) {
+            if (forceStartFlinkJob) {
+                env.fromSequence(0, 0)
+                        .flatMap(new LocalActionExecutor<>(this))
+                        .setParallelism(1)
+                        .sinkTo(new DiscardingSink<>());
+                execute(this.getClass().getSimpleName());
+            } else {
+                ((LocalAction) this).executeLocally();
+            }
+        } else {
+            build();
+            execute(this.getClass().getSimpleName());
+        }
+    }
+
+    /**
+     * A {@link org.apache.flink.api.common.functions.FlatMapFunction} that wraps {@link
+     * LocalAction} into a Flink operator.
+     */
+    private static class LocalActionExecutor<T extends ActionBase & LocalAction>
+            extends RichFlatMapFunction<Long, Object> {
+        private final T action;
+
+        @SuppressWarnings("unchecked")
+        private LocalActionExecutor(ActionBase action) {
+            this.action = (T) action;
+        }
+
+        // @Override is skipped for compatibility between Flink versions
+        public void open(Configuration parameters) {
+            action.initCatalog();
+        }
+
+        // @Override is skipped for compatibility between Flink versions
+        public void open(OpenContext openContext) {
+            action.initCatalog();
+        }
+
+        @Override
+        public void flatMap(Long aLong, Collector<Object> collector) throws Exception {
+            action.executeLocally();
+        }
     }
 }

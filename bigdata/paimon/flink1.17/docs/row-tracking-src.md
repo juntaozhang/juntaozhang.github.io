@@ -1,83 +1,3 @@
-# Flink 1.17 + Paimon CDC 源码深入剖析
-
-## 主流程概览
-
-### 1. Source 阶段 (数据读取)
-```
-SourceOperatorStreamTask (Flink)
-└── SourceOperator.initReader()
-    └── PostgresSourceReader (Flink CDC)
-        └── IncrementalSourceRecordEmitter.processElement()
-            ├── emit DataChangeRecord 
-            ├── emit SchemaChangeEvent
-            └── emit Watermark
-```
-
-**关键步骤**:
-- `processElement`: `DataChangeRecord` → `CdcSourceRecord`
-- `SourceOutputWithWatermarks` will enrich the record with watermark and timestamp
-
-### 2. Parse 阶段 (数据解析) in SourceOperatorStreamTask
-```
-StreamFlatMap.processElement() (Flink)
-└── PostgresRecordParser.flatMap() → extractRecords() (Paimon)
-    └── TimestampedCollector (Flink)
-        ├── CdcParsingProcessFunction 
-        |     → output SchemaChange by tag
-        |     → output CdcRecord
-        └── UpdatedDataFieldsProcessFunction → applySchemaChange Schema Evolution
-```
-
-### 3. Write 阶段 (数据写入)
-```
-OneInputStreamTask (Flink)
-└── CdcRecordStoreWriteOperator (Paimon)
-    └── write(StoreSinkWriteImpl)
-        └── 数据写入 Paimon 存储
-```
-
-### 4. Commit 阶段 (事务提交)
-```
-SubtaskCheckpointCoordinator (Flink)
-└── checkpointState()
-    └── CommitterOperator
-        └── SinkWriterOperator
-            └── 提交事务和元数据
-```
-
-### 流程图
-
-```mermaid
-graph TD
-    A[PostgreSQL] --> B[Flink CDC Source]
-    B --> C[PostgresRecordParser]
-    C --> D[Schema Evolution]
-    C --> E[Data Processing]
-    E --> F[Paimon Writer]
-    S[checkpoint] --> J[Paimon Commit]
-    F --> H[Paimon Storage]
-    J --> H
-```
-
-https://paimon.apache.org/docs/master/learn-paimon/understand-files/#flink-stream-write
-
-
-TODO:
-
-https://paimon.apache.org/docs/master/append-table/streaming/#bucketed-append 中的
-'precommit-compact' = 'false'
-
-
-'sink.rolling-policy.file-size' = '1MB',
-'sink.rolling-policy.rollover-interval' = '1 min',
-'sink.rolling-policy.check-interval' = '10 s'
-
-
-Changelog Producer:
-None: 不查找旧值，不写changelog，适用于批作业，
-Input: 不查找旧值, binlog CDC
-
-
 ## Row tracking Deepdive
 
 ```sql
@@ -118,9 +38,10 @@ TableEnvironmentImpl.executeSql
 
 
 stream, row-tracking.enabled=true
-[FlinkRowTrackingExample.java](flink1.17-paimon1.3-example/src/main/java/com/example/paimon/FlinkRowTrackingExample.java)
 
-![FlinkRowTrackingExample](flink simple example.png)
+[FlinkRowTrackingExample.java](../src/main/java/com/example/paimon/FlinkRowTrackingExample.java)
+
+![flink_simple_example.png](flink-simple-example.png)
 
 ```text
 SinkTransformation{id=9, name='end', outputType=CommittableTypeInfo, parallelism=1}
@@ -191,11 +112,3 @@ CommitterOperator(1/1)
         ->snapshotState->pollInputs(precommit add manifest)
         
 ```
-
-
-
-
-## References
-- lucid: Flink/Paimon CDC
-        
-

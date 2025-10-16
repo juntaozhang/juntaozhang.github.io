@@ -21,7 +21,8 @@ public class SparkRowTrackingExample {
 //        spark.sql("SELECT id, data, _ROW_ID, _SEQUENCE_NUMBER, __paimon_file_path, __paimon_partition, __paimon_bucket, __paimon_row_index FROM t WHERE _ROW_ID = 1").show(false);
 //        spark.sql("UPDATE t SET data = 'a4' WHERE _ROW_ID = 1");
 //        spark.sql("UPDATE t SET data = 'a4' WHERE id = 1");
-        spark.sql("DELETE FROM t WHERE _ROW_ID = 1");
+//        spark.sql("DELETE FROM t WHERE _ROW_ID = 1");
+        spark.sql("CALL sys.compact(`table` => 'my_order')");
         spark.stop();
     }
 }

@@ -5,7 +5,7 @@ https://nightlies.apache.org/flink/flink-cdc-docs-master/docs/connectors/flink-s
 
 
 ### add table in PostgreSQL
-[install.md](../../../postgres/install.md)
+[install.md](../../../../postgres/install.md)
 
 
 ### PG SQL
@@ -194,7 +194,7 @@ bin/flink run \
 
 ## troubleshooting:
 #### flink1.17.2 paimon1.3 postgres_sync_table DECIMAL to BYTES
-[bug.md](flink1.17-paimon1.3-example/bug.md)
+[postgres decimal type not support](../../pr-6239/postgres-decimal-type-not-support.md)
 
 #### target kubernetes-session -Dkubernetes.cluster-id=flink2 为什么client 无法修改rest.address 如:
 ```text

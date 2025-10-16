@@ -41,7 +41,7 @@
         <!-- Paimon Spark -->
         <dependency>
             <groupId>org.apache.paimon</groupId>
-            <artifactId>paimon-spark-3.5</artifactId>
+            <artifactId>paimon-spark-3.5_${scala.binary.version}</artifactId>
             <version>${paimon.version}</version>
             <exclusions>
                 <exclusion>

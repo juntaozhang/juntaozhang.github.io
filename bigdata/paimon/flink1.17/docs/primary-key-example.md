@@ -340,6 +340,5 @@ https://paimon.apache.org/docs/master/primary-key-table/data-distribution/#dynam
 ~~为什么compact job 是streaming？~~
 需要特别配置`-Dexecution.runtime-mode=BATCH`
 
-Deletion Vectors index 怎么生效（TODO）
-https://paimon.apache.org/docs/master/concepts/spec/tableindex/#deletion-vectors
+
 

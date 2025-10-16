@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink1_20-sql-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink1_20-sql-client
+  template:
+    metadata:
+      labels:
+        app: flink1_20-sql-client
+    spec:
+      serviceAccountName: flink-service-account
+      restartPolicy: Always
+      containers:
+        - name: client
+          image: flink:1.20.1-scala_2.12-paimon
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash", "-lc", "sleep infinity"]
+
+
