@@ -1,0 +1,232 @@
+{
+  "schema": {
+    "type": "struct",
+    "fields": [
+      {
+        "type": "struct",
+        "fields": [
+          {
+            "type": "int64",
+            "optional": false,
+            "field": "id"
+          },
+          {
+            "type": "int64",
+            "optional": false,
+            "field": "user_id"
+          },
+          {
+            "type": "bytes",
+            "optional": false,
+            "name": "org.apache.kafka.connect.data.Decimal",
+            "version": 1,
+            "parameters": {
+              "scale": "2",
+              "connect.decimal.precision": "10"
+            },
+            "field": "amount"
+          },
+          {
+            "type": "string",
+            "optional": true,
+            "field": "status"
+          },
+          {
+            "type": "int64",
+            "optional": true,
+            "name": "io.debezium.time.MicroTimestamp",
+            "version": 1,
+            "default": 0,
+            "field": "created_at"
+          }
+        ],
+        "optional": true,
+        "name": "pg.public.orders.Value",
+        "field": "before"
+      },
+      {
+        "type": "struct",
+        "fields": [
+          {
+            "type": "int64",
+            "optional": false,
+            "field": "id"
+          },
+          {
+            "type": "int64",
+            "optional": false,
+            "field": "user_id"
+          },
+          {
+            "type": "bytes",
+            "optional": false,
+            "name": "org.apache.kafka.connect.data.Decimal",
+            "version": 1,
+            "parameters": {
+              "scale": "2",
+              "connect.decimal.precision": "10"
+            },
+            "field": "amount"
+          },
+          {
+            "type": "string",
+            "optional": true,
+            "field": "status"
+          },
+          {
+            "type": "int64",
+            "optional": true,
+            "name": "io.debezium.time.MicroTimestamp",
+            "version": 1,
+            "default": 0,
+            "field": "created_at"
+          }
+        ],
+        "optional": true,
+        "name": "pg.public.orders.Value",
+        "field": "after"
+      },
+      {
+        "type": "struct",
+        "fields": [
+          {
+            "type": "string",
+            "optional": false,
+            "field": "version"
+          },
+          {
+            "type": "string",
+            "optional": false,
+            "field": "connector"
+          },
+          {
+            "type": "string",
+            "optional": false,
+            "field": "name"
+          },
+          {
+            "type": "int64",
+            "optional": false,
+            "field": "ts_ms"
+          },
+          {
+            "type": "string",
+            "optional": true,
+            "name": "io.debezium.data.Enum",
+            "version": 1,
+            "parameters": {
+              "allowed": "true,last,false,incremental"
+            },
+            "default": "false",
+            "field": "snapshot"
+          },
+          {
+            "type": "string",
+            "optional": false,
+            "field": "db"
+          },
+          {
+            "type": "string",
+            "optional": true,
+            "field": "sequence"
+          },
+          {
+            "type": "string",
+            "optional": false,
+            "field": "schema"
+          },
+          {
+            "type": "string",
+            "optional": false,
+            "field": "table"
+          },
+          {
+            "type": "int64",
+            "optional": true,
+            "field": "txId"
+          },
+          {
+            "type": "int64",
+            "optional": true,
+            "field": "lsn"
+          },
+          {
+            "type": "int64",
+            "optional": true,
+            "field": "xmin"
+          }
+        ],
+        "optional": false,
+        "name": "io.debezium.connector.postgresql.Source",
+        "field": "source"
+      },
+      {
+        "type": "string",
+        "optional": false,
+        "field": "op"
+      },
+      {
+        "type": "int64",
+        "optional": true,
+        "field": "ts_ms"
+      },
+      {
+        "type": "struct",
+        "fields": [
+          {
+            "type": "string",
+            "optional": false,
+            "field": "id"
+          },
+          {
+            "type": "int64",
+            "optional": false,
+            "field": "total_order"
+          },
+          {
+            "type": "int64",
+            "optional": false,
+            "field": "data_collection_order"
+          }
+        ],
+        "optional": true,
+        "field": "transaction"
+      }
+    ],
+    "optional": false,
+    "name": "pg.public.orders.Envelope"
+  },
+  "payload": {
+    "before": {
+      "id": 1,
+      "user_id": 101,
+      "amount": "Bz8=",
+      "status": "PAID",
+      "created_at": 1757239842114706
+    },
+    "after": {
+      "id": 1,
+      "user_id": 101,
+      "amount": "Bz4=",
+      "status": "PAID",
+      "created_at": 1757239842114706
+    },
+    "source": {
+      "version": "1.9.8.Final",
+      "connector": "postgresql",
+      "name": "pg",
+      "ts_ms": 1757472400505,
+      "snapshot": "false",
+      "db": "test",
+      "sequence": "[\"27290664\",\"27290984\"]",
+      "schema": "public",
+      "table": "orders",
+      "txId": 2351,
+      "lsn": 27290984,
+      "xmin": null
+    },
+    "op": "u",
+    "ts_ms": 1757472454912,
+    "transaction": null
+  }
+}

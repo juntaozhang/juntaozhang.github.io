@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark-client
+  template:
+    metadata:
+      labels:
+        app: spark-client
+    spec:
+      serviceAccountName: spark-operator-spark
+      restartPolicy: Always
+      containers:
+        - name: client
+          image: spark:3.5.5-paimon-1.4
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash","-lc","sleep infinity"]
+          ports:
+            - name: ui-4040
+              containerPort: 4040
+            - name: ui-4041
+              containerPort: 4041
+            - name: ui-4042
+              containerPort: 4042
+            - name: ui-4043
+              containerPort: 4043
+            - name: ui-4044
+              containerPort: 4044
+            - name: ui-4045
+              containerPort: 4045
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-client-ui
+spec:
+  selector:
+    app: spark-client
+  type: LoadBalancer
+  ports:
+    - name: ui-4040
+      port: 4040
+      targetPort: 4040
+    - name: ui-4041
+      port: 4041
+      targetPort: 4041
+    - name: ui-4042
+      port: 4042
+      targetPort: 4042
+    - name: ui-4043
+      port: 4043
+      targetPort: 4043
+    - name: ui-4044
+      port: 4044
+      targetPort: 4044
+    - name: ui-4045
+      port: 4045
+      targetPort: 4045

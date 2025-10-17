@@ -62,9 +62,7 @@ this is man fun
 ```
 不管对象引用是Man还是Person,都执行的是实际对象的方法
 
-
-
-## 纯理论解释分派问题
+### 纯理论解释分派问题
 
 `Person person = new Man();`
 - 静态类型:变量被声明时的类型,如上例中person静态类型是`Person`,上文说的引用
@@ -83,6 +81,29 @@ java/scala是静态多分派(FirstTest),动态单分派(SecondTest)语言
   - 静态多分派:编译期间,根据方法所属对象实际类型和参数对象静态类型来确定方法
   - 动态单分派:运行期间,根据方法所属对象实际类型动态地置换掉该方法
 
+### 虚函数机制分析
+
+方法重写体现了虚函数机制:
+
+1. **编译期**: 编译器看到 `person.run()` 时，通过静态类型 `Person` 确定方法签名
+2. **运行期**: JVM 通过虚函数表(vtable)根据实际对象类型 `Man` 找到真正执行的方法
+
+**虚函数表机制**:
+- 每个类都有一个虚函数表，存储该类所有虚方法的地址
+- 对象创建时，对象头部包含指向其类虚函数表的指针
+- 方法调用时，通过对象→vtable→具体方法实现动态分派
+
+#### Code Generation (CodeGen) 优化
+
+虚函数调用的性能优化技术:
+
+1. **编译时优化**: 将多态调用转换为直接调用，避免虚函数表查找
+2. **代码生成**: 根据具体类型生成特化代码，消除运行时分派开销
+3. **JIT配合**: 与JVM即时编译器协作，实现方法内联和去虚拟化
+
+**应用场景**: Spark等大数据框架通过CodeGen将表达式树编译为Java字节码，显著提升执行性能
+
+
 ## visitor模式应用
 实际项目中我们需要用到动态多分派怎么办?
 即我们需要更加方法所属对象和参数所属对象的实际类型来确定方法,也就是说我们希望`FirstTest`中①②都输出`this is man fun`
@@ -95,7 +116,7 @@ java/scala是静态多分派(FirstTest),动态单分派(SecondTest)语言
     }
 
     static class VisitorTest {
-      void run(Person person) {
+      void visit(Person person) {
         if(person instanceof Man){
           System.out.println("this is man fun");
         }else{
@@ -107,8 +128,8 @@ java/scala是静态多分派(FirstTest),动态单分派(SecondTest)语言
     public static void main(String[] args) {
       Person person = new Man();
       VisitorTest test = new VisitorTest();
-      test.run(person);
-      test.run((Man) person);
+      test.visit(person);
+      test.visit((Man) person);
     }
   }
 ```
@@ -119,38 +140,38 @@ java/scala是静态多分派(FirstTest),动态单分派(SecondTest)语言
   static class FourthTest {
     static class Person{
       void accept(Visitable myVisitor) {
-        myVisitor.run(this);
+        myVisitor.visit(this);
       }
     }
 
     static class Man extends Person{
       @Override
       void accept(Visitable myVisitor) {
-        myVisitor.run(this);
+        myVisitor.visit(this);
       }
     }
 
     interface Visitable {
 
-      void run(Person person);
+      void visit(Person person);
 
-      void run(Man person);
+      void visit(Man person);
     }
 
     static class Visitor1 implements Visitable {
-      public void run(Person person) {
+      public void visit(Person person) {
         System.out.println("1.this is person fun");
       }
-      public void run(Man man) {
+      public void visit(Man man) {
         System.out.println("1.this is man fun");
       }
     }
 
     static class Visitor2 implements Visitable {
-      public void run(Person person) {
+      public void visit(Person person) {
         System.out.println("2.this is person fun");
       }
-      public void run(Man man) {
+      public void visit(Man man) {
         System.out.println("2.this is man fun");
       }
     }
@@ -195,6 +216,28 @@ java/scala是静态多分派(FirstTest),动态单分派(SecondTest)语言
            }
        });
 ```
+
+### Paimon 中的JdbcToPaimonTypeVisitor
+```java
+private static class MySqlToPaimonTypeVisitor implements JdbcToPaimonTypeVisitor {
+    private static final MySqlToPaimonTypeVisitor INSTANCE = new MySqlToPaimonTypeVisitor();
+
+    public DataType visit(String type, @Nullable Integer length, @Nullable Integer scale, TypeMapping typeMapping) {
+        return MySqlTypeUtils.toDataType(type, length, scale, typeMapping);
+    }
+}
+
+private static class PostgresToPaimonTypeVisitor implements JdbcToPaimonTypeVisitor {
+    private static final PostgresToPaimonTypeVisitor INSTANCE = new PostgresToPaimonTypeVisitor();
+
+    public DataType visit(String type, @Nullable Integer length, @Nullable Integer scale, TypeMapping typeMapping) {
+        return PostgresTypeUtils.toDataType(type, length, scale, typeMapping);
+    }
+}
+```
+不是经典的 Visitor，更接近 Strategy + 简单 Factory 组合。命名存在误导，同时有点过度设计，
+`JdbcToPaimonTypeVisitor` -> `DataTypeConverter`, 感觉直接删除这层visitor层直接在`JdbcSchemaUtils.buildSchema`传入`XXXTypeUtils.toDataType`。
+如果把各种DataType统一抽象到visitor中，则visitor才有意义，目前所有类型都放到了`XXXTypeUtils`，在`toDataType` 枚举各种情况。
 
 ## 参考
 - http://www.cnblogs.com/youxin/archive/2013/05/25/3099016.html

@@ -1,0 +1,28 @@
+auth:
+  postgresPassword: "postgres123"
+  database: "test"
+
+image:
+  registry: docker.io
+  repository: bitnami/postgresql
+  tag: 17.6.0-debian-12-r4
+  pullPolicy: IfNotPresent
+
+primary:
+  persistence:
+    enabled: true
+    size: 5Gi
+  service:
+    type: LoadBalancer
+    ports:
+      postgresql: 5432
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 1000m
+  extendedConfiguration: |
+    wal_level=logical
+
