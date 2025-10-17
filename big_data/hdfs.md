@@ -67,3 +67,9 @@ hdfs upload/download/rm
     dir
   }
 ```
+
+
+hadoop distcp -pb -update -delete /user/dataengine/tmp/get-pip.py hdfs://bd041-025.yzdns.com/user/dataengine/tmp/get-pip.py
+hadoop distcp -pb -update -delete /user/dataengine/tmp/get-pip.py hdfs://bd041-041.yzdns.com/user/dataengine/tmp/get-pip.py
+
+hadoop fs -test -e hdfs://bd041-025.yzdns.com/

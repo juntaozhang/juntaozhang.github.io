@@ -5,7 +5,7 @@
 create 'test',{NAME =>'c', COMPRESSION => 'SNAPPY', VERSIONS => 1, BLOCKCACHE => 'false', BLOOMFILTER => 'ROW', DATA_BLOCK_ENCODING => 'FAST_DIFF'}, {SPLITS_FILE => '/home/dmpots/output_partitions.lst'}
 
 
-hadoop distcp -pb -update -delete hdfs://bd04-001/tmp/device_id_tags_mapping_profile_full/hfile/c/ hdfs://bd15-130.yzdns.com/tmp/device_id_tags_mapping_profile_full/hfile/c/
+hadoop distcp -pb -update -delete hdfs://bd04-001/tmp/device_id_tags_mapping_profile_full/ hdfs://bd15-130.yzdns.com/tmp/device_id_tags_mapping_profile_full/
 hbase org.apache.hadoop.hbase.mapreduce.LoadIncrementalHFiles  bulk_path table_name
 
 测试了一下明确几个问题:
@@ -16,6 +16,9 @@ hbase org.apache.hadoop.hbase.mapreduce.LoadIncrementalHFiles  bulk_path table_n
 3. 数据会被移动到/hbase/data对应表下
 ```
 
+hbase(main):006:0> grant 'juntao','R','test'
+
+major_compact 'dm_phone_mapping_test'
 
 hadoop distcp -pb -update hdfs://bd04-001/user/dataengine/hbase/rp_device_profile_info_test/ hdfs://bd15-101.yzdns.com/tmp/rp_device_profile_info_test/
 
@@ -39,8 +42,8 @@ for ((it, depNum) <- rddIterators) {
 fulljoin解决需要自己 merge row,通过单元测试走通
 查看顺序
 
-java jar orc-tools-1.3.3-uber.jar meta part-0001>part-0001
-java jar orc-tools-1.3.3-uber.jar data part-0001>part-0001
+java -jar orc-tools-1.3.3-uber.jar meta part-0001>part-0001
+java -jar orc-tools-1.3.3-uber.jar data part-0001>part-0001
 
 TODO
 Create an RDD for non-bucketed reads.
@@ -100,6 +103,7 @@ package org.apache.spark.rdd
 
 Ctrl+D结束
 ```
+
 
 
 
