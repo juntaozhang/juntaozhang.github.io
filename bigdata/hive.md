@@ -1,5 +1,9 @@
 # hive
 
+## debug
+>export HADOOP_CLIENT_OPTS=" -Dcom.sun.management.jmxremote.port=27012 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution "
+>hive --debug --hiveconf hive.root.logger=DEBUG,console  
+
 ## hive merge small files
 ```
 hive.merge.mapredfiles

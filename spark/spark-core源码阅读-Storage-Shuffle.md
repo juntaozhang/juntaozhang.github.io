@@ -24,16 +24,13 @@ spark core源码阅读-Storage shuffle(八)
    R个Reducer,总共会创建M*R个小文件,如果有46k个Mapper和46k个reducer就会在集群产生2billion的文件
    目前的版本已经做了优化,在mapper端优化,executor中task写同样文件,不过在1.5版本删除了[SPARK-9808](https://issues.apache.org/jira/browse/SPARK-9808),
    因为有更好的基于排序的shuffle改进
-   
    优点:
     - 快,不需要排序,不需要维护hash表
     - 没有额外的排序内存消耗
     - 没有IO开销,一次性写硬盘,一次性读硬盘
-   
    缺点:
     - partitions数量多,会产生大量小文件,影响性能
     - 写入文件系统的大量文件导致IO倾向于随机IO，这通常比顺序IO慢100倍
-
  - (2) SortShuffleManager
  
    default,在基于排序的shuffle中，rdd iter records将根据其目标分区ID进行排序写入单个map输出文件.
@@ -152,10 +149,18 @@ spark core源码阅读-Storage shuffle(八)
     - 返回`CompletionIterator`
 
 
+# 三 OneForOneStreamManager
+
+ExternalShuffleBlockResolver
+getSortBasedShuffleBlockData
+  FileSegmentManagedBuffer.nioByteBuffer
+
 # 参考
 
 - [spark-architecture-shuffle](https://0x0fff.com/spark-architecture-shuffle/)
 - [TungstenSecret](https://github.com/hustnn/TungstenSecret/tree/master)
+- [Spark Sort Based Shuffle内存分析](https://www.jianshu.com/p/c83bb237caa8)
+- [Apache Spark 内存管理详解](https://www.ibm.com/developerworks/cn/analytics/library/ba-cn-apache-spark-memory-management/index.html)
 
 # TODO
 - [TimSort](http://blog.csdn.net/yangzhongblog/article/details/8184707) JDK ComparableTimSort

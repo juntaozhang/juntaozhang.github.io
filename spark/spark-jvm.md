@@ -94,7 +94,6 @@ Total(41)	0	0.0 B / 201.3 GB	0.0 B	160	0	0	10483	10483	25.1 h (33 min)	1.3 TB	64
 除了以上的参数，G1 GC相关的其他主要的参数有：
 
 [参数含义](http://www.oracle.com/technetwork/cn/articles/java/g1gc-1984535-zhs.html)
-
 -XX:G1ReservePercent=20 设置作为空闲空间的预留内存百分比，以降低目标空间溢出的风险。默认值是 10%。增加或减少百分比时，请确保对总的 Java 堆调整相同的量。Java HotSpot VM build 23 中没有此设置。
 -XX:G1HeapRegionSize=n	设置Region大小，并非最终值
 -XX:MaxGCPauseMillis	设置G1收集过程目标时间，默认值200ms，不是硬性条件
