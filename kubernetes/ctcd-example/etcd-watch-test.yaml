@@ -1,0 +1,77 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: etcd-watch-test
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        app: etcd-watch-test
+    spec:
+      containers:
+      - name: watch-producer
+        image: etcd-client:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ETCDCTL_ENDPOINTS
+          value: "http://etcd-service:2379"
+        command: ["/bin/sh"]
+        args:
+        - -c
+        - |
+          echo "=== Watch 生产者启动 ==="
+          sleep 5
+
+          echo "写入初始数据..."
+          etcdctl put /watch-test/config "initial-config"
+          sleep 2
+
+          echo "模拟配置更新..."
+          for i in $(seq 1 5); do
+            etcdctl put /watch-test/config "config-update-$i"
+            etcdctl put /watch-test/status "status-$i"
+            echo "更新 $i 完成"
+            sleep 3
+          done
+
+          echo "删除部分键..."
+          etcdctl del /watch-test/status
+          sleep 2
+
+          echo "批量创建键..."
+          etcdctl put /watch-test/app/name "myapp"
+          etcdctl put /watch-test/app/version "1.0.0"
+          etcdctl put /watch-test/app/env "production"
+
+          echo "=== 生产者完成 ==="
+
+      - name: watch-consumer
+        image: etcd-client:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ETCDCTL_ENDPOINTS
+          value: "http://etcd-service:2379"
+        command: ["/bin/sh"]
+        args:
+        - -c
+        - |
+          echo "=== Watch 消费者启动 ==="
+          echo "开始监听 /watch-test/ 前缀的所有变化..."
+
+          # 在后台启动 watch
+          etcdctl watch /watch-test/ --prefix &
+          WATCH_PID=$!
+
+          # 运行 30 秒后停止
+          sleep 30
+          kill $WATCH_PID 2>/dev/null || true
+
+          echo "=== 监听结束 ==="
+
+          # 显示最终状态
+          echo "最终键值状态:"
+          etcdctl get /watch-test/ --prefix
+
+      restartPolicy: Never
+  backoffLimit: 1

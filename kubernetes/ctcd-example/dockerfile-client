@@ -1,0 +1,20 @@
+#FROM alpine:latest AS downloader
+#RUN mkdir /etcd \
+# && wget -O /etcd/etcd.tar.gz https://storage.googleapis.com/etcd/v3.6.0/etcd-v3.6.0-linux-amd64.tar.gz \
+# && tar -xzf /etcd/etcd.tar.gz -C /etcd --strip-components=1
+#
+#FROM alpine:latest
+## RUN apk add --no-cache ca-certificates bash
+#COPY --from=downloader /etcd/etcdctl /usr/local/bin/etcdctl
+#COPY --from=downloader /etcd/etcdutl /usr/local/bin/etcdutl
+#COPY --from=downloader /etcd/etcd /usr/local/bin/etcd
+#ENV ETCDCTL_ENDPOINTS=http://etcd-service:2379
+#ENTRYPOINT ["/bin/sh","-c","sleep infinity"]
+
+FROM alpine:latest
+COPY etcd/etcdctl /usr/local/bin/etcdctl
+COPY etcd/etcdutl /usr/local/bin/etcdutl
+COPY etcd/etcd /usr/local/bin/etcd
+ENV ETCDCTL_ENDPOINTS=http://etcd-service:2379
+
+# docker build -t etcd-client -f dockerfile-client ./

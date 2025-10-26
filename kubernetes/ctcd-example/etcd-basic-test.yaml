@@ -1,0 +1,73 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: etcd-test-job
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        app: etcd-test-job
+    spec:
+      containers:
+      - name: etcd-test
+        image: etcd-client:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ETCDCTL_ENDPOINTS
+          value: "http://etcd-service:2379"
+        command: ["/bin/sh"]
+        args:
+        - -c
+        - |
+          echo "=== etcd 连接测试 ==="
+
+          # 健康检查
+          echo "1. 健康检查:"
+          etcdctl endpoint health
+
+          # 基本操作测试
+          echo "2. 基本键值操作:"
+          etcdctl put /test/hello "world"
+          etcdctl get /test/hello
+
+          # 前缀操作
+          echo "3. 前缀操作测试:"
+          etcdctl put /config/database/host "localhost"
+          etcdctl put /config/database/port "5432"
+          etcdctl put /config/redis/host "redis-server"
+          etcdctl get /config/ --prefix
+
+          # 事务操作
+          # echo "4. 事务操作测试:"
+          # etcdctl txn --interactive
+          # compares:
+          #   version("/counter/value") = "0"
+          # 
+          # success requests (get, put, del):
+          #   put /counter/value "1"
+          # 
+          # failure requests (get, put, del):
+          #   put /counter/value "2"
+          #   
+          # etcdctl get /counter/value
+
+          # 租约测试
+          echo "5. 租约测试:"
+          LEASE_ID=$(etcdctl lease grant 5 | cut -d' ' -f2)
+          echo "Granted lease ID: $LEASE_ID"
+          etcdctl put /temp/key "temporary value" --lease=$LEASE_ID
+          etcdctl get /temp/key
+          sleep 5 
+          echo "等待 6 秒以验证租约过期..."
+          etcdctl get /temp/key
+
+          # 清理测试数据
+          echo "6. 清理测试数据:"
+          etcdctl del /test/ --prefix
+          etcdctl del /config/ --prefix
+          etcdctl del /temp/ --prefix
+
+          echo "=== 测试完成 ==="
+      restartPolicy: Never
+  backoffLimit: 4

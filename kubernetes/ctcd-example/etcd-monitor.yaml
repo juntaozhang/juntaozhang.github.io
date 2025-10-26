@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: etcd-monitor-script
+  namespace: default
+data:
+  monitor.sh: |
+    #!/bin/sh
+
+    echo "=== etcd 监控脚本 ==="
+
+    while true; do
+      echo "$(date): 开始健康检查..."
+
+      # 基本健康检查
+      if etcdctl endpoint health; then
+        echo "✅ etcd 健康状态: 正常"
+      else
+        echo "❌ etcd 健康状态: 异常"
+      fi
+
+      # 获取集群状态
+      echo "📊 集群状态:"
+      etcdctl endpoint status --write-out=table
+
+      # 获取成员信息
+      echo "👥 集群成员:"
+      etcdctl member list --write-out=table
+
+      # 获取性能指标
+      echo "⚡ 性能指标:"
+      etcdctl endpoint status --write-out=json | grep -o '"dbSize":[0-9]*' | cut -d':' -f2 | head -1 | xargs -I {} echo "数据库大小: {} bytes"
+
+      # 键值统计
+      echo "🔑 键值统计:"
+      key_count=$(etcdctl get "" --prefix --keys-only | wc -l)
+      echo "总键数: $key_count"
+
+      echo "---"
+      sleep 30
+    done
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: etcd-monitor
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: etcd-monitor
+  template:
+    metadata:
+      labels:
+        app: etcd-monitor
+    spec:
+      containers:
+      - name: monitor
+        image: etcd-client:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ETCDCTL_ENDPOINTS
+          value: "http://etcd-service:2379"
+        command: ["/bin/sh"]
+        args: ["/scripts/monitor.sh"]
+        volumeMounts:
+        - name: monitor-script
+          mountPath: /scripts
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+      volumes:
+      - name: monitor-script
+        configMap:
+          name: etcd-monitor-script
+          defaultMode: 0755

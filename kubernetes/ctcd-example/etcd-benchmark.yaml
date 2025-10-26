@@ -1,0 +1,67 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: etcd-benchmark
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        app: etcd-benchmark
+    spec:
+      containers:
+      - name: benchmark
+        image: etcd-client:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ETCDCTL_ENDPOINTS
+          value: "http://etcd-service:2379"
+        command: ["/bin/sh"]
+        args:
+        - -c
+        - |
+          echo "=== etcd 性能基准测试 ==="
+
+          # 清理之前的测试数据
+          etcdctl del /benchmark/ --prefix
+
+          echo "1. 写入性能测试 (1000 次写入):"
+          benchmark_start=$(date +%s)
+          for i in $(seq 1 1000); do
+            etcdctl put /benchmark/key$i "value$i" >/dev/null
+          done
+          benchmark_end=$(date +%s)
+          write_time=$((benchmark_end - benchmark_start))
+          echo "写入 1000 个键耗时: ${write_time}s"
+
+          echo "2. 读取性能测试 (1000 次读取):"
+          benchmark_start=$(date +%s)
+          for i in $(seq 1 1000); do
+            etcdctl get /benchmark/key$i >/dev/null
+          done
+          benchmark_end=$(date +%s)
+          read_time=$((benchmark_end - benchmark_start))
+          echo "读取 1000 个键耗时: ${read_time}s"
+
+          echo "3. 前缀查询性能测试:"
+          benchmark_start=$(date +%s)
+          result_count=$(etcdctl get /benchmark/ --prefix --keys-only | wc -l)
+          benchmark_end=$(date +%s)
+          prefix_time=$((benchmark_end - benchmark_start))
+          echo "前缀查询 ${result_count} 个键耗时: ${prefix_time}s"
+
+          echo "4. 批量删除性能测试:"
+          benchmark_start=$(date +%s)
+          etcdctl del /benchmark/ --prefix >/dev/null
+          benchmark_end=$(date +%s)
+          delete_time=$((benchmark_end - benchmark_start))
+          echo "批量删除耗时: ${delete_time}s"
+
+          echo "=== 性能测试总结 ==="
+          echo "写入速度: $((1000 / write_time)) ops/s"
+          echo "读取速度: $((1000 / read_time)) ops/s"
+          echo "前缀查询: ${prefix_time}s for ${result_count} keys"
+          echo "批量删除: ${delete_time}s"
+
+      restartPolicy: Never
+  backoffLimit: 1
