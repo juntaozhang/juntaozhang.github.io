@@ -1,0 +1,226 @@
+2025-10-28 11:41:27.746 [main] INFO  c.example.keepalive.client.MyClient - ------------------- zhangsan -----------------------
+2025-10-28 11:41:27.752 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000001 preparing request execution
+2025-10-28 11:41:27.761 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000001 target auth state: UNCHALLENGED
+2025-10-28 11:41:27.761 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000001 proxy auth state: UNCHALLENGED
+2025-10-28 11:41:27.761 [main] DEBUG o.a.h.c.h.impl.classic.ConnectExec - ex-0000000001 acquiring connection with route {}->[http://localhost:8080]
+2025-10-28 11:41:27.762 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000001 acquiring endpoint (3 MINUTES)
+2025-10-28 11:41:27.774 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000001 endpoint lease request (3 MINUTES) [route: {}->[http://localhost:8080]][total available: 0; route allocated: 0 of 5; total allocated: 0 of 25]
+2025-10-28 11:41:27.776 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000001 endpoint leased [route: {}->[http://localhost:8080]][total available: 0; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:41:27.782 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000001 acquired ep-0000000001
+2025-10-28 11:41:27.783 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000001 acquired endpoint ep-0000000001
+2025-10-28 11:41:27.783 [main] DEBUG o.a.h.c.h.impl.classic.ConnectExec - ex-0000000001 opening connection {}->[http://localhost:8080]
+2025-10-28 11:41:27.783 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000001 connecting endpoint (null)
+2025-10-28 11:41:27.784 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 connecting endpoint to http://localhost:8080 (3 MINUTES)
+2025-10-28 11:41:27.784 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - localhost resolving remote address
+2025-10-28 11:41:27.790 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - localhost resolved to [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1]
+2025-10-28 11:41:27.790 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - http://localhost:8080 connecting null->localhost/127.0.0.1:8080 (3 MINUTES)
+2025-10-28 11:41:27.802 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - http-outgoing-0 http://localhost:8080 connected /127.0.0.1:61836->localhost/127.0.0.1:8080
+2025-10-28 11:41:27.802 [main] DEBUG o.a.h.c.h.i.i.DefaultManagedHttpClientConnection - http-outgoing-0 set socket timeout to 3 MINUTES
+2025-10-28 11:41:27.802 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 connected http-outgoing-0
+2025-10-28 11:41:27.802 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000001 endpoint connected
+2025-10-28 11:41:27.802 [main] DEBUG o.a.h.c.h.i.classic.MainClientExec - ex-0000000001 executing GET /hello?name=zhangsan
+2025-10-28 11:41:27.803 [main] DEBUG o.a.h.c.h.protocol.RequestAddCookies - ex-0000000001 Cookie spec selected: strict
+2025-10-28 11:41:27.807 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000001 start execution ex-0000000001
+2025-10-28 11:41:27.808 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 executing exchange ex-0000000001 over http-outgoing-0
+2025-10-28 11:41:27.809 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> GET /hello?name=zhangsan HTTP/1.1
+2025-10-28 11:41:27.809 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Accept-Encoding: gzip, x-gzip, deflate
+2025-10-28 11:41:27.809 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Host: localhost:8080
+2025-10-28 11:41:27.809 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Connection: keep-alive
+2025-10-28 11:41:27.809 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)
+2025-10-28 11:41:27.809 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "GET /hello?name=zhangsan HTTP/1.1[\r][\n]"
+2025-10-28 11:41:27.809 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Accept-Encoding: gzip, x-gzip, deflate[\r][\n]"
+2025-10-28 11:41:27.809 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Host: localhost:8080[\r][\n]"
+2025-10-28 11:41:27.809 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Connection: keep-alive[\r][\n]"
+2025-10-28 11:41:27.809 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)[\r][\n]"
+2025-10-28 11:41:27.809 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "[\r][\n]"
+2025-10-28 11:41:27.897 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "HTTP/1.1 200 [\r][\n]"
+2025-10-28 11:41:27.897 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Content-Type: text/plain;charset=UTF-8[\r][\n]"
+2025-10-28 11:41:27.897 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Content-Length: 34[\r][\n]"
+2025-10-28 11:41:27.898 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Date: Tue, 28 Oct 2025 03:41:27 GMT[\r][\n]"
+2025-10-28 11:41:27.898 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Keep-Alive: timeout=5[\r][\n]"
+2025-10-28 11:41:27.898 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Connection: keep-alive[\r][\n]"
+2025-10-28 11:41:27.898 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:41:27.898 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "hello @2025-10-28T03:41:27.879865Z"
+2025-10-28 11:41:27.900 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << HTTP/1.1 200
+2025-10-28 11:41:27.900 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Content-Type: text/plain;charset=UTF-8
+2025-10-28 11:41:27.900 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Content-Length: 34
+2025-10-28 11:41:27.900 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Date: Tue, 28 Oct 2025 03:41:27 GMT
+2025-10-28 11:41:27.900 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Keep-Alive: timeout=5
+2025-10-28 11:41:27.900 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Connection: keep-alive
+2025-10-28 11:41:27.902 [main] DEBUG o.a.h.c.h.i.classic.MainClientExec - ex-0000000001 connection can be kept alive for 5 SECONDS
+2025-10-28 11:41:27.903 [main] INFO  c.example.keepalive.client.MyClient - Status Code: 200
+2025-10-28 11:41:27.905 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000001 releasing valid endpoint
+2025-10-28 11:41:27.905 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 releasing endpoint
+2025-10-28 11:41:27.905 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 connection http-outgoing-0 can be kept alive for 5 SECONDS
+2025-10-28 11:41:27.905 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 connection released [route: {}->[http://localhost:8080]][total available: 1; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:41:27.905 [main] INFO  c.example.keepalive.client.MyClient - Response Body: hello @2025-10-28T03:41:27.879865Z
+2025-10-28 11:41:27.905 [main] INFO  c.example.keepalive.client.MyClient -
+
+---------------------- lisi --------------------
+2025-10-28 11:41:28.407 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000002 preparing request execution
+2025-10-28 11:41:28.407 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000002 target auth state: UNCHALLENGED
+2025-10-28 11:41:28.407 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000002 proxy auth state: UNCHALLENGED
+2025-10-28 11:41:28.407 [main] DEBUG o.a.h.c.h.impl.classic.ConnectExec - ex-0000000002 acquiring connection with route {}->[http://localhost:8080]
+2025-10-28 11:41:28.407 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000002 acquiring endpoint (3 MINUTES)
+2025-10-28 11:41:28.407 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000002 endpoint lease request (3 MINUTES) [route: {}->[http://localhost:8080]][total available: 1; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:41:28.408 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000002 endpoint leased [route: {}->[http://localhost:8080]][total available: 0; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:41:28.408 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000002 acquired ep-0000000002
+2025-10-28 11:41:28.408 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000002 acquired endpoint ep-0000000002
+2025-10-28 11:41:28.408 [main] DEBUG o.a.h.c.h.i.classic.MainClientExec - ex-0000000002 executing GET /hello?name=lisi
+2025-10-28 11:41:28.408 [main] DEBUG o.a.h.c.h.protocol.RequestAddCookies - ex-0000000002 Cookie spec selected: strict
+2025-10-28 11:41:28.408 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000002 start execution ex-0000000002
+2025-10-28 11:41:28.408 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000002 executing exchange ex-0000000002 over http-outgoing-0
+2025-10-28 11:41:28.408 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> GET /hello?name=lisi HTTP/1.1
+2025-10-28 11:41:28.408 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Connection: close
+2025-10-28 11:41:28.408 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Accept-Encoding: gzip, x-gzip, deflate
+2025-10-28 11:41:28.408 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Host: localhost:8080
+2025-10-28 11:41:28.408 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)
+2025-10-28 11:41:28.408 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "GET /hello?name=lisi HTTP/1.1[\r][\n]"
+2025-10-28 11:41:28.408 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Connection: close[\r][\n]"
+2025-10-28 11:41:28.408 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Accept-Encoding: gzip, x-gzip, deflate[\r][\n]"
+2025-10-28 11:41:28.408 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Host: localhost:8080[\r][\n]"
+2025-10-28 11:41:28.408 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)[\r][\n]"
+2025-10-28 11:41:28.408 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "[\r][\n]"
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "HTTP/1.1 200 [\r][\n]"
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Content-Type: text/plain;charset=UTF-8[\r][\n]"
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Content-Length: 34[\r][\n]"
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Date: Tue, 28 Oct 2025 03:41:28 GMT[\r][\n]"
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Connection: close[\r][\n]"
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "hello @2025-10-28T03:41:28.410244Z"
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << HTTP/1.1 200
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Content-Type: text/plain;charset=UTF-8
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Content-Length: 34
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Date: Tue, 28 Oct 2025 03:41:28 GMT
+2025-10-28 11:41:28.411 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Connection: close
+2025-10-28 11:41:28.411 [main] INFO  c.example.keepalive.client.MyClient - Status Code: 200
+2025-10-28 11:41:28.411 [main] DEBUG o.a.h.c.h.i.i.DefaultManagedHttpClientConnection - http-outgoing-0 close connection IMMEDIATE
+2025-10-28 11:41:28.412 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000002 endpoint closed
+2025-10-28 11:41:28.412 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000002 discarding endpoint
+2025-10-28 11:41:28.412 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000002 releasing endpoint
+2025-10-28 11:41:28.412 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000002 connection is not kept alive)
+2025-10-28 11:41:28.412 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000002 connection released [route: {}->[http://localhost:8080]][total available: 0; route allocated: 0 of 5; total allocated: 0 of 25]
+2025-10-28 11:41:28.412 [main] INFO  c.example.keepalive.client.MyClient - Response Body: hello @2025-10-28T03:41:28.410244Z
+2025-10-28 11:41:28.412 [main] INFO  c.example.keepalive.client.MyClient -
+
+---------------------- wangwu --------------------
+2025-10-28 11:41:28.912 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000003 preparing request execution
+2025-10-28 11:41:28.912 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000003 target auth state: UNCHALLENGED
+2025-10-28 11:41:28.912 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000003 proxy auth state: UNCHALLENGED
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.impl.classic.ConnectExec - ex-0000000003 acquiring connection with route {}->[http://localhost:8080]
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000003 acquiring endpoint (3 MINUTES)
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000003 endpoint lease request (3 MINUTES) [route: {}->[http://localhost:8080]][total available: 0; route allocated: 0 of 5; total allocated: 0 of 25]
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000003 endpoint leased [route: {}->[http://localhost:8080]][total available: 0; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000003 acquired ep-0000000003
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000003 acquired endpoint ep-0000000003
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.impl.classic.ConnectExec - ex-0000000003 opening connection {}->[http://localhost:8080]
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000003 connecting endpoint (null)
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000003 connecting endpoint to http://localhost:8080 (3 MINUTES)
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - localhost resolving remote address
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - localhost resolved to [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1]
+2025-10-28 11:41:28.913 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - http://localhost:8080 connecting null->localhost/127.0.0.1:8080 (3 MINUTES)
+2025-10-28 11:41:28.914 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - http-outgoing-1 http://localhost:8080 connected /127.0.0.1:61840->localhost/127.0.0.1:8080
+2025-10-28 11:41:28.914 [main] DEBUG o.a.h.c.h.i.i.DefaultManagedHttpClientConnection - http-outgoing-1 set socket timeout to 3 MINUTES
+2025-10-28 11:41:28.914 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000003 connected http-outgoing-1
+2025-10-28 11:41:28.914 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000003 endpoint connected
+2025-10-28 11:41:28.914 [main] DEBUG o.a.h.c.h.i.classic.MainClientExec - ex-0000000003 executing GET /hello?name=wangwu
+2025-10-28 11:41:28.914 [main] DEBUG o.a.h.c.h.protocol.RequestAddCookies - ex-0000000003 Cookie spec selected: strict
+2025-10-28 11:41:28.914 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000003 start execution ex-0000000003
+2025-10-28 11:41:28.914 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000003 executing exchange ex-0000000003 over http-outgoing-1
+2025-10-28 11:41:28.914 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-1 >> GET /hello?name=wangwu HTTP/1.1
+2025-10-28 11:41:28.914 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-1 >> Accept-Encoding: gzip, x-gzip, deflate
+2025-10-28 11:41:28.914 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-1 >> Host: localhost:8080
+2025-10-28 11:41:28.914 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-1 >> Connection: keep-alive
+2025-10-28 11:41:28.914 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-1 >> User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)
+2025-10-28 11:41:28.914 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 >> "GET /hello?name=wangwu HTTP/1.1[\r][\n]"
+2025-10-28 11:41:28.914 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 >> "Accept-Encoding: gzip, x-gzip, deflate[\r][\n]"
+2025-10-28 11:41:28.914 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 >> "Host: localhost:8080[\r][\n]"
+2025-10-28 11:41:28.914 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 >> "Connection: keep-alive[\r][\n]"
+2025-10-28 11:41:28.914 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 >> "User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)[\r][\n]"
+2025-10-28 11:41:28.915 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 >> "[\r][\n]"
+2025-10-28 11:41:28.916 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 << "HTTP/1.1 200 [\r][\n]"
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 << "Content-Type: text/plain;charset=UTF-8[\r][\n]"
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 << "Content-Length: 34[\r][\n]"
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 << "Date: Tue, 28 Oct 2025 03:41:28 GMT[\r][\n]"
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 << "Keep-Alive: timeout=5[\r][\n]"
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 << "Connection: keep-alive[\r][\n]"
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 << "[\r][\n]"
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-1 << "hello @2025-10-28T03:41:28.916299Z"
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-1 << HTTP/1.1 200
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-1 << Content-Type: text/plain;charset=UTF-8
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-1 << Content-Length: 34
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-1 << Date: Tue, 28 Oct 2025 03:41:28 GMT
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-1 << Keep-Alive: timeout=5
+2025-10-28 11:41:28.917 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-1 << Connection: keep-alive
+2025-10-28 11:41:28.917 [main] DEBUG o.a.h.c.h.i.classic.MainClientExec - ex-0000000003 connection can be kept alive for 5 SECONDS
+2025-10-28 11:41:28.917 [main] INFO  c.example.keepalive.client.MyClient - Status Code: 200
+2025-10-28 11:41:28.917 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000003 releasing valid endpoint
+2025-10-28 11:41:28.917 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000003 releasing endpoint
+2025-10-28 11:41:28.917 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000003 connection http-outgoing-1 can be kept alive for 5 SECONDS
+2025-10-28 11:41:28.917 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000003 connection released [route: {}->[http://localhost:8080]][total available: 1; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:41:28.917 [main] INFO  c.example.keepalive.client.MyClient - Response Body: hello @2025-10-28T03:41:28.916299Z
+2025-10-28 11:41:28.917 [main] INFO  c.example.keepalive.client.MyClient -
+
+---------------------- zhaoliu --------------------
+2025-10-28 11:41:39.018 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000004 preparing request execution
+2025-10-28 11:41:39.018 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000004 target auth state: UNCHALLENGED
+2025-10-28 11:41:39.018 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000004 proxy auth state: UNCHALLENGED
+2025-10-28 11:41:39.018 [main] DEBUG o.a.h.c.h.impl.classic.ConnectExec - ex-0000000004 acquiring connection with route {}->[http://localhost:8080]
+2025-10-28 11:41:39.018 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000004 acquiring endpoint (3 MINUTES)
+2025-10-28 11:41:39.018 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000004 endpoint lease request (3 MINUTES) [route: {}->[http://localhost:8080]][total available: 1; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:41:39.018 [main] DEBUG o.a.h.c.h.i.i.DefaultManagedHttpClientConnection - http-outgoing-1 close connection GRACEFUL
+2025-10-28 11:41:39.019 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000004 endpoint leased [route: {}->[http://localhost:8080]][total available: 0; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:41:39.019 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000004 acquired ep-0000000004
+2025-10-28 11:41:39.019 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000004 acquired endpoint ep-0000000004
+2025-10-28 11:41:39.019 [main] DEBUG o.a.h.c.h.impl.classic.ConnectExec - ex-0000000004 opening connection {}->[http://localhost:8080]
+2025-10-28 11:41:39.019 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000004 connecting endpoint (null)
+2025-10-28 11:41:39.019 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000004 connecting endpoint to http://localhost:8080 (3 MINUTES)
+2025-10-28 11:41:39.019 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - localhost resolving remote address
+2025-10-28 11:41:39.019 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - localhost resolved to [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1]
+2025-10-28 11:41:39.019 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - http://localhost:8080 connecting null->localhost/127.0.0.1:8080 (3 MINUTES)
+2025-10-28 11:41:39.019 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - http-outgoing-2 http://localhost:8080 connected /127.0.0.1:61865->localhost/127.0.0.1:8080
+2025-10-28 11:41:39.019 [main] DEBUG o.a.h.c.h.i.i.DefaultManagedHttpClientConnection - http-outgoing-2 set socket timeout to 3 MINUTES
+2025-10-28 11:41:39.020 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000004 connected http-outgoing-2
+2025-10-28 11:41:39.020 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000004 endpoint connected
+2025-10-28 11:41:39.020 [main] DEBUG o.a.h.c.h.i.classic.MainClientExec - ex-0000000004 executing GET /hello?name=zhaoliu
+2025-10-28 11:41:39.020 [main] DEBUG o.a.h.c.h.protocol.RequestAddCookies - ex-0000000004 Cookie spec selected: strict
+2025-10-28 11:41:39.020 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000004 start execution ex-0000000004
+2025-10-28 11:41:39.020 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000004 executing exchange ex-0000000004 over http-outgoing-2
+2025-10-28 11:41:39.020 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-2 >> GET /hello?name=zhaoliu HTTP/1.1
+2025-10-28 11:41:39.020 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-2 >> Accept-Encoding: gzip, x-gzip, deflate
+2025-10-28 11:41:39.020 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-2 >> Host: localhost:8080
+2025-10-28 11:41:39.020 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-2 >> Connection: keep-alive
+2025-10-28 11:41:39.020 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-2 >> User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)
+2025-10-28 11:41:39.020 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 >> "GET /hello?name=zhaoliu HTTP/1.1[\r][\n]"
+2025-10-28 11:41:39.020 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 >> "Accept-Encoding: gzip, x-gzip, deflate[\r][\n]"
+2025-10-28 11:41:39.020 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 >> "Host: localhost:8080[\r][\n]"
+2025-10-28 11:41:39.020 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 >> "Connection: keep-alive[\r][\n]"
+2025-10-28 11:41:39.020 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 >> "User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)[\r][\n]"
+2025-10-28 11:41:39.020 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 >> "[\r][\n]"
+2025-10-28 11:41:39.022 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 << "HTTP/1.1 200 [\r][\n]"
+2025-10-28 11:41:39.022 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 << "Content-Type: text/plain;charset=UTF-8[\r][\n]"
+2025-10-28 11:41:39.022 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 << "Content-Length: 34[\r][\n]"
+2025-10-28 11:41:39.022 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 << "Date: Tue, 28 Oct 2025 03:41:39 GMT[\r][\n]"
+2025-10-28 11:41:39.023 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 << "Keep-Alive: timeout=5[\r][\n]"
+2025-10-28 11:41:39.023 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 << "Connection: keep-alive[\r][\n]"
+2025-10-28 11:41:39.023 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 << "[\r][\n]"
+2025-10-28 11:41:39.023 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-2 << "hello @2025-10-28T03:41:39.022099Z"
+2025-10-28 11:41:39.023 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-2 << HTTP/1.1 200
+2025-10-28 11:41:39.023 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-2 << Content-Type: text/plain;charset=UTF-8
+2025-10-28 11:41:39.023 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-2 << Content-Length: 34
+2025-10-28 11:41:39.023 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-2 << Date: Tue, 28 Oct 2025 03:41:39 GMT
+2025-10-28 11:41:39.023 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-2 << Keep-Alive: timeout=5
+2025-10-28 11:41:39.023 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-2 << Connection: keep-alive
+2025-10-28 11:41:39.023 [main] DEBUG o.a.h.c.h.i.classic.MainClientExec - ex-0000000004 connection can be kept alive for 5 SECONDS
+2025-10-28 11:41:39.023 [main] INFO  c.example.keepalive.client.MyClient - Status Code: 200
+2025-10-28 11:41:39.023 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000004 releasing valid endpoint
+2025-10-28 11:41:39.023 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000004 releasing endpoint
+2025-10-28 11:41:39.023 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000004 connection http-outgoing-2 can be kept alive for 5 SECONDS
+2025-10-28 11:41:39.023 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000004 connection released [route: {}->[http://localhost:8080]][total available: 1; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:41:39.023 [main] INFO  c.example.keepalive.client.MyClient - Response Body: hello @2025-10-28T03:41:39.022099Z
+2025-10-28 11:41:39.023 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - Shutdown connection pool GRACEFUL
+2025-10-28 11:41:39.023 [main] DEBUG o.a.h.c.h.i.i.DefaultManagedHttpClientConnection - http-outgoing-2 close connection GRACEFUL
+2025-10-28 11:41:39.023 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - Connection pool shut down
+Disconnected from the target VM, address: '127.0.0.1:61833', transport: 'socket'
+
+Process finished with exit code 0

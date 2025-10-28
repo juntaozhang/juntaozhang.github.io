@@ -1,0 +1,24 @@
+2025-10-28 11:45:25.772 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - GET "/hello?name=zhangsan", parameters={masked}
+2025-10-28 11:45:25.772 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.keepalive.controller.HelloController#hello(String)
+2025-10-28 11:45:25.772 [http-nio-8080-exec-7] INFO  c.e.k.controller.HelloController - Received /hello request from zhangsan
+2025-10-28 11:45:25.773 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2025-10-28 11:45:25.773 [http-nio-8080-exec-7] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing ["hello @2025-10-28T03:45:25.772876Z"]
+2025-10-28 11:45:25.773 [http-nio-8080-exec-7] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-10-28 11:45:26.294 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/hello?name=lisi", parameters={masked}
+2025-10-28 11:45:26.295 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.keepalive.controller.HelloController#hello(String)
+2025-10-28 11:45:26.295 [http-nio-8080-exec-8] INFO  c.e.k.controller.HelloController - Received /hello request from lisi
+2025-10-28 11:45:26.296 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2025-10-28 11:45:26.296 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing ["hello @2025-10-28T03:45:26.295706Z"]
+2025-10-28 11:45:26.297 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-10-28 11:45:26.807 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - GET "/hello?name=wangwu", parameters={masked}
+2025-10-28 11:45:26.807 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.keepalive.controller.HelloController#hello(String)
+2025-10-28 11:45:26.807 [http-nio-8080-exec-9] INFO  c.e.k.controller.HelloController - Received /hello request from wangwu
+2025-10-28 11:45:26.808 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2025-10-28 11:45:26.808 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing ["hello @2025-10-28T03:45:26.807916Z"]
+2025-10-28 11:45:26.808 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2025-10-28 11:45:36.820 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/hello?name=zhaoliu", parameters={masked}
+2025-10-28 11:45:36.820 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.example.keepalive.controller.HelloController#hello(String)
+2025-10-28 11:45:36.821 [http-nio-8080-exec-1] INFO  c.e.k.controller.HelloController - Received /hello request from zhaoliu
+2025-10-28 11:45:36.821 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2025-10-28 11:45:36.821 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing ["hello @2025-10-28T03:45:36.821037Z"]
+2025-10-28 11:45:36.821 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK

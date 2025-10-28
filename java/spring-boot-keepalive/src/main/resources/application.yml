@@ -1,0 +1,15 @@
+server:
+  port: 8080
+  tomcat:
+    keep-alive-timeout: 5000      # Keep-Alive超时时间（毫秒）
+    max-keep-alive-requests: 100  # 单个连接最大请求数
+    connection-timeout: 10000     # 连接超时时间（毫秒）
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,httptrace
+  endpoint:
+    health:
+      show-details: always

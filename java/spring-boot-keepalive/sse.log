@@ -1,0 +1,234 @@
+2025-10-28 11:56:48.329 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000001 preparing request execution
+2025-10-28 11:56:48.339 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000001 target auth state: UNCHALLENGED
+2025-10-28 11:56:48.340 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000001 proxy auth state: UNCHALLENGED
+2025-10-28 11:56:48.340 [main] DEBUG o.a.h.c.h.impl.classic.ConnectExec - ex-0000000001 acquiring connection with route {}->[http://localhost:8080]
+2025-10-28 11:56:48.341 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000001 acquiring endpoint (3 MINUTES)
+2025-10-28 11:56:48.355 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000001 endpoint lease request (3 MINUTES) [route: {}->[http://localhost:8080]][total available: 0; route allocated: 0 of 5; total allocated: 0 of 25]
+2025-10-28 11:56:48.358 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000001 endpoint leased [route: {}->[http://localhost:8080]][total available: 0; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:56:48.365 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000001 acquired ep-0000000001
+2025-10-28 11:56:48.365 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000001 acquired endpoint ep-0000000001
+2025-10-28 11:56:48.365 [main] DEBUG o.a.h.c.h.impl.classic.ConnectExec - ex-0000000001 opening connection {}->[http://localhost:8080]
+2025-10-28 11:56:48.366 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000001 connecting endpoint (null)
+2025-10-28 11:56:48.366 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 connecting endpoint to http://localhost:8080 (3 MINUTES)
+2025-10-28 11:56:48.367 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - localhost resolving remote address
+2025-10-28 11:56:48.375 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - localhost resolved to [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1]
+2025-10-28 11:56:48.375 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - http://localhost:8080 connecting null->localhost/127.0.0.1:8080 (3 MINUTES)
+2025-10-28 11:56:48.385 [main] DEBUG o.a.h.c.h.i.i.DefaultHttpClientConnectionOperator - http-outgoing-0 http://localhost:8080 connected /127.0.0.1:63273->localhost/127.0.0.1:8080
+2025-10-28 11:56:48.386 [main] DEBUG o.a.h.c.h.i.i.DefaultManagedHttpClientConnection - http-outgoing-0 set socket timeout to 3 MINUTES
+2025-10-28 11:56:48.386 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 connected http-outgoing-0
+2025-10-28 11:56:48.386 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000001 endpoint connected
+2025-10-28 11:56:48.386 [main] DEBUG o.a.h.c.h.i.classic.MainClientExec - ex-0000000001 executing GET /sse
+2025-10-28 11:56:48.386 [main] DEBUG o.a.h.c.h.protocol.RequestAddCookies - ex-0000000001 Cookie spec selected: strict
+2025-10-28 11:56:48.391 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000001 start execution ex-0000000001
+2025-10-28 11:56:48.392 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 executing exchange ex-0000000001 over http-outgoing-0
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> GET /sse HTTP/1.1
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Accept: text/event-stream
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Accept-Encoding: gzip, x-gzip, deflate
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Host: localhost:8080
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Connection: keep-alive
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "GET /sse HTTP/1.1[\r][\n]"
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Accept: text/event-stream[\r][\n]"
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Accept-Encoding: gzip, x-gzip, deflate[\r][\n]"
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Host: localhost:8080[\r][\n]"
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Connection: keep-alive[\r][\n]"
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)[\r][\n]"
+2025-10-28 11:56:48.393 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "[\r][\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "HTTP/1.1 200 [\r][\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Content-Type: text/event-stream[\r][\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Transfer-Encoding: chunked[\r][\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Date: Tue, 28 Oct 2025 03:56:49 GMT[\r][\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Keep-Alive: timeout=5[\r][\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Connection: keep-alive[\r][\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "5[\r][\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "70[\r][\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data: {"sequence": 0, "timestamp": "2025-10-28T11:56:49.396117", "message": "[0xffffffe6][0xffffff9c][0xffffff8d][0xffffffe5][0xffffff8a][0xffffffa1][0xffffffe5][0xffffff99][0xffffffa8][0xffffffe6][0xffffff8e][0xffffffa8][0xffffffe9][0xffffff80][0xffffff81][0xffffffe6][0xffffffb6][0xffffff88][0xffffffe6][0xffffff81][0xffffffaf]"}[\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\n]"
+2025-10-28 11:56:49.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:49.399 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << HTTP/1.1 200
+2025-10-28 11:56:49.399 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Content-Type: text/event-stream
+2025-10-28 11:56:49.399 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Transfer-Encoding: chunked
+2025-10-28 11:56:49.399 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Date: Tue, 28 Oct 2025 03:56:49 GMT
+2025-10-28 11:56:49.399 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Keep-Alive: timeout=5
+2025-10-28 11:56:49.399 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Connection: keep-alive
+2025-10-28 11:56:49.402 [main] DEBUG o.a.h.c.h.i.classic.MainClientExec - ex-0000000001 connection can be kept alive for 5 SECONDS
+2025-10-28 11:56:49.403 [main] INFO  c.example.keepalive.client.MyClient - SSE status=200
+2025-10-28 11:56:49.403 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "2[\r][\n]"
+2025-10-28 11:56:49.403 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:49.403 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:49.403 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:49.403 [main] INFO  c.example.keepalive.client.MyClient - SSE event data=
+data: {"sequence": 0, "timestamp": "2025-10-28T11:56:49.396117", "message": "服务器推送消息"}
+2025-10-28 11:56:50.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "5[\r][\n]"
+2025-10-28 11:56:50.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:50.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "70[\r][\n]"
+2025-10-28 11:56:50.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data: {"sequence": 1, "timestamp": "2025-10-28T11:56:50.400393", "message": "[0xffffffe6][0xffffff9c][0xffffff8d][0xffffffe5][0xffffff8a][0xffffffa1][0xffffffe5][0xffffff99][0xffffffa8][0xffffffe6][0xffffff8e][0xffffffa8][0xffffffe9][0xffffff80][0xffffff81][0xffffffe6][0xffffffb6][0xffffff88][0xffffffe6][0xffffff81][0xffffffaf]"}[\n]"
+2025-10-28 11:56:50.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\n]"
+2025-10-28 11:56:50.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:50.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "2[\r][\n]"
+2025-10-28 11:56:50.402 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:50.402 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:50.402 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:50.402 [main] INFO  c.example.keepalive.client.MyClient - SSE event data=
+data: {"sequence": 1, "timestamp": "2025-10-28T11:56:50.400393", "message": "服务器推送消息"}
+2025-10-28 11:56:51.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "5[\r][\n]"
+2025-10-28 11:56:51.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:51.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "70[\r][\n]"
+2025-10-28 11:56:51.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data: {"sequence": 2, "timestamp": "2025-10-28T11:56:51.395647", "message": "[0xffffffe6][0xffffff9c][0xffffff8d][0xffffffe5][0xffffff8a][0xffffffa1][0xffffffe5][0xffffff99][0xffffffa8][0xffffffe6][0xffffff8e][0xffffffa8][0xffffffe9][0xffffff80][0xffffff81][0xffffffe6][0xffffffb6][0xffffff88][0xffffffe6][0xffffff81][0xffffffaf]"}[\n]"
+2025-10-28 11:56:51.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\n]"
+2025-10-28 11:56:51.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:51.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "2[\r][\n]"
+2025-10-28 11:56:51.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:51.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:51.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:51.396 [main] INFO  c.example.keepalive.client.MyClient - SSE event data=
+data: {"sequence": 2, "timestamp": "2025-10-28T11:56:51.395647", "message": "服务器推送消息"}
+2025-10-28 11:56:52.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "5[\r][\n]"
+2025-10-28 11:56:52.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:52.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "70[\r][\n]"
+2025-10-28 11:56:52.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data: {"sequence": 3, "timestamp": "2025-10-28T11:56:52.397477", "message": "[0xffffffe6][0xffffff9c][0xffffff8d][0xffffffe5][0xffffff8a][0xffffffa1][0xffffffe5][0xffffff99][0xffffffa8][0xffffffe6][0xffffff8e][0xffffffa8][0xffffffe9][0xffffff80][0xffffff81][0xffffffe6][0xffffffb6][0xffffff88][0xffffffe6][0xffffff81][0xffffffaf]"}[\n]"
+2025-10-28 11:56:52.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\n]"
+2025-10-28 11:56:52.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:52.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "2[\r][\n]"
+2025-10-28 11:56:52.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:52.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:52.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:52.398 [main] INFO  c.example.keepalive.client.MyClient - SSE event data=
+data: {"sequence": 3, "timestamp": "2025-10-28T11:56:52.397477", "message": "服务器推送消息"}
+2025-10-28 11:56:53.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "5[\r][\n]"
+2025-10-28 11:56:53.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:53.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "70[\r][\n]"
+2025-10-28 11:56:53.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data: {"sequence": 4, "timestamp": "2025-10-28T11:56:53.397525", "message": "[0xffffffe6][0xffffff9c][0xffffff8d][0xffffffe5][0xffffff8a][0xffffffa1][0xffffffe5][0xffffff99][0xffffffa8][0xffffffe6][0xffffff8e][0xffffffa8][0xffffffe9][0xffffff80][0xffffff81][0xffffffe6][0xffffffb6][0xffffff88][0xffffffe6][0xffffff81][0xffffffaf]"}[\n]"
+2025-10-28 11:56:53.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\n]"
+2025-10-28 11:56:53.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:53.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "2[\r][\n]"
+2025-10-28 11:56:53.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:53.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:53.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:53.399 [main] INFO  c.example.keepalive.client.MyClient - SSE event data=
+data: {"sequence": 4, "timestamp": "2025-10-28T11:56:53.397525", "message": "服务器推送消息"}
+2025-10-28 11:56:54.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "5[\r][\n]"
+2025-10-28 11:56:54.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:54.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "70[\r][\n]"
+2025-10-28 11:56:54.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data: {"sequence": 5, "timestamp": "2025-10-28T11:56:54.395991", "message": "[0xffffffe6][0xffffff9c][0xffffff8d][0xffffffe5][0xffffff8a][0xffffffa1][0xffffffe5][0xffffff99][0xffffffa8][0xffffffe6][0xffffff8e][0xffffffa8][0xffffffe9][0xffffff80][0xffffff81][0xffffffe6][0xffffffb6][0xffffff88][0xffffffe6][0xffffff81][0xffffffaf]"}[\n]"
+2025-10-28 11:56:54.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\n]"
+2025-10-28 11:56:54.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:54.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "2[\r][\n]"
+2025-10-28 11:56:54.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:54.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:54.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:54.397 [main] INFO  c.example.keepalive.client.MyClient - SSE event data=
+data: {"sequence": 5, "timestamp": "2025-10-28T11:56:54.395991", "message": "服务器推送消息"}
+2025-10-28 11:56:55.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "5[\r][\n]"
+2025-10-28 11:56:55.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:55.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "70[\r][\n]"
+2025-10-28 11:56:55.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data: {"sequence": 6, "timestamp": "2025-10-28T11:56:55.398354", "message": "[0xffffffe6][0xffffff9c][0xffffff8d][0xffffffe5][0xffffff8a][0xffffffa1][0xffffffe5][0xffffff99][0xffffffa8][0xffffffe6][0xffffff8e][0xffffffa8][0xffffffe9][0xffffff80][0xffffff81][0xffffffe6][0xffffffb6][0xffffff88][0xffffffe6][0xffffff81][0xffffffaf]"}[\n]"
+2025-10-28 11:56:55.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\n]"
+2025-10-28 11:56:55.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:55.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "2[\r][\n]"
+2025-10-28 11:56:55.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:55.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:55.399 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:55.399 [main] INFO  c.example.keepalive.client.MyClient - SSE event data=
+data: {"sequence": 6, "timestamp": "2025-10-28T11:56:55.398354", "message": "服务器推送消息"}
+2025-10-28 11:56:56.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "5[\r][\n]"
+2025-10-28 11:56:56.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:56.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "70[\r][\n]"
+2025-10-28 11:56:56.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data: {"sequence": 7, "timestamp": "2025-10-28T11:56:56.395851", "message": "[0xffffffe6][0xffffff9c][0xffffff8d][0xffffffe5][0xffffff8a][0xffffffa1][0xffffffe5][0xffffff99][0xffffffa8][0xffffffe6][0xffffff8e][0xffffffa8][0xffffffe9][0xffffff80][0xffffff81][0xffffffe6][0xffffffb6][0xffffff88][0xffffffe6][0xffffff81][0xffffffaf]"}[\n]"
+2025-10-28 11:56:56.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\n]"
+2025-10-28 11:56:56.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:56.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "2[\r][\n]"
+2025-10-28 11:56:56.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:56.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:56.397 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:56.397 [main] INFO  c.example.keepalive.client.MyClient - SSE event data=
+data: {"sequence": 7, "timestamp": "2025-10-28T11:56:56.395851", "message": "服务器推送消息"}
+2025-10-28 11:56:57.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "5[\r][\n]"
+2025-10-28 11:56:57.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:57.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "70[\r][\n]"
+2025-10-28 11:56:57.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data: {"sequence": 8, "timestamp": "2025-10-28T11:56:57.397737", "message": "[0xffffffe6][0xffffff9c][0xffffff8d][0xffffffe5][0xffffff8a][0xffffffa1][0xffffffe5][0xffffff99][0xffffffa8][0xffffffe6][0xffffff8e][0xffffffa8][0xffffffe9][0xffffff80][0xffffff81][0xffffffe6][0xffffffb6][0xffffff88][0xffffffe6][0xffffff81][0xffffffaf]"}[\n]"
+2025-10-28 11:56:57.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\n]"
+2025-10-28 11:56:57.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:57.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "2[\r][\n]"
+2025-10-28 11:56:57.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:57.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:57.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:57.398 [main] INFO  c.example.keepalive.client.MyClient - SSE event data=
+data: {"sequence": 8, "timestamp": "2025-10-28T11:56:57.397737", "message": "服务器推送消息"}
+2025-10-28 11:56:58.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "5[\r][\n]"
+2025-10-28 11:56:58.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:58.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "70[\r][\n]"
+2025-10-28 11:56:58.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data: {"sequence": 9, "timestamp": "2025-10-28T11:56:58.395612", "message": "[0xffffffe6][0xffffff9c][0xffffff8d][0xffffffe5][0xffffff8a][0xffffffa1][0xffffffe5][0xffffff99][0xffffffa8][0xffffffe6][0xffffff8e][0xffffffa8][0xffffffe9][0xffffff80][0xffffff81][0xffffffe6][0xffffffb6][0xffffff88][0xffffffe6][0xffffff81][0xffffffaf]"}[\n]"
+2025-10-28 11:56:58.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\n]"
+2025-10-28 11:56:58.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:58.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "2[\r][\n]"
+2025-10-28 11:56:58.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:58.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:58.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:58.396 [main] INFO  c.example.keepalive.client.MyClient - SSE event data=
+data: {"sequence": 9, "timestamp": "2025-10-28T11:56:58.395612", "message": "服务器推送消息"}
+2025-10-28 11:56:59.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "5[\r][\n]"
+2025-10-28 11:56:59.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:59.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "70[\r][\n]"
+2025-10-28 11:56:59.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data: {"sequence": 10, "timestamp": "2025-10-28T11:56:59.39592", "message": "[0xffffffe6][0xffffff9c][0xffffff8d][0xffffffe5][0xffffff8a][0xffffffa1][0xffffffe5][0xffffff99][0xffffffa8][0xffffffe6][0xffffff8e][0xffffffa8][0xffffffe9][0xffffff80][0xffffff81][0xffffffe6][0xffffffb6][0xffffff88][0xffffffe6][0xffffff81][0xffffffaf]"}[\n]"
+2025-10-28 11:56:59.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\n]"
+2025-10-28 11:56:59.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "data:[\r][\n]"
+2025-10-28 11:56:59.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "2[\r][\n]"
+2025-10-28 11:56:59.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:59.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\n]"
+2025-10-28 11:56:59.396 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:59.397 [main] INFO  c.example.keepalive.client.MyClient - SSE event data=
+data: {"sequence": 10, "timestamp": "2025-10-28T11:56:59.39592", "message": "服务器推送消息"}
+2025-10-28 11:56:59.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "0[\r][\n]"
+2025-10-28 11:56:59.398 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:59.399 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000001 releasing valid endpoint
+2025-10-28 11:56:59.399 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 releasing endpoint
+2025-10-28 11:56:59.399 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 connection http-outgoing-0 can be kept alive for 5 SECONDS
+2025-10-28 11:56:59.399 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000001 connection released [route: {}->[http://localhost:8080]][total available: 1; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000002 preparing request execution
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000002 target auth state: UNCHALLENGED
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.impl.classic.ProtocolExec - ex-0000000002 proxy auth state: UNCHALLENGED
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.impl.classic.ConnectExec - ex-0000000002 acquiring connection with route {}->[http://localhost:8080]
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000002 acquiring endpoint (3 MINUTES)
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000002 endpoint lease request (3 MINUTES) [route: {}->[http://localhost:8080]][total available: 1; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000002 endpoint leased [route: {}->[http://localhost:8080]][total available: 0; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ex-0000000002 acquired ep-0000000002
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ex-0000000002 acquired endpoint ep-0000000002
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.i.classic.MainClientExec - ex-0000000002 executing GET /hello?name=test
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.protocol.RequestAddCookies - ex-0000000002 Cookie spec selected: strict
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000002 start execution ex-0000000002
+2025-10-28 11:56:59.400 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000002 executing exchange ex-0000000002 over http-outgoing-0
+2025-10-28 11:56:59.401 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> GET /hello?name=test HTTP/1.1
+2025-10-28 11:56:59.401 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Accept-Encoding: gzip, x-gzip, deflate
+2025-10-28 11:56:59.401 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Host: localhost:8080
+2025-10-28 11:56:59.401 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> Connection: keep-alive
+2025-10-28 11:56:59.401 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 >> User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)
+2025-10-28 11:56:59.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "GET /hello?name=test HTTP/1.1[\r][\n]"
+2025-10-28 11:56:59.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Accept-Encoding: gzip, x-gzip, deflate[\r][\n]"
+2025-10-28 11:56:59.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Host: localhost:8080[\r][\n]"
+2025-10-28 11:56:59.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "Connection: keep-alive[\r][\n]"
+2025-10-28 11:56:59.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "User-Agent: Apache-HttpClient/5.4.4 (Java/17.0.6)[\r][\n]"
+2025-10-28 11:56:59.401 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 >> "[\r][\n]"
+2025-10-28 11:56:59.418 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "HTTP/1.1 200 [\r][\n]"
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Content-Type: text/plain;charset=UTF-8[\r][\n]"
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Content-Length: 34[\r][\n]"
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Date: Tue, 28 Oct 2025 03:56:59 GMT[\r][\n]"
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Keep-Alive: timeout=5[\r][\n]"
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "Connection: keep-alive[\r][\n]"
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "[\r][\n]"
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.wire - http-outgoing-0 << "hello @2025-10-28T03:56:59.411817Z"
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << HTTP/1.1 200
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Content-Type: text/plain;charset=UTF-8
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Content-Length: 34
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Date: Tue, 28 Oct 2025 03:56:59 GMT
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Keep-Alive: timeout=5
+2025-10-28 11:56:59.419 [main] DEBUG org.apache.hc.client5.http.headers - http-outgoing-0 << Connection: keep-alive
+2025-10-28 11:56:59.419 [main] DEBUG o.a.h.c.h.i.classic.MainClientExec - ex-0000000002 connection can be kept alive for 5 SECONDS
+2025-10-28 11:56:59.419 [main] INFO  c.example.keepalive.client.MyClient - Status Code: 200
+2025-10-28 11:56:59.421 [main] DEBUG o.a.h.c.h.i.c.InternalHttpClient - ep-0000000002 releasing valid endpoint
+2025-10-28 11:56:59.421 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000002 releasing endpoint
+2025-10-28 11:56:59.421 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000002 connection http-outgoing-0 can be kept alive for 5 SECONDS
+2025-10-28 11:56:59.421 [main] DEBUG o.a.h.c.h.i.i.PoolingHttpClientConnectionManager - ep-0000000002 connection released [route: {}->[http://localhost:8080]][total available: 1; route allocated: 1 of 5; total allocated: 1 of 25]
+2025-10-28 11:56:59.421 [main] INFO  c.example.keepalive.client.MyClient - Response Body: hello @2025-10-28T03:56:59.411817Z
