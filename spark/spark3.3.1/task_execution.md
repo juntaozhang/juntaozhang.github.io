@@ -614,15 +614,12 @@ sequenceDiagram
     Note over SBFI: ExternalShuffleService策略
 
     %% 1. 批量读取优化判断
-    SBFI->>SBFI: initialize() 阶段批量合并
-    alt 启用批量读取 && 连续block来自同一Executor
-        Note over SBFI: 批量读取优化<br/>mergeContinuousShuffleBlockIdsIfNeeded()
-        SBFI->>SBFI: 合并 [shuffle_0_0_0, shuffle_0_0_1, shuffle_0_0_2] <br/>→ ShuffleBlockBatchId(0,0,0,3)
-    else 不满足批量条件
-        Note over SBFI: 逐个请求<br/>保持原始ShuffleBlockId
-    end
+    SBFI->>SBFI: initialize() 划分FetchRequest
+    Note over SBFI:  根据节点地址分组 blocks，<br/>然后按targetRemoteRequestSize=maxBytesInFlight/5将同一节点的多个 blocks 划分为多个FetchRequest，<br/>但大于targetRemoteRequestSize的块会被单独形成一个FetchRequest
 
     %% 2. 阈值判断和fetchBlocks调用
+    SBFI->>+SBFI: fetchUpToMaxBytes
+    Note over SBFI: isRemoteBlockFetchable()<br/>确保FetchRequest内异步请求，FetchRequest之间串行
     SBFI->>SBFI: sendRequest(req) 开始
     alt req.size > 200MB
         Note over SBFI: 大请求策略
@@ -633,6 +630,7 @@ sequenceDiagram
         SBFI->>ESC: fetchBlocks(host, 7337, execId, blockIds, listener, null)
         Note over ESC: downloadFileManager = null (内存处理)
     end
+    deactivate SBFI
 
     %% 3. 第一阶段：RPC获取StreamHandle
     ESC->>OOFBF: new OneForOneBlockFetcher(..., downloadFileManager)
@@ -652,14 +650,15 @@ sequenceDiagram
     NET->>OOFBF: RpcResponseCallback.onSuccess()
 
     %% 4. 第二阶段：数据传输
-    loop 对每个chunk (i=0 to numChunks-1)
+    loop 对每个chunk (i=0 to numChunks-1)，异步请求数据传输
         alt downloadFileManager != null (大文件)
             OOFBF->>NET: 🌊 stream(StreamRequest)
             NET->>ESS: StreamRequest到ExternalShuffleService
             ESS->>CFRH: 处理StreamRequest
             CFRH->>CFRH: 流式传输数据
-            CFRH->>NET: 返回数据流
+            CFRH->>NET: 返回数据流 StreamResponse
             NET->>OOFBF: DownloadCallback.onData() + onComplete()
+            Note over SBFI: listener=ShuffleBlockFetcherIterator.BlockFetchingListener
             OOFBF->>SBFI: onBlockFetchSuccess(blockId, buffer)
         else downloadFileManager == null (小文件)
             OOFBF->>NET: 📦 fetchChunk(ChunkFetchRequest)
@@ -681,8 +680,8 @@ sequenceDiagram
 | client.fetchChunk() | 直接内存中的ManagedBuffer | 高（全部加载） | 小文件(≤200MB) |
 
 
-##### 大文件策略 (req.size > 200MB) - stream() + DownloadCallback（ResultTask端）
-
+##### 大文件策略 (req.size > 200MB) - stream() + DownloadCallback
+ResultTask client端
 ```mermaid
 sequenceDiagram
     autonumber
@@ -719,14 +718,63 @@ sequenceDiagram
         DownCB->>BFL: listener.onBlockFetchSuccess(blockId, buffer)
         BFL->>SBFI: 通知数据就绪
     end
-
-    rect rgb(255, 245, 245)
-        Note over OOFBF, Channel: 两次TransportClient交互
-    end
 ```
 
-##### 小文件策略 (req.size ≤ 200MB) - fetchChunk() + ChunkCallback
+MapShuffleTask Server端
+```mermaid
+  sequenceDiagram
+    autonumber
+    participant Client as 客户端
+    participant Pipeline as Netty Pipeline<br/>(TransportChannelHandler)
+    participant TRH as TransportRequestHandler<br/>(extends MessageHandler)
+    participant RP as RpcHandler<br/>(NettyBlockRpcServer)
+    participant SCM as StreamManager<br/>(OneForOneStreamManager)
 
+
+%% 第一阶段：RPC请求处理
+    Note over Client,SCM: 阶段1: RPC获取StreamHandle
+    Client->>Pipeline: sendRpc(FetchShuffleBlocks, callback)
+    Pipeline->>TRH: handle(RpcRequest)
+    TRH->>RP: receive(reverseClient, ByteBuffer, RpcResponseCallback)
+    Note over RP: ExternalShuffleService处理
+    RP->>SCM: registerStream and get streamId
+    SCM->>SCM: 创建ChunkStreamHandle{streamId, numChunks}
+    SCM->>RP: 返回StreamHandle
+    RP->>TRH: callback.onSuccess(ByteBuffer with StreamHandle)
+    TRH->>Pipeline: respond(RpcResponse)
+    Pipeline->>Client: RpcResponse{StreamHandle}
+
+%% 第二阶段：Stream请求处理
+    Note over Client,SCM: 阶段2: StreamRequest传输
+    Client->>Pipeline: stream(StreamRequest, DownloadCallback)
+    Pipeline->>TRH: handle(StreamRequest)
+    TRH->>TRH: processStreamRequest()
+
+    TRH->>SCM: openStream(streamId)
+    Note over SCM: 读取文件创建ManagedBuffer
+    SCM-->>TRH: FileSegmentManagedBuffer(extends ManagedBuffer 文件引用)
+
+    Note over TRH: 创建StreamResponse
+    TRH->>Pipeline: respond(StreamResponse{streamId, byteCount, ManagedBuffer})
+
+    Note over Pipeline: MessageEncoder包装为MessageWithHeader
+    Pipeline->>Pipeline: new MessageWithHeader(header, ManagedBuffer)
+    Note over Pipeline: extends AbstractFileRegion -> zero-copy
+
+    Pipeline->>Client: MessageWithHeader.transferTo()
+    Note over Client: 底层调用FileChannel.transferTo()
+
+%% 完成回调
+    Pipeline->>TRH: addListener(future) -> streamSent()
+    TRH->>SCM: streamSent(streamId)
+```
+- OneForOneStreamManager 是 Spark 中用于管理点对点流数据传输的组件。
+- FileSegmentManagedBuffer 是 “文件流” 的封装，适合大文件的分段传输，核心是减少内存占用。
+
+
+
+##### 小文件策略 (req.size ≤ 200MB) - fetchChunk() + ChunkCallback
+ResultTask client端
 ```mermaid
 sequenceDiagram
     autonumber
@@ -756,35 +804,35 @@ sequenceDiagram
         ChunkCB->>BFL: listener.onBlockFetchSuccess(blockIds[chunkIndex], buffer)
         BFL->>SBFI: 通知数据就绪
     end
-
-    rect rgb(245, 255, 245)
-        Note over OOFBF, BFL: 两次TransportClient交互
-    end
 ```
 
-##### 失败处理回调流程
-
+MapShuffleTask Server端
 ```mermaid
-sequenceDiagram
-    participant SBFI as ShuffleBlockFetcherIterator
-    participant CB as Callback<br/>(DownloadCallback/ChunkCallback)
-    participant OOFBF as OneForOneBlockFetcher
-    participant BFL as BlockFetchingListener
-
-    alt Stream失败
-        CB->>CB: onFailure(streamId, cause)
-        CB->>CB: channel.close() + targetFile.delete()
-    else Chunk失败
-        CB->>CB: onFailure(chunkIndex, exception)
-    end
-
-    CB->>OOFBF: failRemainingBlocks(remainingBlockIds, exception)
-
-    loop 对每个剩余blockId
-        OOFBF->>BFL: listener.onBlockFetchFailure(blockId, exception)
-        BFL->>SBFI: 通知获取失败
-    end
+  sequenceDiagram
+    autonumber
+    participant Client as 客户端
+    participant Pipeline as Netty Pipeline<br/>(TransportChannelHandler)
+    participant TRH as TransportRequestHandler<br/>(extends MessageHandler)
+    participant SCM as StreamManager<br/>(OneForOneStreamManager)
+    participant ChunkHandler as ChunkFetchRequestHandler<br/>(extends SimpleChannelInboundHandler)
+    
+    Client->>Pipeline: channelRead0 ChunkFetchRequest(streamChunkId)
+    Pipeline->>TRH: handle(ChunkFetchRequest)
+    TRH->>ChunkHandler: processFetchRequest(ChunkFetchRequest)
+    ChunkHandler->>SCM: checkAuthorization() + getChunk()
+    SCM-->>ChunkHandler: BlockManagerManagedBuffer(extends ManagedBuffer)
+    ChunkHandler->>Pipeline: respond(ChunkFetchSuccess(streamChunkId, ManagedBuffer))
+    Pipeline->>Client: ChunkFetchSuccess{ManagedBuffer}
+    ChunkHandler->>SCM: addListener -> chunkSent()
 ```
+BlockManagerManagedBuffer 是 “内存块” 的封装，适合内存中数据的快速访问，核心是提供高效的数据操作接口。
+
+BlockData data 存储在内存
+- On-Heap 内存：不支持零拷贝，需先将堆内数据拷贝到 DirectByteBuffer，“堆内 → 直接内存”
+- Off-Heap 内存：属于内核态可访问内存，无需 JVM 堆拷贝，从直接内存拷贝到网卡缓冲区，无用户态 → 内核态的拷贝
+  - 只有当 ByteBuffer 是 DirectByteBuffer 时，`chunks.length == 1` 才能在网络传输场景下实现真正的
+    zero-copy
+
 
 **核心回调链总结**：
 - **第一阶段**: `sendRpc(FetchShuffleBlocks)` → `RpcResponseCallback.onSuccess()` → 解析`StreamHandle`
@@ -799,6 +847,7 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
+    autonumber
     participant SBFI as ShuffleBlockFetcherIterator
     participant NBTS as NettyBlockTransferService
     participant OOFBF as OneForOneBlockFetcher
@@ -810,15 +859,11 @@ sequenceDiagram
     Note over SBFI: NettyBlockTransferService策略
 
     %% 1. 批量读取优化判断
-    SBFI->>SBFI: initialize() 阶段批量合并
-    alt 启用批量读取 && 连续block来自同一Executor
-        Note over SBFI: 批量读取优化<br/>mergeContinuousShuffleBlockIdsIfNeeded()
-        SBFI->>SBFI: 合并 [shuffle_0_0_0, shuffle_0_0_1, shuffle_0_0_2] <br/>→ ShuffleBlockBatchId(0,0,0,3)
-    else 不满足批量条件
-        Note over SBFI: 逐个请求<br/>保持原始ShuffleBlockId
-    end
+    SBFI->>SBFI: initialize() 划分FetchRequest
 
     %% 2. 阈值判断和fetchBlocks调用
+    SBFI->>+SBFI: fetchUpToMaxBytes
+    Note over SBFI: isRemoteBlockFetchable()
     SBFI->>SBFI: sendRequest(req) 开始
     alt req.size > 200MB
         Note over SBFI: 大请求策略
@@ -829,13 +874,15 @@ sequenceDiagram
         SBFI->>NBTS: fetchBlocks(host, executorPort, execId, blockIds, listener, null)
         Note over NBTS: downloadFileManager = null (内存处理)
     end
+    deactivate SBFI
 
     %% 3. NettyBlockTransferService处理
     NBTS->>OOFBF: new OneForOneBlockFetcher(..., downloadFileManager)
     OOFBF->>NET: 创建到目标Executor的连接
+    Note over OOFBF: 根据numChunks，异步请求
     NET->>TBM: 连接到目标Executor BlockManager (动态端口)
 
-    %% 4. 目标Executor的BlockManager处理
+%% 4. 目标Executor的BlockManager处理
     TBM->>TBM: 处理block请求
     loop 处理每个block
         TBM->>ISB: getBlockData(blockId)
@@ -845,7 +892,7 @@ sequenceDiagram
         FSMB-->>TBM: 返回数据引用
     end
 
-    TBM->>NET: 开始传输数据
+    TBM->>NET: 开始传输数据，服务器并发传输数据
 
     %% 5. 数据传输和回调 (详细回调链见上方专门时序图)
     loop 传输每个chunk
