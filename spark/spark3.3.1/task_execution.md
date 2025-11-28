@@ -585,7 +585,9 @@ sequenceDiagram
 
 #### ExternalShuffleService 策略时序图
 
-**策略原理**: 连接到独立的ExternalShuffleService进程(端口7337)，由该服务读取磁盘上的shuffle文件。优势是Executor崩溃后数据仍可访问，支持Dynamic Allocation。
+**策略原理**: 连接到独立的ExternalShuffleService进程(端口7337)，
+由该服务读取磁盘上的shuffle文件。
+优势是Executor崩溃后数据仍可访问，支持Dynamic Allocation。
 
 **使用场景**: `spark.shuffle.service.enabled=true`
 
@@ -650,7 +652,7 @@ sequenceDiagram
     NET->>OOFBF: RpcResponseCallback.onSuccess()
 
     %% 4. 第二阶段：数据传输
-    loop 对每个chunk (i=0 to numChunks-1)，异步请求数据传输
+    loop 对每个chunk (i=0 to numChunks-1)
         alt downloadFileManager != null (大文件)
             OOFBF->>NET: 🌊 stream(StreamRequest)
             NET->>ESS: StreamRequest到ExternalShuffleService
@@ -671,7 +673,6 @@ sequenceDiagram
         end
     end
 ```
-
 ##### stream vs fetchChunk
 
 | 方法                  | 数据处理                | 内存使用    | 适用场景        |
@@ -681,53 +682,92 @@ sequenceDiagram
 
 
 ##### 大文件策略 (req.size > 200MB) - stream() + DownloadCallback
-ResultTask client端
+ResultTask client端接收文件
 ```mermaid
-sequenceDiagram
-    autonumber
-    participant SBFI as ShuffleBlockFetcherIterator
-    participant BFL as BlockFetchingListener
-    participant OOFBF as OneForOneBlockFetcher
-    participant Client as Netty客户端
-    participant RpcCB as RpcResponseCallback
-    participant DownCB as DownloadCallback<br/>(extends StreamCallback)
-    participant Channel as DownloadFileWritableChannel
+  sequenceDiagram
+    participant Client as Netty Network
+    participant FrameDecoder as TransportFrameDecoder
+    participant MessageDecoder as MessageDecoder
+    participant ChannelHandler as TransportChannelHandler
+    participant ResponseHandler as TransportResponseHandler
+    participant Interceptor as StreamInterceptor
+    participant Callback as DownloadCallback
 
-    Note over OOFBF: 大文件流程开始
+    Note over Client: === 接收StreamResponse消息 ===
+    Note over Client: 收到StreamResponse帧数据
+    Client->>FrameDecoder: channelRead(StreamResponse frame)
 
-    %% 第一次交互：RPC获取StreamHandle
-    OOFBF->>Client: 📡 sendRpc(FetchShuffleBlocks, RpcResponseCallback)
-    Note over Client: RPC Event: FetchShuffleBlocks
-    Client->>RpcCB: onSuccess(ByteBuffer response)
-    RpcCB->>RpcCB: 解析StreamHandle{streamId, numChunks}
+    Note over FrameDecoder: 正常帧解析流程 (无拦截器)
+    FrameDecoder->>MessageDecoder: decodeNext() -> StreamResponse对象
+    MessageDecoder->>ChannelHandler: channelRead(StreamResponse)
+    ChannelHandler->>ResponseHandler: handle(StreamResponse)
 
-    %% 第二次交互：Stream数据传输
-    loop 对每个chunk (i=0 to numChunks-1)
-        RpcCB->>OOFBF: downloadFileManager != null
-        OOFBF->>Client: 🌊 stream(genStreamChunkId(streamId, i), DownloadCallback(i))
-        Note over Client: StreamRequest: genStreamChunkId(streamId, i)
-        Note over DownCB: 构造函数: createTempFile() + openForWriting()
+    Note over ResponseHandler: 处理StreamResponse并安装拦截器
+    ResponseHandler->>ResponseHandler: 从streamCallbacks获取callback
+    ResponseHandler->>Interceptor: new StreamInterceptor("stream_100", 2097152, callback)
+    ResponseHandler->>FrameDecoder: setInterceptor(interceptor)
+    Note over ResponseHandler: streamActive = true
 
-        Client->>DownCB: onData(streamId, ByteBuffer buf)
-        DownCB->>Channel: channel.write(buf)
-        Note over Channel: 流式写入临时磁盘文件
+    Note over Client: === 文件数据流传输阶段 ===
+    loop 原始文件数据到达
+        Note over Client: 收到原始文件数据块
+        Client->>FrameDecoder: channelRead(raw_file_data)
 
-        Client->>DownCB: onComplete(streamId)
-        DownCB->>Channel: channel.closeAndRead()
-        Channel-->>DownCB: ManagedBuffer
-        DownCB->>BFL: listener.onBlockFetchSuccess(blockId, buffer)
-        BFL->>SBFI: 通知数据就绪
+        Note over FrameDecoder: 拦截器激活，跳过帧解析
+        FrameDecoder->>Interceptor: feedInterceptor(raw_file_data)
+
+        Interceptor->>Callback: onData("stream_100", nioBuffer)
+
+        Callback->>Callback: 处理数据块 (写入文件/内存)
+
+        Note over Interceptor: 更新计数并检查完成状态
+
+        alt 继续接收数据
+            Note over Interceptor: bytesRead < byteCount
+            Interceptor->>FrameDecoder: 返回true (继续拦截)
+        else 数据接收完成
+            Note over Interceptor: bytesRead == byteCount
+            Interceptor->>ResponseHandler: deactivateStream()
+            Interceptor->>Callback: onComplete("stream_100")
+            Interceptor->>FrameDecoder: 返回false (请求移除)
+            Note over FrameDecoder: interceptor = null (自动移除)
+        end
     end
+
+    Note over Client: === 恢复正常消息处理模式 ===
+    Note over FrameDecoder: 拦截器已移除<br/>恢复正常帧解析流程
+    Note over ResponseHandler: streamActive = false<br/>准备接收下一个消息
 ```
+
+**数据块传输是串行**
+```text
+[Server] Request_0, Request_1, Request_2 → [TCP Stack] → [Network] → [Client]
+      ↓                                    ↓                ↓
+[Responses in order: Response_0, Response_1, Response_2]
+```
+StreamResponse 发送是两阶段的：
+1. 首先发送元数据：StreamResponse 消息体（包含流ID、字节数等）
+2. 然后发送数据：底层的 ManagedBuffer（实际的文件数据）
+
+这个机制是通过 isBodyInFrame = false 实现的：
+- 元数据和实际数据被分离到不同的传输阶段
+- Netty 的异步机制允许元数据先发送
+- 客户端接收到元数据后设置拦截器，然后接收实际数据流
+
+为什么可以利用TransportFrameDecoder再接收完Metadata->StreamResponse,
+设置interceptor 然后在interceptor中接收后续真实data->DefaultFileRegion？
+- Netty EventLoop 单线程串行处理：每个 Channel 只能被一个 EventLoop 线程处理
+- TCP 有序传输保证：网络层保证数据按发送顺序到达
+- Channel 事件处理串行：inbound 事件按到达顺序在 pipeline 中传递
 
 MapShuffleTask Server端
 ```mermaid
   sequenceDiagram
     autonumber
-    participant Client as 客户端
+    participant Client as Transport Client
     participant Pipeline as Netty Pipeline<br/>(TransportChannelHandler)
     participant TRH as TransportRequestHandler<br/>(extends MessageHandler)
-    participant RP as RpcHandler<br/>(NettyBlockRpcServer)
+    participant RP as RpcHandler<br/>(ExternalBlockHandler)
     participant SCM as StreamManager<br/>(OneForOneStreamManager)
 
 
@@ -781,7 +821,7 @@ sequenceDiagram
     participant SBFI as ShuffleBlockFetcherIterator
     participant BFL as BlockFetchingListener
     participant OOFBF as OneForOneBlockFetcher
-    participant Client as Netty客户端
+    participant Client as Transport Client
     participant RpcCB as RpcResponseCallback
     participant ChunkCB as ChunkCallback<br/>(extends ChunkReceivedCallback)
 
@@ -828,10 +868,8 @@ MapShuffleTask Server端
 BlockManagerManagedBuffer 是 “内存块” 的封装，适合内存中数据的快速访问，核心是提供高效的数据操作接口。
 
 BlockData data 存储在内存
-- On-Heap 内存：不支持零拷贝，需先将堆内数据拷贝到 DirectByteBuffer，“堆内 → 直接内存”
-- Off-Heap 内存：属于内核态可访问内存，无需 JVM 堆拷贝，从直接内存拷贝到网卡缓冲区，无用户态 → 内核态的拷贝
-  - 只有当 ByteBuffer 是 DirectByteBuffer 时，`chunks.length == 1` 才能在网络传输场景下实现真正的
-    zero-copy
+- On-Heap 内存：2次copy，“堆内 → DirectByteBuf → (内核 DMA 直接读取) → 网卡缓冲区”
+- Off-Heap 内存：one-copy，有1次CPU参与，无需 JVM 堆拷贝，“DirectByteBuf → (内核 DMA 直接读取) → 网卡”
 
 
 **核心回调链总结**：
@@ -852,7 +890,7 @@ sequenceDiagram
     participant NBTS as NettyBlockTransferService
     participant OOFBF as OneForOneBlockFetcher
     participant NET as Netty客户端
-    participant TBM as 目标Executor的<br/>BlockManager
+    participant TBM as 目标Executor的<br/>BlockManager<br/>rpcHandler(NettyBlockRpcServer)
     participant ISB as IndexShuffleBlockResolver
     participant FSMB as FileSegmentManagedBuffer
 
@@ -912,20 +950,25 @@ sequenceDiagram
     end
 ```
 
-ExternalShuffleService vs NettyBlockTransferService 对比：
+#### ExternalShuffleService vs NettyBlockTransferService 对比
+
+NettyBlockTransferService
+- 常规 block fetch：RDD blocks, broadcast blocks
+- 每个 Executor 维护独立 server
+- Executor 间的通用数据传输，随 Executor 数量线性增长
+- 在没有启用 `spark.shuffle.service.enabled`，提供shuffle服务
+
+ExternalShuffleService
+- 跨节点 shuffle：减少 Executor 内存压力
+- 动态分配场景：Executor 可能频繁启停
 
 | 配置项 | ExternalShuffleService | NettyBlockTransferService |
-|--------|----------------------|---------------------------|
-| `spark.shuffle.service.enabled` | ✅ true | ❌ false |
-| 目标服务 | ExternalShuffleService进程 | 目标Executor |
-| 端口 | `spark.shuffle.service.port` (7337) | Executor的BlockManager端口 |
-| 容错性 | ✅ Executor崩溃后仍可用 | ❌ 依赖Executor存活 |
-| Dynamic Allocation | ✅ 完全支持 | ⚠️ 受限 |
-
-
-
-
-
+|--------|----------------------|--------------------------|
+| `spark.shuffle.service.enabled` | ✅ true | ❌ false                  |
+| 目标服务 | ExternalShuffleService进程 | 目标Executor               |
+| 端口 | `spark.shuffle.service.port` (7337) | Executor的BlockManager端口  |
+| 容错性 | ✅ Executor崩溃后仍可用 | ❌ 依赖Executor存活           |
+| Dynamic Allocation | ✅ 完全支持 | ❌不支持                     |
 
 # Q&A
 ## 什么是serializer.supportsRelocationOfSerializedObjects？
@@ -1304,6 +1347,90 @@ IndexShuffleBlockResolver是Spark Shuffle架构的关键抽象层，它：
   └─────────────────────────────────────────────────────────┘
 
   重算范围: 只有Partition-1和Partition-3需要重新执行
-  
-  
 ```
+
+## 什么是Zero-Copy？
+
+Zero-Copy 是指数据在网络传输过程中避免用户态和内核态之间的重复内存复制，提升传输效率，减少 CPU 消耗。
+主要看cpu有没有参与copy。
+
+```text
+[磁盘文件] → [操作系统 page cache] → [网卡设备]
+               ↑                    ↑
+               |                    |
+           无用户空间拷贝        无用户空间拷贝
+```
+One copy：内核 socket buffer 必须 有一份连续内存副本（做校验、分段、TCP 重传）
+```text
+[JVM 堆外内存] → [内核 socket buffer] → [网卡设备]
+      ↑                ↑
+      | (JVM 操作)     | (内核操作，但由 JVM 触发)
+      |
+   有 1 次拷贝 (用户堆外 → 内核)
+```
+
+JDK 9+ 引入 pin-and-write 机制：
+```text
+≤ 8 kB 的小块才走老路（2 次）
+[JVM 堆内存] → [JVM 临时 DirectByteBuffer] → [内核 socket buffer] → [网卡设备]
+      ↑                    ↑                          ↑
+      | (第一次拷贝)        | (第二次拷贝)               | (内核内部)
+
+> 8 kB 时
+GC 直接把堆页 pin 住，内核通过 copy_from_user 一次拷贝进 socket buffer；
+不再有“临时 DirectByteBuffer”这一步，CPU 拷贝次数 降到 1 次。
+```
+## Spark Shuffle 中 Netty 做了哪些优化？
+TransportFrameDecoder: 逐个解码和传递完整帧, 在帧解码过程中插入拦截器处理原始数据流
+
+**Client**
+```mermaid
+    graph LR
+    InBound --> |StreamResponse| TransportFrameDecoder
+    TransportFrameDecoder --> MessageDecoder
+    MessageDecoder --> TransportChannelHandler
+    subgraph "业务处理"
+        TransportChannelHandler --> TransportResponseHandler
+    end
+    TransportResponseHandler --> MessageEncoder
+    MessageEncoder --> OutBound
+```
+
+**Server**
+```mermaid
+    graph LR
+    InBound --> |StreamRequest| TransportFrameDecoder
+    TransportFrameDecoder --> MessageDecoder
+    MessageDecoder --> TransportChannelHandler
+    subgraph "业务处理"
+        TransportChannelHandler --> TransportRequestHandler
+    end
+    TransportRequestHandler --> MessageEncoder
+    MessageEncoder --> OutBound
+```
+**TransportClient 主要方法**
+- client.sendRpc(RpcRequest(FetchShuffleBlocks)) -> RpcResponse(StreamHandle)
+- client.stream(StreamRequest) -> StreamResponse(streamId, byteCount)
+    - server return FileSegmentManagedBuffer, DefaultFileRegion use zero-cpy
+- client.fetchChunk(ChunkFetchRequest) -> ChunkFetchSuccess(streamChunkId, body)
+    - server return BlockManagerManagedBuffer
+        - DiskBlockData use zero-cpy
+        - ChunkedByteBufferFileRegion one-copy
+
+1. TransportFrameDecoder 的优化
+   - 拦截器机制：在帧解码过程中可以插入拦截器处理原始数据流，支持 StreamMode 传输大文件
+   - 解决粘包/拆包：使用长度前缀机制处理 TCP 数据包的边界问题
+
+2. Zero-copy 优化
+   - FileSegmentManagedBuffer/DiskBlockData：使用 DefaultFileRegion 系统调用实现真正的 zero-copy
+
+3. Stream 模式 vs Chunk 模式
+   - Stream 模式：使用 client.stream() + StreamInterceptor 实现流式大文件传输
+   - Chunk 模式：使用 client.fetchChunk() 逐块获取，适合小块传输，直接放到内存
+
+4. 连接复用和批量处理
+   - 批量请求：按targetRemoteRequestSize=maxBytesInFlight/5将同一节点的多个blocks划分FetchRequest，多个小块会被累积形成一个请求，但大于targetRemoteRequestSize的块会被单独形成一个FetchRequest
+
+5. 内存管理优化
+   - 堆外内存：使用 DirectByteBuffer 减少 GC 压力
+   - Netty 内存池：使用 PooledByteBufAllocator 优化内存分配
