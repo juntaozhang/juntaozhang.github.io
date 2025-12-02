@@ -1,5 +1,5 @@
 ## 引子
-1.方法重载
+### 1.方法重载
 ```java
 class FirstTest {
   static class Person{
@@ -18,8 +18,8 @@ class FirstTest {
     Person person = new Man();
     Test test = new Test();
     // 观察有什么区别
-    test.run(person);//①
-    test.run((Man) person);//②
+    test.run(person);      // ①
+    test.run((Man) person);// ②
   }
 }
 ```
@@ -31,11 +31,14 @@ this is man fun
 ```
 方法重载:根据对象引用来调用对应方法,①引用是Person②引用是Man
 
-2.方法重写
+### 2.方法重写
 再看一个例子
 ```java
 class SecondTest {
   static class Person{
+    public final void hi() {
+        System.out.println("say hi");
+    }
     void run() {
       System.out.println("this is person fun");
     }
@@ -49,8 +52,9 @@ class SecondTest {
   public static void main(String[] args) {
     Man man = new Man();
     Person person = man;
-    person.run();//①
-    man.run();//②
+    person.run();// ①
+    man.run();   // ②
+    man.hi();    // ③
   }
 }
 ```
@@ -63,26 +67,118 @@ this is man fun
 不管对象引用是Man还是Person,都执行的是实际对象的方法
 
 ### 纯理论解释分派问题
-
+**分派**: 根据对象类型(方法所属对象,参数对象)而对方法进行的选择\
 `Person person = new Man();`
-- 静态类型:变量被声明时的类型,如上例中person静态类型是`Person`,上文说的引用
-- 实际类型:变量所引用的对象的真实类型,如上例中person实际类型是`Man`,对应上文说的实际对象
+- 静态类型: 变量被声明时的类型,如上例中person静态类型是`Person`,上文说的引用
+- 实际类型: 变量所引用的对象的真实类型,如上例中person实际类型是`Man`,对应上文说的实际对象
 
-分派:根据对象类型(方法所属对象,参数对象)而对方法进行的选择
-  - 静态分派发生在编译时期，分派根据静态类型信息发生
+#### 静态分派 vs 动态分派
+  - 静态分派发生在**编译**时期，分派根据静态类型信息发生
     如FirstTest重载(重载方法的分派是根据静态类型进行的。这个分派过程在编译时期就完成了),
-  - 动态分派发生在运行时期，动态地置换掉某个方法
+  - 动态分派发生在**运行**时期，动态地置换掉某个方法
     如SecondTest重写,这就是所谓的多态性,编译期间编译器并不知道`person`引用指向的实际类型是什么,运行期间发现是`Man`类型
     于是替换成`Man.run`
-  - 单分派,只根据一种对象类型确定方法
-  - 多分派,根据多种对象类型确定方法
+
+#### 单分派 vs 多分派
+- 单分派（java、C++）, 只根据一种对象类型确定方法，比如方法所属对象
+  - 单分派（Java 的虚函数）只根据 this 的类型做动态决策，而参数列表在编译期就锁死。
+  - 比如 `FirstTest` 中 `test.run(person);`Java编译期看静态类型 → 输出 "this is person fun"
+- 多分派, 除了根据方法所属对象，还根据参数对象确定对象
+  - 多分派运行期收到实参列表，动态多分派在运行期用实际类型再选一次
+  - 比如`test.run(person);`运行期收到 (obj ) 实参列表，把每个参数的实际类型拿出来再查一次方法表 → 输出 "this is man fun"
   
-java/scala是静态多分派(FirstTest),动态单分派(SecondTest)语言
-  - 静态多分派:编译期间,根据方法所属对象实际类型和参数对象静态类型来确定方法
-  - 动态单分派:运行期间,根据方法所属对象实际类型动态地置换掉该方法
+Java/Scala是静态多分派(FirstTest) + 动态单分派(SecondTest)语言
+  - 静态多分派（重载）: 编译期间,根据方法所属对象实际类型和参数对象静态类型来确定方法
+  - 动态单分派（重写）: 运行期间,根据方法所属对象实际类型动态地置换掉该方法
 
 ### 虚函数机制分析
+讨论动态单分派情况`SecondTest`中 `person.run()` 与 `man.run()` 虚函数调用，③`man.hi()` 静态绑定:
 
+| 调用             | 内存访问次数 | 说明                        |
+| -------------- | ------ | ------------------------- |
+| `call [rax+0]` | 3 次    | 对象头 → klass → vtable → 代码 |
+| `call 0x5500`  | 0 次    | 立即数已在指令流里，**零额外 load**    |
+
+```
+-----------------------------  方法区（Metaspace）  -----------------------------
+0x500  Person.class  （InstanceKlass 结构）
+┌----------------------------------------------------------┐  偏移
+│ _super_klass              0x000                          │  +0
+│ _name                     #Person                        │  +8
+│ _access_flags             public | super | final         │ +16
+│ _vtable_len               1                              │ +24
+│ _java_mirror              0x3000  (Class<Person>)        │ +32
+│ *_vtable                  0x600   ───────────────────────┼─► 0x600  Person.vtable
+│ *_methods                 0x700   ───────────────────────┼─► 0x700  Method*[]
+│ *_constants               0x1800                         │ +56
+│ _source_file_name         #Person.java                   │ +64
+│ ... 其他字段（接口、注解、内嵌类）                            │ +72...
+└----------------------------------------------------------┘
+
+0x600  Person.vtable
+┌---------------┐
+│ [0] 0x5000    │───► 0x5000  CodeCache  Person.run() 机器码
+└---------------┘
+
+0x700  Person._methods[]  （Method* 数组，指向每个方法元数据）
+┌---------------┐
+│ [0] 0x800     │───► 0x800  Method: Person.run()
+│ [1] 0x820     │───► 0x820  Method: Person.hi()  (final)
+│ [2] ...       │
+└---------------┘
+
+0x800  Person.run()  Method 结构
+┌----------------------------------------------------------┐
+│ _constMethod              0x900                          │
+│ _access_flags             public | virtual               │
+│ _max_stack                2                              │
+│ _max_locals               1                              │
+│ _vtable_index             0        ← 在 vtable 的槽号     │
+│ _from_interpreted_entry   0x5008                         │
+│ _from_compiled_entry      0x5000 ─► 都指向 0x5000 机器码段 │
+│ ...                                                      │
+└----------------------------------------------------------┘
+
+0x820  Person.hi()  Method 结构（final）
+┌----------------------------------------------------------┐
+│ _constMethod              0xA00                          │
+│ _access_flags             public | final | static_bind   │
+│ _max_stack                1                              │
+│ _max_locals               1                              │
+│ _vtable_index             -1        ← 不进 vtable         │
+│ _from_interpreted_entry   0x5508                         │
+│ _from_compiled_entry      0x5500    ─► 指向 0x5500 机器码  │
+└----------------------------------------------------------┘
+
+---------------------- CodeCache  （机器码段，堆外内存） ------------------
+0x5000  Person.run()  JIT 产物
+0x5500  Person.hi()    JIT 产物
+
+CodeCache  —— main() 编译后放在 0x3000
+0x3000  main@JIT
+┌-------------------------------------------┐
+│ // Person p = new Man();                  │
+│ // p.run();        ← 虚方法                │
+│ // p.hi();         ← final 方法            │
+│                                           │
+│  mov   r13, 0x100        ; r13 = p        │ ① 加载对象引用
+│                                           │
+│-------- 虚方法 call p.run() ---------------│
+│  mov   rax, [r13+8]      ; rax = klass    │ ② 读对象头 → klass
+│  mov   rax, [rax+0x200]  ; rax = vtable   │ ③ 读 klass → vtable
+│  call  [rax+0]           ; 槽 0 → 0x4000  │ ④ 三跳后进 Man.run()
+│                                           │
+│-------- final 方法 call p.hi() ------------│
+│  call  0x5500            ; 硬编码地址       │ ⑤ 一次立即数跳转
+│                                           │
+│  xor   eax,eax           ; return 0       │
+│  ret                                      │
+└-------------------------------------------┘
+
+----------------------------- 被调用的目标 -----------------------------
+0x4000  Man.run() 机器码（虚方法，由 vtable 指向）
+0x5500  Person.hi() 机器码（final，直接 call）
+```
 方法重写体现了虚函数机制:
 
 1. **编译期**: 编译器看到 `person.run()` 时，通过静态类型 `Person` 确定方法签名
@@ -93,7 +189,7 @@ java/scala是静态多分派(FirstTest),动态单分派(SecondTest)语言
 - 对象创建时，对象头部包含指向其类虚函数表的指针
 - 方法调用时，通过对象→vtable→具体方法实现动态分派
 
-#### Code Generation (CodeGen) 优化
+#### Code Generation ([CodeGen](../spark/spark3.3.1/tungsten.md#code-generation)) 优化
 
 虚函数调用的性能优化技术:
 

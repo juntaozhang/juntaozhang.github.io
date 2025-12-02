@@ -398,11 +398,233 @@ Executor进程中不被Spark直接管理的内存，包括JVM固有开销、系�
 | User Memory      | mapPartitions 操作            | 使用 mapPartitions() 函数在迭代器中缓存中间结果                                                                                            | 
 | Memory Overhead  | Netty shuffle 缓存            | 通过一个 executor 多个task fetch data 接近 maxRemoteBlockSizeFetchToMem=200m，会占用大量的堆外内存                                             |
 
+## BlockManager
+管理Storage Memory，用于在本地或远程节点的多种存储介质（内存、磁盘、堆外内存）上存储和检索数据块（Block）。
+```mermaid
+classDiagram
+    %% Core Management Classes
+    class BlockManager {
+        -memoryManager: MemoryManager
+        -memoryStore: MemoryStore
+        -diskStore: DiskStore
+        -diskBlockManager: DiskBlockManager
 
+        +getOrElseUpdate()
+    }
+
+    class MemoryManager {
+        <<abstract>>
+        -onHeapStorageMemoryPool: StorageMemoryPool
+        -offHeapStorageMemoryPool: StorageMemoryPool
+        -onHeapExecutionMemoryPool: ExecutionMemoryPool
+        -offHeapExecutionMemoryPool: ExecutionMemoryPool
+    }
+
+    class UnifiedMemoryManager {
+    }
+
+    %% Memory Pools
+    class StorageMemoryPool {
+    }
+
+    class ExecutionMemoryPool {
+    }
+
+    %% Storage Classes
+    class MemoryStore {
+        -entries: Map[BlockId, MemoryEntry]
+    }
+
+    class DiskStore {
+        -diskBlockManager: DiskBlockManager
+    }
+
+    class DiskBlockManager {
+    }
+
+    %% Data Representation
+    class MemoryEntry {
+        <<abstract>>
+    }
+
+    class DeserializedMemoryEntry {
+    }
+
+    class SerializedMemoryEntry {
+    }
+
+    %% Relationships
+    MemoryManager <|-- UnifiedMemoryManager : 继承
+    UnifiedMemoryManager *-- StorageMemoryPool : 包含
+    UnifiedMemoryManager *-- ExecutionMemoryPool : 包含
+
+    BlockManager *-- MemoryManager : 使用
+    BlockManager *-- MemoryStore : 包含
+    BlockManager *-- DiskStore : 包含
+    BlockManager *-- DiskBlockManager : 包含
+
+    MemoryStore *-- MemoryEntry : 包含
+    DiskStore --> DiskBlockManager : 使用
+
+    MemoryEntry <|-- DeserializedMemoryEntry : 继承
+    MemoryEntry <|-- SerializedMemoryEntry : 继承
+```
+
+依赖：
+- MemoryManager: 抽象基类，定义内存分配策略和接口
+    - UnifiedMemoryManager: 默认内存管理器，统一管理执行和存储内存，支持相互借用
+        - StorageMemoryPool: 管理存储内存的使用统计和配额，跟踪缓存数据的内存占用
+        - ExecutionMemoryPool: 管理执行内存的使用统计和配额，确保任务间公平分配
+- MemoryStore: 管理内存中的数据块存储，提供块的存取接口
+    - MemoryEntry: 表示内存中的数据块的抽象基类
+        - DeserializedMemoryEntry: 存储为反序列化Java对象数组的内存块
+        - SerializedMemoryEntry: 存储为序列化ByteBuffer的内存块
+- DiskStore: 管理磁盘上的数据块存储，处理加密和内存映射
+    - DiskBlockManager: 管理块ID到磁盘文件的映射，维护目录结构
+
+## TaskMemoryManager
+任务级内存管理器（Execution Memory），每个任务一个实例，管理页表系统和内存分配，但共享Executor的UnifiedMemoryManager
+- 内存分配: 通过页表系统管理内存页分配，支持按需分配和回收
+- 溢写机制: MemoryConsumer在内存不足时自动触发溢写到磁盘
+- 寻址优化: 编码的64位地址支持高效的内存访问和排序操作
+```mermaid
+classDiagram
+    %% 内存管理层次
+    class MemoryManager {
+        <<abstract>>
+        -tungstenMemoryAllocator: MemoryAllocator
+        +acquireExecutionMemory()
+        +releaseExecutionMemory()
+    }
+
+    class UnifiedMemoryManager {
+    }
+
+    class MemoryAllocator {
+        <<interface>>
+        +allocate(): MemoryBlock
+    }
+
+    class TaskMemoryManager {
+        -memoryManager: MemoryManager
+        -consumers: HashSet[MemoryConsumer]
+        -pageTable: MemoryBlock[PAGE_TABLE_SIZE]
+
+        +allocatePage()
+        +freePage()
+        +acquireExecutionMemory()
+        +releaseExecutionMemory()
+    }
+
+    %% 内存消费者抽象基类
+    class MemoryConsumer {
+        <<abstract>>
+        -taskMemoryManager: TaskMemoryManager
+
+        +allocatePage()*
+    }
+
+    %% Java实现的内存消费者
+    class ShuffleExternalSorter {
+        -blockManager: BlockManager
+        -inMemorySorter: ShuffleInMemorySorter
+
+        +insertRecord()
+        +spill()
+    }
+
+    class BytesToBytesMap {
+        -dataPages: LinkedList[MemoryBlock]
+        -currentPage: MemoryBlock
+
+        +lookup()
+        +put()
+        +spill()
+    }
+
+    class UnsafeExternalSorter {
+        -inMemorySorter: UnsafeInMemorySorter
+
+        +insertRecord()
+        +spill()
+    }
+
+    %% Scala实现的内存消费者
+    class Spillable {
+        -currentMemory: Long
+
+        +spill()*
+    }
+
+    class ExternalAppendOnlyMap {
+        -currentMap: SizeTrackingAppendOnlyMap
+        -blockManager: BlockManager
+
+        +insert()
+    }
+
+    class ExternalSorter {
+        -memoryManager: TaskMemoryManager
+        -blockManager: BlockManager
+        -map: ExternalAppendOnlyMap
+
+        +insert()
+    }
+
+    %% 内存基础设施
+    class MemoryBlock {
+        -pageNumber: int
+        -obj: Object
+        -offset: Long
+
+        +getPageNumber()
+        +getBaseObject()
+    }
+
+    %% 继承和组合关系
+    MemoryManager <|-- UnifiedMemoryManager : 继承
+    TaskMemoryManager *-- MemoryManager : 使用
+    TaskMemoryManager *-- MemoryConsumer : 管理
+    TaskMemoryManager *-- MemoryBlock : 创建
+    MemoryManager *-- MemoryAllocator : 使用
+
+    MemoryAllocator <|-- HeapMemoryAllocator : 继承
+    MemoryAllocator <|-- UnsafeMemoryAllocator : 继承
+    MemoryConsumer <|-- ShuffleExternalSorter : 继承
+    MemoryConsumer <|-- BytesToBytesMap : 继承
+    MemoryConsumer <|-- UnsafeExternalSorter : 继承
+    MemoryConsumer <|-- Spillable : 继承
+
+    Spillable <|-- ExternalAppendOnlyMap : 继承
+    Spillable <|-- ExternalSorter : 继承
+    
+
+    %% 使用关系
+    ShuffleExternalSorter --> MemoryBlock : 使用
+    BytesToBytesMap --> MemoryBlock : 使用
+    UnsafeExternalSorter --> MemoryBlock : 使用
+    ExternalAppendOnlyMap --> BlockManager : 使用
+    ExternalSorter --> BlockManager : 使用
+```
+
+### MemoryConsumer
+内存使用者抽象基类，为数据结构提供统一的内存分配和溢写接口.
+
+- `allocatePage`, 申请一个指定大小的内存页（MemoryBlock）
+- `allocateArray`, 申请一个 LongArray，这是一个基于 MemoryBlock 的变长 long 数组。
+- `spill`, 当内存不足时，TaskMemoryManager 会调用此方法，要求该消费者 “溢写” 一部分数据到磁盘，以释放至少 size 字节的内存。
+- Shuffle：ShuffleExternalSorter, UnsafeExternalSorter，ExternalSorter
+- join/aggregation: ExternalAppendOnlyMap, BytesToBytesMap
+
+### MemoryBlock
+表示连续内存块，包含页号、基础对象和偏移量信息
+- Page Table: TaskMemoryManager中的页表数组，支持8192页的寻址空间
+- Address Encoding: 64位地址编码，高13位存页号，低51位存偏移量
+
+### MemoryAllocator
+Allocates a contiguous block of memory.
 
 ## ExternalSorter
-
-
 map 和 buffer 虽然是 JVM 堆内存，但逻辑内存申请属于 Execution Memory，这个管理的值是估计值，不是实际内存；
 如果在 spill 时能多申请到内存，就不溢出磁盘了。
 内存管理和实际的 map(PartitionedAppendOnlyMap) / buffer(PartitionedPairBuffer) 扩充管理是分离的。
@@ -413,7 +635,8 @@ map 和 buffer 虽然是 JVM 堆内存，但逻辑内存申请属于 Execution M
 - shuffle write(SortShuffleWriter)
 
 
-### 非聚合模式 (PartitionedPairBuffer)
+### PartitionedPairBuffer
+非聚合模式
 ```mermaid
 sequenceDiagram
     autonumber
@@ -536,10 +759,68 @@ sequenceDiagram
     Map-->>-User: 返回结果[value2, value4]
 ```
 ## ExternalAppendOnlyUnsafeRowArray
+```mermaid
+classDiagram
+
+    class MemoryConsumer {
+        <<abstract>>
+        -taskMemoryManager: TaskMemoryManager
+
+        +allocatePage()*
+        +spill()*
+    }
+
+    %% 核心类定义
+    class ExternalAppendOnlyUnsafeRowArray {
+        -inMemoryBuffer: ArrayBuffer[UnsafeRow]
+        -externalSorter: UnsafeExternalSorter
+
+        +add(unsafeRow: UnsafeRow)
+        +spill()
+    }
+
+    class SortMergeJoinScanner {
+        -bufferedMatches: ExternalAppendOnlyUnsafeRowArray
+        -streamedIter: Iterator[InternalRow]
+
+        +findNextInnerJoinRows()
+    }
+
+    class UnsafeExternalSorter {
+        -taskMemoryManager: TaskMemoryManager
+        -inMemorySorter: UnsafeInMemorySorter
+
+        +insertRecord(record: RecordPointerAndKeyPrefix)
+        +spill()
+    }
+
+    class UnsafeInMemorySorter {
+        +insertRecord()
+    }
+
+    %% 执行操作符
+    class SortMergeJoinExec {
+        -smjScanner: SortMergeJoinScanner
+        +doExecute(): RDD[InternalRow]
+    }
+
+    %% 继承关系
+    UnsafeExternalSorter --|> MemoryConsumer : 内存管理
+
+    %% 组合/使用关系
+    SortMergeJoinExec *-- SortMergeJoinScanner : 每个分区创建扫描器
+    SortMergeJoinScanner *-- ExternalAppendOnlyUnsafeRowArray : 缓冲匹配数据
+    SortMergeJoinScanner --> UnsafeExternalSorter : 通过数组访问排序器
+    UnsafeExternalSorter *-- UnsafeInMemorySorter : 内存排序
+    ExternalAppendOnlyUnsafeRowArray *-- UnsafeExternalSorter : 内存不足时使用
+
+    %% 内存管理关系
+    MemoryConsumer --> TaskMemoryManager : 使用任务内存管理器
+    UnsafeExternalSorter --> TaskMemoryManager : 内存分配和溢写
+```
 SortMergeJoin执行流程中，当streamed side遍历到特定key时，
 `ExternalAppendOnlyUnsafeRowArray` 作为build side的匹配缓冲区，
 临时存储该key对应的所有build side记录，用于完成join匹配。
-
 ```mermaid
 sequenceDiagram
     participant SortMergeJoinScanner
@@ -639,5 +920,66 @@ sequenceDiagram
 ```
 
 ### UnsafeExternalSorter
-numElementsForSpillThreshold = Integer.MAX_VALUE，通常设置得很高，
+- 该场景下numElementsForSpillThreshold = Integer.MAX_VALUE，通常设置得很高，
 在达到溢写阈值之前，内存会持续累积并最终超过 JVM 堆内存限制导致 OOM。
+
+- 基于Unsafe操作的高性能外部排序器，支持内存排序和磁盘溢写
+
+### UnsafeInMemorySorter
+- [Cache-aware Computation](tungsten.md#cache-aware-computation)
+- 内存内排序器，使用LongArray存储[recordPointer, keyPrefix]对，实现了缓存感知的排序算法，通过将数据指针和排序键前缀存储在一起，最大化利用CPU缓存，减少随机内存访问。
+```text
+LongArray内存布局（交错存储）：
+[ptr0][key0][ptr1][key1][ptr2][key2]...[ptrN][keyN]
+  0     1     2     3     4     5        2N   2N+1
+
+  - 每个记录占用2个long元素（16字节）
+  - 位置 2*i：记录指针（指向下方实际数据页）
+  - 位置 2*i+1：排序键前缀（用于快速比较）
+```
+类结构图：
+```mermaid
+classDiagram
+    class UnsafeInMemorySorter {
+        -MemoryConsumer consumer
+        -TaskMemoryManager memoryManager
+        -Comparator~RecordPointerAndKeyPrefix~ sortComparator
+        -LongArray array
+        +insertRecord(long, long, boolean) void
+        +getSortedIterator() UnsafeSorterIterator
+    }
+    class RecordPointerAndKeyPrefix {
+        +long recordPointer
+        +long keyPrefix
+    }
+    class UnsafeSortDataFormat {
+        -LongArray buffer
+        +swap(LongArray, int, int) void
+    }
+    class SortComparator {
+        -RecordComparator recordComparator
+        -PrefixComparator prefixComparator
+        -TaskMemoryManager memoryManager
+        +compare(RecordPointerAndKeyPrefix, RecordPointerAndKeyPrefix) int
+    }
+    class UnsafeSorterIterator {
+        <<abstract>>
+        +hasNext() boolean
+        +loadNext() void
+    }
+    class SortedIterator {
+        +getNumRecords() int
+        +hasNext() boolean
+        +loadNext() void
+        +getKeyPrefix() long
+    }
+    UnsafeInMemorySorter --> RecordPointerAndKeyPrefix : contains
+    UnsafeInMemorySorter --> UnsafeSortDataFormat : uses
+    UnsafeInMemorySorter --> SortComparator : creates
+    UnsafeInMemorySorter --> UnsafeSorterIterator : returns
+    UnsafeInMemorySorter --> SortedIterator : contains
+    SortComparator --> RecordPointerAndKeyPrefix : compares
+    UnsafeSortDataFormat --> RecordPointerAndKeyPrefix : handles
+    SortedIterator --|> UnsafeSorterIterator
+```
+

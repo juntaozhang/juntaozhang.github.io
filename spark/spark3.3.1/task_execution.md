@@ -207,6 +207,139 @@ sequenceDiagram
 - registerShuffle(): 注册 ShuffleHandle 任务，初始化相关数据结构。
 - getReader(): 返回 ShuffleReader 实例，负责读取排序后的数据。
 - getWriter(): 返回 ShuffleWriter 实例，负责将数据排序后写入磁盘。
+```mermaid
+classDiagram
+    %% Shuffle管理器核心
+    class SortShuffleManager {
+        -shuffleBlockResolver: IndexShuffleBlockResolver
+    }
+
+    %% Shuffle管理器接口
+    class ShuffleManager {
+        <<trait>>
+
+        +registerShuffle()*
+        +getWriter()*
+        +getReader()*
+        +unregisterShuffle()*
+        +stop()*
+    }
+
+    class IndexShuffleBlockResolver {
+        -blockManager: BlockManager
+        -conf: SparkConf
+
+        +getDataFile()
+        +getIndexFile()
+        +writeIndexFileAndCommit()
+        +removeDataByMap()
+        +stop()
+    }
+
+    %% Shuffle句柄类型
+    class BaseShuffleHandle {
+        <<abstract>>
+        -shuffleId: Int
+        -dependency: ShuffleDependency
+    }
+
+    class SerializedShuffleHandle {
+        -numPartitions: Int
+        -serializer: Serializer
+    }
+
+    class BypassMergeSortShuffleHandle {
+        -numPartitions: Int
+        -dependency: ShuffleDependency
+    }
+
+    %% Shuffle写入器
+    class ShuffleWriter {
+        <<interface>>
+
+        +write()*
+        +stop()*
+        +commitAllPartitions()*
+    }
+
+    class SortShuffleWriter {
+        -handle: BaseShuffleHandle
+        -mapId: Long
+        -context: TaskContext
+        -externalSorter: ExternalSorter
+
+        +write()
+        +insertRecord()
+    }
+
+    class UnsafeShuffleWriter {
+        -memoryManager: TaskMemoryManager
+        -blockManager: BlockManager
+        -sorter: ShuffleExternalSorter
+        -serializer: SerializerInstance
+        -partitioner: Partitioner
+
+        +write()
+        +insertRecord()
+    }
+
+    class BypassMergeSortShuffleWriter {
+        -handle: BypassMergeSortShuffleHandle
+        -mapId: Long
+        -context: TaskContext
+        -blockManager: BlockManager
+        -partitionWriters: DiskBlockObjectWriter[partitionCount]
+
+        +write()
+        +writePartitionedData()
+    }
+
+    %% Shuffle读取器
+    class ShuffleReader {
+        <<interface>>
+        +read()*
+    }
+
+    class BlockStoreShuffleReader {
+        -handle: BaseShuffleHandle
+        -blocksByAddress: Iterator[(BlockManagerId, Seq)]
+        -blockManager: BlockManager
+
+        +fetchBlocks()
+    }
+
+    class ShuffleBlockFetcherIterator {
+        -blocksByAddress: Iterator[(BlockManagerId, Seq)]
+        -blockManager: BlockManager
+
+        +next()
+        +fetchUpToMaxBytesInFlight()
+    }
+
+    %% 继承和创建关系
+    ShuffleManager <|.. SortShuffleManager : 实现
+    BaseShuffleHandle <|-- SerializedShuffleHandle : 继承
+    BaseShuffleHandle <|-- BypassMergeSortShuffleHandle : 继承
+    ShuffleWriter <|.. SortShuffleWriter : 实现
+    ShuffleWriter <|.. UnsafeShuffleWriter : 实现
+    ShuffleWriter <|.. BypassMergeSortShuffleWriter : 实现
+    ShuffleReader <|.. BlockStoreShuffleReader : 实现
+
+    %% 管理关系
+    SortShuffleManager *-- IndexShuffleBlockResolver : 包含
+    SortShuffleManager *-- BaseShuffleHandle : 创建
+    SortShuffleManager *-- ShuffleWriter : 创建
+    SortShuffleManager *-- ShuffleReader : 创建
+
+    %% 使用关系
+    SortShuffleWriter --> ExternalSorter : 使用
+    UnsafeShuffleWriter --> ShuffleExternalSorter : 使用
+    UnsafeShuffleWriter --> BlockManager : 使用
+    BypassMergeSortShuffleWriter --> BlockManager : 使用
+    BlockStoreShuffleReader --> ShuffleBlockFetcherIterator : 使用
+    BlockStoreShuffleReader --> BlockManager : 使用
+    IndexShuffleBlockResolver --> BlockManager : 使用
+```
 
 ## ShuffleHandle 类型详解
 ```mermaid
@@ -1088,7 +1221,7 @@ obj1 → [完整数据1] → reset() → 引用表清空
 ```
 
 
-## ShuffleExternalSorter: UnsafeShuffleWriter基于指针排序，最后输出非连续的跳跃访问，spark 如何优化这个问题？
+## ShuffleExternalSorter: UnsafeShuffleWriter基于分区指针排序，最后输出非连续的跳跃访问，spark 如何优化这个问题？
 排序类：`ShuffleExternalSorter`\
 排序仅限part维度, part内的数据相对位置不变，比如A在B左边，如果它们最终输出相同part时A仍然在B左边。
 
