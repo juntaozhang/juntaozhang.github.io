@@ -291,7 +291,7 @@ JIT 除了“去虚函数”，还会:
 - 消灭循环开销（展开+向量化）
 - 消灭多余运算
 
-### Code Generation
+### Spark Code Generation
 Spark为如下表达式动态生成字节码，而不是为每行逐步使用较慢的解释器。与解释相比，避免了昂贵的多态函数分发。
 用 Whole-Stage CodeGen 先把火山模型里成百上千次虚调用压缩成一段手写的平直 Java 代码，再让 JIT 去编译。
 JIT 的“视野”只有单个热点方法，跨算子内联很难
@@ -373,7 +373,8 @@ CodeGen 优化后的代码，无虚函数调用：
 /* 026 */ }
 ```
 
-
+Reference:
+- [Catalyst Code Generation](catalyst.md#code-generation)
 ### CodeGen技术优化序列化/反序列化
 TODO
 

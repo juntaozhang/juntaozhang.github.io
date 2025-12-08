@@ -716,7 +716,7 @@ sequenceDiagram
 
 专门展示OneForOneBlockFetcher中callback和listener的调用流程，分为大文件(stream)和小文件(fetchChunk)两种策略：
 
-#### ExternalShuffleService 策略时序图
+#### ExternalShuffleService
 
 **策略原理**: 连接到独立的ExternalShuffleService进程(端口7337)，
 由该服务读取磁盘上的shuffle文件。
@@ -806,7 +806,7 @@ sequenceDiagram
         end
     end
 ```
-##### stream vs fetchChunk
+##### BlockStoreClient
 
 | 方法                  | 数据处理                | 内存使用    | 适用场景        |
   |---------------------|---------------------|---------|-------------|
@@ -815,7 +815,7 @@ sequenceDiagram
 
 
 ##### 大文件策略 (req.size > 200MB) - stream() + DownloadCallback
-ResultTask client端接收文件
+###### ResultTask client端接收文件
 ```mermaid
   sequenceDiagram
     participant Client as Netty Network
@@ -872,7 +872,7 @@ ResultTask client端接收文件
     Note over ResponseHandler: streamActive = false<br/>准备接收下一个消息
 ```
 
-**数据块传输是串行**
+###### 数据块传输是串行
 ```text
 [Server] Request_0, Request_1, Request_2 → [TCP Stack] → [Network] → [Client]
       ↓                                    ↓                ↓
@@ -893,7 +893,14 @@ StreamResponse 发送是两阶段的：
 - TCP 有序传输保证：网络层保证数据按发送顺序到达
 - Channel 事件处理串行：inbound 事件按到达顺序在 pipeline 中传递
 
-MapShuffleTask Server端
+###### maxBytesInFlight
+默认配置下，
+为什么`targetRemoteRequestSize=maxBytesInFlight/5`而不是直接使用`maxBytesInFlight`?
+- 把单次远程请求限制在 maxBytesInFlight / 5 以内，这样最多可以同时向 5 个节点发请求，而不是堵在“先把一个节点的全部数据拉完”上。
+- `shuffleClient.fetchBlocks` 异步请求数据，通过`isRemoteBlockFetchable`中的`bytesInFlight`控制总的网络流量<maxBytesInFlight
+- 一旦`req.size > maxReqSizeShuffleToMem`单次req很大，只会堵在一个节点拉数据，而且直接落盘，此时也会把网络占满，是这算是一种保护策略。
+
+###### MapShuffleTask Server端
 ```mermaid
   sequenceDiagram
     autonumber
@@ -947,7 +954,7 @@ MapShuffleTask Server端
 
 
 ##### 小文件策略 (req.size ≤ 200MB) - fetchChunk() + ChunkCallback
-ResultTask client端
+###### ResultTask client端
 ```mermaid
 sequenceDiagram
     autonumber
@@ -979,7 +986,7 @@ sequenceDiagram
     end
 ```
 
-MapShuffleTask Server端
+###### MapShuffleTask Server端
 ```mermaid
   sequenceDiagram
     autonumber
@@ -1005,16 +1012,16 @@ BlockData data 存储在内存
 - Off-Heap 内存：one-copy，有1次CPU参与，无需 JVM 堆拷贝，“DirectByteBuf → (内核 DMA 直接读取) → 网卡”
 
 
-**核心回调链总结**：
-- **第一阶段**: `sendRpc(FetchShuffleBlocks)` → `RpcResponseCallback.onSuccess()` → 解析`StreamHandle`
-- **第二阶段 - stream流程**: `stream(StreamRequest)` → `DownloadCallback.onData()` → `DownloadCallback.onComplete()` → `BlockFetchingListener.onBlockFetchSuccess()`
-- **第二阶段 - fetchChunk流程**: `fetchChunk(ChunkFetchRequest)` → `ChunkCallback.onSuccess()` → `BlockFetchingListener.onBlockFetchSuccess()`
+核心回调链总结：
+- 第一阶段: `sendRpc(FetchShuffleBlocks)` → `RpcResponseCallback.onSuccess()` → 解析`StreamHandle`
+- 第二阶段 - stream流程: `stream(StreamRequest)` → `DownloadCallback.onData()` → `DownloadCallback.onComplete()` → `BlockFetchingListener.onBlockFetchSuccess()`
+- 第二阶段 - fetchChunk流程: `fetchChunk(ChunkFetchRequest)` → `ChunkCallback.onSuccess()` → `BlockFetchingListener.onBlockFetchSuccess()`
 
-#### NettyBlockTransferService 策略时序图
+#### NettyBlockTransferService
 
-**策略原理**: 直接连接到目标Executor的BlockManager(动态端口)，从该Executor获取shuffle数据。优势是减少中间层开销，但要求目标Executor必须存活。
+策略原理: 直接连接到目标Executor的BlockManager(动态端口)，从该Executor获取shuffle数据。优势是减少中间层开销，但要求目标Executor必须存活。
 
-**使用场景**: `spark.shuffle.service.enabled=false` (默认)
+使用场景: `spark.shuffle.service.enabled=false` (默认)
 
 ```mermaid
 sequenceDiagram

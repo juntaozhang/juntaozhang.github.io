@@ -1,0 +1,2863 @@
+15:13:52.930 [ScalaTest-run] INFO  org.apache.spark.SparkContext - Running Spark version 3.3.1
+15:13:53.011 [ScalaTest-run] WARN  org.apache.hadoop.util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+15:13:53.088 [ScalaTest-run] INFO  org.apache.spark.resource.ResourceUtils - ==============================================================
+15:13:53.088 [ScalaTest-run] INFO  org.apache.spark.resource.ResourceUtils - No custom resources configured for spark.driver.
+15:13:53.088 [ScalaTest-run] INFO  org.apache.spark.resource.ResourceUtils - ==============================================================
+15:13:53.089 [ScalaTest-run] INFO  org.apache.spark.SparkContext - Submitted application: LogicalPlanTest
+15:13:53.115 [ScalaTest-run] INFO  org.apache.spark.resource.ResourceProfile - Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+15:13:53.128 [ScalaTest-run] INFO  org.apache.spark.resource.ResourceProfile - Limiting resource is cpu
+15:13:53.128 [ScalaTest-run] INFO  org.apache.spark.resource.ResourceProfileManager - Added ResourceProfile id: 0
+15:13:53.206 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - Changing view acls to: juntao
+15:13:53.206 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - Changing modify acls to: juntao
+15:13:53.207 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - Changing view acls groups to: 
+15:13:53.207 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - Changing modify acls groups to: 
+15:13:53.207 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(juntao); groups with view permissions: Set(); users  with modify permissions: Set(juntao); groups with modify permissions: Set()
+15:13:53.304 [ScalaTest-run] DEBUG io.netty.util.internal.logging.InternalLoggerFactory - Using SLF4J as the default logging framework
+15:13:53.315 [ScalaTest-run] DEBUG io.netty.util.internal.InternalThreadLocalMap - -Dio.netty.threadLocalMap.stringBuilder.initialSize: 1024
+15:13:53.315 [ScalaTest-run] DEBUG io.netty.util.internal.InternalThreadLocalMap - -Dio.netty.threadLocalMap.stringBuilder.maxSize: 4096
+15:13:53.332 [ScalaTest-run] DEBUG io.netty.channel.MultithreadEventLoopGroup - -Dio.netty.eventLoopThreads: 32
+15:13:53.371 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent0 - -Dio.netty.noUnsafe: false
+15:13:53.371 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent0 - Java version: 8
+15:13:53.372 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent0 - sun.misc.Unsafe.theUnsafe: available
+15:13:53.372 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent0 - sun.misc.Unsafe.copyMemory: available
+15:13:53.373 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent0 - java.nio.Buffer.address: available
+15:13:53.373 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent0 - direct buffer constructor: available
+15:13:53.374 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent0 - java.nio.Bits.unaligned: available, true
+15:13:53.374 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent0 - jdk.internal.misc.Unsafe.allocateUninitializedArray(int): unavailable prior to Java9
+15:13:53.374 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent0 - java.nio.DirectByteBuffer.<init>(long, int): available
+15:13:53.374 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent - sun.misc.Unsafe: available
+15:13:53.374 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent - -Dio.netty.tmpdir: /var/folders/8w/3j0ns1bd6xjf_9n5_h2dyjt80000gn/T (java.io.tmpdir)
+15:13:53.374 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent - -Dio.netty.bitMode: 64 (sun.arch.data.model)
+15:13:53.374 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent - Platform: MacOS
+15:13:53.375 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent - -Dio.netty.maxDirectMemory: 7635730432 bytes
+15:13:53.375 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent - -Dio.netty.uninitializedArrayAllocationThreshold: -1
+15:13:53.376 [ScalaTest-run] DEBUG io.netty.util.internal.CleanerJava6 - java.nio.ByteBuffer.cleaner(): available
+15:13:53.376 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent - -Dio.netty.noPreferDirect: false
+15:13:53.377 [ScalaTest-run] DEBUG io.netty.channel.nio.NioEventLoop - -Dio.netty.noKeySetOptimization: false
+15:13:53.377 [ScalaTest-run] DEBUG io.netty.channel.nio.NioEventLoop - -Dio.netty.selectorAutoRebuildThreshold: 512
+15:13:53.384 [ScalaTest-run] DEBUG io.netty.util.internal.PlatformDependent - org.jctools-core.MpscChunkedArrayQueue: available
+15:13:53.405 [ScalaTest-run] DEBUG io.netty.util.ResourceLeakDetector - -Dio.netty.leakDetection.level: simple
+15:13:53.405 [ScalaTest-run] DEBUG io.netty.util.ResourceLeakDetector - -Dio.netty.leakDetection.targetRecords: 4
+15:13:53.407 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.numHeapArenas: 32
+15:13:53.407 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.numDirectArenas: 32
+15:13:53.407 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.pageSize: 8192
+15:13:53.407 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.maxOrder: 11
+15:13:53.407 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.chunkSize: 16777216
+15:13:53.407 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.smallCacheSize: 256
+15:13:53.408 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.normalCacheSize: 64
+15:13:53.408 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.maxCachedBufferCapacity: 32768
+15:13:53.408 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.cacheTrimInterval: 8192
+15:13:53.408 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.cacheTrimIntervalMillis: 0
+15:13:53.408 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.useCacheForAllThreads: true
+15:13:53.408 [ScalaTest-run] DEBUG io.netty.buffer.PooledByteBufAllocator - -Dio.netty.allocator.maxCachedByteBuffersPerChunk: 1023
+15:13:53.453 [ScalaTest-run] DEBUG io.netty.channel.DefaultChannelId - -Dio.netty.processId: 62380 (auto-detected)
+15:13:53.455 [ScalaTest-run] DEBUG io.netty.util.NetUtil - -Djava.net.preferIPv4Stack: false
+15:13:53.455 [ScalaTest-run] DEBUG io.netty.util.NetUtil - -Djava.net.preferIPv6Addresses: false
+15:13:53.457 [ScalaTest-run] DEBUG io.netty.util.NetUtilInitializations - Loopback interface: lo0 (lo0, 0:0:0:0:0:0:0:1)
+15:13:53.458 [ScalaTest-run] DEBUG io.netty.util.NetUtil - Failed to get SOMAXCONN from sysctl and file /proc/sys/net/core/somaxconn. Default: 128
+15:13:53.461 [ScalaTest-run] DEBUG io.netty.channel.DefaultChannelId - -Dio.netty.machineId: ac:de:48:ff:fe:00:11:22 (auto-detected)
+15:13:53.488 [ScalaTest-run] DEBUG io.netty.buffer.ByteBufUtil - -Dio.netty.allocator.type: pooled
+15:13:53.489 [ScalaTest-run] DEBUG io.netty.buffer.ByteBufUtil - -Dio.netty.threadLocalDirectBufferSize: 0
+15:13:53.489 [ScalaTest-run] DEBUG io.netty.buffer.ByteBufUtil - -Dio.netty.maxThreadLocalCharBufferSize: 16384
+15:13:53.513 [ScalaTest-run] DEBUG org.apache.spark.network.server.TransportServer - Shuffle server started on port: 56516
+15:13:53.525 [ScalaTest-run] INFO  org.apache.spark.util.Utils - Successfully started service 'sparkDriver' on port 56516.
+15:13:53.526 [ScalaTest-run] DEBUG org.apache.spark.SparkEnv - Using serializer: class org.apache.spark.serializer.JavaSerializer
+15:13:53.561 [ScalaTest-run] INFO  org.apache.spark.SparkEnv - Registering MapOutputTracker
+15:13:53.562 [ScalaTest-run] DEBUG org.apache.spark.MapOutputTrackerMasterEndpoint - init
+15:13:53.610 [ScalaTest-run] INFO  org.apache.spark.SparkEnv - Registering BlockManagerMaster
+15:13:53.658 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManagerMasterEndpoint - Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+15:13:53.658 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManagerMasterEndpoint - BlockManagerMasterEndpoint up
+15:13:53.663 [ScalaTest-run] INFO  org.apache.spark.SparkEnv - Registering BlockManagerMasterHeartbeat
+15:13:53.708 [ScalaTest-run] INFO  org.apache.spark.storage.DiskBlockManager - Created local directory at /private/var/folders/8w/3j0ns1bd6xjf_9n5_h2dyjt80000gn/T/blockmgr-deb27ab3-2533-43ab-8911-ae0c5902be90
+15:13:53.711 [ScalaTest-run] DEBUG org.apache.spark.storage.DiskBlockManager - Adding shutdown hook
+15:13:53.713 [ScalaTest-run] DEBUG org.apache.spark.util.ShutdownHookManager - Adding shutdown hook
+15:13:53.750 [ScalaTest-run] INFO  org.apache.spark.storage.memory.MemoryStore - MemoryStore started with capacity 4.1 GiB
+15:13:53.769 [ScalaTest-run] INFO  org.apache.spark.SparkEnv - Registering OutputCommitCoordinator
+15:13:53.770 [ScalaTest-run] DEBUG org.apache.spark.scheduler.OutputCommitCoordinator$OutputCommitCoordinatorEndpoint - init
+15:13:53.786 [ScalaTest-run] DEBUG org.apache.spark.SecurityManager - Created SSL options for ui: SSLOptions{enabled=false, port=None, keyStore=None, keyStorePassword=None, trustStore=None, trustStorePassword=None, protocol=None, enabledAlgorithms=Set()}
+15:13:53.977 [ScalaTest-run] DEBUG org.apache.spark.ui.JettyUtils - Using requestHeaderSize: 8192
+15:13:54.011 [ScalaTest-run] INFO  org.apache.spark.util.Utils - Successfully started service 'SparkUI' on port 4040.
+15:13:54.126 [ScalaTest-run] INFO  org.apache.spark.executor.Executor - Starting executor ID driver on host 192.168.31.150
+15:13:54.135 [ScalaTest-run] INFO  org.apache.spark.executor.Executor - Starting executor with user classpath (userClassPathFirst = false): ''
+15:13:54.160 [ScalaTest-run] DEBUG org.apache.spark.network.server.TransportServer - Shuffle server started on port: 56517
+15:13:54.160 [ScalaTest-run] INFO  org.apache.spark.util.Utils - Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 56517.
+15:13:54.160 [ScalaTest-run] INFO  org.apache.spark.network.netty.NettyBlockTransferService - Server created on 192.168.31.150:56517
+15:13:54.162 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManager - Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+15:13:54.169 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManagerMaster - Registering BlockManager BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:13:54.172 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.DefaultTopologyMapper - Got a request for 192.168.31.150
+15:13:54.173 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerMasterEndpoint - Registering block manager 192.168.31.150:56517 with 4.1 GiB RAM, BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:13:54.176 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManagerMaster - Registered BlockManager BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:13:54.177 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManager - Initialized BlockManager: BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:13:54.401 [ScalaTest-run] DEBUG org.apache.spark.SparkContext - Adding shutdown hook
+
+
+
+15:13:54.597 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.internal.SharedState - Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir.
+15:13:54.598 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.internal.SharedState - Applying other initial session options to HadoopConf: spark.app.name -> LogicalPlanTest
+15:13:54.598 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.internal.SharedState - Applying other initial session options to HadoopConf: spark.master -> local
+15:13:54.599 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.internal.SharedState - Applying static initial session options to SparkConf: spark.sql.catalogImplementation -> hive
+15:13:54.604 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.internal.SharedState - Warehouse path is 'file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse'.
+15:13:55.870 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.execution.SparkSqlParser - Parsing command: SET spark.sql.adaptive.enabled = false
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleStatementContext =>  SETspark.sql.adaptive.enabled=false <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleStatementContext =>  SETspark.sql.adaptive.enabled=false <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SetConfigurationContext =>  SET spark . sql . adaptive . enabled = false
+Unresolved Logical Plan ====> 
+SetCommand (spark.sql.adaptive.enabled,Some(false))
+
+15:13:56.189 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: spark_grouping_id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleMultipartIdentifierContext =>  spark_grouping_id <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$MultipartIdentifierContext =>  spark_grouping_id
+analyzed ====> 
+SetCommand (spark.sql.adaptive.enabled,Some(false))
+
+analyzed ====> 
+SetCommand (spark.sql.adaptive.enabled,Some(false))
+
+optimizedPlan ====> 
+SetCommand (spark.sql.adaptive.enabled,Some(false))
+
+SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@193bb809) - org.apache.spark.sql.execution.SparkStrategies$SpecialLimits$ -->【
+ReturnAnswer
++- SetCommand (spark.sql.adaptive.enabled,Some(false))
+】 --> 【
+PlanLater SetCommand (spark.sql.adaptive.enabled,Some(false))
+】
+
+SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@193bb809) - org.apache.spark.sql.execution.SparkStrategies$BasicOperators$ -->【
+SetCommand (spark.sql.adaptive.enabled,Some(false))
+】 --> 【
+Execute SetCommand
+   +- SetCommand (spark.sql.adaptive.enabled,Some(false))
+】
+
+sparkPlan ====> 
+Execute SetCommand
+   +- SetCommand (spark.sql.adaptive.enabled,Some(false))
+
+org.apache.spark.sql.execution.QueryExecution$ prepareForExecution final result ==>【
+Execute SetCommand
+   +- SetCommand (spark.sql.adaptive.enabled,Some(false))
+】 ==> 【
+Execute SetCommand
+   +- SetCommand (spark.sql.adaptive.enabled,Some(false))
+】
+
+executedPlan ====> 
+Execute SetCommand
+   +- SetCommand (spark.sql.adaptive.enabled,Some(false))
+
+15:13:58.714 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.execution.SparkSqlParser - Parsing command: SET spark.sql.shuffle.partitions = 2
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleStatementContext =>  SETspark.sql.shuffle.partitions=2 <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleStatementContext =>  SETspark.sql.shuffle.partitions=2 <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SetConfigurationContext =>  SET spark . sql . shuffle . partitions = 2
+Unresolved Logical Plan ====> 
+SetCommand (spark.sql.shuffle.partitions,Some(2))
+
+analyzed ====> 
+SetCommand (spark.sql.shuffle.partitions,Some(2))
+
+analyzed ====> 
+SetCommand (spark.sql.shuffle.partitions,Some(2))
+
+optimizedPlan ====> 
+SetCommand (spark.sql.shuffle.partitions,Some(2))
+
+SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@193bb809) - org.apache.spark.sql.execution.SparkStrategies$SpecialLimits$ -->【
+ReturnAnswer
++- SetCommand (spark.sql.shuffle.partitions,Some(2))
+】 --> 【
+PlanLater SetCommand (spark.sql.shuffle.partitions,Some(2))
+】
+
+SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@193bb809) - org.apache.spark.sql.execution.SparkStrategies$BasicOperators$ -->【
+SetCommand (spark.sql.shuffle.partitions,Some(2))
+】 --> 【
+Execute SetCommand
+   +- SetCommand (spark.sql.shuffle.partitions,Some(2))
+】
+
+sparkPlan ====> 
+Execute SetCommand
+   +- SetCommand (spark.sql.shuffle.partitions,Some(2))
+
+org.apache.spark.sql.execution.QueryExecution$ prepareForExecution final result ==>【
+Execute SetCommand
+   +- SetCommand (spark.sql.shuffle.partitions,Some(2))
+】 ==> 【
+Execute SetCommand
+   +- SetCommand (spark.sql.shuffle.partitions,Some(2))
+】
+
+executedPlan ====> 
+Execute SetCommand
+   +- SetCommand (spark.sql.shuffle.partitions,Some(2))
+
+15:13:58.735 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.execution.SparkSqlParser - Parsing command: 
+SELECT t1.id, t1.name, t2.value
+FROM t1
+JOIN t2
+ON t1.id = t2.id
+
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleStatementContext =>  SELECTt1.id,t1.name,t2.valueFROMt1JOINt2ONt1.id=t2.id <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleStatementContext =>  SELECTt1.id,t1.name,t2.valueFROMt1JOINt2ONt1.id=t2.id <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$QueryContext =>  SELECTt1.id,t1.name,t2.valueFROMt1JOINt2ONt1.id=t2.id 
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$RegularQuerySpecificationContext =>  SELECTt1.id,t1.name,t2.value FROMt1JOINt2ONt1.id=t2.id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$FromClauseContext =>  FROM t1JOINt2ONt1.id=t2.id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$TableNameContext =>  t1 
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$MultipartIdentifierContext =>  t1
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$JoinRelationContext =>   JOIN t2 ONt1.id=t2.id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PredicatedContext =>  t1.id=t2.id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$ComparisonContext =>  t1.id = t2.id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$DereferenceContext =>  t1 . id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$ColumnReferenceContext =>  t1
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$DereferenceContext =>  t2 . id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$ColumnReferenceContext =>  t2
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$TableNameContext =>  t2 
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$MultipartIdentifierContext =>  t2
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$RegularQuerySpecificationContext =>  SELECTt1.id,t1.name,t2.value FROMt1JOINt2ONt1.id=t2.id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$NamedExpressionContext =>  t1.id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PredicatedContext =>  t1.id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$DereferenceContext =>  t1 . id
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$ColumnReferenceContext =>  t1
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$NamedExpressionContext =>  t1.name
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PredicatedContext =>  t1.name
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$DereferenceContext =>  t1 . name
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$ColumnReferenceContext =>  t1
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$NamedExpressionContext =>  t2.value
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PredicatedContext =>  t2.value
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$DereferenceContext =>  t2 . value
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$ColumnReferenceContext =>  t2
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$QueryOrganizationContext => 
+Unresolved Logical Plan ====> 
+'Project ['t1.id, 't1.name, 't2.value]
++- 'Join Inner, ('t1.id = 't2.id)
+   :- 'UnresolvedRelation [t1], [], false
+   +- 'UnresolvedRelation [t2], [], false
+
+15:13:58.986 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.hive.HiveUtils - Initializing HiveMetastoreConnection version 2.3.9 using Spark classes.
+15:13:59.569 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.hive.client.HiveClientImpl - Warehouse location for Hive client (version 2.3.9) is file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse
+15:13:59.854 [ScalaTest-run-running-SortMergeJoinSpec] WARN  org.apache.hadoop.hive.conf.HiveConf - HiveConf of name hive.stats.jdbc.timeout does not exist
+15:13:59.855 [ScalaTest-run-running-SortMergeJoinSpec] WARN  org.apache.hadoop.hive.conf.HiveConf - HiveConf of name hive.stats.retries.wait does not exist
+15:14:00.662 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG com.jolbox.bonecp.BoneCPDataSource - JDBC URL = jdbc:derby:;databaseName=metastore_db;create=true, Username = APP, partitions = 1, max (per partition) = 10, min (per partition) = 0, idle max age = 60 min, idle test period = 240 min, strategy = DEFAULT
+15:14:02.263 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG com.jolbox.bonecp.BoneCPDataSource - JDBC URL = jdbc:derby:;databaseName=metastore_db;create=true, Username = APP, partitions = 1, max (per partition) = 10, min (per partition) = 0, idle max age = 60 min, idle test period = 240 min, strategy = DEFAULT
+15:14:02.667 [ScalaTest-run-running-SortMergeJoinSpec] WARN  org.apache.hadoop.hive.metastore.ObjectStore - Version information not found in metastore. hive.metastore.schema.verification is not enabled so recording the schema version 2.3.0
+15:14:02.667 [ScalaTest-run-running-SortMergeJoinSpec] WARN  org.apache.hadoop.hive.metastore.ObjectStore - setMetaStoreSchemaVersion called but recording version is disabled: version = 2.3.0, comment = Set by MetaStore juntao@192.168.31.150
+15:14:03.080 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: int
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  int <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  int
+15:14:03.083 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: string
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  string <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  string
+15:14:03.084 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: string
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  string <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  string
+15:14:03.101 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: array<string>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  array<string> <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$ComplexDataTypeContext =>  array < string >
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  string
+15:14:03.199 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: int
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  int <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  int
+15:14:03.200 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: int
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  int <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  int
+15:14:03.200 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: string
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  string <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  string
+Analyzer(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$1@77e6053) org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveRelations --> old【
+'Project ['t1.id, 't1.name, 't2.value]
++- 'Join Inner, ('t1.id = 't2.id)
+   :- 'UnresolvedRelation [t1], [], false
+   +- 'UnresolvedRelation [t2], [], false
+】--> new【
+'Project ['t1.id, 't1.name, 't2.value]
++- 'Join Inner, ('t1.id = 't2.id)
+   :- 'SubqueryAlias spark_catalog.default.t1
+   :  +- 'UnresolvedCatalogRelation `default`.`t1`, org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe, [], false
+   +- 'SubqueryAlias spark_catalog.default.t2
+      +- 'UnresolvedCatalogRelation `default`.`t2`, org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe, [], false
+】
+
+
+Analyzer(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$1@77e6053) org.apache.spark.sql.execution.datasources.FindDataSourceTable --> old【
+'Project ['t1.id, 't1.name, 't2.value]
++- 'Join Inner, ('t1.id = 't2.id)
+   :- 'SubqueryAlias spark_catalog.default.t1
+   :  +- 'UnresolvedCatalogRelation `default`.`t1`, org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe, [], false
+   +- 'SubqueryAlias spark_catalog.default.t2
+      +- 'UnresolvedCatalogRelation `default`.`t2`, org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe, [], false
+】--> new【
+'Project ['t1.id, 't1.name, 't2.value]
++- 'Join Inner, ('t1.id = 't2.id)
+   :- SubqueryAlias spark_catalog.default.t1
+   :  +- Relation default.t1[id#20,name#21,date#22] parquet
+   +- SubqueryAlias spark_catalog.default.t2
+      +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+Analyzer(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$1@77e6053) org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveReferences --> old【
+'Project ['t1.id, 't1.name, 't2.value]
++- 'Join Inner, ('t1.id = 't2.id)
+   :- SubqueryAlias spark_catalog.default.t1
+   :  +- Relation default.t1[id#20,name#21,date#22] parquet
+   +- SubqueryAlias spark_catalog.default.t2
+      +- Relation default.t2[id#23,value#24,date#25] parquet
+】--> new【
+Project [id#20, name#21, value#24]
++- Join Inner, (id#20 = id#23)
+   :- SubqueryAlias spark_catalog.default.t1
+   :  +- Relation default.t1[id#20,name#21,date#22] parquet
+   +- SubqueryAlias spark_catalog.default.t2
+      +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+RuleExecutor.execute[Analyzer(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$1@77e6053)] final result ==> old【
+'Project ['t1.id, 't1.name, 't2.value]
++- 'Join Inner, ('t1.id = 't2.id)
+   :- 'UnresolvedRelation [t1], [], false
+   +- 'UnresolvedRelation [t2], [], false
+】==> new【
+Project [id#20, name#21, value#24]
++- Join Inner, (id#20 = id#23)
+   :- SubqueryAlias spark_catalog.default.t1
+   :  +- Relation default.t1[id#20,name#21,date#22] parquet
+   +- SubqueryAlias spark_catalog.default.t2
+      +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+analyzed ====> 
+Project [id#20, name#21, value#24]
++- Join Inner, (id#20 = id#23)
+   :- SubqueryAlias spark_catalog.default.t1
+   :  +- Relation default.t1[id#20,name#21,date#22] parquet
+   +- SubqueryAlias spark_catalog.default.t2
+      +- Relation default.t2[id#23,value#24,date#25] parquet
+
+===================== df.show() =============================
+Analyzer(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$1@77e6053) org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveAliases --> old【
+'Project [unresolvedalias(cast(id#20 as string), None), unresolvedalias(cast(name#21 as string), None), unresolvedalias(cast(value#24 as string), None)]
++- Project [id#20, name#21, value#24]
+   +- Join Inner, (id#20 = id#23)
+      :- SubqueryAlias spark_catalog.default.t1
+      :  +- Relation default.t1[id#20,name#21,date#22] parquet
+      +- SubqueryAlias spark_catalog.default.t2
+         +- Relation default.t2[id#23,value#24,date#25] parquet
+】--> new【
+Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
++- Project [id#20, name#21, value#24]
+   +- Join Inner, (id#20 = id#23)
+      :- SubqueryAlias spark_catalog.default.t1
+      :  +- Relation default.t1[id#20,name#21,date#22] parquet
+      +- SubqueryAlias spark_catalog.default.t2
+         +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+Analyzer(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$1@77e6053) org.apache.spark.sql.catalyst.analysis.ResolveTimeZone --> old【
+Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
++- Project [id#20, name#21, value#24]
+   +- Join Inner, (id#20 = id#23)
+      :- SubqueryAlias spark_catalog.default.t1
+      :  +- Relation default.t1[id#20,name#21,date#22] parquet
+      +- SubqueryAlias spark_catalog.default.t2
+         +- Relation default.t2[id#23,value#24,date#25] parquet
+】--> new【
+Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
++- Project [id#20, name#21, value#24]
+   +- Join Inner, (id#20 = id#23)
+      :- SubqueryAlias spark_catalog.default.t1
+      :  +- Relation default.t1[id#20,name#21,date#22] parquet
+      +- SubqueryAlias spark_catalog.default.t2
+         +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+RuleExecutor.execute[Analyzer(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$1@77e6053)] final result ==> old【
+'Project [unresolvedalias(cast(id#20 as string), None), unresolvedalias(cast(name#21 as string), None), unresolvedalias(cast(value#24 as string), None)]
++- Project [id#20, name#21, value#24]
+   +- Join Inner, (id#20 = id#23)
+      :- SubqueryAlias spark_catalog.default.t1
+      :  +- Relation default.t1[id#20,name#21,date#22] parquet
+      +- SubqueryAlias spark_catalog.default.t2
+         +- Relation default.t2[id#23,value#24,date#25] parquet
+】==> new【
+Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
++- Project [id#20, name#21, value#24]
+   +- Join Inner, (id#20 = id#23)
+      :- SubqueryAlias spark_catalog.default.t1
+      :  +- Relation default.t1[id#20,name#21,date#22] parquet
+      +- SubqueryAlias spark_catalog.default.t2
+         +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+analyzed ====> 
+Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
++- Project [id#20, name#21, value#24]
+   +- Join Inner, (id#20 = id#23)
+      :- SubqueryAlias spark_catalog.default.t1
+      :  +- Relation default.t1[id#20,name#21,date#22] parquet
+      +- SubqueryAlias spark_catalog.default.t2
+         +- Relation default.t2[id#23,value#24,date#25] parquet
+
+analyzed ====> 
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
+      +- Project [id#20, name#21, value#24]
+         +- Join Inner, (id#20 = id#23)
+            :- SubqueryAlias spark_catalog.default.t1
+            :  +- Relation default.t1[id#20,name#21,date#22] parquet
+            +- SubqueryAlias spark_catalog.default.t2
+               +- Relation default.t2[id#23,value#24,date#25] parquet
+
+SparkOptimizer(org.apache.spark.sql.internal.BaseSessionStateBuilder$$anon$2@44f23927) org.apache.spark.sql.catalyst.optimizer.Optimizer$FinishAnalysis --> old【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
+      +- Project [id#20, name#21, value#24]
+         +- Join Inner, (id#20 = id#23)
+            :- SubqueryAlias spark_catalog.default.t1
+            :  +- Relation default.t1[id#20,name#21,date#22] parquet
+            +- SubqueryAlias spark_catalog.default.t2
+               +- Relation default.t2[id#23,value#24,date#25] parquet
+】--> new【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
+      +- Project [id#20, name#21, value#24]
+         +- Join Inner, (id#20 = id#23)
+            :- Relation default.t1[id#20,name#21,date#22] parquet
+            +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+SparkOptimizer(org.apache.spark.sql.internal.BaseSessionStateBuilder$$anon$2@44f23927) org.apache.spark.sql.catalyst.optimizer.ColumnPruning --> old【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
+      +- Project [id#20, name#21, value#24]
+         +- Join Inner, (id#20 = id#23)
+            :- Relation default.t1[id#20,name#21,date#22] parquet
+            +- Relation default.t2[id#23,value#24,date#25] parquet
+】--> new【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
+      +- Project [id#20, name#21, value#24]
+         +- Join Inner, (id#20 = id#23)
+            :- Project [id#20, name#21]
+            :  +- Relation default.t1[id#20,name#21,date#22] parquet
+            +- Project [id#23, value#24]
+               +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+SparkOptimizer(org.apache.spark.sql.internal.BaseSessionStateBuilder$$anon$2@44f23927) org.apache.spark.sql.catalyst.optimizer.CollapseProject --> old【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
+      +- Project [id#20, name#21, value#24]
+         +- Join Inner, (id#20 = id#23)
+            :- Project [id#20, name#21]
+            :  +- Relation default.t1[id#20,name#21,date#22] parquet
+            +- Project [id#23, value#24]
+               +- Relation default.t2[id#23,value#24,date#25] parquet
+】--> new【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
+      +- Join Inner, (id#20 = id#23)
+         :- Project [id#20, name#21]
+         :  +- Relation default.t1[id#20,name#21,date#22] parquet
+         +- Project [id#23, value#24]
+            +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+SparkOptimizer(org.apache.spark.sql.internal.BaseSessionStateBuilder$$anon$2@44f23927) org.apache.spark.sql.catalyst.optimizer.SimplifyCasts --> old【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
+      +- Join Inner, (id#20 = id#23)
+         :- Project [id#20, name#21]
+         :  +- Relation default.t1[id#20,name#21,date#22] parquet
+         +- Project [id#23, value#24]
+            +- Relation default.t2[id#23,value#24,date#25] parquet
+】--> new【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, name#21 AS name#35, cast(value#24 as string) AS value#36]
+      +- Join Inner, (id#20 = id#23)
+         :- Project [id#20, name#21]
+         :  +- Relation default.t1[id#20,name#21,date#22] parquet
+         +- Project [id#23, value#24]
+            +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+SparkOptimizer(org.apache.spark.sql.internal.BaseSessionStateBuilder$$anon$2@44f23927) org.apache.spark.sql.catalyst.optimizer.RemoveRedundantAliases --> old【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, name#21 AS name#35, cast(value#24 as string) AS value#36]
+      +- Join Inner, (id#20 = id#23)
+         :- Project [id#20, name#21]
+         :  +- Relation default.t1[id#20,name#21,date#22] parquet
+         +- Project [id#23, value#24]
+            +- Relation default.t2[id#23,value#24,date#25] parquet
+】--> new【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+      +- Join Inner, (id#20 = id#23)
+         :- Project [id#20, name#21]
+         :  +- Relation default.t1[id#20,name#21,date#22] parquet
+         +- Project [id#23, value#24]
+            +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+SparkOptimizer(org.apache.spark.sql.internal.BaseSessionStateBuilder$$anon$2@44f23927) org.apache.spark.sql.catalyst.optimizer.InferFiltersFromConstraints --> old【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+      +- Join Inner, (id#20 = id#23)
+         :- Project [id#20, name#21]
+         :  +- Relation default.t1[id#20,name#21,date#22] parquet
+         +- Project [id#23, value#24]
+            +- Relation default.t2[id#23,value#24,date#25] parquet
+】--> new【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+      +- Join Inner, (id#20 = id#23)
+         :- Filter isnotnull(id#20)
+         :  +- Project [id#20, name#21]
+         :     +- Relation default.t1[id#20,name#21,date#22] parquet
+         +- Filter isnotnull(id#23)
+            +- Project [id#23, value#24]
+               +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+SparkOptimizer(org.apache.spark.sql.internal.BaseSessionStateBuilder$$anon$2@44f23927) org.apache.spark.sql.catalyst.optimizer.PushDownPredicates --> old【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+      +- Join Inner, (id#20 = id#23)
+         :- Filter isnotnull(id#20)
+         :  +- Project [id#20, name#21]
+         :     +- Relation default.t1[id#20,name#21,date#22] parquet
+         +- Filter isnotnull(id#23)
+            +- Project [id#23, value#24]
+               +- Relation default.t2[id#23,value#24,date#25] parquet
+】--> new【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+      +- Join Inner, (id#20 = id#23)
+         :- Project [id#20, name#21]
+         :  +- Filter isnotnull(id#20)
+         :     +- Relation default.t1[id#20,name#21,date#22] parquet
+         +- Project [id#23, value#24]
+            +- Filter isnotnull(id#23)
+               +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+15:14:03.655 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.planning.ExtractEquiJoinKeys - Considering join on: Some((id#20 = id#23))
+15:14:03.657 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.planning.ExtractEquiJoinKeys - leftKeys:List(id#20) | rightKeys:List(id#23)
+15:14:03.658 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.planning.ExtractEquiJoinKeys - Considering join on: Some((id#20 = id#23))
+15:14:03.658 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.planning.ExtractEquiJoinKeys - leftKeys:List(id#20) | rightKeys:List(id#23)
+RuleExecutor.execute[SparkOptimizer(org.apache.spark.sql.internal.BaseSessionStateBuilder$$anon$2@44f23927)] final result ==> old【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, cast(name#21 as string) AS name#35, cast(value#24 as string) AS value#36]
+      +- Project [id#20, name#21, value#24]
+         +- Join Inner, (id#20 = id#23)
+            :- SubqueryAlias spark_catalog.default.t1
+            :  +- Relation default.t1[id#20,name#21,date#22] parquet
+            +- SubqueryAlias spark_catalog.default.t2
+               +- Relation default.t2[id#23,value#24,date#25] parquet
+】==> new【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+      +- Join Inner, (id#20 = id#23)
+         :- Project [id#20, name#21]
+         :  +- Filter isnotnull(id#20)
+         :     +- Relation default.t1[id#20,name#21,date#22] parquet
+         +- Project [id#23, value#24]
+            +- Filter isnotnull(id#23)
+               +- Relation default.t2[id#23,value#24,date#25] parquet
+】
+
+
+optimizedPlan ====> 
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+      +- Join Inner, (id#20 = id#23)
+         :- Project [id#20, name#21]
+         :  +- Filter isnotnull(id#20)
+         :     +- Relation default.t1[id#20,name#21,date#22] parquet
+         +- Project [id#23, value#24]
+            +- Filter isnotnull(id#23)
+               +- Relation default.t2[id#23,value#24,date#25] parquet
+
+SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@193bb809) - org.apache.spark.sql.execution.SparkStrategies$SpecialLimits$ -->【
+ReturnAnswer
++- GlobalLimit 21
+   +- LocalLimit 21
+      +- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+         +- Join Inner, (id#20 = id#23)
+            :- Project [id#20, name#21]
+            :  +- Filter isnotnull(id#20)
+            :     +- Relation default.t1[id#20,name#21,date#22] parquet
+            +- Project [id#23, value#24]
+               +- Filter isnotnull(id#23)
+                  +- Relation default.t2[id#23,value#24,date#25] parquet
+】 --> 【
+CollectLimit 21
++- PlanLater Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+】
+
+SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@193bb809) - org.apache.spark.sql.execution.SparkStrategies$BasicOperators$ -->【
+Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
++- Join Inner, (id#20 = id#23)
+   :- Project [id#20, name#21]
+   :  +- Filter isnotnull(id#20)
+   :     +- Relation default.t1[id#20,name#21,date#22] parquet
+   +- Project [id#23, value#24]
+      +- Filter isnotnull(id#23)
+         +- Relation default.t2[id#23,value#24,date#25] parquet
+】 --> 【
+Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
++- PlanLater Join Inner, (id#20 = id#23)
+】
+
+15:14:03.708 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.planning.ExtractEquiJoinKeys - Considering join on: Some((id#20 = id#23))
+15:14:03.708 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.planning.ExtractEquiJoinKeys - leftKeys:List(id#20) | rightKeys:List(id#23)
+15:14:03.710 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.planning.ExtractEquiJoinKeys - Considering join on: Some((id#20 = id#23))
+15:14:03.711 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.planning.ExtractEquiJoinKeys - leftKeys:List(id#20) | rightKeys:List(id#23)
+SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@193bb809) - org.apache.spark.sql.execution.SparkStrategies$JoinSelection$ -->【
+Join Inner, (id#20 = id#23)
+:- Project [id#20, name#21]
+:  +- Filter isnotnull(id#20)
+:     +- Relation default.t1[id#20,name#21,date#22] parquet
++- Project [id#23, value#24]
+   +- Filter isnotnull(id#23)
+      +- Relation default.t2[id#23,value#24,date#25] parquet
+】 --> 【
+SortMergeJoin [id#20], [id#23], Inner
+:- PlanLater Project [id#20, name#21]
++- PlanLater Project [id#23, value#24]
+】
+
+15:14:03.738 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.datasources.DataSourceStrategy - Pruning directories with: 
+15:14:03.745 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.datasources.FileSourceStrategy - Pushed Filters: IsNotNull(id)
+15:14:03.746 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.datasources.FileSourceStrategy - Post-Scan Filters: isnotnull(id#20)
+15:14:03.747 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.datasources.FileSourceStrategy - Output Data Schema: struct<id: int, name: string>
+SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@193bb809) - org.apache.spark.sql.execution.datasources.FileSourceStrategy$ -->【
+Project [id#20, name#21]
++- Filter isnotnull(id#20)
+   +- Relation default.t1[id#20,name#21,date#22] parquet
+】 --> 【
+Project [id#20, name#21]
++- Filter isnotnull(id#20)
+   +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+】
+
+15:14:03.774 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.datasources.DataSourceStrategy - Pruning directories with: 
+15:14:03.774 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.datasources.FileSourceStrategy - Pushed Filters: IsNotNull(id)
+15:14:03.774 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.datasources.FileSourceStrategy - Post-Scan Filters: isnotnull(id#23)
+15:14:03.775 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.datasources.FileSourceStrategy - Output Data Schema: struct<id: int, value: int>
+SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@193bb809) - org.apache.spark.sql.execution.datasources.FileSourceStrategy$ -->【
+Project [id#23, value#24]
++- Filter isnotnull(id#23)
+   +- Relation default.t2[id#23,value#24,date#25] parquet
+】 --> 【
+Project [id#23, value#24]
++- Filter isnotnull(id#23)
+   +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+】
+
+sparkPlan ====> 
+CollectLimit 21
++- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+   +- SortMergeJoin [id#20], [id#23], Inner
+      :- Project [id#20, name#21]
+      :  +- Filter isnotnull(id#20)
+      :     +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      +- Project [id#23, value#24]
+         +- Filter isnotnull(id#23)
+            +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+
+org.apache.spark.sql.execution.QueryExecution$ - org.apache.spark.sql.execution.exchange.EnsureRequirements -->【
+CollectLimit 21
++- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+   +- SortMergeJoin [id#20], [id#23], Inner
+      :- Project [id#20, name#21]
+      :  +- Filter isnotnull(id#20)
+      :     +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      +- Project [id#23, value#24]
+         +- Filter isnotnull(id#23)
+            +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+】 --> 【
+CollectLimit 21
++- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+   +- SortMergeJoin [id#20], [id#23], Inner
+      :- Sort [id#20 ASC NULLS FIRST], false, 0
+      :  +- Exchange hashpartitioning(id#20, 2), ENSURE_REQUIREMENTS, [plan_id=33]
+      :     +- Project [id#20, name#21]
+      :        +- Filter isnotnull(id#20)
+      :           +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      +- Sort [id#23 ASC NULLS FIRST], false, 0
+         +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=34]
+            +- Project [id#23, value#24]
+               +- Filter isnotnull(id#23)
+                  +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+】
+
+org.apache.spark.sql.execution.QueryExecution$ - org.apache.spark.sql.execution.ApplyColumnarRulesAndInsertTransitions -->【
+CollectLimit 21
++- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+   +- SortMergeJoin [id#20], [id#23], Inner
+      :- Sort [id#20 ASC NULLS FIRST], false, 0
+      :  +- Exchange hashpartitioning(id#20, 2), ENSURE_REQUIREMENTS, [plan_id=33]
+      :     +- Project [id#20, name#21]
+      :        +- Filter isnotnull(id#20)
+      :           +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      +- Sort [id#23 ASC NULLS FIRST], false, 0
+         +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=34]
+            +- Project [id#23, value#24]
+               +- Filter isnotnull(id#23)
+                  +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+】 --> 【
+CollectLimit 21
++- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+   +- SortMergeJoin [id#20], [id#23], Inner
+      :- Sort [id#20 ASC NULLS FIRST], false, 0
+      :  +- Exchange hashpartitioning(id#20, 2), ENSURE_REQUIREMENTS, [plan_id=43]
+      :     +- Project [id#20, name#21]
+      :        +- Filter isnotnull(id#20)
+      :           +- ColumnarToRow
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      +- Sort [id#23 ASC NULLS FIRST], false, 0
+         +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=48]
+            +- Project [id#23, value#24]
+               +- Filter isnotnull(id#23)
+                  +- ColumnarToRow
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+】
+
+org.apache.spark.sql.execution.QueryExecution$ - org.apache.spark.sql.execution.CollapseCodegenStages -->【
+CollectLimit 21
++- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+   +- SortMergeJoin [id#20], [id#23], Inner
+      :- Sort [id#20 ASC NULLS FIRST], false, 0
+      :  +- Exchange hashpartitioning(id#20, 2), ENSURE_REQUIREMENTS, [plan_id=43]
+      :     +- Project [id#20, name#21]
+      :        +- Filter isnotnull(id#20)
+      :           +- ColumnarToRow
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      +- Sort [id#23 ASC NULLS FIRST], false, 0
+         +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=48]
+            +- Project [id#23, value#24]
+               +- Filter isnotnull(id#23)
+                  +- ColumnarToRow
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+】 --> 【
+CollectLimit 21
++- *(5) Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+   +- *(5) SortMergeJoin [id#20], [id#23], Inner
+      :- *(2) Sort [id#20 ASC NULLS FIRST], false, 0
+      :  +- Exchange hashpartitioning(id#20, 2), ENSURE_REQUIREMENTS, [plan_id=58]
+      :     +- *(1) Project [id#20, name#21]
+      :        +- *(1) Filter isnotnull(id#20)
+      :           +- *(1) ColumnarToRow
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      +- *(4) Sort [id#23 ASC NULLS FIRST], false, 0
+         +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=68]
+            +- *(3) Project [id#23, value#24]
+               +- *(3) Filter isnotnull(id#23)
+                  +- *(3) ColumnarToRow
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+】
+
+org.apache.spark.sql.execution.QueryExecution$ prepareForExecution final result ==>【
+CollectLimit 21
++- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+   +- SortMergeJoin [id#20], [id#23], Inner
+      :- Project [id#20, name#21]
+      :  +- Filter isnotnull(id#20)
+      :     +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      +- Project [id#23, value#24]
+         +- Filter isnotnull(id#23)
+            +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+】 ==> 【
+CollectLimit 21
++- *(5) Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+   +- *(5) SortMergeJoin [id#20], [id#23], Inner
+      :- *(2) Sort [id#20 ASC NULLS FIRST], false, 0
+      :  +- Exchange hashpartitioning(id#20, 2), ENSURE_REQUIREMENTS, [plan_id=58]
+      :     +- *(1) Project [id#20, name#21]
+      :        +- *(1) Filter isnotnull(id#20)
+      :           +- *(1) ColumnarToRow
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      +- *(4) Sort [id#23 ASC NULLS FIRST], false, 0
+         +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=68]
+            +- *(3) Project [id#23, value#24]
+               +- *(3) Filter isnotnull(id#23)
+                  +- *(3) ColumnarToRow
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+】
+
+executedPlan ====> 
+CollectLimit 21
++- *(5) Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+   +- *(5) SortMergeJoin [id#20], [id#23], Inner
+      :- *(2) Sort [id#20 ASC NULLS FIRST], false, 0
+      :  +- Exchange hashpartitioning(id#20, 2), ENSURE_REQUIREMENTS, [plan_id=58]
+      :     +- *(1) Project [id#20, name#21]
+      :        +- *(1) Filter isnotnull(id#20)
+      :           +- *(1) ColumnarToRow
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      +- *(4) Sort [id#23 ASC NULLS FIRST], false, 0
+         +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=68]
+            +- *(3) Project [id#23, value#24]
+               +- *(3) Filter isnotnull(id#23)
+                  +- *(3) ColumnarToRow
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+
+Analyzer(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$1@77e6053) org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveDeserializer --> old【
+'DeserializeToObject unresolveddeserializer(createexternalrow(getcolumnbyordinal(0, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)).toString, getcolumnbyordinal(1, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)).toString, getcolumnbyordinal(2, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)).toString, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true))), obj#40: org.apache.spark.sql.Row
++- LocalRelation <empty>, [id#34, name#35, value#36]
+】--> new【
+DeserializeToObject createexternalrow(id#34.toString, name#35.toString, value#36.toString, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)), obj#40: org.apache.spark.sql.Row
++- LocalRelation <empty>, [id#34, name#35, value#36]
+】
+
+
+RuleExecutor.execute[Analyzer(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$1@77e6053)] final result ==> old【
+'DeserializeToObject unresolveddeserializer(createexternalrow(getcolumnbyordinal(0, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)).toString, getcolumnbyordinal(1, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)).toString, getcolumnbyordinal(2, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)).toString, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true))), obj#40: org.apache.spark.sql.Row
++- LocalRelation <empty>, [id#34, name#35, value#36]
+】==> new【
+DeserializeToObject createexternalrow(id#34.toString, name#35.toString, value#36.toString, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)), obj#40: org.apache.spark.sql.Row
++- LocalRelation <empty>, [id#34, name#35, value#36]
+】
+
+
+====== collectFromPlan ====== 
+CollectLimit 21
++- *(5) Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
+   +- *(5) SortMergeJoin [id#20], [id#23], Inner
+      :- *(2) Sort [id#20 ASC NULLS FIRST], false, 0
+      :  +- Exchange hashpartitioning(id#20, 2), ENSURE_REQUIREMENTS, [plan_id=58]
+      :     +- *(1) Project [id#20, name#21]
+      :        +- *(1) Filter isnotnull(id#20)
+      :           +- *(1) ColumnarToRow
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      +- *(4) Sort [id#23 ASC NULLS FIRST], false, 0
+         +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=68]
+            +- *(3) Project [id#23, value#24]
+               +- *(3) Filter isnotnull(id#23)
+                  +- *(3) ColumnarToRow
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+
+15:14:04.256 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - 
+/* 001 */ public Object generate(Object[] references) {
+/* 002 */   return new GeneratedIteratorForCodegenStage5(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ // codegenStageId=5
+/* 006 */ final class GeneratedIteratorForCodegenStage5 extends org.apache.spark.sql.execution.BufferedRowIterator {
+/* 007 */   private Object[] references;
+/* 008 */   private scala.collection.Iterator[] inputs;
+/* 009 */   private scala.collection.Iterator smj_streamedInput_0;
+/* 010 */   private scala.collection.Iterator smj_bufferedInput_0;
+/* 011 */   private InternalRow smj_streamedRow_0;
+/* 012 */   private InternalRow smj_bufferedRow_0;
+/* 013 */   private int smj_value_2;
+/* 014 */   private org.apache.spark.sql.execution.ExternalAppendOnlyUnsafeRowArray smj_matches_0;
+/* 015 */   private int smj_value_3;
+/* 016 */   private boolean wholestagecodegen_initJoin_0;
+/* 017 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] smj_mutableStateArray_0 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[2];
+/* 018 */
+/* 019 */   public GeneratedIteratorForCodegenStage5(Object[] references) {
+/* 020 */     this.references = references;
+/* 021 */   }
+/* 022 */
+/* 023 */   public void init(int index, scala.collection.Iterator[] inputs) {
+/* 024 */     partitionIndex = index;
+/* 025 */     this.inputs = inputs;
+/* 026 */     smj_streamedInput_0 = inputs[0];
+/* 027 */     smj_bufferedInput_0 = inputs[1];
+/* 028 */
+/* 029 */     smj_matches_0 = new org.apache.spark.sql.execution.ExternalAppendOnlyUnsafeRowArray(2147483632, 2147483647);
+/* 030 */     smj_mutableStateArray_0[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(4, 32);
+/* 031 */     smj_mutableStateArray_0[1] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(3, 96);
+/* 032 */
+/* 033 */   }
+/* 034 */
+/* 035 */   private boolean smj_findNextJoinRows_0(
+/* 036 */     scala.collection.Iterator streamedIter,
+/* 037 */     scala.collection.Iterator bufferedIter) {
+/* 038 */     smj_streamedRow_0 = null;
+/* 039 */     int comp = 0;
+/* 040 */     while (smj_streamedRow_0 == null) {
+/* 041 */       if (!streamedIter.hasNext()) return false;
+/* 042 */       smj_streamedRow_0 = (InternalRow) streamedIter.next();
+/* 043 */       boolean smj_isNull_0 = smj_streamedRow_0.isNullAt(0);
+/* 044 */       int smj_value_0 = smj_isNull_0 ?
+/* 045 */       -1 : (smj_streamedRow_0.getInt(0));
+/* 046 */       if (smj_isNull_0) {
+/* 047 */         smj_streamedRow_0 = null;
+/* 048 */         continue;
+/* 049 */
+/* 050 */       }
+/* 051 */       if (!smj_matches_0.isEmpty()) {
+/* 052 */         comp = 0;
+/* 053 */         if (comp == 0) {
+/* 054 */           comp = (smj_value_0 > smj_value_3 ? 1 : smj_value_0 < smj_value_3 ? -1 : 0);
+/* 055 */         }
+/* 056 */
+/* 057 */         if (comp == 0) {
+/* 058 */           return true;
+/* 059 */         }
+/* 060 */         smj_matches_0.clear();
+/* 061 */       }
+/* 062 */
+/* 063 */       do {
+/* 064 */         if (smj_bufferedRow_0 == null) {
+/* 065 */           if (!bufferedIter.hasNext()) {
+/* 066 */             smj_value_3 = smj_value_0;
+/* 067 */             return !smj_matches_0.isEmpty();
+/* 068 */           }
+/* 069 */           smj_bufferedRow_0 = (InternalRow) bufferedIter.next();
+/* 070 */           boolean smj_isNull_1 = smj_bufferedRow_0.isNullAt(0);
+/* 071 */           int smj_value_1 = smj_isNull_1 ?
+/* 072 */           -1 : (smj_bufferedRow_0.getInt(0));
+/* 073 */           if (smj_isNull_1) {
+/* 074 */             smj_bufferedRow_0 = null;
+/* 075 */             continue;
+/* 076 */           }
+/* 077 */           smj_value_2 = smj_value_1;
+/* 078 */         }
+/* 079 */
+/* 080 */         comp = 0;
+/* 081 */         if (comp == 0) {
+/* 082 */           comp = (smj_value_0 > smj_value_2 ? 1 : smj_value_0 < smj_value_2 ? -1 : 0);
+/* 083 */         }
+/* 084 */
+/* 085 */         if (comp > 0) {
+/* 086 */           smj_bufferedRow_0 = null;
+/* 087 */         } else if (comp < 0) {
+/* 088 */           if (!smj_matches_0.isEmpty()) {
+/* 089 */             smj_value_3 = smj_value_0;
+/* 090 */             return true;
+/* 091 */           } else {
+/* 092 */             smj_streamedRow_0 = null;
+/* 093 */           }
+/* 094 */         } else {
+/* 095 */           smj_matches_0.add((UnsafeRow) smj_bufferedRow_0);
+/* 096 */           smj_bufferedRow_0 = null;
+/* 097 */         }
+/* 098 */       } while (smj_streamedRow_0 != null);
+/* 099 */     }
+/* 100 */     return false; // unreachable
+/* 101 */   }
+/* 102 */
+/* 103 */   protected void processNext() throws java.io.IOException {
+/* 104 */     if (!wholestagecodegen_initJoin_0) {
+/* 105 */       wholestagecodegen_initJoin_0 = true;
+/* 106 */
+/* 107 */       ((org.apache.spark.sql.execution.joins.SortMergeJoinExec) references[1] /* plan */).getTaskContext().addTaskCompletionListener(
+/* 108 */         new org.apache.spark.util.TaskCompletionListener() {
+/* 109 */           @Override
+/* 110 */           public void onTaskCompletion(org.apache.spark.TaskContext context) {
+/* 111 */             ((org.apache.spark.sql.execution.metric.SQLMetric) references[2] /* spillSize */).add(smj_matches_0.spillSize());
+/* 112 */           }
+/* 113 */         });
+/* 114 */
+/* 115 */     }
+/* 116 */
+/* 117 */     while (smj_findNextJoinRows_0(smj_streamedInput_0, smj_bufferedInput_0)) {
+/* 118 */       boolean smj_isNull_2 = false;
+/* 119 */       int smj_value_4 = -1;
+/* 120 */
+/* 121 */       boolean smj_isNull_3 = false;
+/* 122 */       UTF8String smj_value_5 = null;
+/* 123 */
+/* 124 */       smj_isNull_2 = smj_streamedRow_0.isNullAt(0);
+/* 125 */       smj_value_4 = smj_isNull_2 ? -1 : (smj_streamedRow_0.getInt(0));
+/* 126 */       smj_isNull_3 = smj_streamedRow_0.isNullAt(1);
+/* 127 */       smj_value_5 = smj_isNull_3 ? null : (smj_streamedRow_0.getUTF8String(1));
+/* 128 */       scala.collection.Iterator<UnsafeRow> smj_iterator_0 = smj_matches_0.generateIterator();
+/* 129 */
+/* 130 */       while (smj_iterator_0.hasNext()) {
+/* 131 */         InternalRow smj_bufferedRow_1 = (InternalRow) smj_iterator_0.next();
+/* 132 */
+/* 133 */         ((org.apache.spark.sql.execution.metric.SQLMetric) references[0] /* numOutputRows */).add(1);
+/* 134 */
+/* 135 */         // common sub-expressions
+/* 136 */
+/* 137 */         boolean project_isNull_0 = smj_isNull_2;
+/* 138 */         UTF8String project_value_0 = null;
+/* 139 */         if (!smj_isNull_2) {
+/* 140 */           project_value_0 = UTF8String.fromString(String.valueOf(smj_value_4));
+/* 141 */         }
+/* 142 */         boolean smj_isNull_5 = smj_bufferedRow_1.isNullAt(1);
+/* 143 */         int smj_value_7 = smj_isNull_5 ?
+/* 144 */         -1 : (smj_bufferedRow_1.getInt(1));
+/* 145 */         boolean project_isNull_3 = smj_isNull_5;
+/* 146 */         UTF8String project_value_3 = null;
+/* 147 */         if (!smj_isNull_5) {
+/* 148 */           project_value_3 = UTF8String.fromString(String.valueOf(smj_value_7));
+/* 149 */         }
+/* 150 */         smj_mutableStateArray_0[1].reset();
+/* 151 */
+/* 152 */         smj_mutableStateArray_0[1].zeroOutNullBytes();
+/* 153 */
+/* 154 */         if (project_isNull_0) {
+/* 155 */           smj_mutableStateArray_0[1].setNullAt(0);
+/* 156 */         } else {
+/* 157 */           smj_mutableStateArray_0[1].write(0, project_value_0);
+/* 158 */         }
+/* 159 */
+/* 160 */         if (smj_isNull_3) {
+/* 161 */           smj_mutableStateArray_0[1].setNullAt(1);
+/* 162 */         } else {
+/* 163 */           smj_mutableStateArray_0[1].write(1, smj_value_5);
+/* 164 */         }
+/* 165 */
+/* 166 */         if (project_isNull_3) {
+/* 167 */           smj_mutableStateArray_0[1].setNullAt(2);
+/* 168 */         } else {
+/* 169 */           smj_mutableStateArray_0[1].write(2, project_value_3);
+/* 170 */         }
+/* 171 */         append((smj_mutableStateArray_0[1].getRow()).copy());
+/* 172 */
+/* 173 */       }
+/* 174 */       if (shouldStop()) return;
+/* 175 */     }
+/* 176 */     ((org.apache.spark.sql.execution.joins.SortMergeJoinExec) references[1] /* plan */).cleanupResources();
+/* 177 */   }
+/* 178 */
+/* 179 */ }
+
+15:14:04.468 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - Code generated in 243.441996 ms
+15:14:04.476 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - 
+/* 001 */ public Object generate(Object[] references) {
+/* 002 */   return new GeneratedIteratorForCodegenStage2(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ // codegenStageId=2
+/* 006 */ final class GeneratedIteratorForCodegenStage2 extends org.apache.spark.sql.execution.BufferedRowIterator {
+/* 007 */   private Object[] references;
+/* 008 */   private scala.collection.Iterator[] inputs;
+/* 009 */   private boolean sort_needToSort_0;
+/* 010 */   private org.apache.spark.sql.execution.UnsafeExternalRowSorter sort_sorter_0;
+/* 011 */   private org.apache.spark.executor.TaskMetrics sort_metrics_0;
+/* 012 */   private scala.collection.Iterator<UnsafeRow> sort_sortedIter_0;
+/* 013 */   private scala.collection.Iterator inputadapter_input_0;
+/* 014 */
+/* 015 */   public GeneratedIteratorForCodegenStage2(Object[] references) {
+/* 016 */     this.references = references;
+/* 017 */   }
+/* 018 */
+/* 019 */   public void init(int index, scala.collection.Iterator[] inputs) {
+/* 020 */     partitionIndex = index;
+/* 021 */     this.inputs = inputs;
+/* 022 */     sort_needToSort_0 = true;
+/* 023 */     sort_sorter_0 = ((org.apache.spark.sql.execution.SortExec) references[0] /* plan */).createSorter();
+/* 024 */     sort_metrics_0 = org.apache.spark.TaskContext.get().taskMetrics();
+/* 025 */
+/* 026 */     inputadapter_input_0 = inputs[0];
+/* 027 */
+/* 028 */   }
+/* 029 */
+/* 030 */   private void sort_addToSorter_0() throws java.io.IOException {
+/* 031 */     while ( inputadapter_input_0.hasNext()) {
+/* 032 */       InternalRow inputadapter_row_0 = (InternalRow) inputadapter_input_0.next();
+/* 033 */
+/* 034 */       sort_sorter_0.insertRow((UnsafeRow)inputadapter_row_0);
+/* 035 */       // shouldStop check is eliminated
+/* 036 */     }
+/* 037 */
+/* 038 */   }
+/* 039 */
+/* 040 */   protected void processNext() throws java.io.IOException {
+/* 041 */     if (sort_needToSort_0) {
+/* 042 */       long sort_spillSizeBefore_0 = sort_metrics_0.memoryBytesSpilled();
+/* 043 */       sort_addToSorter_0();
+/* 044 */       sort_sortedIter_0 = sort_sorter_0.sort();
+/* 045 */       ((org.apache.spark.sql.execution.metric.SQLMetric) references[3] /* sortTime */).add(sort_sorter_0.getSortTimeNanos() / 1000000);
+/* 046 */       ((org.apache.spark.sql.execution.metric.SQLMetric) references[1] /* peakMemory */).add(sort_sorter_0.getPeakMemoryUsage());
+/* 047 */       ((org.apache.spark.sql.execution.metric.SQLMetric) references[2] /* spillSize */).add(sort_metrics_0.memoryBytesSpilled() - sort_spillSizeBefore_0);
+/* 048 */       sort_metrics_0.incPeakExecutionMemory(sort_sorter_0.getPeakMemoryUsage());
+/* 049 */       sort_needToSort_0 = false;
+/* 050 */     }
+/* 051 */
+/* 052 */     while ( sort_sortedIter_0.hasNext()) {
+/* 053 */       UnsafeRow sort_outputRow_0 = (UnsafeRow)sort_sortedIter_0.next();
+/* 054 */
+/* 055 */       append(sort_outputRow_0);
+/* 056 */
+/* 057 */       if (shouldStop()) return;
+/* 058 */     }
+/* 059 */   }
+/* 060 */
+/* 061 */ }
+
+15:14:04.502 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - Code generated in 28.174218 ms
+15:14:04.554 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - 
+/* 001 */ public Object generate(Object[] references) {
+/* 002 */   return new GeneratedIteratorForCodegenStage1(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ // codegenStageId=1
+/* 006 */ final class GeneratedIteratorForCodegenStage1 extends org.apache.spark.sql.execution.BufferedRowIterator {
+/* 007 */   private Object[] references;
+/* 008 */   private scala.collection.Iterator[] inputs;
+/* 009 */   private int columnartorow_batchIdx_0;
+/* 010 */   private org.apache.spark.sql.execution.vectorized.OnHeapColumnVector[] columnartorow_mutableStateArray_2 = new org.apache.spark.sql.execution.vectorized.OnHeapColumnVector[3];
+/* 011 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] columnartorow_mutableStateArray_3 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[3];
+/* 012 */   private org.apache.spark.sql.vectorized.ColumnarBatch[] columnartorow_mutableStateArray_1 = new org.apache.spark.sql.vectorized.ColumnarBatch[1];
+/* 013 */   private scala.collection.Iterator[] columnartorow_mutableStateArray_0 = new scala.collection.Iterator[1];
+/* 014 */
+/* 015 */   public GeneratedIteratorForCodegenStage1(Object[] references) {
+/* 016 */     this.references = references;
+/* 017 */   }
+/* 018 */
+/* 019 */   public void init(int index, scala.collection.Iterator[] inputs) {
+/* 020 */     partitionIndex = index;
+/* 021 */     this.inputs = inputs;
+/* 022 */     columnartorow_mutableStateArray_0[0] = inputs[0];
+/* 023 */
+/* 024 */     columnartorow_mutableStateArray_3[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(3, 64);
+/* 025 */     columnartorow_mutableStateArray_3[1] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(3, 64);
+/* 026 */     columnartorow_mutableStateArray_3[2] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(2, 32);
+/* 027 */
+/* 028 */   }
+/* 029 */
+/* 030 */   private void columnartorow_nextBatch_0() throws java.io.IOException {
+/* 031 */     if (columnartorow_mutableStateArray_0[0].hasNext()) {
+/* 032 */       columnartorow_mutableStateArray_1[0] = (org.apache.spark.sql.vectorized.ColumnarBatch)columnartorow_mutableStateArray_0[0].next();
+/* 033 */       ((org.apache.spark.sql.execution.metric.SQLMetric) references[1] /* numInputBatches */).add(1);
+/* 034 */       ((org.apache.spark.sql.execution.metric.SQLMetric) references[0] /* numOutputRows */).add(columnartorow_mutableStateArray_1[0].numRows());
+/* 035 */       columnartorow_batchIdx_0 = 0;
+/* 036 */       columnartorow_mutableStateArray_2[0] = (org.apache.spark.sql.execution.vectorized.OnHeapColumnVector) columnartorow_mutableStateArray_1[0].column(0);
+/* 037 */       columnartorow_mutableStateArray_2[1] = (org.apache.spark.sql.execution.vectorized.OnHeapColumnVector) columnartorow_mutableStateArray_1[0].column(1);
+/* 038 */       columnartorow_mutableStateArray_2[2] = (org.apache.spark.sql.execution.vectorized.OnHeapColumnVector) columnartorow_mutableStateArray_1[0].column(2);
+/* 039 */
+/* 040 */     }
+/* 041 */   }
+/* 042 */
+/* 043 */   protected void processNext() throws java.io.IOException {
+/* 044 */     if (columnartorow_mutableStateArray_1[0] == null) {
+/* 045 */       columnartorow_nextBatch_0();
+/* 046 */     }
+/* 047 */     while ( columnartorow_mutableStateArray_1[0] != null) {
+/* 048 */       int columnartorow_numRows_0 = columnartorow_mutableStateArray_1[0].numRows();
+/* 049 */       int columnartorow_localEnd_0 = columnartorow_numRows_0 - columnartorow_batchIdx_0;
+/* 050 */       for (int columnartorow_localIdx_0 = 0; columnartorow_localIdx_0 < columnartorow_localEnd_0; columnartorow_localIdx_0++) {
+/* 051 */         int columnartorow_rowIdx_0 = columnartorow_batchIdx_0 + columnartorow_localIdx_0;
+/* 052 */         do {
+/* 053 */           boolean columnartorow_isNull_0 = columnartorow_mutableStateArray_2[0].isNullAt(columnartorow_rowIdx_0);
+/* 054 */           int columnartorow_value_0 = columnartorow_isNull_0 ? -1 : (columnartorow_mutableStateArray_2[0].getInt(columnartorow_rowIdx_0));
+/* 055 */
+/* 056 */           boolean filter_value_2 = !columnartorow_isNull_0;
+/* 057 */           if (!filter_value_2) continue;
+/* 058 */
+/* 059 */           ((org.apache.spark.sql.execution.metric.SQLMetric) references[2] /* numOutputRows */).add(1);
+/* 060 */
+/* 061 */           // common sub-expressions
+/* 062 */
+/* 063 */           boolean columnartorow_isNull_1 = columnartorow_mutableStateArray_2[1].isNullAt(columnartorow_rowIdx_0);
+/* 064 */           UTF8String columnartorow_value_1 = columnartorow_isNull_1 ? null : (columnartorow_mutableStateArray_2[1].getUTF8String(columnartorow_rowIdx_0));
+/* 065 */           columnartorow_mutableStateArray_3[2].reset();
+/* 066 */
+/* 067 */           columnartorow_mutableStateArray_3[2].zeroOutNullBytes();
+/* 068 */
+/* 069 */           if (false) {
+/* 070 */             columnartorow_mutableStateArray_3[2].setNullAt(0);
+/* 071 */           } else {
+/* 072 */             columnartorow_mutableStateArray_3[2].write(0, columnartorow_value_0);
+/* 073 */           }
+/* 074 */
+/* 075 */           if (columnartorow_isNull_1) {
+/* 076 */             columnartorow_mutableStateArray_3[2].setNullAt(1);
+/* 077 */           } else {
+/* 078 */             columnartorow_mutableStateArray_3[2].write(1, columnartorow_value_1);
+/* 079 */           }
+/* 080 */           append((columnartorow_mutableStateArray_3[2].getRow()));
+/* 081 */
+/* 082 */         } while(false);
+/* 083 */         if (shouldStop()) { columnartorow_batchIdx_0 = columnartorow_rowIdx_0 + 1; return; }
+/* 084 */       }
+/* 085 */       columnartorow_batchIdx_0 = columnartorow_numRows_0;
+/* 086 */       columnartorow_mutableStateArray_1[0] = null;
+/* 087 */       columnartorow_nextBatch_0();
+/* 088 */     }
+/* 089 */   }
+/* 090 */
+/* 091 */ }
+
+15:14:04.586 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - Code generated in 35.534328 ms
+15:14:04.672 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_0 stored as values in memory (estimated size 355.7 KiB, free 4.1 GiB)
+15:14:04.674 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_0 locally took 50 ms
+15:14:04.675 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_0 without replication took 51 ms
+15:14:05.073 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_0_piece0 stored as bytes in memory (estimated size 34.5 KiB, free 4.1 GiB)
+15:14:05.076 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_0_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:14:05.077 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_0_piece0 in memory on 192.168.31.150:56517 (size: 34.5 KiB, free: 4.1 GiB)
+15:14:05.081 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_0_piece0
+15:14:05.082 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_0_piece0
+15:14:05.082 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_0_piece0 locally took 10 ms
+15:14:05.082 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_0_piece0 without replication took 11 ms
+15:14:05.084 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.SparkContext - Created broadcast 0 from show at SortMergeJoinSpec.scala:131
+15:14:05.137 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: int
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  int <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  int
+15:14:05.137 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: string
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  string <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  string
+15:14:05.138 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: string
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  string <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  string
+15:14:05.299 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.datasources.InMemoryFileIndex - It took 30 ms to list leaf files for 5 paths.
+15:14:05.311 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.FileSourceScanExec - Planning scan with bin packing, max size: 20975025 bytes, open cost is considered as scanning 4194304 bytes.
+15:14:05.388 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner - Cleaning indylambda closure: $anonfun$doExecute$4$adapted
+15:14:05.410 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner -  +++ indylambda closure ($anonfun$doExecute$4$adapted) is now cleaned +++
+15:14:05.487 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner - Cleaning indylambda closure: $anonfun$doExecute$4$adapted
+15:14:05.489 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner -  +++ indylambda closure ($anonfun$doExecute$4$adapted) is now cleaned +++
+15:14:05.626 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - 
+/* 001 */ public Object generate(Object[] references) {
+/* 002 */   return new GeneratedIteratorForCodegenStage4(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ // codegenStageId=4
+/* 006 */ final class GeneratedIteratorForCodegenStage4 extends org.apache.spark.sql.execution.BufferedRowIterator {
+/* 007 */   private Object[] references;
+/* 008 */   private scala.collection.Iterator[] inputs;
+/* 009 */   private boolean sort_needToSort_0;
+/* 010 */   private org.apache.spark.sql.execution.UnsafeExternalRowSorter sort_sorter_0;
+/* 011 */   private org.apache.spark.executor.TaskMetrics sort_metrics_0;
+/* 012 */   private scala.collection.Iterator<UnsafeRow> sort_sortedIter_0;
+/* 013 */   private scala.collection.Iterator inputadapter_input_0;
+/* 014 */
+/* 015 */   public GeneratedIteratorForCodegenStage4(Object[] references) {
+/* 016 */     this.references = references;
+/* 017 */   }
+/* 018 */
+/* 019 */   public void init(int index, scala.collection.Iterator[] inputs) {
+/* 020 */     partitionIndex = index;
+/* 021 */     this.inputs = inputs;
+/* 022 */     sort_needToSort_0 = true;
+/* 023 */     sort_sorter_0 = ((org.apache.spark.sql.execution.SortExec) references[0] /* plan */).createSorter();
+/* 024 */     sort_metrics_0 = org.apache.spark.TaskContext.get().taskMetrics();
+/* 025 */
+/* 026 */     inputadapter_input_0 = inputs[0];
+/* 027 */
+/* 028 */   }
+/* 029 */
+/* 030 */   private void sort_addToSorter_0() throws java.io.IOException {
+/* 031 */     while ( inputadapter_input_0.hasNext()) {
+/* 032 */       InternalRow inputadapter_row_0 = (InternalRow) inputadapter_input_0.next();
+/* 033 */
+/* 034 */       sort_sorter_0.insertRow((UnsafeRow)inputadapter_row_0);
+/* 035 */       // shouldStop check is eliminated
+/* 036 */     }
+/* 037 */
+/* 038 */   }
+/* 039 */
+/* 040 */   protected void processNext() throws java.io.IOException {
+/* 041 */     if (sort_needToSort_0) {
+/* 042 */       long sort_spillSizeBefore_0 = sort_metrics_0.memoryBytesSpilled();
+/* 043 */       sort_addToSorter_0();
+/* 044 */       sort_sortedIter_0 = sort_sorter_0.sort();
+/* 045 */       ((org.apache.spark.sql.execution.metric.SQLMetric) references[3] /* sortTime */).add(sort_sorter_0.getSortTimeNanos() / 1000000);
+/* 046 */       ((org.apache.spark.sql.execution.metric.SQLMetric) references[1] /* peakMemory */).add(sort_sorter_0.getPeakMemoryUsage());
+/* 047 */       ((org.apache.spark.sql.execution.metric.SQLMetric) references[2] /* spillSize */).add(sort_metrics_0.memoryBytesSpilled() - sort_spillSizeBefore_0);
+/* 048 */       sort_metrics_0.incPeakExecutionMemory(sort_sorter_0.getPeakMemoryUsage());
+/* 049 */       sort_needToSort_0 = false;
+/* 050 */     }
+/* 051 */
+/* 052 */     while ( sort_sortedIter_0.hasNext()) {
+/* 053 */       UnsafeRow sort_outputRow_0 = (UnsafeRow)sort_sortedIter_0.next();
+/* 054 */
+/* 055 */       append(sort_outputRow_0);
+/* 056 */
+/* 057 */       if (shouldStop()) return;
+/* 058 */     }
+/* 059 */   }
+/* 060 */
+/* 061 */ }
+
+15:14:05.637 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - Code generated in 11.953431 ms
+15:14:05.641 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - 
+/* 001 */ public Object generate(Object[] references) {
+/* 002 */   return new GeneratedIteratorForCodegenStage3(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ // codegenStageId=3
+/* 006 */ final class GeneratedIteratorForCodegenStage3 extends org.apache.spark.sql.execution.BufferedRowIterator {
+/* 007 */   private Object[] references;
+/* 008 */   private scala.collection.Iterator[] inputs;
+/* 009 */   private int columnartorow_batchIdx_0;
+/* 010 */   private org.apache.spark.sql.execution.vectorized.OnHeapColumnVector[] columnartorow_mutableStateArray_2 = new org.apache.spark.sql.execution.vectorized.OnHeapColumnVector[3];
+/* 011 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] columnartorow_mutableStateArray_3 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[3];
+/* 012 */   private org.apache.spark.sql.vectorized.ColumnarBatch[] columnartorow_mutableStateArray_1 = new org.apache.spark.sql.vectorized.ColumnarBatch[1];
+/* 013 */   private scala.collection.Iterator[] columnartorow_mutableStateArray_0 = new scala.collection.Iterator[1];
+/* 014 */
+/* 015 */   public GeneratedIteratorForCodegenStage3(Object[] references) {
+/* 016 */     this.references = references;
+/* 017 */   }
+/* 018 */
+/* 019 */   public void init(int index, scala.collection.Iterator[] inputs) {
+/* 020 */     partitionIndex = index;
+/* 021 */     this.inputs = inputs;
+/* 022 */     columnartorow_mutableStateArray_0[0] = inputs[0];
+/* 023 */
+/* 024 */     columnartorow_mutableStateArray_3[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(3, 32);
+/* 025 */     columnartorow_mutableStateArray_3[1] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(3, 32);
+/* 026 */     columnartorow_mutableStateArray_3[2] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(2, 0);
+/* 027 */
+/* 028 */   }
+/* 029 */
+/* 030 */   private void columnartorow_nextBatch_0() throws java.io.IOException {
+/* 031 */     if (columnartorow_mutableStateArray_0[0].hasNext()) {
+/* 032 */       columnartorow_mutableStateArray_1[0] = (org.apache.spark.sql.vectorized.ColumnarBatch)columnartorow_mutableStateArray_0[0].next();
+/* 033 */       ((org.apache.spark.sql.execution.metric.SQLMetric) references[1] /* numInputBatches */).add(1);
+/* 034 */       ((org.apache.spark.sql.execution.metric.SQLMetric) references[0] /* numOutputRows */).add(columnartorow_mutableStateArray_1[0].numRows());
+/* 035 */       columnartorow_batchIdx_0 = 0;
+/* 036 */       columnartorow_mutableStateArray_2[0] = (org.apache.spark.sql.execution.vectorized.OnHeapColumnVector) columnartorow_mutableStateArray_1[0].column(0);
+/* 037 */       columnartorow_mutableStateArray_2[1] = (org.apache.spark.sql.execution.vectorized.OnHeapColumnVector) columnartorow_mutableStateArray_1[0].column(1);
+/* 038 */       columnartorow_mutableStateArray_2[2] = (org.apache.spark.sql.execution.vectorized.OnHeapColumnVector) columnartorow_mutableStateArray_1[0].column(2);
+/* 039 */
+/* 040 */     }
+/* 041 */   }
+/* 042 */
+/* 043 */   protected void processNext() throws java.io.IOException {
+/* 044 */     if (columnartorow_mutableStateArray_1[0] == null) {
+/* 045 */       columnartorow_nextBatch_0();
+/* 046 */     }
+/* 047 */     while ( columnartorow_mutableStateArray_1[0] != null) {
+/* 048 */       int columnartorow_numRows_0 = columnartorow_mutableStateArray_1[0].numRows();
+/* 049 */       int columnartorow_localEnd_0 = columnartorow_numRows_0 - columnartorow_batchIdx_0;
+/* 050 */       for (int columnartorow_localIdx_0 = 0; columnartorow_localIdx_0 < columnartorow_localEnd_0; columnartorow_localIdx_0++) {
+/* 051 */         int columnartorow_rowIdx_0 = columnartorow_batchIdx_0 + columnartorow_localIdx_0;
+/* 052 */         do {
+/* 053 */           boolean columnartorow_isNull_0 = columnartorow_mutableStateArray_2[0].isNullAt(columnartorow_rowIdx_0);
+/* 054 */           int columnartorow_value_0 = columnartorow_isNull_0 ? -1 : (columnartorow_mutableStateArray_2[0].getInt(columnartorow_rowIdx_0));
+/* 055 */
+/* 056 */           boolean filter_value_2 = !columnartorow_isNull_0;
+/* 057 */           if (!filter_value_2) continue;
+/* 058 */
+/* 059 */           ((org.apache.spark.sql.execution.metric.SQLMetric) references[2] /* numOutputRows */).add(1);
+/* 060 */
+/* 061 */           // common sub-expressions
+/* 062 */
+/* 063 */           boolean columnartorow_isNull_1 = columnartorow_mutableStateArray_2[1].isNullAt(columnartorow_rowIdx_0);
+/* 064 */           int columnartorow_value_1 = columnartorow_isNull_1 ? -1 : (columnartorow_mutableStateArray_2[1].getInt(columnartorow_rowIdx_0));
+/* 065 */           columnartorow_mutableStateArray_3[2].reset();
+/* 066 */
+/* 067 */           columnartorow_mutableStateArray_3[2].zeroOutNullBytes();
+/* 068 */
+/* 069 */           if (false) {
+/* 070 */             columnartorow_mutableStateArray_3[2].setNullAt(0);
+/* 071 */           } else {
+/* 072 */             columnartorow_mutableStateArray_3[2].write(0, columnartorow_value_0);
+/* 073 */           }
+/* 074 */
+/* 075 */           if (columnartorow_isNull_1) {
+/* 076 */             columnartorow_mutableStateArray_3[2].setNullAt(1);
+/* 077 */           } else {
+/* 078 */             columnartorow_mutableStateArray_3[2].write(1, columnartorow_value_1);
+/* 079 */           }
+/* 080 */           append((columnartorow_mutableStateArray_3[2].getRow()));
+/* 081 */
+/* 082 */         } while(false);
+/* 083 */         if (shouldStop()) { columnartorow_batchIdx_0 = columnartorow_rowIdx_0 + 1; return; }
+/* 084 */       }
+/* 085 */       columnartorow_batchIdx_0 = columnartorow_numRows_0;
+/* 086 */       columnartorow_mutableStateArray_1[0] = null;
+/* 087 */       columnartorow_nextBatch_0();
+/* 088 */     }
+/* 089 */   }
+/* 090 */
+/* 091 */ }
+
+15:14:05.651 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - Code generated in 10.66935 ms
+15:14:05.655 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_1 stored as values in memory (estimated size 355.8 KiB, free 4.1 GiB)
+15:14:05.655 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_1 locally took 3 ms
+15:14:05.655 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_1 without replication took 3 ms
+15:14:05.669 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_1_piece0 stored as bytes in memory (estimated size 34.5 KiB, free 4.1 GiB)
+15:14:05.669 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_1_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:14:05.669 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_1_piece0 in memory on 192.168.31.150:56517 (size: 34.5 KiB, free: 4.1 GiB)
+15:14:05.669 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_1_piece0
+15:14:05.669 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_1_piece0
+15:14:05.669 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_1_piece0 locally took 1 ms
+15:14:05.669 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_1_piece0 without replication took 1 ms
+15:14:05.670 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.SparkContext - Created broadcast 1 from show at SortMergeJoinSpec.scala:131
+15:14:05.687 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: int
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  int <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  int
+15:14:05.688 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: int
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  int <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  int
+15:14:05.688 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: string
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  string <EOF>
+org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  string
+15:14:05.735 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.datasources.InMemoryFileIndex - It took 5 ms to list leaf files for 5 paths.
+15:14:05.735 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.FileSourceScanExec - Planning scan with bin packing, max size: 20974984 bytes, open cost is considered as scanning 4194304 bytes.
+15:14:05.737 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner - Cleaning indylambda closure: $anonfun$doExecute$4$adapted
+15:14:05.739 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner -  +++ indylambda closure ($anonfun$doExecute$4$adapted) is now cleaned +++
+15:14:05.740 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner - Cleaning indylambda closure: $anonfun$doExecute$4$adapted
+15:14:05.742 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner -  +++ indylambda closure ($anonfun$doExecute$4$adapted) is now cleaned +++
+15:14:05.748 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner - Cleaning indylambda closure: $anonfun$doExecute$5
+15:14:05.750 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner -  +++ indylambda closure ($anonfun$doExecute$5) is now cleaned +++
+15:14:05.751 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner - Cleaning indylambda closure: $anonfun$doExecute$6$adapted
+15:14:05.752 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner -  +++ indylambda closure ($anonfun$doExecute$6$adapted) is now cleaned +++
+15:14:05.770 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner - Cleaning indylambda closure: $anonfun$executeTake$2
+15:14:05.772 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner -  +++ indylambda closure ($anonfun$executeTake$2) is now cleaned +++
+15:14:05.773 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner - Cleaning indylambda closure: $anonfun$runJob$5
+15:14:05.777 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner -  +++ indylambda closure ($anonfun$runJob$5) is now cleaned +++
+15:14:05.778 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.SparkContext - Starting job: show at SortMergeJoinSpec.scala:131
+15:14:05.780 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.scheduler.DAGScheduler - eagerlyComputePartitionsForRddAndAncestors for RDD 14 took 0.000717 seconds
+15:14:05.784 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - Merging stage rdd profiles: Set()
+15:14:05.786 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - Merging stage rdd profiles: Set()
+15:14:05.796 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Registering RDD 9 (show at SortMergeJoinSpec.scala:131) as input to shuffle 1
+15:14:05.800 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - Merging stage rdd profiles: Set()
+15:14:05.800 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Registering RDD 3 (show at SortMergeJoinSpec.scala:131) as input to shuffle 0
+15:14:05.802 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Got job 0 (show at SortMergeJoinSpec.scala:131) with 1 output partitions
+15:14:05.803 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Final stage: ResultStage 2 (show at SortMergeJoinSpec.scala:131)
+15:14:05.803 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Parents of final stage: List(ShuffleMapStage 0, ShuffleMapStage 1)
+15:14:05.805 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Missing parents: List(ShuffleMapStage 0, ShuffleMapStage 1)
+15:14:05.807 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - submitStage(ResultStage 2 (name=show at SortMergeJoinSpec.scala:131;jobs=0))
+15:14:05.807 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - missing: List(ShuffleMapStage 0, ShuffleMapStage 1)
+15:14:05.807 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - submitStage(ShuffleMapStage 0 (name=show at SortMergeJoinSpec.scala:131;jobs=0))
+15:14:05.808 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - missing: List()
+15:14:05.808 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Submitting ShuffleMapStage 0 (MapPartitionsRDD[9] at show at SortMergeJoinSpec.scala:131), which has no missing parents
+15:14:05.809 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - submitMissingTasks(ShuffleMapStage 0)
+15:14:05.827 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_2 stored as values in memory (estimated size 16.9 KiB, free 4.1 GiB)
+15:14:05.828 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_2 locally took 0 ms
+15:14:05.828 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_2 without replication took 0 ms
+15:14:05.847 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_2_piece0 stored as bytes in memory (estimated size 7.6 KiB, free 4.1 GiB)
+15:14:05.848 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_2_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:14:05.848 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_2_piece0 in memory on 192.168.31.150:56517 (size: 7.6 KiB, free: 4.1 GiB)
+15:14:05.848 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_2_piece0
+15:14:05.848 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_2_piece0
+15:14:05.848 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_2_piece0 locally took 2 ms
+15:14:05.848 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_2_piece0 without replication took 2 ms
+15:14:05.849 [dag-scheduler-event-loop] INFO  org.apache.spark.SparkContext - Created broadcast 2 from broadcast at DAGScheduler.scala:1513
+15:14:05.869 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Submitting 1 missing tasks from ShuffleMapStage 0 (MapPartitionsRDD[9] at show at SortMergeJoinSpec.scala:131) (first 15 tasks are for partitions Vector(0))
+15:14:05.871 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Adding task set 0.0 with 1 tasks resource profile 0
+15:14:05.908 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Epoch for TaskSet 0.0: 0
+15:14:05.919 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Adding pending tasks took 10 ms
+15:14:05.928 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 0.0: NO_PREF, ANY
+15:14:05.933 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - submitStage(ShuffleMapStage 1 (name=show at SortMergeJoinSpec.scala:131;jobs=0))
+15:14:05.934 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - missing: List()
+15:14:05.934 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Submitting ShuffleMapStage 1 (MapPartitionsRDD[3] at show at SortMergeJoinSpec.scala:131), which has no missing parents
+15:14:05.934 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - submitMissingTasks(ShuffleMapStage 1)
+15:14:05.964 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_3 stored as values in memory (estimated size 16.9 KiB, free 4.1 GiB)
+15:14:05.969 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_3 locally took 5 ms
+15:14:05.969 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_3 without replication took 5 ms
+15:14:05.971 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_3_piece0 stored as bytes in memory (estimated size 7.6 KiB, free 4.1 GiB)
+15:14:05.972 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_3_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:14:05.972 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_3_piece0 in memory on 192.168.31.150:56517 (size: 7.6 KiB, free: 4.1 GiB)
+15:14:05.979 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_3_piece0
+15:14:05.979 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_3_piece0
+15:14:05.979 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_3_piece0 locally took 9 ms
+15:14:05.980 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_3_piece0 without replication took 9 ms
+15:14:05.980 [dag-scheduler-event-loop] INFO  org.apache.spark.SparkContext - Created broadcast 3 from broadcast at DAGScheduler.scala:1513
+15:14:05.980 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Submitting 1 missing tasks from ShuffleMapStage 1 (MapPartitionsRDD[3] at show at SortMergeJoinSpec.scala:131) (first 15 tasks are for partitions Vector(0))
+15:14:05.980 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Adding task set 1.0 with 1 tasks resource profile 0
+15:14:05.998 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_0.0, runningTasks: 0
+15:14:05.999 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 0.0: NO_PREF, ANY
+15:14:06.016 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 0.0 (TID 0) (192.168.31.150, executor driver, partition 0, PROCESS_LOCAL, 6074 bytes) taskResourceAssignments Map()
+15:14:06.021 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Epoch for TaskSet 1.0: 0
+15:14:06.021 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Adding pending tasks took 0 ms
+15:14:06.021 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 1.0: NO_PREF, ANY
+15:14:06.032 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_0.0, runningTasks: 1
+15:14:06.033 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_1.0, runningTasks: 0
+15:14:06.041 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.executor.Executor - Running task 0.0 in stage 0.0 (TID 0)
+15:14:06.052 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (0, 0) -> 1
+15:14:06.083 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_2
+15:14:06.085 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.storage.BlockManager - Level for block broadcast_2 is StorageLevel(disk, memory, deserialized, 1 replicas)
+15:14:06.543 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateUnsafeProjection - code for pmod(hash(input[0, int, true], 42), 2):
+/* 001 */ public java.lang.Object generate(Object[] references) {
+/* 002 */   return new SpecificUnsafeProjection(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificUnsafeProjection extends org.apache.spark.sql.catalyst.expressions.UnsafeProjection {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] mutableStateArray_0 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[1];
+/* 009 */
+/* 010 */   public SpecificUnsafeProjection(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */     mutableStateArray_0[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(1, 0);
+/* 013 */
+/* 014 */   }
+/* 015 */
+/* 016 */   public void initialize(int partitionIndex) {
+/* 017 */
+/* 018 */   }
+/* 019 */
+/* 020 */   // Scala.Function1 need this
+/* 021 */   public java.lang.Object apply(java.lang.Object row) {
+/* 022 */     return apply((InternalRow) row);
+/* 023 */   }
+/* 024 */
+/* 025 */   public UnsafeRow apply(InternalRow i) {
+/* 026 */     mutableStateArray_0[0].reset();
+/* 027 */
+/* 028 */
+/* 029 */     mutableStateArray_0[0].zeroOutNullBytes();
+/* 030 */
+/* 031 */     boolean isNull_0 = false;
+/* 032 */     int value_0 = -1;
+/* 033 */     if (2 == 0) {
+/* 034 */       isNull_0 = true;
+/* 035 */     } else {
+/* 036 */       int value_1 = 42;
+/* 037 */       boolean isNull_2 = i.isNullAt(0);
+/* 038 */       int value_2 = isNull_2 ?
+/* 039 */       -1 : (i.getInt(0));
+/* 040 */       if (!isNull_2) {
+/* 041 */         value_1 = org.apache.spark.unsafe.hash.Murmur3_x86_32.hashInt(value_2, value_1);
+/* 042 */       }
+/* 043 */
+/* 044 */       int remainder_0 = value_1 % 2;
+/* 045 */       if (remainder_0 < 0) {
+/* 046 */         value_0=(remainder_0 + 2) % 2;
+/* 047 */       } else {
+/* 048 */         value_0=remainder_0;
+/* 049 */       }
+/* 050 */
+/* 051 */     }
+/* 052 */     if (isNull_0) {
+/* 053 */       mutableStateArray_0[0].setNullAt(0);
+/* 054 */     } else {
+/* 055 */       mutableStateArray_0[0].write(0, value_0);
+/* 056 */     }
+/* 057 */     return (mutableStateArray_0[0].getRow());
+/* 058 */   }
+/* 059 */
+/* 060 */
+/* 061 */ }
+
+15:14:06.544 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - 
+/* 001 */ public java.lang.Object generate(Object[] references) {
+/* 002 */   return new SpecificUnsafeProjection(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificUnsafeProjection extends org.apache.spark.sql.catalyst.expressions.UnsafeProjection {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] mutableStateArray_0 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[1];
+/* 009 */
+/* 010 */   public SpecificUnsafeProjection(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */     mutableStateArray_0[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(1, 0);
+/* 013 */
+/* 014 */   }
+/* 015 */
+/* 016 */   public void initialize(int partitionIndex) {
+/* 017 */
+/* 018 */   }
+/* 019 */
+/* 020 */   // Scala.Function1 need this
+/* 021 */   public java.lang.Object apply(java.lang.Object row) {
+/* 022 */     return apply((InternalRow) row);
+/* 023 */   }
+/* 024 */
+/* 025 */   public UnsafeRow apply(InternalRow i) {
+/* 026 */     mutableStateArray_0[0].reset();
+/* 027 */
+/* 028 */
+/* 029 */     mutableStateArray_0[0].zeroOutNullBytes();
+/* 030 */
+/* 031 */     boolean isNull_0 = false;
+/* 032 */     int value_0 = -1;
+/* 033 */     if (2 == 0) {
+/* 034 */       isNull_0 = true;
+/* 035 */     } else {
+/* 036 */       int value_1 = 42;
+/* 037 */       boolean isNull_2 = i.isNullAt(0);
+/* 038 */       int value_2 = isNull_2 ?
+/* 039 */       -1 : (i.getInt(0));
+/* 040 */       if (!isNull_2) {
+/* 041 */         value_1 = org.apache.spark.unsafe.hash.Murmur3_x86_32.hashInt(value_2, value_1);
+/* 042 */       }
+/* 043 */
+/* 044 */       int remainder_0 = value_1 % 2;
+/* 045 */       if (remainder_0 < 0) {
+/* 046 */         value_0=(remainder_0 + 2) % 2;
+/* 047 */       } else {
+/* 048 */         value_0=remainder_0;
+/* 049 */       }
+/* 050 */
+/* 051 */     }
+/* 052 */     if (isNull_0) {
+/* 053 */       mutableStateArray_0[0].setNullAt(0);
+/* 054 */     } else {
+/* 055 */       mutableStateArray_0[0].write(0, value_0);
+/* 056 */     }
+/* 057 */     return (mutableStateArray_0[0].getRow());
+/* 058 */   }
+/* 059 */
+/* 060 */
+/* 061 */ }
+
+15:14:06.576 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - Code generated in 32.672117 ms
+15:14:06.606 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-00/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-00]
+15:14:06.608 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_1
+15:14:06.609 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.storage.BlockManager - Level for block broadcast_1 is StorageLevel(disk, memory, deserialized, 1 replicas)
+15:14:07.102 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
+Parquet file schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Parquet clipped schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Parquet requested schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Catalyst requested schema:
+root
+-- id: integer (nullable = true)
+-- value: integer (nullable = true)
+
+       
+15:14:07.164 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-00]
+15:14:07.743 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-01/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-01]
+15:14:07.754 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
+Parquet file schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Parquet clipped schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Parquet requested schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Catalyst requested schema:
+root
+-- id: integer (nullable = true)
+-- value: integer (nullable = true)
+
+       
+15:14:07.755 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-01]
+15:14:07.756 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-02/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-02]
+15:14:07.763 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
+Parquet file schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Parquet clipped schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Parquet requested schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Catalyst requested schema:
+root
+-- id: integer (nullable = true)
+-- value: integer (nullable = true)
+
+       
+15:14:07.764 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-02]
+15:14:07.765 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-03/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-03]
+15:14:07.772 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
+Parquet file schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Parquet clipped schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Parquet requested schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Catalyst requested schema:
+root
+-- id: integer (nullable = true)
+-- value: integer (nullable = true)
+
+       
+15:14:07.773 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-03]
+15:14:07.774 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-04/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-692, partition values: [2023-01-04]
+15:14:07.780 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
+Parquet file schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Parquet clipped schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Parquet requested schema:
+message spark_schema {
+  required int32 id;
+  required int32 value;
+}
+
+Catalyst requested schema:
+root
+-- id: integer (nullable = true)
+-- value: integer (nullable = true)
+
+       
+15:14:07.782 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-04]
+15:14:07.800 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.shuffle.sort.io.LocalDiskShuffleMapOutputWriter - Writing shuffle index file for mapId 0 with length 2
+15:14:07.807 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.shuffle.IndexShuffleBlockResolver - Shuffle index for mapId 0: [193,169]
+15:14:07.824 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.executor.Executor - Finished task 0.0 in stage 0.0 (TID 0). 2093 bytes result sent to driver
+15:14:07.825 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (0, 0) -> 0
+15:14:07.828 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_0.0, runningTasks: 0
+15:14:07.828 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_1.0, runningTasks: 0
+15:14:07.829 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NO_PREF, so moving to locality level ANY
+15:14:07.830 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 1.0 (TID 1) (192.168.31.150, executor driver, partition 0, PROCESS_LOCAL, 6074 bytes) taskResourceAssignments Map()
+15:14:07.830 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.executor.Executor - Running task 0.0 in stage 1.0 (TID 1)
+15:14:07.832 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (1, 0) -> 1
+15:14:07.833 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_3
+15:14:07.833 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.storage.BlockManager - Level for block broadcast_3 is StorageLevel(disk, memory, deserialized, 1 replicas)
+15:14:07.834 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 0.0 (TID 0) in 1827 ms on 192.168.31.150 (executor driver) (1/1)
+15:14:07.837 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 0.0, whose tasks have all completed, from pool 
+15:14:07.842 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateUnsafeProjection - code for pmod(hash(input[0, int, true], 42), 2):
+/* 001 */ public java.lang.Object generate(Object[] references) {
+/* 002 */   return new SpecificUnsafeProjection(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificUnsafeProjection extends org.apache.spark.sql.catalyst.expressions.UnsafeProjection {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] mutableStateArray_0 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[1];
+/* 009 */
+/* 010 */   public SpecificUnsafeProjection(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */     mutableStateArray_0[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(1, 0);
+/* 013 */
+/* 014 */   }
+/* 015 */
+/* 016 */   public void initialize(int partitionIndex) {
+/* 017 */
+/* 018 */   }
+/* 019 */
+/* 020 */   // Scala.Function1 need this
+/* 021 */   public java.lang.Object apply(java.lang.Object row) {
+/* 022 */     return apply((InternalRow) row);
+/* 023 */   }
+/* 024 */
+/* 025 */   public UnsafeRow apply(InternalRow i) {
+/* 026 */     mutableStateArray_0[0].reset();
+/* 027 */
+/* 028 */
+/* 029 */     mutableStateArray_0[0].zeroOutNullBytes();
+/* 030 */
+/* 031 */     boolean isNull_0 = false;
+/* 032 */     int value_0 = -1;
+/* 033 */     if (2 == 0) {
+/* 034 */       isNull_0 = true;
+/* 035 */     } else {
+/* 036 */       int value_1 = 42;
+/* 037 */       boolean isNull_2 = i.isNullAt(0);
+/* 038 */       int value_2 = isNull_2 ?
+/* 039 */       -1 : (i.getInt(0));
+/* 040 */       if (!isNull_2) {
+/* 041 */         value_1 = org.apache.spark.unsafe.hash.Murmur3_x86_32.hashInt(value_2, value_1);
+/* 042 */       }
+/* 043 */
+/* 044 */       int remainder_0 = value_1 % 2;
+/* 045 */       if (remainder_0 < 0) {
+/* 046 */         value_0=(remainder_0 + 2) % 2;
+/* 047 */       } else {
+/* 048 */         value_0=remainder_0;
+/* 049 */       }
+/* 050 */
+/* 051 */     }
+/* 052 */     if (isNull_0) {
+/* 053 */       mutableStateArray_0[0].setNullAt(0);
+/* 054 */     } else {
+/* 055 */       mutableStateArray_0[0].write(0, value_0);
+/* 056 */     }
+/* 057 */     return (mutableStateArray_0[0].getRow());
+/* 058 */   }
+/* 059 */
+/* 060 */
+/* 061 */ }
+
+15:14:07.843 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-00/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-702, partition values: [2023-01-00]
+15:14:07.843 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_0
+15:14:07.843 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.storage.BlockManager - Level for block broadcast_0 is StorageLevel(disk, memory, deserialized, 1 replicas)
+15:14:07.845 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
+15:14:07.846 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - ShuffleMapStage 0 (show at SortMergeJoinSpec.scala:131) finished in 2.027 s
+15:14:07.847 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - looking for newly runnable stages
+15:14:07.847 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - running: Set(ShuffleMapStage 1)
+15:14:07.847 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - waiting: Set(ResultStage 2)
+15:14:07.848 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - failed: Set()
+15:14:07.848 [dag-scheduler-event-loop] DEBUG org.apache.spark.MapOutputTrackerMaster - Increasing epoch to 1
+15:14:07.851 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - submitStage(ResultStage 2 (name=show at SortMergeJoinSpec.scala:131;jobs=0))
+15:14:07.852 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - missing: List(ShuffleMapStage 1)
+15:14:07.852 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - submitStage(ShuffleMapStage 1 (name=show at SortMergeJoinSpec.scala:131;jobs=0))
+15:14:07.869 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
+Parquet file schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Parquet clipped schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Parquet requested schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Catalyst requested schema:
+root
+-- id: integer (nullable = true)
+-- name: string (nullable = true)
+
+       
+15:14:07.870 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-00]
+15:14:07.872 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-02/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-702, partition values: [2023-01-02]
+15:14:07.877 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
+Parquet file schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Parquet clipped schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Parquet requested schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Catalyst requested schema:
+root
+-- id: integer (nullable = true)
+-- name: string (nullable = true)
+
+       
+15:14:07.878 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-02]
+15:14:07.878 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-03/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-701, partition values: [2023-01-03]
+15:14:07.883 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
+Parquet file schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Parquet clipped schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Parquet requested schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Catalyst requested schema:
+root
+-- id: integer (nullable = true)
+-- name: string (nullable = true)
+
+       
+15:14:07.884 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-03]
+15:14:07.885 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-04/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-701, partition values: [2023-01-04]
+15:14:07.891 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
+Parquet file schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Parquet clipped schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Parquet requested schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Catalyst requested schema:
+root
+-- id: integer (nullable = true)
+-- name: string (nullable = true)
+
+       
+15:14:07.892 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-04]
+15:14:07.893 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-01/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-699, partition values: [2023-01-01]
+15:14:07.897 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
+Parquet file schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Parquet clipped schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Parquet requested schema:
+message spark_schema {
+  required int32 id;
+  required binary name (STRING);
+}
+
+Catalyst requested schema:
+root
+-- id: integer (nullable = true)
+-- name: string (nullable = true)
+
+       
+15:14:07.898 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-01]
+15:14:07.900 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.shuffle.sort.io.LocalDiskShuffleMapOutputWriter - Writing shuffle index file for mapId 1 with length 2
+15:14:07.901 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.shuffle.IndexShuffleBlockResolver - Shuffle index for mapId 1: [171,234]
+15:14:07.902 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.executor.Executor - Finished task 0.0 in stage 1.0 (TID 1). 2050 bytes result sent to driver
+15:14:07.903 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (1, 0) -> 0
+15:14:07.903 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_1.0, runningTasks: 0
+15:14:07.903 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NO_PREF, so moving to locality level ANY
+15:14:07.903 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 1.0 (TID 1) in 73 ms on 192.168.31.150 (executor driver) (1/1)
+15:14:07.904 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 1.0, whose tasks have all completed, from pool 
+15:14:07.904 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
+15:14:07.904 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - ShuffleMapStage 1 (show at SortMergeJoinSpec.scala:131) finished in 1.969 s
+15:14:07.904 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - looking for newly runnable stages
+15:14:07.904 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - running: Set()
+15:14:07.904 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - waiting: Set(ResultStage 2)
+15:14:07.904 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - failed: Set()
+15:14:07.904 [dag-scheduler-event-loop] DEBUG org.apache.spark.MapOutputTrackerMaster - Increasing epoch to 2
+15:14:07.905 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - submitStage(ResultStage 2 (name=show at SortMergeJoinSpec.scala:131;jobs=0))
+15:14:07.905 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - missing: List()
+15:14:07.905 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Submitting ResultStage 2 (MapPartitionsRDD[14] at show at SortMergeJoinSpec.scala:131), which has no missing parents
+15:14:07.905 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - submitMissingTasks(ResultStage 2)
+15:14:07.917 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_4 stored as values in memory (estimated size 40.3 KiB, free 4.1 GiB)
+15:14:07.918 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_4 locally took 0 ms
+15:14:07.918 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_4 without replication took 0 ms
+15:14:07.918 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_4_piece0 stored as bytes in memory (estimated size 18.2 KiB, free 4.1 GiB)
+15:14:07.919 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_4_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:14:07.919 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_4_piece0 in memory on 192.168.31.150:56517 (size: 18.2 KiB, free: 4.1 GiB)
+15:14:07.919 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_4_piece0
+15:14:07.919 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_4_piece0
+15:14:07.919 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_4_piece0 locally took 0 ms
+15:14:07.919 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_4_piece0 without replication took 0 ms
+15:14:07.919 [dag-scheduler-event-loop] INFO  org.apache.spark.SparkContext - Created broadcast 4 from broadcast at DAGScheduler.scala:1513
+15:14:07.921 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Submitting 1 missing tasks from ResultStage 2 (MapPartitionsRDD[14] at show at SortMergeJoinSpec.scala:131) (first 15 tasks are for partitions Vector(0))
+15:14:07.921 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Adding task set 2.0 with 1 tasks resource profile 0
+15:14:07.921 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Epoch for TaskSet 2.0: 2
+15:14:07.922 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Adding pending tasks took 1 ms
+15:14:07.923 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 2.0: NODE_LOCAL, ANY
+15:14:07.924 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
+15:14:07.927 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 2.0 (TID 2) (192.168.31.150, executor driver, partition 0, NODE_LOCAL, 4735 bytes) taskResourceAssignments Map()
+15:14:07.928 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] INFO  org.apache.spark.executor.Executor - Running task 0.0 in stage 2.0 (TID 2)
+15:14:07.929 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 1
+15:14:07.929 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_4
+15:14:07.929 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.storage.BlockManager - Level for block broadcast_4 is StorageLevel(disk, memory, deserialized, 1 replicas)
+15:14:08.016 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.MapOutputTrackerMaster - Fetching outputs for shuffle 0
+15:14:08.018 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.MapOutputTrackerMaster - Convert map statuses for shuffle 0, mappers 0-1, partitions 0-1
+15:14:08.045 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - maxBytesInFlight: 50331648, targetRemoteRequestSize: 10066329, maxBlocksInFlightPerAddress: 2147483647
+15:14:08.053 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] INFO  org.apache.spark.storage.ShuffleBlockFetcherIterator - Getting 1 (171.0 B) non-empty blocks including 1 (171.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+15:14:08.054 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] INFO  org.apache.spark.storage.ShuffleBlockFetcherIterator - Started 0 remote fetches in 14 ms
+15:14:08.055 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - Start fetching local blocks: (shuffle_0_1_0,0)
+15:14:08.055 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.storage.BlockManager - Getting local shuffle block shuffle_0_1_0
+15:14:08.061 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - Got local blocks in 21 ms
+15:14:08.069 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateOrdering - Generated Ordering by input[0, int, true] ASC NULLS FIRST:
+/* 001 */ public SpecificOrdering generate(Object[] references) {
+/* 002 */   return new SpecificOrdering(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificOrdering extends org.apache.spark.sql.catalyst.expressions.BaseOrdering {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */
+/* 009 */
+/* 010 */   public SpecificOrdering(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */
+/* 013 */   }
+/* 014 */
+/* 015 */   public int compare(InternalRow a, InternalRow b) {
+/* 016 */
+/* 017 */     boolean isNull_0 = a.isNullAt(0);
+/* 018 */     int value_0 = isNull_0 ?
+/* 019 */     -1 : (a.getInt(0));
+/* 020 */     boolean isNull_1 = b.isNullAt(0);
+/* 021 */     int value_1 = isNull_1 ?
+/* 022 */     -1 : (b.getInt(0));
+/* 023 */     if (isNull_0 && isNull_1) {
+/* 024 */       // Nothing
+/* 025 */     } else if (isNull_0) {
+/* 026 */       return -1;
+/* 027 */     } else if (isNull_1) {
+/* 028 */       return 1;
+/* 029 */     } else {
+/* 030 */       int comp = (value_0 > value_1 ? 1 : value_0 < value_1 ? -1 : 0);
+/* 031 */       if (comp != 0) {
+/* 032 */         return comp;
+/* 033 */       }
+/* 034 */     }
+/* 035 */
+/* 036 */     return 0;
+/* 037 */   }
+/* 038 */
+/* 039 */
+/* 040 */ }
+
+15:14:08.070 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - 
+/* 001 */ public SpecificOrdering generate(Object[] references) {
+/* 002 */   return new SpecificOrdering(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificOrdering extends org.apache.spark.sql.catalyst.expressions.BaseOrdering {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */
+/* 009 */
+/* 010 */   public SpecificOrdering(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */
+/* 013 */   }
+/* 014 */
+/* 015 */   public int compare(InternalRow a, InternalRow b) {
+/* 016 */
+/* 017 */     boolean isNull_0 = a.isNullAt(0);
+/* 018 */     int value_0 = isNull_0 ?
+/* 019 */     -1 : (a.getInt(0));
+/* 020 */     boolean isNull_1 = b.isNullAt(0);
+/* 021 */     int value_1 = isNull_1 ?
+/* 022 */     -1 : (b.getInt(0));
+/* 023 */     if (isNull_0 && isNull_1) {
+/* 024 */       // Nothing
+/* 025 */     } else if (isNull_0) {
+/* 026 */       return -1;
+/* 027 */     } else if (isNull_1) {
+/* 028 */       return 1;
+/* 029 */     } else {
+/* 030 */       int comp = (value_0 > value_1 ? 1 : value_0 < value_1 ? -1 : 0);
+/* 031 */       if (comp != 0) {
+/* 032 */         return comp;
+/* 033 */       }
+/* 034 */     }
+/* 035 */
+/* 036 */     return 0;
+/* 037 */   }
+/* 038 */
+/* 039 */
+/* 040 */ }
+
+15:14:08.085 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] INFO  org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - Code generated in 15.823612 ms
+15:14:08.102 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateUnsafeProjection - code for sortprefix(input[0, int, true] ASC NULLS FIRST):
+/* 001 */ public java.lang.Object generate(Object[] references) {
+/* 002 */   return new SpecificUnsafeProjection(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificUnsafeProjection extends org.apache.spark.sql.catalyst.expressions.UnsafeProjection {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] mutableStateArray_0 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[1];
+/* 009 */
+/* 010 */   public SpecificUnsafeProjection(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */     mutableStateArray_0[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(1, 0);
+/* 013 */
+/* 014 */   }
+/* 015 */
+/* 016 */   public void initialize(int partitionIndex) {
+/* 017 */
+/* 018 */   }
+/* 019 */
+/* 020 */   // Scala.Function1 need this
+/* 021 */   public java.lang.Object apply(java.lang.Object row) {
+/* 022 */     return apply((InternalRow) row);
+/* 023 */   }
+/* 024 */
+/* 025 */   public UnsafeRow apply(InternalRow i) {
+/* 026 */     mutableStateArray_0[0].reset();
+/* 027 */
+/* 028 */
+/* 029 */     mutableStateArray_0[0].zeroOutNullBytes();
+/* 030 */
+/* 031 */     boolean isNull_1 = i.isNullAt(0);
+/* 032 */     int value_1 = isNull_1 ?
+/* 033 */     -1 : (i.getInt(0));
+/* 034 */     long value_0 = 0L;
+/* 035 */     boolean isNull_0 = isNull_1;
+/* 036 */     if (!isNull_1) {
+/* 037 */       value_0 = (long) value_1;
+/* 038 */     }
+/* 039 */     if (isNull_0) {
+/* 040 */       mutableStateArray_0[0].setNullAt(0);
+/* 041 */     } else {
+/* 042 */       mutableStateArray_0[0].write(0, value_0);
+/* 043 */     }
+/* 044 */     return (mutableStateArray_0[0].getRow());
+/* 045 */   }
+/* 046 */
+/* 047 */
+/* 048 */ }
+
+15:14:08.102 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - 
+/* 001 */ public java.lang.Object generate(Object[] references) {
+/* 002 */   return new SpecificUnsafeProjection(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificUnsafeProjection extends org.apache.spark.sql.catalyst.expressions.UnsafeProjection {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] mutableStateArray_0 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[1];
+/* 009 */
+/* 010 */   public SpecificUnsafeProjection(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */     mutableStateArray_0[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(1, 0);
+/* 013 */
+/* 014 */   }
+/* 015 */
+/* 016 */   public void initialize(int partitionIndex) {
+/* 017 */
+/* 018 */   }
+/* 019 */
+/* 020 */   // Scala.Function1 need this
+/* 021 */   public java.lang.Object apply(java.lang.Object row) {
+/* 022 */     return apply((InternalRow) row);
+/* 023 */   }
+/* 024 */
+/* 025 */   public UnsafeRow apply(InternalRow i) {
+/* 026 */     mutableStateArray_0[0].reset();
+/* 027 */
+/* 028 */
+/* 029 */     mutableStateArray_0[0].zeroOutNullBytes();
+/* 030 */
+/* 031 */     boolean isNull_1 = i.isNullAt(0);
+/* 032 */     int value_1 = isNull_1 ?
+/* 033 */     -1 : (i.getInt(0));
+/* 034 */     long value_0 = 0L;
+/* 035 */     boolean isNull_0 = isNull_1;
+/* 036 */     if (!isNull_1) {
+/* 037 */       value_0 = (long) value_1;
+/* 038 */     }
+/* 039 */     if (isNull_0) {
+/* 040 */       mutableStateArray_0[0].setNullAt(0);
+/* 041 */     } else {
+/* 042 */       mutableStateArray_0[0].write(0, value_0);
+/* 043 */     }
+/* 044 */     return (mutableStateArray_0[0].getRow());
+/* 045 */   }
+/* 046 */
+/* 047 */
+/* 048 */ }
+
+15:14:08.110 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] INFO  org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - Code generated in 8.306429 ms
+15:14:08.126 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 2 acquired 64.0 KiB for org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@46c28466
+15:14:08.128 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.MapOutputTrackerMaster - Fetching outputs for shuffle 1
+15:14:08.128 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.MapOutputTrackerMaster - Convert map statuses for shuffle 1, mappers 0-1, partitions 0-1
+15:14:08.129 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - maxBytesInFlight: 50331648, targetRemoteRequestSize: 10066329, maxBlocksInFlightPerAddress: 2147483647
+15:14:08.129 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] INFO  org.apache.spark.storage.ShuffleBlockFetcherIterator - Getting 1 (207.0 B) non-empty blocks including 1 (207.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+15:14:08.129 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] INFO  org.apache.spark.storage.ShuffleBlockFetcherIterator - Started 0 remote fetches in 0 ms
+15:14:08.129 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - Start fetching local blocks: (shuffle_1_0_0,0)
+15:14:08.129 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.storage.BlockManager - Getting local shuffle block shuffle_1_0_0
+15:14:08.129 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - Got local blocks in 0 ms
+15:14:08.133 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateOrdering - Generated Ordering by input[0, int, true] ASC NULLS FIRST:
+/* 001 */ public SpecificOrdering generate(Object[] references) {
+/* 002 */   return new SpecificOrdering(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificOrdering extends org.apache.spark.sql.catalyst.expressions.BaseOrdering {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */
+/* 009 */
+/* 010 */   public SpecificOrdering(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */
+/* 013 */   }
+/* 014 */
+/* 015 */   public int compare(InternalRow a, InternalRow b) {
+/* 016 */
+/* 017 */     boolean isNull_0 = a.isNullAt(0);
+/* 018 */     int value_0 = isNull_0 ?
+/* 019 */     -1 : (a.getInt(0));
+/* 020 */     boolean isNull_1 = b.isNullAt(0);
+/* 021 */     int value_1 = isNull_1 ?
+/* 022 */     -1 : (b.getInt(0));
+/* 023 */     if (isNull_0 && isNull_1) {
+/* 024 */       // Nothing
+/* 025 */     } else if (isNull_0) {
+/* 026 */       return -1;
+/* 027 */     } else if (isNull_1) {
+/* 028 */       return 1;
+/* 029 */     } else {
+/* 030 */       int comp = (value_0 > value_1 ? 1 : value_0 < value_1 ? -1 : 0);
+/* 031 */       if (comp != 0) {
+/* 032 */         return comp;
+/* 033 */       }
+/* 034 */     }
+/* 035 */
+/* 036 */     return 0;
+/* 037 */   }
+/* 038 */
+/* 039 */
+/* 040 */ }
+
+15:14:08.135 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateUnsafeProjection - code for sortprefix(input[0, int, true] ASC NULLS FIRST):
+/* 001 */ public java.lang.Object generate(Object[] references) {
+/* 002 */   return new SpecificUnsafeProjection(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificUnsafeProjection extends org.apache.spark.sql.catalyst.expressions.UnsafeProjection {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] mutableStateArray_0 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[1];
+/* 009 */
+/* 010 */   public SpecificUnsafeProjection(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */     mutableStateArray_0[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(1, 0);
+/* 013 */
+/* 014 */   }
+/* 015 */
+/* 016 */   public void initialize(int partitionIndex) {
+/* 017 */
+/* 018 */   }
+/* 019 */
+/* 020 */   // Scala.Function1 need this
+/* 021 */   public java.lang.Object apply(java.lang.Object row) {
+/* 022 */     return apply((InternalRow) row);
+/* 023 */   }
+/* 024 */
+/* 025 */   public UnsafeRow apply(InternalRow i) {
+/* 026 */     mutableStateArray_0[0].reset();
+/* 027 */
+/* 028 */
+/* 029 */     mutableStateArray_0[0].zeroOutNullBytes();
+/* 030 */
+/* 031 */     boolean isNull_1 = i.isNullAt(0);
+/* 032 */     int value_1 = isNull_1 ?
+/* 033 */     -1 : (i.getInt(0));
+/* 034 */     long value_0 = 0L;
+/* 035 */     boolean isNull_0 = isNull_1;
+/* 036 */     if (!isNull_1) {
+/* 037 */       value_0 = (long) value_1;
+/* 038 */     }
+/* 039 */     if (isNull_0) {
+/* 040 */       mutableStateArray_0[0].setNullAt(0);
+/* 041 */     } else {
+/* 042 */       mutableStateArray_0[0].write(0, value_0);
+/* 043 */     }
+/* 044 */     return (mutableStateArray_0[0].getRow());
+/* 045 */   }
+/* 046 */
+/* 047 */
+/* 048 */ }
+
+15:14:08.136 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 2 acquired 64.0 KiB for org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@36851751
+15:14:08.156 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 2 acquired 64.0 MiB for org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@46c28466
+15:14:08.190 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 2 acquired 64.0 MiB for org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@36851751
+15:14:08.395 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 2 release 64.0 MiB from org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@46c28466
+15:14:08.395 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 2 release 64.0 KiB from org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@46c28466
+15:14:08.396 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 2 release 64.0 MiB from org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@36851751
+15:14:08.397 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 2 release 64.0 KiB from org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@36851751
+15:14:08.397 [Spark Context Cleaner] DEBUG org.apache.spark.broadcast.TorrentBroadcast - Unpersisting TorrentBroadcast 3
+15:14:08.398 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] INFO  org.apache.spark.executor.Executor - Finished task 0.0 in stage 2.0 (TID 2). 5455 bytes result sent to driver
+15:14:08.399 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
+15:14:08.399 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
+15:14:08.399 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NODE_LOCAL, so moving to locality level ANY
+15:14:08.400 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 2.0 (TID 2) in 476 ms on 192.168.31.150 (executor driver) (1/1)
+15:14:08.400 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 2.0, whose tasks have all completed, from pool 
+15:14:08.401 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - ResultStage 2 (show at SortMergeJoinSpec.scala:131) finished in 0.489 s
+15:14:08.406 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - After removal of stage 2, remaining stages = 2
+15:14:08.406 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - After removal of stage 1, remaining stages = 1
+15:14:08.406 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - After removal of stage 0, remaining stages = 0
+15:14:08.407 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Job 0 is finished. Cancelling potential speculative or zombie tasks for this job
+15:14:08.407 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Killing all running tasks in stage 2: Stage finished
+15:14:08.409 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.scheduler.DAGScheduler - Job 0 finished: show at SortMergeJoinSpec.scala:131, took 2.630605 s
+15:14:08.412 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner - Cleaning indylambda closure: $anonfun$executeTake$2
+15:14:08.414 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner -  +++ indylambda closure ($anonfun$executeTake$2) is now cleaned +++
+15:14:08.415 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner - Cleaning indylambda closure: $anonfun$runJob$5
+15:14:08.418 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - removing broadcast 3
+15:14:08.419 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.BlockManager - Removing broadcast 3
+15:14:08.419 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.util.ClosureCleaner -  +++ indylambda closure ($anonfun$runJob$5) is now cleaned +++
+15:14:08.420 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.SparkContext - Starting job: show at SortMergeJoinSpec.scala:131
+15:14:08.420 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.scheduler.DAGScheduler - eagerlyComputePartitionsForRddAndAncestors for RDD 14 took 0.000116 seconds
+15:14:08.420 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - Merging stage rdd profiles: Set()
+15:14:08.420 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - Merging stage rdd profiles: Set()
+15:14:08.420 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - Merging stage rdd profiles: Set()
+15:14:08.421 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Got job 1 (show at SortMergeJoinSpec.scala:131) with 1 output partitions
+15:14:08.421 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Final stage: ResultStage 5 (show at SortMergeJoinSpec.scala:131)
+15:14:08.421 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Parents of final stage: List(ShuffleMapStage 3, ShuffleMapStage 4)
+15:14:08.421 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Missing parents: List()
+15:14:08.422 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - submitStage(ResultStage 5 (name=show at SortMergeJoinSpec.scala:131;jobs=1))
+15:14:08.422 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - missing: List()
+15:14:08.422 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Submitting ResultStage 5 (MapPartitionsRDD[14] at show at SortMergeJoinSpec.scala:131), which has no missing parents
+15:14:08.422 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - submitMissingTasks(ResultStage 5)
+15:14:08.422 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_3
+15:14:08.423 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_3 of size 17352 dropped from memory (free 4391802583)
+15:14:08.425 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_3_piece0
+15:14:08.427 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_5 stored as values in memory (estimated size 40.3 KiB, free 4.1 GiB)
+15:14:08.428 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_5 locally took 1 ms
+15:14:08.428 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_5 without replication took 1 ms
+15:14:08.429 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_3_piece0 of size 7831 dropped from memory (free 4391769190)
+15:14:08.429 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_5_piece0 stored as bytes in memory (estimated size 18.1 KiB, free 4.1 GiB)
+15:14:08.430 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_3_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:14:08.431 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_3_piece0 on 192.168.31.150:56517 in memory (size: 7.6 KiB, free: 4.1 GiB)
+15:14:08.431 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_3_piece0
+15:14:08.431 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_5_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:14:08.431 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_3_piece0
+15:14:08.432 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_5_piece0 in memory on 192.168.31.150:56517 (size: 18.1 KiB, free: 4.1 GiB)
+15:14:08.432 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_5_piece0
+15:14:08.432 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_5_piece0
+15:14:08.432 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_5_piece0 locally took 2 ms
+15:14:08.432 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_5_piece0 without replication took 3 ms
+15:14:08.432 [dag-scheduler-event-loop] INFO  org.apache.spark.SparkContext - Created broadcast 5 from broadcast at DAGScheduler.scala:1513
+15:14:08.433 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Submitting 1 missing tasks from ResultStage 5 (MapPartitionsRDD[14] at show at SortMergeJoinSpec.scala:131) (first 15 tasks are for partitions Vector(1))
+15:14:08.433 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Adding task set 5.0 with 1 tasks resource profile 0
+15:14:08.433 [block-manager-storage-async-thread-pool-2] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Done removing broadcast 3, response is 0
+15:14:08.433 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Epoch for TaskSet 5.0: 2
+15:14:08.433 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Adding pending tasks took 0 ms
+15:14:08.434 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 5.0: NODE_LOCAL, ANY
+15:14:08.434 [block-manager-storage-async-thread-pool-2] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.31.150:56516
+15:14:08.434 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_5.0, runningTasks: 0
+15:14:08.435 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 5.0 (TID 3) (192.168.31.150, executor driver, partition 1, NODE_LOCAL, 4735 bytes) taskResourceAssignments Map()
+15:14:08.435 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] INFO  org.apache.spark.executor.Executor - Running task 0.0 in stage 5.0 (TID 3)
+15:14:08.436 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (5, 0) -> 1
+15:14:08.436 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_5
+15:14:08.437 [Spark Context Cleaner] DEBUG org.apache.spark.broadcast.TorrentBroadcast - Unpersisting TorrentBroadcast 2
+15:14:08.437 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.BlockManager - Level for block broadcast_5 is StorageLevel(disk, memory, deserialized, 1 replicas)
+15:14:08.437 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - removing broadcast 2
+15:14:08.437 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManager - Removing broadcast 2
+15:14:08.437 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_2_piece0
+15:14:08.438 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_2_piece0 of size 7801 dropped from memory (free 4391758408)
+15:14:08.438 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_2_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:14:08.439 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_2_piece0 on 192.168.31.150:56517 in memory (size: 7.6 KiB, free: 4.1 GiB)
+15:14:08.439 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_2_piece0
+15:14:08.439 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_2_piece0
+15:14:08.439 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_2
+15:14:08.439 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_2 of size 17328 dropped from memory (free 4391775736)
+15:14:08.440 [block-manager-storage-async-thread-pool-5] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Done removing broadcast 2, response is 0
+15:14:08.440 [block-manager-storage-async-thread-pool-5] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.31.150:56516
+15:14:08.444 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.MapOutputTrackerMaster - Fetching outputs for shuffle 0
+15:14:08.444 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.MapOutputTrackerMaster - Convert map statuses for shuffle 0, mappers 0-1, partitions 1-2
+15:14:08.444 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - maxBytesInFlight: 50331648, targetRemoteRequestSize: 10066329, maxBlocksInFlightPerAddress: 2147483647
+15:14:08.445 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] INFO  org.apache.spark.storage.ShuffleBlockFetcherIterator - Getting 1 (251.0 B) non-empty blocks including 1 (251.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+15:14:08.445 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] INFO  org.apache.spark.storage.ShuffleBlockFetcherIterator - Started 0 remote fetches in 0 ms
+15:14:08.445 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - Start fetching local blocks: (shuffle_0_1_1,0)
+15:14:08.445 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.BlockManager - Getting local shuffle block shuffle_0_1_1
+15:14:08.445 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - Got local blocks in 1 ms
+15:14:08.447 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateOrdering - Generated Ordering by input[0, int, true] ASC NULLS FIRST:
+/* 001 */ public SpecificOrdering generate(Object[] references) {
+/* 002 */   return new SpecificOrdering(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificOrdering extends org.apache.spark.sql.catalyst.expressions.BaseOrdering {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */
+/* 009 */
+/* 010 */   public SpecificOrdering(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */
+/* 013 */   }
+/* 014 */
+/* 015 */   public int compare(InternalRow a, InternalRow b) {
+/* 016 */
+/* 017 */     boolean isNull_0 = a.isNullAt(0);
+/* 018 */     int value_0 = isNull_0 ?
+/* 019 */     -1 : (a.getInt(0));
+/* 020 */     boolean isNull_1 = b.isNullAt(0);
+/* 021 */     int value_1 = isNull_1 ?
+/* 022 */     -1 : (b.getInt(0));
+/* 023 */     if (isNull_0 && isNull_1) {
+/* 024 */       // Nothing
+/* 025 */     } else if (isNull_0) {
+/* 026 */       return -1;
+/* 027 */     } else if (isNull_1) {
+/* 028 */       return 1;
+/* 029 */     } else {
+/* 030 */       int comp = (value_0 > value_1 ? 1 : value_0 < value_1 ? -1 : 0);
+/* 031 */       if (comp != 0) {
+/* 032 */         return comp;
+/* 033 */       }
+/* 034 */     }
+/* 035 */
+/* 036 */     return 0;
+/* 037 */   }
+/* 038 */
+/* 039 */
+/* 040 */ }
+
+15:14:08.450 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateUnsafeProjection - code for sortprefix(input[0, int, true] ASC NULLS FIRST):
+/* 001 */ public java.lang.Object generate(Object[] references) {
+/* 002 */   return new SpecificUnsafeProjection(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificUnsafeProjection extends org.apache.spark.sql.catalyst.expressions.UnsafeProjection {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] mutableStateArray_0 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[1];
+/* 009 */
+/* 010 */   public SpecificUnsafeProjection(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */     mutableStateArray_0[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(1, 0);
+/* 013 */
+/* 014 */   }
+/* 015 */
+/* 016 */   public void initialize(int partitionIndex) {
+/* 017 */
+/* 018 */   }
+/* 019 */
+/* 020 */   // Scala.Function1 need this
+/* 021 */   public java.lang.Object apply(java.lang.Object row) {
+/* 022 */     return apply((InternalRow) row);
+/* 023 */   }
+/* 024 */
+/* 025 */   public UnsafeRow apply(InternalRow i) {
+/* 026 */     mutableStateArray_0[0].reset();
+/* 027 */
+/* 028 */
+/* 029 */     mutableStateArray_0[0].zeroOutNullBytes();
+/* 030 */
+/* 031 */     boolean isNull_1 = i.isNullAt(0);
+/* 032 */     int value_1 = isNull_1 ?
+/* 033 */     -1 : (i.getInt(0));
+/* 034 */     long value_0 = 0L;
+/* 035 */     boolean isNull_0 = isNull_1;
+/* 036 */     if (!isNull_1) {
+/* 037 */       value_0 = (long) value_1;
+/* 038 */     }
+/* 039 */     if (isNull_0) {
+/* 040 */       mutableStateArray_0[0].setNullAt(0);
+/* 041 */     } else {
+/* 042 */       mutableStateArray_0[0].write(0, value_0);
+/* 043 */     }
+/* 044 */     return (mutableStateArray_0[0].getRow());
+/* 045 */   }
+/* 046 */
+/* 047 */
+/* 048 */ }
+
+15:14:08.452 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 3 acquired 64.0 KiB for org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@1d3a5932
+15:14:08.452 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.MapOutputTrackerMaster - Fetching outputs for shuffle 1
+15:14:08.452 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.MapOutputTrackerMaster - Convert map statuses for shuffle 1, mappers 0-1, partitions 1-2
+15:14:08.453 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - maxBytesInFlight: 50331648, targetRemoteRequestSize: 10066329, maxBlocksInFlightPerAddress: 2147483647
+15:14:08.453 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] INFO  org.apache.spark.storage.ShuffleBlockFetcherIterator - Getting 1 (171.0 B) non-empty blocks including 1 (171.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+15:14:08.453 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] INFO  org.apache.spark.storage.ShuffleBlockFetcherIterator - Started 0 remote fetches in 0 ms
+15:14:08.454 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - Start fetching local blocks: (shuffle_1_0_1,0)
+15:14:08.454 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.BlockManager - Getting local shuffle block shuffle_1_0_1
+15:14:08.454 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - Got local blocks in 1 ms
+15:14:08.459 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateOrdering - Generated Ordering by input[0, int, true] ASC NULLS FIRST:
+/* 001 */ public SpecificOrdering generate(Object[] references) {
+/* 002 */   return new SpecificOrdering(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificOrdering extends org.apache.spark.sql.catalyst.expressions.BaseOrdering {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */
+/* 009 */
+/* 010 */   public SpecificOrdering(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */
+/* 013 */   }
+/* 014 */
+/* 015 */   public int compare(InternalRow a, InternalRow b) {
+/* 016 */
+/* 017 */     boolean isNull_0 = a.isNullAt(0);
+/* 018 */     int value_0 = isNull_0 ?
+/* 019 */     -1 : (a.getInt(0));
+/* 020 */     boolean isNull_1 = b.isNullAt(0);
+/* 021 */     int value_1 = isNull_1 ?
+/* 022 */     -1 : (b.getInt(0));
+/* 023 */     if (isNull_0 && isNull_1) {
+/* 024 */       // Nothing
+/* 025 */     } else if (isNull_0) {
+/* 026 */       return -1;
+/* 027 */     } else if (isNull_1) {
+/* 028 */       return 1;
+/* 029 */     } else {
+/* 030 */       int comp = (value_0 > value_1 ? 1 : value_0 < value_1 ? -1 : 0);
+/* 031 */       if (comp != 0) {
+/* 032 */         return comp;
+/* 033 */       }
+/* 034 */     }
+/* 035 */
+/* 036 */     return 0;
+/* 037 */   }
+/* 038 */
+/* 039 */
+/* 040 */ }
+
+15:14:08.467 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateUnsafeProjection - code for sortprefix(input[0, int, true] ASC NULLS FIRST):
+/* 001 */ public java.lang.Object generate(Object[] references) {
+/* 002 */   return new SpecificUnsafeProjection(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificUnsafeProjection extends org.apache.spark.sql.catalyst.expressions.UnsafeProjection {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */   private org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[] mutableStateArray_0 = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter[1];
+/* 009 */
+/* 010 */   public SpecificUnsafeProjection(Object[] references) {
+/* 011 */     this.references = references;
+/* 012 */     mutableStateArray_0[0] = new org.apache.spark.sql.catalyst.expressions.codegen.UnsafeRowWriter(1, 0);
+/* 013 */
+/* 014 */   }
+/* 015 */
+/* 016 */   public void initialize(int partitionIndex) {
+/* 017 */
+/* 018 */   }
+/* 019 */
+/* 020 */   // Scala.Function1 need this
+/* 021 */   public java.lang.Object apply(java.lang.Object row) {
+/* 022 */     return apply((InternalRow) row);
+/* 023 */   }
+/* 024 */
+/* 025 */   public UnsafeRow apply(InternalRow i) {
+/* 026 */     mutableStateArray_0[0].reset();
+/* 027 */
+/* 028 */
+/* 029 */     mutableStateArray_0[0].zeroOutNullBytes();
+/* 030 */
+/* 031 */     boolean isNull_1 = i.isNullAt(0);
+/* 032 */     int value_1 = isNull_1 ?
+/* 033 */     -1 : (i.getInt(0));
+/* 034 */     long value_0 = 0L;
+/* 035 */     boolean isNull_0 = isNull_1;
+/* 036 */     if (!isNull_1) {
+/* 037 */       value_0 = (long) value_1;
+/* 038 */     }
+/* 039 */     if (isNull_0) {
+/* 040 */       mutableStateArray_0[0].setNullAt(0);
+/* 041 */     } else {
+/* 042 */       mutableStateArray_0[0].write(0, value_0);
+/* 043 */     }
+/* 044 */     return (mutableStateArray_0[0].getRow());
+/* 045 */   }
+/* 046 */
+/* 047 */
+/* 048 */ }
+
+15:14:08.468 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 3 acquired 64.0 KiB for org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@a2c5181
+15:14:08.469 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 3 acquired 64.0 MiB for org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@1d3a5932
+15:14:08.472 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 3 acquired 64.0 MiB for org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@a2c5181
+15:14:08.474 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 3 release 64.0 MiB from org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@1d3a5932
+15:14:08.474 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 3 release 64.0 KiB from org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@1d3a5932
+15:14:08.474 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 3 release 64.0 MiB from org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@a2c5181
+15:14:08.474 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 3 release 64.0 KiB from org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@a2c5181
+15:14:08.480 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] INFO  org.apache.spark.executor.Executor - Finished task 0.0 in stage 5.0 (TID 3). 5378 bytes result sent to driver
+15:14:08.480 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (5, 0) -> 0
+15:14:08.480 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_5.0, runningTasks: 0
+15:14:08.481 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NODE_LOCAL, so moving to locality level ANY
+15:14:08.481 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 5.0 (TID 3) in 47 ms on 192.168.31.150 (executor driver) (1/1)
+15:14:08.481 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 5.0, whose tasks have all completed, from pool 
+15:14:08.483 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - ResultStage 5 (show at SortMergeJoinSpec.scala:131) finished in 0.059 s
+15:14:08.483 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - After removal of stage 5, remaining stages = 2
+15:14:08.483 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - After removal of stage 4, remaining stages = 1
+15:14:08.483 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - After removal of stage 3, remaining stages = 0
+15:14:08.483 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - Job 1 is finished. Cancelling potential speculative or zombie tasks for this job
+15:14:08.483 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Killing all running tasks in stage 5: Stage finished
+15:14:08.484 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.scheduler.DAGScheduler - Job 1 finished: show at SortMergeJoinSpec.scala:131, took 0.063729 s
+15:14:08.503 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateSafeProjection - code for createexternalrow(input[0, string, true].toString, input[1, string, true].toString, input[2, string, true].toString, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)):
+/* 001 */ public java.lang.Object generate(Object[] references) {
+/* 002 */   return new SpecificSafeProjection(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificSafeProjection extends org.apache.spark.sql.catalyst.expressions.codegen.BaseProjection {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */   private InternalRow mutableRow;
+/* 009 */
+/* 010 */
+/* 011 */   public SpecificSafeProjection(Object[] references) {
+/* 012 */     this.references = references;
+/* 013 */     mutableRow = (InternalRow) references[references.length - 1];
+/* 014 */
+/* 015 */   }
+/* 016 */
+/* 017 */   public void initialize(int partitionIndex) {
+/* 018 */
+/* 019 */   }
+/* 020 */
+/* 021 */   public java.lang.Object apply(java.lang.Object _i) {
+/* 022 */     InternalRow i = (InternalRow) _i;
+/* 023 */     org.apache.spark.sql.Row value_7 = CreateExternalRow_0(i);
+/* 024 */     if (false) {
+/* 025 */       mutableRow.setNullAt(0);
+/* 026 */     } else {
+/* 027 */
+/* 028 */       mutableRow.update(0, value_7);
+/* 029 */     }
+/* 030 */
+/* 031 */     return mutableRow;
+/* 032 */   }
+/* 033 */
+/* 034 */
+/* 035 */   private org.apache.spark.sql.Row CreateExternalRow_0(InternalRow i) {
+/* 036 */     Object[] values_0 = new Object[3];
+/* 037 */
+/* 038 */     boolean isNull_2 = i.isNullAt(0);
+/* 039 */     UTF8String value_2 = isNull_2 ?
+/* 040 */     null : (i.getUTF8String(0));
+/* 041 */     boolean isNull_1 = true;
+/* 042 */     java.lang.String value_1 = null;
+/* 043 */     if (!isNull_2) {
+/* 044 */       isNull_1 = false;
+/* 045 */       if (!isNull_1) {
+/* 046 */
+/* 047 */         Object funcResult_0 = null;
+/* 048 */         funcResult_0 = value_2.toString();
+/* 049 */         value_1 = (java.lang.String) funcResult_0;
+/* 050 */
+/* 051 */       }
+/* 052 */     }
+/* 053 */     if (isNull_1) {
+/* 054 */       values_0[0] = null;
+/* 055 */     } else {
+/* 056 */       values_0[0] = value_1;
+/* 057 */     }
+/* 058 */
+/* 059 */     boolean isNull_4 = i.isNullAt(1);
+/* 060 */     UTF8String value_4 = isNull_4 ?
+/* 061 */     null : (i.getUTF8String(1));
+/* 062 */     boolean isNull_3 = true;
+/* 063 */     java.lang.String value_3 = null;
+/* 064 */     if (!isNull_4) {
+/* 065 */       isNull_3 = false;
+/* 066 */       if (!isNull_3) {
+/* 067 */
+/* 068 */         Object funcResult_1 = null;
+/* 069 */         funcResult_1 = value_4.toString();
+/* 070 */         value_3 = (java.lang.String) funcResult_1;
+/* 071 */
+/* 072 */       }
+/* 073 */     }
+/* 074 */     if (isNull_3) {
+/* 075 */       values_0[1] = null;
+/* 076 */     } else {
+/* 077 */       values_0[1] = value_3;
+/* 078 */     }
+/* 079 */
+/* 080 */     boolean isNull_6 = i.isNullAt(2);
+/* 081 */     UTF8String value_6 = isNull_6 ?
+/* 082 */     null : (i.getUTF8String(2));
+/* 083 */     boolean isNull_5 = true;
+/* 084 */     java.lang.String value_5 = null;
+/* 085 */     if (!isNull_6) {
+/* 086 */       isNull_5 = false;
+/* 087 */       if (!isNull_5) {
+/* 088 */
+/* 089 */         Object funcResult_2 = null;
+/* 090 */         funcResult_2 = value_6.toString();
+/* 091 */         value_5 = (java.lang.String) funcResult_2;
+/* 092 */
+/* 093 */       }
+/* 094 */     }
+/* 095 */     if (isNull_5) {
+/* 096 */       values_0[2] = null;
+/* 097 */     } else {
+/* 098 */       values_0[2] = value_5;
+/* 099 */     }
+/* 100 */
+/* 101 */     final org.apache.spark.sql.Row value_0 = new org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema(values_0, ((org.apache.spark.sql.types.StructType) references[0] /* schema */));
+/* 102 */
+/* 103 */     return value_0;
+/* 104 */   }
+/* 105 */
+/* 106 */ }
+
+15:14:08.504 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - 
+/* 001 */ public java.lang.Object generate(Object[] references) {
+/* 002 */   return new SpecificSafeProjection(references);
+/* 003 */ }
+/* 004 */
+/* 005 */ class SpecificSafeProjection extends org.apache.spark.sql.catalyst.expressions.codegen.BaseProjection {
+/* 006 */
+/* 007 */   private Object[] references;
+/* 008 */   private InternalRow mutableRow;
+/* 009 */
+/* 010 */
+/* 011 */   public SpecificSafeProjection(Object[] references) {
+/* 012 */     this.references = references;
+/* 013 */     mutableRow = (InternalRow) references[references.length - 1];
+/* 014 */
+/* 015 */   }
+/* 016 */
+/* 017 */   public void initialize(int partitionIndex) {
+/* 018 */
+/* 019 */   }
+/* 020 */
+/* 021 */   public java.lang.Object apply(java.lang.Object _i) {
+/* 022 */     InternalRow i = (InternalRow) _i;
+/* 023 */     org.apache.spark.sql.Row value_7 = CreateExternalRow_0(i);
+/* 024 */     if (false) {
+/* 025 */       mutableRow.setNullAt(0);
+/* 026 */     } else {
+/* 027 */
+/* 028 */       mutableRow.update(0, value_7);
+/* 029 */     }
+/* 030 */
+/* 031 */     return mutableRow;
+/* 032 */   }
+/* 033 */
+/* 034 */
+/* 035 */   private org.apache.spark.sql.Row CreateExternalRow_0(InternalRow i) {
+/* 036 */     Object[] values_0 = new Object[3];
+/* 037 */
+/* 038 */     boolean isNull_2 = i.isNullAt(0);
+/* 039 */     UTF8String value_2 = isNull_2 ?
+/* 040 */     null : (i.getUTF8String(0));
+/* 041 */     boolean isNull_1 = true;
+/* 042 */     java.lang.String value_1 = null;
+/* 043 */     if (!isNull_2) {
+/* 044 */       isNull_1 = false;
+/* 045 */       if (!isNull_1) {
+/* 046 */
+/* 047 */         Object funcResult_0 = null;
+/* 048 */         funcResult_0 = value_2.toString();
+/* 049 */         value_1 = (java.lang.String) funcResult_0;
+/* 050 */
+/* 051 */       }
+/* 052 */     }
+/* 053 */     if (isNull_1) {
+/* 054 */       values_0[0] = null;
+/* 055 */     } else {
+/* 056 */       values_0[0] = value_1;
+/* 057 */     }
+/* 058 */
+/* 059 */     boolean isNull_4 = i.isNullAt(1);
+/* 060 */     UTF8String value_4 = isNull_4 ?
+/* 061 */     null : (i.getUTF8String(1));
+/* 062 */     boolean isNull_3 = true;
+/* 063 */     java.lang.String value_3 = null;
+/* 064 */     if (!isNull_4) {
+/* 065 */       isNull_3 = false;
+/* 066 */       if (!isNull_3) {
+/* 067 */
+/* 068 */         Object funcResult_1 = null;
+/* 069 */         funcResult_1 = value_4.toString();
+/* 070 */         value_3 = (java.lang.String) funcResult_1;
+/* 071 */
+/* 072 */       }
+/* 073 */     }
+/* 074 */     if (isNull_3) {
+/* 075 */       values_0[1] = null;
+/* 076 */     } else {
+/* 077 */       values_0[1] = value_3;
+/* 078 */     }
+/* 079 */
+/* 080 */     boolean isNull_6 = i.isNullAt(2);
+/* 081 */     UTF8String value_6 = isNull_6 ?
+/* 082 */     null : (i.getUTF8String(2));
+/* 083 */     boolean isNull_5 = true;
+/* 084 */     java.lang.String value_5 = null;
+/* 085 */     if (!isNull_6) {
+/* 086 */       isNull_5 = false;
+/* 087 */       if (!isNull_5) {
+/* 088 */
+/* 089 */         Object funcResult_2 = null;
+/* 090 */         funcResult_2 = value_6.toString();
+/* 091 */         value_5 = (java.lang.String) funcResult_2;
+/* 092 */
+/* 093 */       }
+/* 094 */     }
+/* 095 */     if (isNull_5) {
+/* 096 */       values_0[2] = null;
+/* 097 */     } else {
+/* 098 */       values_0[2] = value_5;
+/* 099 */     }
+/* 100 */
+/* 101 */     final org.apache.spark.sql.Row value_0 = new org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema(values_0, ((org.apache.spark.sql.types.StructType) references[0] /* schema */));
+/* 102 */
+/* 103 */     return value_0;
+/* 104 */   }
+/* 105 */
+/* 106 */ }
+
+15:14:08.516 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - Code generated in 12.942604 ms
++---+------+-----+
+| id|  name|value|
++---+------+-----+
+|  2| name2|    1|
+|  4| name4|    2|
+| 10|name10|    5|
+| 12|name12|    6|
+| 14|name14|    7|
+| 18|name18|    9|
+|  6| name6|    3|
+|  8| name8|    4|
+| 16|name16|    8|
+| 20|name20|   10|
++---+------+-----+
+
+
+15:14:08.572 [ScalaTest-run] INFO  org.apache.spark.ui.SparkUI - Stopped Spark web UI at http://192.168.31.150:4040
+15:14:08.590 [dispatcher-event-loop-1] INFO  org.apache.spark.MapOutputTrackerMasterEndpoint - MapOutputTrackerMasterEndpoint stopped!
+15:14:08.628 [ScalaTest-run] INFO  org.apache.spark.storage.memory.MemoryStore - MemoryStore cleared
+15:14:08.629 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManager - BlockManager stopped
+15:14:08.633 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManagerMaster - BlockManagerMaster stopped
+15:14:08.638 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.OutputCommitCoordinator$OutputCommitCoordinatorEndpoint - OutputCommitCoordinator stopped!
+15:14:08.669 [ScalaTest-run] INFO  org.apache.spark.SparkContext - Successfully stopped SparkContext
+
+15:14:08.710 [shutdown-hook-0] INFO  org.apache.spark.util.ShutdownHookManager - Shutdown hook called
+15:14:08.711 [shutdown-hook-0] INFO  org.apache.spark.util.ShutdownHookManager - Deleting directory /private/var/folders/8w/3j0ns1bd6xjf_9n5_h2dyjt80000gn/T/spark-e19ea1f3-16bb-4d5a-9139-81cbf555d9a1

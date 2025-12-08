@@ -5,7 +5,8 @@
 ## Example
 - [Calculator.g4](spark-example%2Fsrc%2Fmain%2Fantlr4%2Fcn%2Fjuntaozhang%2Fexample%2Fantlr%2FCalculator.g4)
 - [MyCalculatorVisitor.java](spark-example%2Fsrc%2Fmain%2Fjava%2Fcn%2Fjuntaozhang%2Fexample%2Fantlr%2FMyCalculatorVisitor.java)
-- [CalculatorParserTest](.spark-example/src/main/scala/cn/juntaozhang/example/antlr/CalculatorParserTest.scala)
+- [CalculatorParserTest](spark-example/src/main/scala/cn/juntaozhang/example/antlr/CalculatorParserTest.scala)
+- [SqlParserTest](spark-example/src/main/scala/cn/juntaozhang/example/antlr/SqlParserTest.scala)
 
 ## Antlr4 与 calcite 的关系
 Calcite 使用 ANTLR4 来生成SQL解析器。具体来说，Calcite 中定义了SQL语法规则，然后通过ANTLR4生成相应的解析器代码。
