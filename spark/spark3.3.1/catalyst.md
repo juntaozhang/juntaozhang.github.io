@@ -81,6 +81,7 @@ sequenceDiagram
     PhysicalOperation-->>QueryExecution: executedPlan (ready for execution)
     QueryExecution-->>QueryExecution: executedPlan
 
+    Dataset->>Dataset: collectFromPlan()
     Dataset->>SparkPlan: executedPlan.executeCollect()
     SparkPlan->>SparkPlan: Execute physical operations, may include code generation
     SparkPlan-->>QueryExecution: RDD[InternalRow] or Array[InternalRow]
@@ -165,7 +166,7 @@ SessionState 是一个会话状态管理器，负责维护和管理 SparkSession
 - planner（物理计划器）：负责将优化后的逻辑计划转换为物理计划
 - prepareForExecution：通过根据需要插入 shuffle 操作和内部行格式转换.
 
-[Code Example](https://github.com/juntaozhang/spark/blob/v3.3.1-study/examples/src/test/scala/cn/juntaozhang/example/spark/SortMergeJoinSpec.scala#L120):
+## Example
 ```sql
 SET spark.sql.adaptive.enabled = false;
 SET spark.sql.shuffle.partitions = 2;
@@ -174,7 +175,9 @@ FROM t1
 JOIN t2
 ON t1.id = t2.id
 ```
-[execution log](asset/join.log)
+* [Code](https://github.com/juntaozhang/spark/blob/v3.3.1-study/examples/src/test/scala/cn/juntaozhang/example/spark/SortMergeJoinSpec.scala#L120)
+* [execution log](asset/join.log)
+* [SMJ DAG img](asset/smj.png)
 
 ## SparkSqlParser
 - [antlr4](../antlr4.md)
@@ -263,7 +266,7 @@ CollectLimit 21
 把物理计划（Physical Plan）`SparkPlan` 转换成可执行计划（Execution Plan） `SparkPlan`
 - EnsureRequirements：确保分区、排序等要求
 - ApplyColumnarRulesAndInsertTransitions：负责在物理计划中找到合适的列式处理机会，插入必要的行/列转换节点，使支持列式执行的算子能够协同工作，以实现更好的查询性能。
-- AdaptiveSparkPlanExec：AQE 自适应执行，动态分区合并会根据运行时数据大小决策，Join 策略选择会考虑实际数据量等，Cost-based Optimizations(CBO)基于代价的优化
+- [AdaptiveSparkPlanExec](AQE.md)：AQE 自适应执行，动态分区合并会根据运行时数据大小决策，Join 策略选择会考虑实际数据量等，Cost-based Optimizations(CBO)基于代价的优化
 - [CollapseCodegenStages](catalyst.md#code-generation)：自动识别物理计划中可以被 WholeStageCodegenExec 优化的连续算子链
 
 ```text
@@ -1134,8 +1137,6 @@ UnsafeProjection (包括 SpecificUnsafeProjection)
 - 作用：将输入行转换为输出行，用于投影操作
 - 具体：在物理算子的 doExecute() 或表达式求值中使用
 
-## DAG 执行图
-[SMJ DAG img](asset/smj.png)
 # Reference
 - [Deep Dive into Spark SQL's Catalyst Optimizer](https://www.databricks.com/blog/2015/04/13/deep-dive-into-spark-sqls-catalyst-optimizer.html)
 - [一条 SQL 在 Apache Spark 之旅](https://www.iteblog.com/archives/2561.html)

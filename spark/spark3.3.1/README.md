@@ -5,6 +5,9 @@
 - [Spark Driver 架构与部署模式详解](driver.md)
 - [资源申请机制详解](executor_allocation.md)
 - [RDD常见问题](rdd.md)
+- [Tungsten Project](tungsten.md)
+- [Catalyst 优化器](catalyst.md)
+- [Adaptive Query Execution](AQE.md)
 
 
 
