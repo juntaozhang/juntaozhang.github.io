@@ -350,8 +350,62 @@ shuffle 1, partition 9, map stat: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
 
 同理处理结果如序列12, 13 与 14, 15
 
+### OptimizeSkewed 失效
+#### 倾斜数据来自于上游的同一个 Mapper
+当倾斜分区的绝大部分数据集中在上游单个 Mapper 的单个 Block 时，AQE 的 OptimizeSkewedJoin 规则会失效 —— 因为 Spark 的 Shuffle 读取机制是 “要么读取整个 Mapper Block，要么不读”，无法只读取 Block 的一部分数据，导致倾斜分区无法被拆分。
 
-**注意事项**
+场景 A:
+```text
+  left_table                                     right_table（skew table，全部来自 mapId=1）
+  ┌────┬───────┬────────┐                        ┌────┬───────┬────────┐
+  │ key│ value │ map id │                        │ key│ value │ map id │
+  ├────┼───────┼────────┤                        ├────┼───────┼────────┤
+  │  1 │   A   │   1    │                        │  1 │  A1   │   1    │  ┐
+  └────┴───────┴────────┘                        │  1 │  A2   │   1    │  │ 
+                                                 │  1 │  A3   │   1    │  │ 同一个block─1─0
+                                                 │  1 │  A4   │   1    │  │ 
+                                                 └────┴───────┴────────┘  ┘
+
+  Mapper1产出文件：
+    ┌───────────────────────────────────────┐
+    │ Block for key=1                       │
+    │ - left:  (1,A)                        │
+    │ - right: (1,A1),(1,A2),(1,A3),(1,A4)  │ ← 单个不可拆分的Block
+    └───────────────────────────────────────┘
+```
+场景 B:
+```
+  left_table                                     right_table（skew table，来自 2 个 Mapper）
+  ┌────┬───────┬────────┐                        ┌────┬───────┬────────┐
+  │ key│ value │ map id │                        │ key│ value │ map id │
+  ├────┼───────┼────────┤                        ├────┼───────┼────────┤
+  │  1 │   A   │   1    │                        │  1 │  A1   │   1    │  ┐ 属于 block─1─0
+  └────┴───────┴────────┘                        │  1 │  A2   │   1    │  ┘ 
+                                                 │  1 │  A3   │   2    │  ┐ 属于 block─2─0
+                                                 │  1 │  A4   │   2    │  ┘ 
+                                                 └────┴───────┴────────┘
+  Mapper1产出文件：
+    ┌─────────────────────────────┐
+    │ Block1 for key=1            │
+    │ - left:  (1,A)              │
+    │ - right: (1,A1),(1,A2)      │ ← block-1-0
+    └─────────────────────────────┘
+  Mapper2产出文件：
+    ┌─────────────────────────────┐
+    │ Block1 for key=1            │
+    │ - left:  (1,A)              │
+    │ - right: (1,A3),(1,A4)      │ ← block-2-0
+    └─────────────────────────────┘
+```
+结论:
+
+| 场景    | Block分布 | 拆分可能性 | 原因 |
+  |-------|-----------|------------|------|
+| 场景A | 单个Mapper单个Block | ❌ 无法拆分 | Block是原子单位，无法内部拆分 |
+| 场景B | 多个Mapper多个Block | ✅ 可以拆分 | 可按Block或Mapper维度拆分 |
+
+
+#### FilePartition 合并的多个小文件之后视为一个逻辑单元，无法拆分
 
 在 FilePartition.getFilePartitions()，FilePartition 的文件合并通过以下配置参数控制：
 - `spark.sql.files.maxPartitionBytes`（默认 128MB）：每个 FilePartition 的最大字节数
@@ -361,6 +415,64 @@ shuffle 1, partition 9, map stat: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
 - 通过 FilePartition 合并的多个小文件被当作一个逻辑单元处理
 - 这些文件在 map 阶段生成的数据被视为一个整体
 - AQE 在后续的 CoalesceShufflePartitions 或 OptimizeSkewedJoin 阶段无法再分割这些已经被合并的 map 任务
+
+#### LeftOuter only support split left skew side
+Left Outer Join：必须保留左表所有行，右表可以为 null
+
+LeftOuter为什么不能split right呢？ 假设可以：
+```text
+left_table:                                   right_table (skew table):            
++----+-------+-----------+                    +----+-------+-----------+    
+| key| value | partition |                    | key| value | partition |    
++----+-------+-----------+                    +----+-------+-----------+    
+|  1 |   A   |   1       |                    |  1 |  A_1  |   1       |    
+|  2 |   B   |   1       |                    |  1 |  A_2  |   1       |    
++----+-------+-----------+                    |  1 |  A_3  |   1       |    
+                                              +----+-------+-----------+    
+
+LeftOuter Join 正确结果
++----+-------+-------+
+| key|value_l|value_r|
++----+-------+-------+
+|  1 |   A   |  A_1  |
+|  1 |   A   |  A_2  |
+|  1 |   A   |  A_3  |
+|  2 |   B   |  NULL |
++----+-------+-------+
+```
+
+split right table 
+```text
+left_table:                              right_table1:                        left JOIN right_table1             拼接后结果:  
++----+-------+-----------+               +----+-------+-----------+           +----+-------+-------+             +----+-------+-------+   
+| key| value | partition | -------┬----> | key| value | partition | --------> | key|value_l|value_r| ------┬---> | key|value_l|value_r|   
++----+-------+-----------+        |      +----+-------+-----------+           +----+-------+-------+       |     +----+-------+-------+   
+|  1 |   A   |   1       |        |      |  1 |  A_1  |   1       |           |  1 |   A   |  A_1  |       |     |  1 |   A   |  A_1  |   
+|  2 |   B   |   1       |        |      |  1 |  A_2  |   1       |           |  1 |   A   |  A_2  |       |     |  1 |   A   |  A_2  |   
++----+-------+-----------+        |      +----+-------+-----------+           |  2 |   B   |  NULL |       |     |* 2 |   B   |  NULL |   
+                                  |                                           +----+-------+-------+       |     |  1 |   A   |  A_3  |   
+                                  |                                                                        |     |* 2 |   B   |  NULL |   
+                                  |                                                                        |     +----+-------+-------+   
+                                  |      right_table2:                        left JOIN right_table2       |                              
+                                  |      +----+-------+-----------+           +----+-------+-------+       |                              
+                                  └----> | key| value | partition | --------> | key|value_l|value_r| ------┘                           
+                                         +----+-------+-----------+           +----+-------+-------+                                      
+                                         |  1 |  A_3  |   1       |           |  1 |   A   |  A_3  |                                      
+                                         +----+-------+-----------+           |  2 |   B   |  NULL |                                      
+                                                                              +----+-------+-------+         
+```
+拼接后结果 `*`标识出异常行，可见 LeftOuter split right 破坏了原本的语义。
+
+为了保持语义，其他情况如下：
+
+| Join 类型         | canSplitLeftSide | canSplitRightSide | 说明         |
+|-------------------|------------------|-------------------|-------------|
+| Inner             | ✅ TRUE          | ✅ TRUE           | 两边都可拆分 |
+| Cross             | ✅ TRUE          | ✅ TRUE           | 两边都可拆分 |
+| LeftOuter         | ✅ TRUE          | ❌ FALSE          | 只能拆分左表 |
+| RightOuter        | ❌ FALSE         | ✅ TRUE           | 只能拆分右表 |
+| LeftSemi/LeftAnti | ✅ TRUE          | ❌ FALSE          | 只能拆分左表 |
+
 
 ## BroadcastHashJoinExec
 Example code:
