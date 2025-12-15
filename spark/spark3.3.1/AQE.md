@@ -7,6 +7,7 @@ Adaptive Query Execution (AQE) - AdaptiveSparkPlanExec(SparkPlan) 利用运行�
 - Converting sort-merge join to shuffled hash join
 - Splitting skewed shuffle partitions: OptimizeSkewInRebalancePartitions
 - optimize the shuffle read to local read: OptimizeShuffleWithLocalRead
+- Dynamic Partition Pruning(DPP) 优化动态分区裁剪 - PlanAdaptiveDynamicPruningFilters
 
 ## Overview
   ```scala
@@ -811,6 +812,299 @@ Sort [c1#48L ASC NULLS FIRST], false, 0
     - 目标分区2: 201-400 字节范围
       - 从 Map Task 2 开始，剩余 309-203 = 106 字节
       - → 第二个分区包含 Map Task 2: PartialReducerPartitionSpec(0, 2, 3, 106)
+
+
+## PlanAdaptiveDynamicPruningFilters
+Example code:
+```scala
+val factData = Seq(
+  (1, "2023-01-01", 100),
+  (2, "2023-01-02", 200),
+  (3, "2023-01-03", 300)
+).toDF("id", "date", "value")
+
+val dimData = Seq(
+  ("2023-01-01", "New Year"),
+  ("2023-01-02", "Day After New Year")
+).toDF("date", "event")
+
+factData.write.partitionBy("date").mode("overwrite").saveAsTable("fact_table")
+dimData.write.mode("overwrite").saveAsTable("dim_table")
+
+sql("set spark.sql.codegen.wholeStage=false")
+sql("set spark.sql.optimizer.dynamicPartitionPruning.reuseBroadcastOnly=false")
+sql("set spark.sql.exchange.reuse=false")
+val result = spark.sql(
+  """
+  SELECT f.id, f.value, d.event
+  FROM fact_table f
+  JOIN dim_table d
+  ON f.date = d.date
+  WHERE d.event = 'New Year'
+""")
+result.show()
+```
+[ddp.log](asset/ddp.log)
+```mermaid
+flowchart TD
+    subgraph "ResultStage 0: BroadcastQueryStage 0"
+        A1[Scan parquet default.dim_table] --> B1[BroadcastExchange]
+    end
+
+    subgraph "ShuffleMapStage 1: ShuffleQueryStage 0"
+        A2[Scan parquet default.dim_table] --> B2[HashAggregate]
+        B2 --> C2[Exchange]
+    end
+
+    subgraph "ResultStage 3"
+        A3[AQEShuffleRead] --> B3[HashAggregate]
+        B3 --> C3[AdaptiveSparkPlan]
+    end
+
+    subgraph "ResultStage 4"
+        A4[Scan parquet default.fact_table] --> B4[BroadcastHashJoin]
+        B4 --> C4[ResultStage 4]
+    end
+
+    B1 -.->|广播数据| B4
+    C2 -->|shuffle数据| A3
+    C3 -.->|DPP过滤器| A4
+```
+
+### PartitionPruning
+#### SubqueryExpression
+用于表示包含子查询计划（subquery plan）的表达式，为各种子查询操作（如 IN 子查询、EXISTS子查询、动态裁剪子查询等）提供统一的模型和处理框架
+
+```mermaid
+classDiagram
+    SubqueryExpression <|-- DynamicPruningSubquery
+    SubqueryExpression <|-- Exists
+```
+
+#### DynamicPruningSubquery
+```text
+Filter dynamicpruning#49 [date#32]
+:  +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+:     +- Relation default.dim_table[date#33,event#34] parquet
+```
+`Filter` 中 `Condition` 是 `DynamicPruningSubquery`，
+什么是 `DynamicPruningSubquery` ？
+
+它是一个表达式节点，先执行 buildQuery（通常是小表）获取连接键值列表，然后用这些值过滤streamed side的分区：
+- [date#32]：表示裁剪的目标列是 fact_table 的 date#32（即分区列）
+- dynamicpruning#50： #50 是 DPP 推导出来的 “裁剪条件 ID”
+  - 把 dim_table 过滤后得到的 date#33 取值（比如 2023-01-01）
+  - 映射为对 fact_table.date#32 的裁剪条件 => date#32 IN ('2023-01-01')
+
+
+
+SparkOptimizer：
+```text
+SparkOptimizer(org.apache.spark.sql.internal.BaseSessionStateBuilder$$anon$2@6fc9c0cc) org.apache.spark.sql.execution.dynamicpruning.PartitionPruning --> old【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
+      +- Join Inner, (date#32 = date#33)
+         :- Filter isnotnull(date#32)
+         :  +- Relation default.fact_table[id#30,value#31,date#32] parquet
+         +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+            +- Relation default.dim_table[date#33,event#34] parquet
+】--> new【
+GlobalLimit 21
++- LocalLimit 21
+   +- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
+      +- Join Inner, (date#32 = date#33)
+         :- Filter dynamicpruning#49 [date#32]
+         :  :  +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+         :  :     +- Relation default.dim_table[date#33,event#34] parquet
+         :  +- Filter isnotnull(date#32)
+         :     +- Relation default.fact_table[id#30,value#31,date#32] parquet
+         +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+            +- Relation default.dim_table[date#33,event#34] parquet
+】
+```
+
+SparkPlanner：
+```text
+SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@6528d339) - org.apache.spark.sql.execution.datasources.FileSourceStrategy$ -->【
+Filter (isnotnull(date#32) AND dynamicpruning#49 [date#32])
+:  +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+:     +- Relation default.dim_table[date#33,event#34] parquet
++- Relation default.fact_table[id#30,value#31,date#32] parquet
+】 --> 【
+FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruning#49 [date#32]], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+   +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+      +- Relation default.dim_table[date#33,event#34] parquet
+】
+```
+
+InsertAdaptiveSparkPlan
+```text
+15:54:35.839 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG org.apache.spark.sql.execution.adaptive.InsertAdaptiveSparkPlan - Adaptive execution enabled for plan: 
+CollectLimit 21
++- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
+   +- BroadcastHashJoin [date#32], [date#33], Inner, BuildRight, false
+      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruning#49 [date#32]], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+      :     +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+      :        +- Relation default.dim_table[date#33,event#34] parquet
+      +- Project [date#33, event#34]
+         +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+            +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+ ==>
+CollectLimit 21
++- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
+   +- BroadcastHashJoin [date#32], [date#33], Inner, BuildRight, false
+      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+      :     +- SubqueryAdaptiveBroadcast dynamicpruning#49, 0, false, Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33)), [date#33]
+      :        +- AdaptiveSparkPlan isFinalPlan=false
+      :           +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+      :              +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+      +- Project [date#33, event#34]
+         +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+            +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+```
+executedPlan
+```text
+AdaptiveSparkPlan isFinalPlan=false
++- CollectLimit 21
+   +- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
+      +- BroadcastHashJoin [date#32], [date#33], Inner, BuildRight, false
+         :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+         :     +- SubqueryAdaptiveBroadcast dynamicpruning#49, 0, false, Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33)), [date#33]
+         :        +- AdaptiveSparkPlan isFinalPlan=false
+         :           +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+         :              +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+         +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=52]
+            +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+               +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+
+```
+
+### PlanAdaptiveDynamicPruningFilters - Aggregation
+
+Aggregation(rule)：
+* 第一个 HashAggregate 是 partialAggregate,
+* 第二个 HashAggregate 是 finalAggregate,
+* 第一个 HashAggregateExec 设置了 requiredChildDistributionExpressions，对其子节点的分区分布要求：需要按照哪些表达式进行分区。
+```text
+SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@67b3960b) - org.apache.spark.sql.execution.SparkStrategies$Aggregation$ -->【
+Aggregate [date#33 AS date#33#54], [date#33 AS date#33#54]
++- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+   +- Relation default.dim_table[date#33,event#34] parquet
+】 --> 【
+HashAggregate(keys=[date#33#54], functions=[], output=[date#33#54])
++- HashAggregate(keys=[date#33 AS date#33#54], functions=[], output=[date#33#54])
+   +- PlanLater Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+】
+```
+
+ShuffleMapStage 1: ShuffleQueryStage 0 (DPP 子查询)，执行过程：
+- FileScan：扫描 dim_table，过滤 event = 'New Year' 的记录
+- HashAggregate：对过滤后的 date 列进行去重聚合
+- Exchange：按 date 列进行哈希分区，将相同 date 值的数据分到同一分区，以便去重
+```
+org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec$ - applyPhysicalRules - org.apache.spark.sql.execution.exchange.EnsureRequirements -->【
+HashAggregate(keys=[date#33#54], functions=[], output=[date#33#54])
++- HashAggregate(keys=[date#33 AS date#33#54], functions=[], output=[date#33#54])
+   +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+      +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+】AQE --> 【
+HashAggregate(keys=[date#33#54], functions=[], output=[date#33#54])
++- Exchange hashpartitioning(date#33#54, 200), ENSURE_REQUIREMENTS, [plan_id=116]
+   +- HashAggregate(keys=[date#33 AS date#33#54], functions=[], output=[date#33#54])
+      +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+         +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+】
+```
+
+ResultStage 3: DPP 子查询结果处理，执行过程：
+1. ShuffledRowRDD：从 Stage 1 生成的 shuffle 文件中读取数据
+2. HashAggregate：在 reduce 端完成最终的去重聚合
+3. SubqueryAdaptiveBroadcast：将去重后的 date 值列表作为动态分区裁剪的过滤器
+
+```text
+optimizeQueryStage - org.apache.spark.sql.execution.adaptive.PlanAdaptiveDynamicPruningFilters -> old【
+CollectLimit 21
++- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
+   +- BroadcastHashJoin [date#32], [date#33], Inner, BuildRight, false
+      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+      :     +- SubqueryAdaptiveBroadcast dynamicpruning#49, 0, false, Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33)), [date#33]
+      :        +- AdaptiveSparkPlan isFinalPlan=false
+      :           +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+      :              +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+      +- BroadcastQueryStage 0
+         +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=70]
+            +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+               +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+】AQE --> new【
+CollectLimit 21
++- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
+   +- BroadcastHashJoin [date#32], [date#33], Inner, BuildRight, false
+      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+      :     +- Subquery dynamicpruning#49, [id=#118]
+      :        +- AdaptiveSparkPlan isFinalPlan=false
+      :           +- HashAggregate(keys=[date#33#54], functions=[], output=[date#33#54])
+      :              +- Exchange hashpartitioning(date#33#54, 200), ENSURE_REQUIREMENTS, [plan_id=116]
+      :                 +- HashAggregate(keys=[date#33 AS date#33#54], functions=[], output=[date#33#54])
+      :                    +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+      :                       +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+      +- BroadcastQueryStage 0
+         +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=70]
+            +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
+               +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+】
+```
+
+### ReusedExchangeExec
+```scala
+sql("set spark.sql.exchange.reuse=true")
+```
+createQueryStages -> reuseQueryStage
+`ResultStage 4` filter 会直接使用`ResultStage 0`,跳过了 `ShuffleMapStage 1` 和`ResultStage 3`，即aggregation job,
+具体plan 如下：
+```text
++- Project [cast(id#20 as string) AS id#33, cast(value#21 as string) AS value#34, event#24]
+   +- BroadcastHashJoin [date#22], [date#23], Inner, BuildRight, false
+      :- FileScan parquet default.fact_table[id#20,value#21,date#22] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#22), dynamicpruningexpression(date#22 IN dynamicpruning#39)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+      :     +- SubqueryBroadcast dynamicpruning#39, 0, [date#23], [id=#76]
+      :        +- AdaptiveSparkPlan isFinalPlan=true
+                  +- == Final Plan ==
+                     BroadcastQueryStage 0
+                     +- ReusedExchange [date#23, event#24], BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=42]
+                  +- == Initial Plan ==
+                     BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=70]
+                     +- Filter ((isnotnull(event#24) AND (event#24 = New Year)) AND isnotnull(date#23))
+                        +- FileScan parquet default.dim_table[date#23,event#24] Batched: false, DataFilters: [isnotnull(event#24), (event#24 = New Year), isnotnull(date#23)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+      +- BroadcastQueryStage 0
+         +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=42]
+            +- Filter ((isnotnull(event#24) AND (event#24 = New Year)) AND isnotnull(date#23))
+               +- FileScan parquet default.dim_table[date#23,event#24] Batched: false, DataFilters: [isnotnull(event#24), (event#24 = New Year), isnotnull(date#23)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+```
+### 条件：显示式的逻辑关联关系
+- 语法上的显式 JOIN，fact_table 按 date 分区，date 与 dim_table.date 显式 JOIN
+    ```text
+    SELECT * 
+    FROM fact_table f
+    JOIN dim_table d ON f.date = d.date  -- 分区列显式 JOIN
+    WHERE d.event = 'New Year';
+    ```
+- 列之间有明确的等价 / 包含关系，fact_table 按 date 分区，f.date IN (d.date) 是显式逻辑关联
+    ```text
+    SELECT *
+    FROM fact_table f
+    WHERE f.date IN (
+    SELECT DISTINCT date
+    FROM dim_table d
+    WHERE d.event = 'New Year'
+    );
+    ```
+-  JOIN 列无逻辑关联DPP失效，fact_table 按 date 分区，但 JOIN 列是 user_id（与分区列无关）
+    ```text
+    SELECT *
+    FROM fact_table f
+    JOIN dim_table d ON f.user_id = d.user_id  -- JOIN 列≠分区列
+    WHERE d.event = 'New Year';
+    ```
 
 
 # Reference
