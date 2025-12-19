@@ -375,6 +375,44 @@ CodeGen 优化后的代码，无虚函数调用：
 
 Reference:
 - [Catalyst Code Generation](catalyst.md#code-generation)
+
+### WholeStageCodegenExec
+规则CollapseCodegenStages 会在`prepareForExecution`阶段执行，
+具体是在`insertWholeStageCodegen`中增加`WholeStageCodegenExec`执行节点
+
+WholeStageCodegenExec Execution Flow：
+```mermaid
+ sequenceDiagram
+    participant WholeStageCodegenExec
+    participant Filter as FilterExec
+    participant ColumnarToRowExec
+    participant InputAdapter
+    participant FileSourceScanExec
+    
+
+    WholeStageCodegenExec->>WholeStageCodegenExec: execute()
+    WholeStageCodegenExec->>+WholeStageCodegenExec: doExecute()
+    
+    WholeStageCodegenExec->>+WholeStageCodegenExec: doCodeGen()
+    WholeStageCodegenExec->>+Filter: produce()
+    Filter->>Filter: doProduce()
+    Filter->>+ColumnarToRowExec: produce()
+    ColumnarToRowExec->>+ColumnarToRowExec: doProduce()
+    ColumnarToRowExec->>-ColumnarToRowExec: consume()
+    ColumnarToRowExec->>Filter: doConsume()
+    deactivate ColumnarToRowExec
+    Filter->>Filter: consume()
+    Filter->>WholeStageCodegenExec: doConsume()
+    deactivate Filter
+    deactivate WholeStageCodegenExec
+
+    WholeStageCodegenExec->>Filter: inputRDDs()
+    deactivate WholeStageCodegenExec
+    Filter->>ColumnarToRowExec: inputRDDs()
+    ColumnarToRowExec->>InputAdapter: inputRDDs()
+    InputAdapter->>FileSourceScanExec: execute()
+
+```
 ### CodeGen技术优化序列化/反序列化
 TODO
 

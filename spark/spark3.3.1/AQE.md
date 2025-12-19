@@ -844,7 +844,8 @@ val result = spark.sql(
 """)
 result.show()
 ```
-[ddp.log](asset/ddp.log)
+[DPP log](asset/dpp.log)
+
 ```mermaid
 flowchart TD
     subgraph "ResultStage 0: BroadcastQueryStage 0"
