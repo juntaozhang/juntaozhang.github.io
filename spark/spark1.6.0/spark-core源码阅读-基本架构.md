@@ -20,7 +20,7 @@
 
 ###基本术语
 **spark job提交运行图:**
-![spark-job-architecture.png](img/spark-job-architecture.png)
+![spark-job-architecture.png](../img/spark-job-architecture.png)
 
 - `Driver App`:客户端应用程序,将任务转换成RDD,DAG并与资源调度器保持通信
 - `Cluster Manager`: 常驻进程,Master是standalone模式下spark资源管理器,如果是yarn模式是托管给ResourceManager

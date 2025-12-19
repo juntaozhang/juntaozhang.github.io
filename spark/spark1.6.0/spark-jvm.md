@@ -1,4 +1,4 @@
-## spark JVM
+# spark JVM
 
 ```
 Desired survivor size 721944576 bytes, new threshold 2 (max 15)

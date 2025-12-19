@@ -28,7 +28,7 @@ Job的最优调度.然后把stages转换成TaskSets提交给底层TaskScheduler.
 
 ### job提交过程
 
-![job提交过程](img/DAGSchedulerEventProcessLoop.png)
+![job提交过程](../img/DAGSchedulerEventProcessLoop.png)
 主要逻辑在`handleJobSubmitted`
 
 ### RDD与Stage关系
@@ -36,7 +36,7 @@ Job的最优调度.然后把stages转换成TaskSets提交给底层TaskScheduler.
 #### RDD转换成Stage方法:`=>newResultStage`
 
 首先看一个小例子:
-![joinStage.png](img/joinStage.png)
+![joinStage.png](../img/joinStage.png)
 上面例子看出来,ResultStage包装finalRDD(提交Job的最后一个RDD),ShuffleMapStage包装的是`ParallelcollectionRDD`,
 分界线就是上面提到的根据shuffle来划分
 
@@ -51,7 +51,7 @@ Job的最优调度.然后把stages转换成TaskSets提交给底层TaskScheduler.
 并且CoGroupedRDD依赖于ShuffledRDD,RDDs被转换成以下stages,他们的依赖关系如下图,`ShuffleMapStage 1`是
 ShuffledRDD划分的.
 
-![submitJoin2Stage.png](img/submitJoin2Stage.png)
+![submitJoin2Stage.png](../img/submitJoin2Stage.png)
 
 通过这个例子我们再结合源码分析`submitStage(finalStage)`,这是一个递归调用,首先`getMissingParentStages`获取所
 依赖的stage,如果为空,直接通过`submitMissingTasks`(该方法把stage转换taskSet提交TaskScheduler)提交stage,如果发现

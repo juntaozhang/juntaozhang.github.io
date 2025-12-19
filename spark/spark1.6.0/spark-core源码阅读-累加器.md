@@ -31,7 +31,7 @@ object AccumulatorTest {
 例子中先通过`SparkContext.accumulator`初始化累加器,然后在MapPartitionsRDD-map中根据逻辑判断执行`added`操作
 
 Spark UI图如下,其中Tasks-Accumulators展示了每个task不同类别累加值,Accumulators表展示该stage最终累加值
-![job-AccumulatorTest.png](img/job-AccumulatorTest.png)
+![job-AccumulatorTest.png](../img/job-AccumulatorTest.png)
 
 ## 源码分析
 
@@ -142,7 +142,7 @@ private[spark] object Accumulators extends Logging {
     new MapPartitionsRDD[U, T](this, (context, pid, iter) => iter.map(cleanF))
   }
 ```
-![MapPartitionRDD.cleanF.Accumlator.png](img/MapPartitionRDD.cleanF.Accumlator.png)
+![MapPartitionRDD.cleanF.Accumlator.png](../img/MapPartitionRDD.cleanF.Accumlator.png)
 这里我们发现`data`类型`MapPartitionsRDD`,`cleanF`是特质`Function1`的具体实现,不过多了两个成员变量accum1,accum2
 (4).之前在'spark core源码阅读-Task介绍(六)'提到过Stage被序列化,然后broadcast出去,这里序列化stage就会包含rdd,
 如`MapPartitionsRDD`会包含accum1,accum2即Accumulator类,经过Accumulator结构分析,value值不会传输

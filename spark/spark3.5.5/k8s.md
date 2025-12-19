@@ -1,4 +1,4 @@
-# Spark 3.5.5 on Kubernetes
+# Spark on Kubernetes
 
 ## Prerequisites
 
@@ -99,4 +99,4 @@ SELECT count(1) FROM t_users WHERE id > 1;
 ## References
 
 - [Spark on Kubernetes Official Documentation](https://spark.apache.org/docs/3.5.5/running-on-kubernetes.html)
-- OneNote: 250506 Spark on K8S
+- OneNote: 250506 Spark on K8S [TODO]

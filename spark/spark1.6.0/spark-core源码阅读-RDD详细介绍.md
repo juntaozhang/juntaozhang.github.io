@@ -137,7 +137,7 @@ MyShuffledRDD()
 
 ## RDD之间依赖关系
 最终的RDD链如下:
-![RDD链](img/workcount_rdd_deps.png)
+![RDD链](../img/workcount_rdd_deps.png)
 
 ### Dependency
 依赖可以分为:窄依赖(NarrowDependency),宽依赖(ShuffleDependency)
@@ -150,7 +150,7 @@ NarrowDependency(窄依赖),parent RDD中的每个partition最多被child RDD中
 ShuffleDependency, 宽依赖需要出发shuffle
 两种Dependency区别是:`父RDD partition的数据集有没有被拆分`,
 比如RDD1个分区P中的一部分数据p1被RDD1使用,另一部分数据p2被RDD2使用,此时就会是宽依赖
-![Dependency](img/dependency.png)
+![Dependency](../img/dependency.png)
 
 
 ## RDDs
@@ -209,7 +209,7 @@ getPartitions介绍:把rdds中的所有rdds中的partitions合并成一个数组
   )
 ```
 从下面的图我们可以清晰的看出来,rdd对parent RDD的依赖是确定的并且是全部依赖
-![笛卡尔RDD](img/CartesianRDD.png)
+![笛卡尔RDD](../img/CartesianRDD.png)
 
 - CoalescedRDD
 这个RDD主要是对parent RDD进行合并(TODO PartitionCoalescer,这个类里面合并算法),`getPartitions`中调用该算法,最后生成
@@ -230,7 +230,7 @@ getPartitions介绍:把rdds中的所有rdds中的partitions合并成一个数组
   }
 ```
 
-![CoalescedRDD](img/CoalescedRDD.png)
+![CoalescedRDD](../img/CoalescedRDD.png)
 
 
 - ShuffledRDD
@@ -254,7 +254,7 @@ getPartitions:很简单,就是根据`part: Partitioner`中指定的分区数量�
 - CoGroupedRDD
 合并RDDs,`(K, V) , (K, W) => (K, (Iterable<V>, Iterable<W>))`
 
-![CoGroupedRDD](img/CoGroupedRDD.png)
+![CoGroupedRDD](../img/CoGroupedRDD.png)
 
 结合上图与代码,我们可以看到如何RDDs与CoGroupedRDD Partitioner相同,则窄依赖,不同则为宽依赖,也就是说会出现,宽依赖与
 窄依赖并存的问题

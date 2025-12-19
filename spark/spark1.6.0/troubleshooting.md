@@ -2,7 +2,7 @@
 
 ## java.util.NoSuchElementException: key not found: 356
 
->http://bd041-041.yzdns.com:8088/cluster/app/application_1524569996205_42516
+```text
 
 18/06/27 11:57:33 INFO InMemoryColumnarTableScan: Predicate (userid#5803 = 354_5b32f89077bf7efe33b9d1b1) generates partition filter: ((userid.lowerBound#6191 <= 354_5b32f89077bf7efe33b9d1b1) && (354_5b32f89077bf7efe33b9d1b1 <= userid.upperBound#6190))
 18/06/27 11:57:33 INFO SparkContext: Starting job: rdd at OutputUtils.scala:64
@@ -75,3 +75,4 @@ java.util.NoSuchElementException: key not found: 356
 	at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)
 18/06/27 11:57:33 WARN Accumulators: Ignoring accumulator update for unknown accumulator id 356
 
+```
