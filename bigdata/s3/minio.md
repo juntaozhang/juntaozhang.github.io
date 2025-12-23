@@ -1,4 +1,7 @@
-# MinIO
+# ~~MinIO~~
+
+This project is currently **under maintenance** and is not accepting new changes.
+
 ## build minio in k8s
 ```shell
 helm install minio minio/minio \
@@ -10,13 +13,17 @@ helm install minio minio/minio \
 
 ## build client in local
 ```shell
+# Apple M 系列
 curl --progress-bar -L https://dl.min.io/aistor/mc/release/darwin-arm64/mc \
     --create-dirs \
-    -o ~/minio-binaries/mc
+    -o /usr/local/bin/mc
     
-alias mc='~/minio-binaries/mc'
-
-mc alias set localminio http://127.0.0.1:9000 minio minio12345
+# Intel 64 位 CPU
+curl --progress-bar -L https://dl.min.io/aistor/mc/release/darwin-amd64/mc \
+    --create-dirs \
+    -o /usr/local/bin/mc
+    
+mc alias set minio http://127.0.0.1:9000 minio minio12345
 ```
 
 
