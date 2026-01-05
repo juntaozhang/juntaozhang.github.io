@@ -29,7 +29,7 @@ mv flink-1.17.2 ../
 ```
 
 ### Paimon and Hadoop Dependencies
-[minio.md](../../../minio.md)
+[minio.md](../../../s3/minio.md)
 ```bash
 # Download Paimon connector and Hadoop shaded dependencies from https://repository.apache.org/snapshots/org/apache/paimon/paimon-flink-1.17/
 wget https://repository.apache.org/content/groups/snapshots/org/apache/paimon/paimon-flink-1.17/1.3-SNAPSHOT/paimon-flink-1.17-1.3-20250906.002721-80.jar

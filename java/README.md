@@ -15,8 +15,43 @@
 [LinkedHashMapLRUTest](https://gitee.com/zjt_hans/hello-java/JavaSE/src/main/java/org/example/java/util/colls/LinkedHashMapLRUTest.java)
 
 ## java 死锁
-[通过MXBean程序查找死锁](https://gitee.com/zjt_hans/hello-java/JavaSE/src/main/java/org/example/java/jvm/monitoring/ThreadDeadLockTest.java)
+[通过MXBean程序查找死锁](https://gitee.com/zjt_hans/hello-java/blob/master/JavaSE/src/main/java/org/example/java/jvm/monitoring/ThreadDeadLockTest.java)
 
+### CompletableFuture
+- thenAccept() / thenAcceptAsync()  [CompletableFutureExample.java](src/main/java/com/example/CompletableFutureExample.java)
+  - thenAccept：线程切换开销，**极易阻塞核心线程**
+  - thenAcceptAsync：使用自定义线程池发生线程切换，极小开销
+  - 不带Async后缀：回调逻辑在「完成当前 Future 的线程」执行；
+  - 带Async后缀：回调逻辑在「指定线程池 / 默认线程池」执行；
+    ```text
+    ================= thenAccept ====================
+    Future的线程：thread-1
+    thenAccept回调执行线程：thread-1
+    消费结果：Done!
+    =============== thenAcceptAsync =================
+    Future的线程：pool-1-thread-1
+    Future的回调线程：pool-1-thread-2
+    result：Done!
+    ```
+- handle / handleAsync
+  - 结果 + 异常通吃，有返回值，必处理异常
+- thenAcceptAsync vs thenApplyAsync
+  - thenAcceptAsync 无返回值
+  - thenApplyAsync 有返回值
+- thenComposeAsync vs thenApplyAsync [CompletableFutureThenComposeExample.java](src/main/java/com/example/CompletableFutureThenComposeExample.java)
+  - thenApplyAsync 嵌套 CompletableFuture<CompletableFuture<String>>，异步消费结果（回调套回调 → 回调地狱）
+  - thenComposeAsync → 得到单层 CompletableFuture<String>
+    ```text
+    线程【pool-1-thread-1】执行：提交作业成功
+    线程：pool-1-thread-2 → 拿到JobID：job_123456，开始执行异步任务2
+    线程【pool-1-thread-1】执行：查询作业状态
+    线程：pool-1-thread-2 → 最终结果：作业状态 = RUNNING
+    ========================================
+    线程【pool-2-thread-1】执行：提交作业成功
+    线程：pool-2-thread-1 → 拿到JobID：job_123456，开始执行异步任务2
+    线程【pool-2-thread-2】执行：查询作业状态
+    线程：pool-2-thread-2 → 最终结果：作业状态 = RUNNING
+    ```
 
 ## Java 安全模型介绍
 ### [PolicyFiles](https://docs.oracle.com/javase/7/docs/technotes/guides/security/PolicyFiles.html#Examples)
