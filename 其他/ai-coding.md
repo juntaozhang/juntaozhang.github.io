@@ -16,3 +16,6 @@
 
 ## DeepSeek
 - [DeepSeek For Coding](https://api-docs.deepseek.com/zh-cn/guides/anthropic_api)
+
+## 豆包
+- TRAE
