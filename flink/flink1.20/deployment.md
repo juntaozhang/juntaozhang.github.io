@@ -30,6 +30,20 @@
 
 # Application Mode
 
+1. Client 执行 `bin/flink run-application` 命令，启动 JVM 进程
+2. CliFrontend 进程启动之后，通过向 kubernetes 提交 Job Manager 的 Deployment（申请 pod）
+3. 申请到 pod 之后 通过脚本（`kubernetes-jobmanager.sh`） 启动 JobManager
+4. 创建 ResourceManager：负责资源的分配与释放，以及资源状态的管理 
+5. 创建 Dispatcher，调用 PackagedProgram 加载用户 JAR 和主类，生成 JobGraph
+6. 创建并启动 JobMaster、持久化作业元数据
+7. JobMaster 通过 DefaultScheduler 调度 JobGraph 作业，需要的 slots 提交 ResourceManager。
+8. ResourceManager 接收到 Slot 申请后，如果资源不足 创建新的 TaskExecutor pod（`kubernetes-taskmanager.sh`）
+9. TaskExecutor 启动后向 ResourceManager 注册自己
+10. TaskExecutor 向 ResourceManager 详细报告其当前所有 Slot 的状态和资源详情
+11. ResourceManager 基于 SlotReport 感知到空闲 Slot 后，通知 JobMaster（`allocateSlot` -> `TaskExecutor.requestSlot` -> `JobMaster.offerSlots`）
+12. JobMaster 的 DefaultScheduler 申请到 slot 之后，继续 `deployAll`，进而 submitTask 到 TaskExecutor
+13. TaskExecutor 接收到 Task 后，启动 Task 执行逻辑，作业正式开始运行；
+
 ## Client
 
 ```mermaid
@@ -290,9 +304,128 @@ A DispatcherBootstrap used for running the user's main() in Application Mode.
     EE ->> DG: ⭐ submitJob(jobGraph)
 ```
 
-#### getStreamGraph
+### User Operator to ExecutionGraph
+用户编写的 Operator（例如 map、flatMap、keyBy、sum 等）通过 DataStream API 被封装为 Transformation，而 StreamGraph 是由这些 Transformation 转换而来的逻辑执行图。
 
-#### getJobGraph
+```java
+env.setParallelism(2);
+env.socketTextStream("localhost", 19999, "\n", 1000)
+    .flatMap(new FlatMapFunction<String, Word>() {
+        @Override
+        public void flatMap(String value, Collector<Word> out) {
+            for (String k : value.split("\\s")) {
+                if (StringUtils.isNotBlank(k)) {
+                    out.collect(new Word(k, 1));
+                }
+            }
+        }
+    }).setParallelism(1)
+    .keyBy(Word::getKey)
+    .sum("cnt")
+    .print();
+```
+![WordCountExample.png](assets/WordCountExample.png)
+
+#### Transformation
+* 用户编写的 Flink operator 时构造 Transformation 注册到 env, 这个过程会形成 Transformation DAG
+```text
+Transformation DAG:
+├── Transformation-1: SourceTransformation [parallelism=1]
+│   ↓
+├── Transformation-2: OneInputTransformation ('Flat Map') [parallelism=1]
+│   ↓   └── Transformation-3: PartitionTransformation ('Partition') [parallelism=1]
+├── Transformation-4: ReduceTransformation ('Keyed Aggregation') [parallelism=2]
+│   ↓
+└── Transformation-5: SinkTransformation ('Print to Std. Out') [parallelism=2]
+```
+ReduceTransformationTranslator
+
+
+#### StreamGraph
+- 经过 `env.getStreamGraph()` `Transformation` 转换成 `StreamGraph`
+- 逻辑计划, 每个 API 算子一个节点，StreamGraph（由 StreamNode + StreamEdge 构成）
+```text
+StreamGraph:
+├── StreamNode-1: SourceFunction
+│    └── parallelism = 1
+│
+├── StreamNode-2: MapFunction
+│    └── parallelism = 1
+│    └── chained with source
+│
+├── StreamNode-3: Sum (ReduceFunction)
+│    └── parallelism = 2
+│    └── 分区器 = HashPartitioner（keyBy 触发）
+│
+└── StreamNode-4: Sink (PrintSinkFunction)
+     └── parallelism = 2
+     └── 分区器 = ForwardPartitioner
+
+```
+
+#### JobGraph
+- StreamGraph 根据 `PipelineExecutorUtils.getJobGraph(pipeline)` 转换为 JobGraph，优化后的逻辑计划
+- operator chain 优化，Flink 会将多个连续的、并行度一致的算子合并成一个 Task：
+    - 并行度相同的 Source 与 Map 共享一个slot，即在一个task中运行，sum 和 print 也被放到同一个 slot 中运行
+```text
+JobGraph:
+├── JobVertex-1: Source → Map
+│    ├── parallelism = 1
+│    ├── operatorIDs: [sourceOp, mapOp]
+│    └── output: pipelined, HASH → JobVertex-2
+│
+└── JobVertex-2: Sum → Print
+     ├── parallelism = 2
+     ├── operatorIDs: [reduceOp, printSinkOp]
+     └── input edge: pipelined, FORWARD
+```
+
+
+#### ExecutionGraph
+`SchedulerBase.createAndRestoreExecutionGraph` 会根据 JobGraph 构建 ExecutionGraph，物理执行计划
+- 每个 JobVertex 对应一个 ExecutionJobVertex
+- 每个 ExecutionJobVertex 包含多个 ExecutionVertex(由 parallelism 决定)
+- 每个 ExecutionVertex 对应一个 subtask
+```text
+DefaultExecutionGraph:
+├── ExecutionJobVertex-1: Source + Map
+│    └── ExecutionVertex[0]  ← parallelism = 1
+│
+└── ExecutionJobVertex-2: Sum + Print
+     ├── ExecutionVertex[0]  ← subtask-0
+     └── ExecutionVertex[1]  ← subtask-1
+```
+
+- Slot Sharing Group：这是 Flink 中默认开启的一种资源优化机制，同一个 Slot Sharing Group 的不同任务（Task）共享同一个 Slot，比如
+    - JobVertex-1 的 task 与 JobVertex-2 的 task 共享同一个 Slot，所以此任务 tasks 数量为 3，但是 slot 开销为 2
+执行计划：每个 subtask 为一节点
+  - 不同 Slot Sharing Group 的算子（Operator）根本不会被考虑进行 chain 优化 
+  - 如果 JobVertex-1 与 JobVertex-2 设置不同的 group 如下代码，tasks 数量还是 3，slot 开销也变为 3
+      ```java
+      env.setParallelism(2);
+      env.socketTextStream("localhost", 19999, "\n", 1000)
+              .slotSharingGroup("g1")
+              .flatMap(new FlatMapFunction<String, Word>() {
+                  @Override
+                  public void flatMap(String value, Collector<Word> out) {
+                      String cleanValue = value
+                              .replaceAll("[^a-zA-Z0-9\\s]", "")
+                              .toLowerCase();
+                      for (String k : cleanValue.split("\\s")) {
+                          if (StringUtils.isNotBlank(k)) {
+                              out.collect(new Word(k, 1));
+                          }
+                      }
+                  }
+              }).setParallelism(1)
+              .keyBy(Word::getKey)
+              .sum("cnt").slotSharingGroup("g2")
+              .print();
+      ```
+- CoLocation 优化：没有改变 Task 的数量和内部逻辑，它只是利用了 Slot Sharing 机制，强制改变了 Task 的物理部署位置
+  - 让原本可能分散的 Task “贡献”出 Slot 资源，挤在同一个 Slot 里，从而实现了数据传输的本地化（TODO）
+
+
 
 ### Dispatcher
 
@@ -317,11 +450,11 @@ Submit a job to the dispatcher.
     participant JM as JobMaster<br/>JobMasterService
     Client ->> Dispatcher: ⭐ submitJob(JobGraph, timeout)
     Dispatcher ->> Dispatcher: submitJob() 在 Actor 线程中执行
-    Dispatcher ->> Dispatcher: ·internalSubmitJob(JobGraph)
+    Dispatcher ->> Dispatcher: internalSubmitJob(JobGraph)
     Note over Dispatcher, Dispatcher: 持久化 JobGraph
     Dispatcher ->> + Dispatcher: waitForTerminatingJob(jobGraph, persistAndRunJob)
     Note right of Dispatcher: 异步调用
-    Dispatcher ->> + Dispatcher: ⭐ persistAndRunJob(jobGraph)
+    Dispatcher ->> + Dispatcher: persistAndRunJob(jobGraph)
     Note over Dispatcher, JMSLR: 创建/启动 JobManagerRunner
     Dispatcher ->> + Dispatcher: createJobMasterRunner(jobGraph)
     Dispatcher ->> - JMSLR: jobManagerRunnerFactory<br/>.createJobMasterRunner(jobGraph)<br/>new JobMasterServiceLeadershipRunner()
