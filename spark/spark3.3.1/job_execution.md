@@ -3,8 +3,8 @@
 ## Spark 的运行流程？
 ```mermaid
   graph TD
-    subgraph User["🧑‍💻 用户环境"]
-        A[spark-submit 提交应用]
+    subgraph User["🧑‍💻 User Class"]
+        A[main函数： <br/>1.初始化SparkContext<br/>2.提交action提交任务]
     end
 
     subgraph Driver["🚗 Driver 进程"]
@@ -411,10 +411,30 @@ FIFO Scheduler（先进先出调度器）
   - KubernetesClusterSchedulerBackend：Kubernetes 集群管理器的 `CoarseGrainedSchedulerBackend` 实现，负责与 K8s API 交互
 
 ## ExecutorBackend
+### 入口，组件初始化
+- 作为 executor 的启动入口，首先初始化 SparkEnv
+  - SparkEnv 初始化时，会创建 rpcEnv、blockManager、shuffleManager，memoryManager
+    - NettyRpcEnv 会创建 Dispatcher
 
+#### NettyRpcEnv
+NettyRpcEnv是Spark分布式计算的通信基石，确保Driver、Executor和其他组件之间能够高效、可靠地通信，支持Spark的各种分布式操作。
+- 通过setupEndpoint注册RPC端点
+- 通过send/ask方法发送消息
+- Dispatcher将消息路由到目标端点
+
+#### Dispatcher
+Dispatcher在Spark的分布式通信中扮演着中枢角色，确保了RPC消息能够高效、可靠地传递到各个组件，是Spark集群内部通信的基础。
+- postOneWayMessage --> MessageLoop / Inbox -> local queue
+- postToOutbox --> Outbox --> remote RPC
+
+### onStart    
+- 注册 RegisterExecutor 到 SchedulerBackend
+
+### 接收的 events
 运行在每个Container 上的组件，负责与 Driver 端的 SchedulerBackend 通信。
 它接收来自 Driver 的任务指令，执行任务，并将执行结果和状态汇报回 Driver。
 Will create Executor instance to run task.
+
 Container = 1 ExecutorBackend = 1 Executor.
 
 - statusUpdate： report task status to Driver
@@ -424,3 +444,14 @@ Container = 1 ExecutorBackend = 1 Executor.
   - LaunchTask: launch task receive from Driver, `executor` will run task
   - KillTask: kill task by id, `executor` will kill the task
   - StopExecutor/Shutdown: stop executor
+
+#### Executor
+Executor 处理 ExecutorBackend 的 LaunchTask 、KillTask 事件
+- launchTask
+- killTask
+
+#### TaskRunner
+- TaskRunner是Executor执行 Task 的实际载体，通过精细的生命周期管理和资源控制，确保任务能够高效、可靠地执行，并将结果准确返回给Driver。
+- 实现 java Runnable， 是一个线程
+- 执行 Task 的 run 方法
+

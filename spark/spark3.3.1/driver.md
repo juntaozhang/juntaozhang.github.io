@@ -76,16 +76,23 @@ sequenceDiagram
 - 客户端提交应用后可以断开连接，应用在集群内自主运行
 - 更适合生产环境的批处理作业和无人值守场景
 - 故障恢复时整个 Driver 状态都在集群内，提高了可靠性
+## Yarn cluster details
 
+![SparkAppInit.png](asset/SparkAppInit.png)
+
+## SparkApplication
+- JavaMainApplication
+- YarnClusterApplication
+- KubernetesClientApplication
 ## Kubernetes 集群部署模式
 
 ### Driver 提交和运行流程
 
-**1. spark-submit.sh create Drive flow**
+**spark-submit.sh create Driver Pod**
 ```mermaid
 sequenceDiagram
     autonumber
-    participant spark_submit_sh as spark-submit.sh
+    participant spark_submit_sh as spark-submit
     participant SparkSubmit as SparkSubmit
     participant JavaMainApplication as JavaMainApplication
     participant KubernetesClientApplication as KubernetesClientApplication
@@ -93,24 +100,28 @@ sequenceDiagram
     participant Driver as Driver Pod
 
     spark_submit_sh->>SparkSubmit: runMain
-    SparkSubmit->>JavaMainApplication:start
-    JavaMainApplication->>KubernetesClientApplication:invoke(main)
+    SparkSubmit->>KubernetesClientApplication:start
     KubernetesClientApplication->>Client:run
-    Client->> Driver: create driver pod<br/>entrypoint.sh -> spark_submit_sh client
+    Client->> Driver: create driver pod<br/>entrypoint.sh -> spark-submit client
 ```
-
 **Driver and Executor communication flow**
+- Driver pod 直接运行 JavaMainApplication(user class)
+- 从 user class 创建 spark context，进而创建 driver components
+- 然后 user class 再提交 spark job
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Client as Client
+    participant spark_submit_sh as spark-submit
+    participant SparkSubmit as SparkSubmit
+    participant JavaMainApplication as JavaMainApplication
     participant K8sAPI as Kubernetes API Server
     participant DriverPod as Driver Pod
     participant ExecutorPod as Executor Pod
     participant SparkContext as SparkContext
 
-    Client->>K8sAPI: Submit Driver Pod spec
-    K8sAPI->>DriverPod: Schedule and start Driver Pod
+    spark_submit_sh->>SparkSubmit: runMain
+    SparkSubmit->>JavaMainApplication:start
+    JavaMainApplication->>DriverPod: User Class main
     DriverPod->>SparkContext: Initialize SparkContext
     SparkContext->>K8sAPI: Request Executor Pods (via K8sSchedulerBackend)
     K8sAPI->>ExecutorPod: Schedule and start Executor Pods
@@ -132,6 +143,8 @@ sequenceDiagram
 - Driver Pod 通过 Kubernetes 原生机制管理 Executor Pod 的生命周期
 - 支持动态资源分配，根据作业需求自动扩缩容 Executor 数量
 - 利用 Kubernetes 的服务发现和负载均衡能力进行通信
+
+
 
 ## Driver 内部架构与调度流程
 
@@ -174,6 +187,8 @@ sequenceDiagram
 - 向 TaskScheduler 提交 TaskSet，每个 TaskSet 包含基于已有数据可独立运行的 Task
 - SchedulerBackend 通过 `makeOffers()` 申请资源，通过 `resourceOffers()` 进行资源调度
 - TaskScheduler 负责单个 Task 的重试，DAGScheduler 负责 Stage 级别的重新提交
+
+
 
 ## 部署模式总结与对比
 

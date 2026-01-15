@@ -181,7 +181,11 @@ CollectLimit 21
 ```
 
 ## OptimizeSkewedJoin
+![bytedance1](https://p6-volc-community-sign.byteimg.com/tos-cn-i-tlddhu82om/7852dc80740f4841b83f4ea1ace90bb7~tplv-tlddhu82om-image.image?=&rk3s=8031ce6d&x-expires=1768299773&x-signature=iNFyTH8QU99JUe7qEzI9BVwK5EE%3D)  ===>>>>
+![bytedance2](https://p6-volc-community-sign.byteimg.com/tos-cn-i-tlddhu82om/7ef58e7903ac438e99e349ce689f2103~tplv-tlddhu82om-image.image?=&rk3s=8031ce6d&x-expires=1768299773&x-signature=0ikGWGRpqNvIf3mFwks387lxFak%3D)
+
 [Example Code](https://github.com/juntaozhang/spark/blob/v3.3.1-study/examples/src/test/scala/cn/juntaozhang/example/spark/SortMergeJoinSpec.scala#L147):
+
 ```scala
 spark
   .range(0, 1000, 1, 10)
