@@ -1,5 +1,24 @@
 
+# HDFS
+- 一个文件按照 256MB 分割 成为 block
+- 每个 block 会被复制到多个节点上，默认是 3 个（hadoop 2）
+```text
+原始数据: [DATA]
+存储方式: [DATA] + [DATA] + [DATA]  (3份完整副本)
+存储开销: 300%
+可容忍故障: 2个副本损坏 (保留1份完好即可)
+```
 
+hadoop 3 引入了纠删码(Erasure Coding)
+```text
+原始数据: [D1][D2][D3][D4][D5][D6] (6个数据块)
+编码生成: [P1][P2][P3] (3个校验块)
+存储方式: [D1][D2][D3][D4][D5][D6][P1][P2][P3]
+存储开销: 150% (9/6=1.5)
+可容忍故障: 任意3个块损坏 (数据块或校验块)
+```
+
+## API
 hdfs upload/download/rm
 ```
   private def rmHdfsFile(sqlContext: SQLContext, hdfsFile: String): Unit = {
