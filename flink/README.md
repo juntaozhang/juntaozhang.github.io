@@ -7,4 +7,5 @@
 - [State](flink1.20/state.md)
 - [Checkpoint](flink1.20/checkpoint.md)
 - [Memory](flink1.20/memory.md)
+- [SQL Gateway](flink1.20/sql-gateway.md)
 - [Misc](flink1.20/misc.md)

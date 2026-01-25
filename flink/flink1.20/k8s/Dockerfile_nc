@@ -1,0 +1,5 @@
+FROM alpine:latest
+RUN apk add --no-cache netcat-openbsd
+CMD ["nc"]
+
+# docker build -t my-nc -f Dockerfile_nc .
