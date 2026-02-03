@@ -1,10 +1,17 @@
 package cn.juntaozhang.leetcode.sort;
 
+import org.junit.Test;
+
 import java.util.Arrays;
 
 public class L912_selection {
-    public static void main(String[] args) {
+    @Test
+    public void case1() {
         System.out.println(Arrays.toString(new L912_selection().sortArray(new int[]{5, 2, 3, 1})));
+    }
+
+    @Test
+    public void case2() {
         System.out.println(Arrays.toString(new L912_selection().sortArray(new int[]{5, 1, 1, 2, 0, 0})));
     }
 

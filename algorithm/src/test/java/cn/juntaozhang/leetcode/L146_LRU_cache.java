@@ -3,17 +3,19 @@ package cn.juntaozhang.leetcode;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
- * 
+ *
  */
 public class L146_LRU_cache {
-    class LRUCache {
+    static class LRUCache {
         HashMap<Integer, Entry> map;
         Entry head, tail;
         int capacity;
 
-        class Entry {
+        static class Entry {
             Integer k;
             Integer v;
             Entry before, after;
@@ -38,7 +40,7 @@ public class L146_LRU_cache {
                 sb.append(t.k).append("=").append(t.v).append(",");
                 t = t.after;
             }
-            sb.append("}").append("  size=" + map.size());
+            sb.append("}").append("  size=").append(map.size());
             return sb.toString();
         }
 
@@ -108,16 +110,6 @@ public class L146_LRU_cache {
     @Test
     public void case1() {
         LRUCache cache = new LRUCache(10);
-//        LinkedHashMap cache = new LinkedHashMap(2, 0.75f, true);
-//        cache.put(1, 1);
-//        cache.put(2, 2);
-//        System.out.println(cache.get(1));       // 返回  1
-//        cache.put(3, 3);                         // 该操作会使得密钥 2 作废
-//        System.out.println(cache.get(2));       // 返回 -1 (未找到)
-//        cache.put(4, 4);                        // 该操作会使得密钥 1 作废
-//        System.out.println(cache.get(1));       // 返回 -1 (未找到)
-//        System.out.println(cache.get(3));       // 返回  3
-//        System.out.println(cache.get(4));       // 返回  4
         for (String a : "10,13],[3,17],[6,11],[10,5],[9,10],[13],[2,19],[2],[3],[5,25],[8],[9,22],[5,5],[1,30],[11],[9,12],[7],[5],[8],[9],[4,30],[9,3],[9],[10],[10],[6,14],[3,1],[3],[10,11],[8],[2,14],[1],[5],[4],[11,4],[12,24],[5,18],[13],[7,23],[8],[12],[3,27],[2,12],[5],[2,9],[13,4],[8,18],[1,7],[6],[9,29],[8,21],[5],[6,30],[1,12],[10],[4,15],[7,22],[11,26],[8,17],[9,29],[5],[3,4],[11,30],[12],[4,29],[3],[9],[6],[3,4],[1],[10],[3,29],[10,28],[1,20],[11,13],[3],[3,12],[3,8],[10,9],[3,26],[8],[7],[5],[13,17],[2,27],[11,15],[12],[9,19],[2,15],[3,16],[1],[12,17],[9,1],[6,19],[4],[5],[5],[8,1],[11,7],[5,2],[9,28],[1],[2,2],[7,4],[4,22],[7,24],[9,26],[13,28],[11,26".split("],\\[")) {
             if ("1".equals(a)) {
                 System.out.print("=== ");
@@ -140,5 +132,41 @@ public class L146_LRU_cache {
 //        cache.put(4, 1);
 //        System.out.println(cache.get(1));
 //        System.out.println(cache.get(2));
+    }
+
+    public static class CacheV2 {
+        HashMap<Integer, Integer> cache;
+
+        public CacheV2(int capacity) {
+            this.cache = new LinkedHashMap<>(capacity, 0.75f, true) {
+                public boolean removeEldestEntry(Map.Entry eldest) {
+                    return size() > capacity;
+                }
+            };
+        }
+
+        public int get(int key) {
+            int v = cache.getOrDefault(key, -1);
+            System.out.println(v);
+            return v;
+        }
+
+        public void put(int key, int value) {
+            cache.put(key, value);
+        }
+    }
+
+    @Test
+    public void case2() {
+        CacheV2 lRUCache = new CacheV2(2);
+        lRUCache.put(1, 1); // 缓存是 {1=1}
+        lRUCache.put(2, 2); // 缓存是 {1=1, 2=2}
+        lRUCache.get(1);    // 返回 1
+        lRUCache.put(3, 3); // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}
+        lRUCache.get(2);    // 返回 -1 (未找到)
+        lRUCache.put(4, 4); // 该操作会使得关键字 1 作废，缓存是 {4=4, 3=3}
+        lRUCache.get(1);    // 返回 -1 (未找到)
+        lRUCache.get(3);    // 返回 3
+        lRUCache.get(4);    // 返回 4
     }
 }

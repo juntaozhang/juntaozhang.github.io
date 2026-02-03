@@ -1,10 +1,13 @@
 package cn.juntaozhang.leetcode.sort;
 
+import cn.juntaozhang.utils.StringUtils;
+import org.junit.Test;
+
 import java.util.Arrays;
 
-public class BucketSort {
+public class BucketSortTest {
 
-    public static int maximumGap(int[] nums) {
+    public int maximumGap(int[] nums) {
         if (nums.length < 2) return 0;
         int max = Arrays.stream(nums).max().getAsInt();
         int min = Arrays.stream(nums).min().getAsInt();
@@ -37,9 +40,42 @@ public class BucketSort {
         return ans;
     }
 
-    public static void main(String[] args) {
+    @Test
+    public void case1() {
         System.out.println(maximumGap(new int[]{3}));
         System.out.println(maximumGap(new int[]{3, 8}));
         System.out.println(maximumGap(new int[]{3, 7, 9, 8}));
     }
+
+
+    public void sort(int[] arr) {
+        if (arr == null || arr.length < 2) return;
+        StringUtils.print(arr);
+        boolean swapped;
+        for (int end = arr.length - 1; end > 0; end--) {
+            swapped = false;
+            for (int i = 0; i < end; i++) {
+                if (arr[i] > arr[i + 1]) {
+                    swap(arr, i, i + 1);
+                    swapped = true;
+                }
+            }
+            if (!swapped) {
+                break;
+            }
+            StringUtils.print2(arr);
+        }
+    }
+
+    public void swap(int[] arr, int i, int j) {
+        int t = arr[i];
+        arr[i] = arr[j];
+        arr[j] = t;
+    }
+
+    @Test
+    public void case2() {
+        sort(new int[]{3, 7, 9, 8, 1, 2, 1});
+    }
+
 }

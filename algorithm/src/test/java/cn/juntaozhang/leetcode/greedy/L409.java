@@ -1,5 +1,7 @@
 package cn.juntaozhang.leetcode.greedy;
 
+import org.junit.Test;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,10 +48,10 @@ public class L409 {
         int ans = 0;
         // 这里体现贪婪算法, 偶数全部，基数-1
         for (int i : map.values()) {
-            ans += i;
             if (i % 2 != 0) {
-                ans -= 1;
                 flag = true;
+            } else {
+                ans += i;
             }
         }
         if (flag) {
@@ -58,11 +60,16 @@ public class L409 {
         return ans;
     }
 
-    public static void main(String[] args) {
+    @Test
+    public void case1() {
+        System.out.println(longestPalindrome("abccccdd"));
+    }
+
+    @Test
+    public void case2() {
         System.out.println((int) 'a');
         System.out.println((int) 'A');
-        System.out.println(new L409().longestPalindrome("abccccdd"));
-        System.out.println(new L409().longestPalindrome("a"));
-        System.out.println(new L409().longestPalindrome("Ab"));
+        System.out.println(longestPalindrome("a"));
+        System.out.println(longestPalindrome("Ab"));
     }
 }

@@ -8,47 +8,46 @@ import java.util.Arrays;
 public class L912_heap {
     @Test
     public void case1() {
-        System.out.println(Arrays.toString(new L912_heap().sortArray(new int[]{5, 2, 3, 1})));
+        System.out.println(Arrays.toString(sortArray(new int[]{5, 2, 3, 1})));
     }
 
     @Test
     public void case2() {
-        System.out.println(Arrays.toString(new L912_heap().sortArray(new int[]{5, 1, 1, 2, 0, 0})));
+        System.out.println(Arrays.toString(sortArray(new int[]{5, 1, 1, 2, 0, 0})));
     }
 
-    public int[] sortArray(int[] nums) {
-        buildMaxHeap(nums);
-        System.out.println("buildMaxHeap:" + Arrays.toString(nums));
-        int len = nums.length;
-        for (int i = 0; i < len - 1; i++) {
-            swap(nums, 0, len - 1 - i);
-            maxHeapify(nums, len - 1 - i, 0);
-            System.out.println(i + ":" + Arrays.toString(nums));
+    public int[] sortArray(int[] arr) {
+        buildMaxHeap(arr);
+        System.out.println("buildMaxHeap:" + Arrays.toString(arr));
+        for (int i = arr.length - 1; i > 0; i--) {
+            swap(arr, 0, i);
+            heapify(arr, i, 0);
+            System.out.println(i + ":" + Arrays.toString(arr));
         }
-        return nums;
+        return arr;
     }
 
     public void buildMaxHeap(int[] nums) {
         for (int i = nums.length / 2; i >= 0; i--) {
-            maxHeapify(nums, nums.length, i);
+            heapify(nums, nums.length, i);
         }
     }
 
-    public void maxHeapify(int[] nums, int len, int i) {
+    public void heapify(int[] nums, int n, int i) {
         int l = 2 * i + 1;
         int r = 2 * i + 2;
         int largest = i;
-        if (l < len && nums[l] > nums[largest]) {
+        if (l < n && nums[l] > nums[largest]) {
             largest = l;
         }
 
-        if (r < len && nums[r] > nums[largest]) {
+        if (r < n && nums[r] > nums[largest]) {
             largest = r;
         }
 
         if (largest != i) {
             swap(nums, i, largest);
-            maxHeapify(nums, len, largest);
+            heapify(nums, n, largest);
         }
     }
 
@@ -82,31 +81,30 @@ public class L912_heap {
         */
         int[] arr = new int[]{5, 2, 3, 1, 7, 4, 6};
         StringUtils.print(arr);
-        maxHeapify(arr, arr.length, 2);
+        heapify(arr, arr.length, 2);
         StringUtils.print2(arr);
-        maxHeapify(arr, arr.length, 1);
+        heapify(arr, arr.length, 1);
         StringUtils.print2(arr);
-        maxHeapify(arr, arr.length, 0);
+        heapify(arr, arr.length, 0);
         StringUtils.print2(arr);
     }
 
     @Test
     public void testSortArray() {
         /*
-        i = 0
+        i = 6
           7
        5     6
       1  2  4  3
 
-        i = 0
+        i = 6
           3              6               6
        5     6  ->    5     3  ->     5     4
       1  2  4        1  2  4         1  2  3
          */
         int[] arr = new int[]{7, 5, 6, 1, 2, 4, 3};
-        int maxI = arr.length - 1;
-        swap(arr, 0, maxI);
-        maxHeapify(arr, maxI, 0);
+        swap(arr, 0, 6);
+        heapify(arr, 6, 0);
         StringUtils.print2(arr);
     }
 }

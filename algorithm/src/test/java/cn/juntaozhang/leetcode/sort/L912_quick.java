@@ -5,7 +5,8 @@ import org.junit.Test;
 import java.util.Arrays;
 
 public class L912_quick {
-    public static void main(String[] args) {
+    @Test
+    public void case1() {
         System.out.println(Arrays.toString(new L912_quick().quickSort(new int[]{4})));
         System.out.println(Arrays.toString(new L912_quick().quickSort(new int[]{4, 4})));
         System.out.println(Arrays.toString(new L912_quick().quickSort(new int[]{1, 2, 3})));
