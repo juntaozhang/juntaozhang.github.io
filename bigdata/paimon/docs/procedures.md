@@ -1,8 +1,4 @@
-
-# 
-
-[FlinkDeduplicateExample.java](../flink1.17/src/main/java/com/example/paimon/FlinkDeduplicateExample.java)
-
+# Procedures
 ## expire_snapshots
 run in spark sql:
 ```shell

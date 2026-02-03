@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>flink1.17</artifactId>
+    <artifactId>flink1_17</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 

@@ -15,7 +15,7 @@ This guide demonstrates how to set up and run Apache Paimon with Apache Flink on
 - Kubernetes cluster with sufficient resources
 - kubectl configured to access the cluster
 - Docker for building custom images
-- MinIO deployed in the cluster for S3-compatible storage
+- ~~MinIO~~ deployed in the cluster for S3-compatible storage
 - Flink service account configured in Kubernetes
 
 ## Download Dependencies
@@ -29,7 +29,9 @@ mv flink-1.17.2 ../
 ```
 
 ### Paimon and Hadoop Dependencies
-[minio.md](../../../s3/minio.md)
+- [~~minio~~](../../../s3/minio.md)
+- [rustfs](../../../s3/rustfs/README.md)
+
 ```bash
 # Download Paimon connector and Hadoop shaded dependencies from https://repository.apache.org/snapshots/org/apache/paimon/paimon-flink-1.17/
 wget https://repository.apache.org/content/groups/snapshots/org/apache/paimon/paimon-flink-1.17/1.3-SNAPSHOT/paimon-flink-1.17-1.3-20250906.002721-80.jar

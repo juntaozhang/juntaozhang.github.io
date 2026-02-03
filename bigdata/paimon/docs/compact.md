@@ -1,5 +1,3 @@
-
-
 ## Flink CompactAction TODO
 
 ## Spark sql
@@ -38,8 +36,6 @@ graph LR
 
 
 
-  
-
 #### commit metadata
 `compactAwareBucketTable` commit manifest
 ```mermaid
@@ -52,3 +48,16 @@ graph LR
 `tryCommit` will wait for a while if `tryCommitOnce` failed, then retry again, until success or exceed max retry times.
 `tryCommitOnce` will base on the lastest snapshot as base `baseManifestList`, then create new `deltaManifestList`, then generates a new snapshot based on the current snapshot,
 if commit failed due to other client already committed, try again by lastest snapshot.
+
+
+## TODO
+
+```text
+UniversalCompaction
+MergeTreeCompactTask
+FileRewriteCompactTask -> MergeTreeCompactRewriter.rewrite
+num-sorted-run.compaction-trigger 5
+maxSizeAmp：空间放大（Size Amplification）是指存储系统中实际存储的数据量与最新版本数据量的比值
+sizeRatio：
+MergeTreeWriter.trySyncLatestCompaction
+```

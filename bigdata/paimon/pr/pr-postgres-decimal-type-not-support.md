@@ -10,7 +10,7 @@ When using `postgres_sync_table` action with Paimon CDC, PostgreSQL DECIMAL fiel
 The issue occurs in the PostgreSQL CDC record parsing pipeline:
 - PostgreSQL DECIMAL(10,2) fields are handled by Debezium with `decimal.handling.mode=precise` (default)
 - `DebeziumSchemaUtils.decimalLogicalName()` field is `org.apache.kafka.connect.data.Decimal`, but field name and className is shaded to `org.apache.flink.cdc.connectors.shaded.org.apache.kafka.connect.data.Decimal`
-    > ![1.png](1.png)
+    > ![1.png](pr-6239/1.png)
 - `PostgresRecordParser.extractFieldType()` incorrectly parses shaded Debezium decimal schema as BYTES
 
 ## Reproduce

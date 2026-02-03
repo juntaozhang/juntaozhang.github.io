@@ -15,7 +15,7 @@ public class FlinkDeduplicateExample {
                 .toUri()
                 .toString();
         Configuration conf = new Configuration();
-        conf.set(RestOptions.PORT, 8082);
+        conf.set(RestOptions.PORT, 8083);
         conf.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, ckpDir);
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(conf);
         env.setParallelism(2);
@@ -29,30 +29,30 @@ public class FlinkDeduplicateExample {
         // Define the Orders table
         String createSrcTable = """
                 CREATE TEMPORARY TABLE src_order (
-                order_id BIGINT,
-                price DECIMAL(32, 2),
-                ts TIMESTAMP(3),
-                WATERMARK FOR ts AS ts - INTERVAL '5' SECOND
+                    order_id BIGINT,
+                    price DECIMAL(32, 2),
+                    ts TIMESTAMP(3),
+                    WATERMARK FOR ts AS ts - INTERVAL '5' SECOND
                 ) WITH (
-                'connector' = 'datagen',
-                'rows-per-second' = '1',
-                'fields.order_id.kind' = 'sequence',
-                'fields.order_id.start' = '1',
-                'fields.order_id.end' = '1000000',
-                'fields.price.min' = '1',
-                'fields.price.max' = '100'
+                    'connector' = 'datagen',
+                    'rows-per-second' = '1',
+                    'fields.order_id.kind' = 'sequence',
+                    'fields.order_id.start' = '1',
+                    'fields.order_id.end' = '1000000',
+                    'fields.price.min' = '1',
+                    'fields.price.max' = '100'
                 )
                 """;
 
         // default bucket='-1'
         String createSinkTable = """
                 CREATE TABLE dedup_order (
-                  order_id BIGINT,
-                  price DECIMAL(32, 2),
-                  ts TIMESTAMP(3),
-                  PRIMARY KEY (order_id) NOT ENFORCED
+                    order_id BIGINT,
+                    price DECIMAL(32, 2),
+                    ts TIMESTAMP(3),
+                    PRIMARY KEY (order_id) NOT ENFORCED
                 ) WITH (
-                    'write-only' = 'true'
+                   'write-only' = 'true'
                 )
                 """;
         String query = "INSERT INTO dedup_order SELECT * FROM src_order";

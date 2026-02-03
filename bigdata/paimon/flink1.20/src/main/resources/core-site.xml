@@ -5,15 +5,15 @@
 	</property>
 	<property>
 		<name>fs.s3a.endpoint</name>
-		<value>http://127.0.0.1:9000</value>
+		<value>http://127.0.0.1:32000</value>
 	</property>
 	<property>
 		<name>fs.s3a.access.key</name>
-		<value>minio</value>
+		<value>test</value>
 	</property>
 	<property>
 		<name>fs.s3a.secret.key</name>
-		<value>minio12345</value>
+		<value>11111111</value>
 	</property>
 	<property>
 		<name>fs.s3a.connection.ssl.enabled</name>

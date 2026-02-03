@@ -14,7 +14,23 @@ mvn clean install -DskipTests
 package sun.misc does not exist
 sun.misc.Unsafe
 ```
-fix in https://github.com/apache/paimon/issues/692
+fixed in https://github.com/apache/paimon/issues/692
+
+unchecked Java Compiler:
+
+![unchecked-java-compiler.png](docs/imgs/unchecked-java-compiler.png)
+</details>
+
+<details>
+<summary>cannot access class sun.nio.ch.DirectBuffer (in module java.base) because module java.base does not export sun.nio.ch to unnamed module
+
+</summary>
+
+fixed use jdk11, I see maven-surefire-plugin already add `--add-exports=java.base/sun.nio.ch=ALL-UNNAMED`, don't why
+
+```text
+java.lang.IllegalAccessError: class org.apache.spark.storage.StorageUtils$ (in unnamed module @0x17f6480) cannot access class sun.nio.ch.DirectBuffer (in module java.base) because module java.base does not export sun.nio.ch to unnamed module @0x17f6480
+```
 </details>
 
 <details>

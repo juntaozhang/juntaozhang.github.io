@@ -41,7 +41,7 @@ stream, row-tracking.enabled=true
 
 [FlinkRowTrackingExample.java](../src/main/java/com/example/paimon/FlinkRowTrackingExample.java)
 
-![flink_simple_example.png](flink-simple-example.png)
+![flink-simple-example.png](../../docs/imgs/flink-simple-example.png)
 
 ```text
 SinkTransformation{id=9, name='end', outputType=CommittableTypeInfo, parallelism=1}

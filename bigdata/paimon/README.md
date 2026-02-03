@@ -1,40 +1,44 @@
-# paimon
+# Paimon
+## Setup
+- [local](docs/setup-local.md)
+- [flink](docs/setup-flink.md)
+- [spark](docs/setup-spark.md)
 
-[Flink1.17 Paimon on Kubernetes](flink1.17-paimon.md)
+## Paimon 1.4
+- [data distribution: bucket](docs/bucket.md)
+- [compact](docs/compact.md)
+  - [files-conflict: dedicated compaction job separate write and compact](https://paimon.apache.org/docs/master/concepts/concurrency-control/#files-conflict), set 'write-only' to true
+    - [FlinkDeduplicateExample.java](flink1.20/src/main/java/com/example/paimon/FlinkDeduplicateExample.java)
+- [changelog](docs/changelog.md)
+- row-tracking
+  - [FlinkRowTrackingExample.java](flink1.20/src/main/java/com/example/paimon/FlinkRowTrackingExample.java)
 
-[Paimon Changelog and Audit Log](flink1.17-paimon-changelog-audit-demo.md)
+## TODO
+- example of [RESTCatalog](https://paimon.apache.org/docs/master/concepts/rest/overview/)
+- deep dive 
+  - test cross-partitions-upsert, primary keys not contain partition fields
+    - dedup/partial updata/firstrow
+  - `CALL sys.compact_manifest(table => 'order_fact')`
+  - `CALL sys.expire_snapshots(table => 'orders', retain_max=>3, retain_min=>2)`
+  - [bucketed-append: precommit-compact](https://paimon.apache.org/docs/master/append-table/streaming/#bucketed-append) 
+  - [Deletion Vectors](https://paimon.apache.org/docs/master/concepts/spec/tableindex/#deletion-vectors)
+  - PK merge engine: partial update
+    - testPartialUpdateRemoveRecordOnSequenceGroup
 
-[Flink1.17 Paimon Primary Key Table](flink1.17-paimon-primary-key-guide.md)
+<details>
+<summary>data evolution support update and compact</summary>
 
-[Flink1.17 Paimon CDC](flink1.17_paimon_cdc.md)
+- [data-evolution.md](docs/data-evolution.md)
 
-[flink1.17-paimon1.3-example](flink1.17-paimon1.3-example)
-
-[flink Action debug](pr-6239/postgres-decimal-type-not-support.md)
-
-TODO:
-
-- how does [Dedicated Compaction Job](https://paimon.apache.org/docs/master/maintenance/dedicated-compaction/#dedicated-compaction-job) work, separate write and compact
-- deepdive in `CALL sys.compact_manifest(table => 'order_fact')`
--  lightweight implementation example of [RESTCatalog](https://paimon.apache.org/docs/master/concepts/rest/overview/)
-- `CALL sys.expire_snapshots(table => 'orders', retain_max=>3, retain_min=>2)`
-- compact return false when compact not needed
-
-
-https://paimon.apache.org/docs/master/append-table/streaming/#bucketed-append 中的
-'precommit-compact' = 'false'
-
-
-'sink.rolling-policy.file-size' = '1MB',
-'sink.rolling-policy.rollover-interval' = '1 min',
-'sink.rolling-policy.check-interval' = '10 s'
-
-Deletion Vectors index 怎么生效
-https://paimon.apache.org/docs/master/concepts/spec/tableindex/#deletion-vectors
-
-
-测试KEY_DYNAMIC 模式，order_id index 是否可以存在多个partition
-https://paimon.apache.org/docs/master/primary-key-table/data-distribution/#cross-partitions-upsert
+TODO, 需要看一下源码，原理是什么，为什么没有支持？\
+直觉上Data Evolution 与 支持 compaction 不应该冲突啊？
+</details>
 
 
-- testPartialUpdateRemoveRecordOnSequenceGroup
+## Flink 1.17 with Paimon 1.3
+- [Kubernetes Setup](flink1.17/docs/k8s-setup.md)
+- [Primary Key Table](flink1.17/docs/primary-key-table.md)
+- [CDC MySQL/PostgreSQL](flink1.17/docs/cdc-mysql_pg.md)
+    - [CDC Source](flink1.17/docs/cdc.md)
+- [Changelog](flink1.17/docs/changelog.md)
+- [Row Tracking](flink1.17/docs/row-tracking.md)
