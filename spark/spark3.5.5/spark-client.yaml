@@ -16,7 +16,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: client
-          image: spark:3.5.5-paimon-1.4
+          image: my-spark:3.5.5-paimon-1.4
           imagePullPolicy: IfNotPresent
           command: ["/bin/bash","-lc","sleep infinity"]
           ports:
