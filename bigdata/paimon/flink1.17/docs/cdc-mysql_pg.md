@@ -108,7 +108,7 @@ bin/flink run \
     --database ods \
     --table orders \
     --primary_keys id \
-    --postgres_conf hostname=postgresql.default.svc.cluster.local \
+    --postgres_conf hostname=postgresql \
     --postgres_conf port=5432 \
     --postgres_conf username=postgres \
     --postgres_conf password=postgres123 \
@@ -137,11 +137,11 @@ bin/flink run-application \
     -Dexecution.checkpointing.mode=EXACTLY_ONCE \
     -Dkubernetes.containerized.master.env.ENABLE_BUILT_IN_PLUGINS=flink-s3-fs-hadoop-1.17.2.jar \
     -Dkubernetes.containerized.taskmanager.env.ENABLE_BUILT_IN_PLUGINS=flink-s3-fs-hadoop-1.17.2.jar \
-    -Dfs.s3a.endpoint=http://minio.default.svc.cluster.local:9000 \
+    -Dfs.s3a.endpoint=http://rustfs-svc:9000 \
     -Dfs.s3a.path.style.access=true \
     -Dfs.s3a.connection.ssl.enabled=false \
-    -Dfs.s3a.access.key=minio \
-    -Dfs.s3a.secret.key=minio12345 \
+    -Dfs.s3a.access.key=test \
+    -Dfs.s3a.secret.key=11111111 \
     -Dstate.checkpoints.dir=s3a://flink-bucket/$cluster_id/checkpoints \
     -Dstate.savepoints.dir=s3a://flink-bucket/$cluster_id/savepoints \
     local:///opt/flink/lib/paimon-flink-action-1.3-20250828.003001-72.jar \
@@ -172,10 +172,10 @@ flink-sql-connector-mysql-cdc-3.1.1.jar
 ```shell
 bin/flink run \
     -Drest.address=flink1-rest \
-    -Drest.port=8081 \
+    -Drest.port=8082 \
     -Dexecution.checkpointing.interval=10s \
     -Dexecution.checkpointing.mode=EXACTLY_ONCE \
-    lib/paimon-flink-action-1.3-20250828.003001-72.jar \
+    lib/paimon-flink-action-*.jar \
     mysql_sync_table \
     --warehouse s3a://warehouse/paimon \
     --database ods \
@@ -187,6 +187,44 @@ bin/flink run \
     --mysql_conf password=root123 \
     --mysql_conf database-name='test' \
     --mysql_conf table-name='orders' \
+    --table_conf bucket=1 \
+    --table_conf merge-engine=deduplicate \
+    --table_conf changelog-producer=input
+```
+
+```shell
+export cluster_id=flink-mysql-sync-table
+bin/flink run-application \
+    --target kubernetes-application \
+    -Dkubernetes.cluster-id=$cluster_id \
+    -Drest.port=8084 \
+    -Drest.bind-port=8084 \
+    -Dkubernetes.container.image=my-flink:1.17.2-scala_2.12-paimon \
+    -Dkubernetes.rest-service.exposed.type=LoadBalancer \
+    -Dkubernetes.service-account=flink-service-account \
+    -Dexecution.checkpointing.interval=10s \
+    -Dexecution.checkpointing.mode=EXACTLY_ONCE \
+    -Dkubernetes.containerized.master.env.ENABLE_BUILT_IN_PLUGINS=flink-s3-fs-hadoop-1.17.2.jar \
+    -Dkubernetes.containerized.taskmanager.env.ENABLE_BUILT_IN_PLUGINS=flink-s3-fs-hadoop-1.17.2.jar \
+    -Dstate.checkpoints.dir=s3a://flink-bucket/$cluster_id/checkpoints \
+    -Dstate.savepoints.dir=s3a://flink-bucket/$cluster_id/savepoints \
+    -Dfs.s3a.endpoint=http://rustfs-svc:9000 \
+    -Dfs.s3a.path.style.access=true \
+    -Dfs.s3a.connection.ssl.enabled=false \
+    -Dfs.s3a.access.key=test \
+    -Dfs.s3a.secret.key=11111111 \
+    local:///opt/flink/lib/paimon-flink-action.jar \
+    mysql_sync_table \
+    --warehouse s3a://warehouse/paimon \
+    --database ods \
+    --table orders \
+    --primary_keys id \
+    --mysql_conf hostname=mysql \
+    --mysql_conf port=3307 \
+    --mysql_conf username=root \
+    --mysql_conf password=root123 \
+    --mysql_conf database-name=test \
+    --mysql_conf table-name=orders \
     --table_conf bucket=1 \
     --table_conf merge-engine=deduplicate \
     --table_conf changelog-producer=input

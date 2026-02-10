@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flink2.2.0-sql-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flink2.2.0-sql-client
+  template:
+    metadata:
+      labels:
+        app: flink2.2.0-sql-client
+    spec:
+      serviceAccountName: flink-service-account
+      restartPolicy: Always
+      containers:
+        - name: client
+          image: flink:2.2.0-scala_2.12-java11
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash", "-lc", "sleep infinity"]
+
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: flink2-2-0-client
+#spec:
+#  selector:
+#    app: flink-service-account
+#  type: LoadBalancer
+#  ports:
+#    - name: ui-8083
+#      port: 8083
+#      targetPort: 8083
+
+

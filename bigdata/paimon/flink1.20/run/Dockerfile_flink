@@ -1,9 +1,16 @@
-FROM flink:1.20.3-scala_2.12-java17
-COPY ./paimon-flink-1.20-*.jar /opt/flink/lib/
-COPY ./paimon-flink-action-*.jar /opt/flink/lib/
-COPY ./flink-shaded-hadoop-2-uber-2.8.3-10.0.jar /opt/flink/lib/
+FROM flink:1.20.1-scala_2.12-java17
+# 为了a-paimon-flink.jar 优先 flink 加载
+COPY ./paimon-flink-1.20-1.4-SNAPSHOT.jar /opt/flink/lib/a-paimon-flink.jar
+COPY ./paimon-flink-action-*.jar /opt/flink/lib/paimon-flink-action.jar
+COPY ./flink-s3-fs-hadoop-1.20.1.jar /opt/flink/lib/
+COPY ./hadoop-client-api-3.3.2.jar /opt/flink/lib/
+COPY ./avro-1.11.3.jar /opt/flink/lib/
+COPY ./config.yaml /opt/flink/conf/
 COPY ./flink-sql-connector-*-cdc-*.jar /opt/flink/lib/
 COPY ./mysql-connector-*.jar /opt/flink/lib/
-COPY ./config.yaml /opt/flink/conf/
-RUN  mkdir /opt/flink/plugins/s3-fs-hadoop
-COPY ./flink-s3-fs-hadoop-*.jar /opt/flink/plugins/s3-fs-hadoop/
+
+# https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/deployment/filesystems/plugins/
+#RUN  mkdir /opt/flink/plugins/s3-fs-hadoop
+#COPY ./flink-s3-fs-hadoop-1.20.1.jar /opt/flink/plugins/s3-fs-hadoop/
+
+# docker build -t my-flink:1.20.1-scala_2.12-java17-paimon -f Dockerfile_flink .

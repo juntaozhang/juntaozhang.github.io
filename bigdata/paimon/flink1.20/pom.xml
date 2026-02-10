@@ -313,12 +313,12 @@
                     <version>${flink.version}</version>
                     <scope>compile</scope>
                 </dependency>
-                <!--<dependency>
+                <dependency>
                     <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
-                    <version>${flink.version}</version>
+                    <artifactId>flink-connector-kafka</artifactId>
+                    <version>3.4.0-1.20</version>
                     <scope>compile</scope>
-                </dependency>-->
+                </dependency>
                 <dependency>
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-connector-files</artifactId>
@@ -334,6 +334,11 @@
                     <groupId>org.apache.flink</groupId>
                     <artifactId>flink-sql-connector-mysql-cdc</artifactId>
                     <version>3.5.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.kafka</groupId>
+                    <artifactId>connect-json</artifactId>
+                    <version>3.2.0</version>
                 </dependency>
             </dependencies>
         </profile>
