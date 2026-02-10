@@ -20,10 +20,11 @@ docker build -t my-flink:1.20.3-scala_2.12-java17-paimon -f Dockerfile_flink .
 ### Deploy Flink session cluster with S3
 ```shell
 export cluster_id=flink1
+export cluster_port=8082
 $FLINK_HOME/bin/kubernetes-session.sh \
     -Dkubernetes.cluster-id=$cluster_id \
-    -Drest.port=8082 \
-    -Drest.bind-port=8082 \
+    -Drest.port=$cluster_port \
+    -Drest.bind-port=$cluster_port \
     -Dkubernetes.container.image=my-flink:1.20.3-scala_2.12-java17-paimon \
     -Dkubernetes.service-account=flink-service-account \
     -Dkubernetes.rest-service.exposed.type=LoadBalancer \
