@@ -1,0 +1,4 @@
+image:
+  repository: bitnamilegacy/zookeeper
+  tag: 3.9.3-debian-12-r21
+  pullPolicy: Never

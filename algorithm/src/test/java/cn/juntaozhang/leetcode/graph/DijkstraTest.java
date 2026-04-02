@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * https://www.bilibili.com/video/BV1uT4y1p7Jy
+ *
+ * A* https://www.bilibili.com/video/BV1aZ5rzRE4b
+ *
  * @author juntzhang
  */
 public class DijkstraTest {

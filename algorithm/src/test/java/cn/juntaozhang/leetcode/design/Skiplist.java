@@ -17,6 +17,13 @@ public class Skiplist {
             this.val = val;
             this.forward = new SkiplistNode[maxLevel];
         }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "val=" + val +
+                    '}';
+        }
     }
 
     static final int MAX_LEVEL = 4;

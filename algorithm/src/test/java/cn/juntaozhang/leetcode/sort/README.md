@@ -54,7 +54,7 @@
 ## 归并排序
 ![MergeSort.webp](MergeSort.webp)
 
-多路归并排序：\
+多路归并排序（LoserTree）：\
 ![LoserTree.jpeg](LoserTree.jpeg)
 
 # Reference

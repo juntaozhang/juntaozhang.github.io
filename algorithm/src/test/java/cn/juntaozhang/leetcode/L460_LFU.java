@@ -8,21 +8,19 @@ import java.util.PriorityQueue;
 
 /**
  * 按照频率淘汰
- *
- *
  */
 public class L460_LFU {
     @Test
     public void case1() {
-        LFUCache lRUCache = new LFUCache(2);
-        lRUCache.put(1, 1); // 缓存是 {1=1}
-        lRUCache.put(2, 2); // 缓存是 {1=1, 2=2}
-        lRUCache.get(2);
-        lRUCache.get(2);
-        lRUCache.get(1);
-        lRUCache.put(3, 3);
-        System.out.println(lRUCache.get(1));
-        System.out.println(lRUCache.get(3));
+        LFUCache cache = new LFUCache(2);
+        cache.put(1, 1); // 缓存是 {1=1}
+        cache.put(2, 2); // 缓存是 {1=1, 2=2}
+        cache.get(2);
+        cache.get(2);
+        cache.get(1);
+        cache.put(3, 3);
+        System.out.println(cache.get(1));
+        System.out.println(cache.get(3));
     }
 
     // 特别注意： 频率相同，按时间淘汰
@@ -30,21 +28,21 @@ public class L460_LFU {
     public void case2() {
         // [[3],[1,1],[2,2],[3,3],[4,4], [4],[3],[2],[1],[5,5],[1],[2],[3],[4],[5]]
         // [     null,null,null,null,null,4, 3,  2,  -1,  null,-1, 2,  3,  -1, 5]
-        LFUCache lRUCache = new LFUCache(3);
-        lRUCache.put(1, 1);
-        lRUCache.put(2, 2);
-        lRUCache.put(3, 3);
-        lRUCache.put(4, 4);
-        System.out.println(lRUCache.get(4));
-        System.out.println(lRUCache.get(3));
-        System.out.println(lRUCache.get(2));
-        System.out.println(lRUCache.get(1));
-        lRUCache.put(5, 5);
-        System.out.println(lRUCache.get(1));
-        System.out.println(lRUCache.get(2));
-        System.out.println(lRUCache.get(3));
-        System.out.println(lRUCache.get(4));
-        System.out.println(lRUCache.get(5));
+        LFUCache cache = new LFUCache(3);
+        cache.put(1, 1);
+        cache.put(2, 2);
+        cache.put(3, 3);
+        cache.put(4, 4);
+        System.out.println(cache.get(4));
+        System.out.println(cache.get(3));
+        System.out.println(cache.get(2));
+        System.out.println(cache.get(1));
+        cache.put(5, 5);
+        System.out.println(cache.get(1));
+        System.out.println(cache.get(2));
+        System.out.println(cache.get(3));
+        System.out.println(cache.get(4));
+        System.out.println(cache.get(5));
     }
 
     static class LFUCache {

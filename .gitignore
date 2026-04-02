@@ -1,6 +1,9 @@
 .idea/
 target/
-ebooks/
-_book/
+.data/
 node_modules/
 *.jar
+*.tgz
+flink-2.2.0-bin-scala_2.12
+build-target
+*.iml

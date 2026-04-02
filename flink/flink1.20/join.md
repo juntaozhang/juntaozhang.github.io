@@ -1,4 +1,14 @@
 # Join
+## [Regular Join](https://nightlies.apache.org/flink/flink-docs-master/docs/sql/reference/queries/joins/#regular-joins)
+核心算子：`StreamingJoinOperator`
+
+## [Delta-Join](../flink2.2/delta-join.md)
+
+```text
+SET 'table.optimizer.delta-join.strategy' = 'NONE';
+
+tEnv.getConfig().set(OptimizerConfigOptions.TABLE_OPTIMIZER_DELTA_JOIN_STRATEGY, OptimizerConfigOptions.DeltaJoinStrategy.NONE);
+```
 
 ## [Window Join](https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/dev/datastream/operators/joining/#window-join)
 
