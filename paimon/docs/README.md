@@ -16,8 +16,10 @@
       - [Data Evolution BTree](btree.md): 用于高效行级查找和过滤（根据 manifests 过滤文件），避免全表扫描
   - [Primary Key Table](primary-key-table.md) -`PrimaryKeyTable`
     - Merge Tree: LSM-like structure for primary key tables
+    - [Merge Engine](docs/merge.md)
+    - [Chain Table](docs/chain.md)
     - [lookup](lookup.md)
-      - changelog: 在 compaction 时按 key 查找高层级旧值的机制
+      - [Changelog](docs/changelog.md): 在 compaction 时按 key 查找高层级旧值的机制
       - lookup join: 在 join 时按 key 查找dim table的机制
 - Bucket Modes:
     - [append-table bucket mode](append-table.md)
@@ -31,6 +33,7 @@
 - cluster
     - [AppendTable: Incremental Clustering](incremental-clustering.md)
     - [PrimaryKeyTable: PK Clustering Override](pk-clustering-override.md)
+- [Compact](docs/compact.md)
 - Deletion Vectors(TODO)
     - AppendTable clustering.incremental and  row-tracking.enabled
     - [PrimaryKeyTable: Deletion Vectors](deletion-vectors.md)
