@@ -10,8 +10,8 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>Flink 1.20 + Paimon 1.4 Example</name>
-    <description>Example project demonstrating Flink 1.20 with Apache Paimon 1.4</description>
+    <name>Flink 1.20 + Paimon Example</name>
+    <description>Example project demonstrating Flink 1.20 with Apache Paimon</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -20,12 +20,13 @@
         
         <!-- Version Properties -->
         <flink.version>1.20.1</flink.version>
-        <paimon.version>1.4-SNAPSHOT</paimon.version>
+        <paimon.version>1.5-SNAPSHOT</paimon.version>
         <scala.binary.version>2.12</scala.binary.version>
         <hadoop.version>3.3.4</hadoop.version>
         <slf4j.version>1.7.36</slf4j.version>
         <log4j.version>2.20.0</log4j.version>
         <junit.version>5.9.3</junit.version>
+        <frocksdbjni.version>6.20.3-ververica-2.0</frocksdbjni.version>
     </properties>
 
     <dependencies>
@@ -89,6 +90,12 @@
             <groupId>org.apache.paimon</groupId>
             <artifactId>paimon-flink-action</artifactId>
             <version>${paimon.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ververica</groupId>
+            <artifactId>frocksdbjni</artifactId>
+            <version>${frocksdbjni.version}</version>
         </dependency>
 
         <!-- Hadoop Dependencies -->

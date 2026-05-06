@@ -52,7 +52,7 @@ public class FlinkDeduplicateExample {
                   ts TIMESTAMP(3),
                   PRIMARY KEY (order_id) NOT ENFORCED
                 ) WITH (
-                    'write-only' = 'true'
+                    'write-only' = 'false'
                 )
                 """;
         String query = "INSERT INTO my_order SELECT * FROM src_order";

@@ -60,13 +60,6 @@
   snapshot(date='20250810'):
     t1='1', t2='1', t3='1'
 
-  INSERT OVERWRITE `t$branch_snapshot` PARTITION (date = '20250811')
-  VALUES ('1', '1', '1'), ('2', '2', '2');
-  结果：
-  snapshot(date='20250811'):
-    t1='1', t2='1', t3='1'
-    t1='2', t2='2', t3='2'
-    
   INSERT OVERWRITE `t$branch_delta` PARTITION (date = '20250811')
   VALUES ('2', '2-2', '2-2'), ('3', '3', '3');
   结果：
@@ -77,14 +70,15 @@
   snapshot(date='20250810'):
     t1='1', t2='1', t3='1'
   snapshot(date='20250811'):
-    (空) ← 自动被删除！
+    t1='2', t2='2', t3='2'
+    t1='3', t2='3', t3='3'
 ```
 
-`SELECT t1, t2, t3 FROM `t` WHERE date = '20250811'`:
+> SELECT t1, t2, t3 FROM `t` WHERE date = '20250811'
 ```text
   Chain Read 路径：
   1. main 没有 date='20250811' ✗
-  2. snapshot 有 date='20250811' 但为空 ✓
+  2. snapshot 没有 date='20250811' ✗
   3. 找前置快照：snapshot(date='20250810') ✓
   4. 合并：snapshot('20250810') + delta('20250811')
 
@@ -98,7 +92,7 @@
   +---+----+----+
 ```
 
-`SELECT * FROM `t$branch_delta` WHERE date = '20250811'`:
+> SELECT * FROM `t$branch_delta` WHERE date = '20250811'
 ```text
   结果：只有 delta 的数据 
   +---+----+----+
@@ -107,12 +101,37 @@
   +---+----+----+
 ```
 
-`SELECT * FROM `t$branch_snapshot` WHERE date = '20250811'`
-结果：空！
+```sql
+  INSERT OVERWRITE `t$branch_snapshot` PARTITION (date = '20250811')
+  VALUES ('1', '1', '1'), ('2', '2', '2');
+  结果：
+  snapshot(date='20250811'):
+    t1='1', t2='1', t3='1'
+    t1='2', t2='2', t3='2'
+```
+
+> SELECT * FROM `t` WHERE date = '20250811'
+```text
++---+---+---+
+|t1 |t2 |t3 |
++---+---+---+
+|1  |1  |1  |
+|2  |2-1|2-1|
++---+---+---+
+```
+> SELECT * FROM `t$branch_snapshot` WHERE date = '20250811'
+```text
++---+---+---+--------+
+|t1 |t2 |t3 |date    |
++---+---+---+--------+
+|1  |1  |1  |20250811|
+|2  |2-1|2-1|20250811|
++---+---+---+--------+
+```
 
 
 ## Deep Dive into Chain Table
-`sql("select t1, t2, t3 from `t` where date = '20250811'").show()`
+> select t1, t2, t3 from `t` where date = '20250811'
 
 ```text
 spark load table, create FallbackReadFileStoreTable:

@@ -7,3 +7,4 @@ node_modules/
 flink-2.2.0-bin-scala_2.12
 build-target
 *.iml
+checkpoints/

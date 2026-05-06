@@ -36,19 +36,7 @@ graph LR
 
 
 
-#### commit metadata
-`compactAwareBucketTable` commit manifest
-```mermaid
-graph LR
-    compactAwareBucketTable-->TableCommitImpl.commit --> |create manifest|createManifestCommittable
-    TableCommitImpl.commit --> TableCommitImpl.commitMultiple --> FileStoreCommitImpl.commit --> |appendTableFiles|tryCommit --> tryCommitOnce --> RenamingSnapshotCommit.commitLatestHint
-```
-
-- [Concurrency Control](https://paimon.apache.org/docs/master/concepts/concurrency-control/)
-`tryCommit` will wait for a while if `tryCommitOnce` failed, then retry again, until success or exceed max retry times.
-`tryCommitOnce` will base on the lastest snapshot as base `baseManifestList`, then create new `deltaManifestList`, then generates a new snapshot based on the current snapshot,
-if commit failed due to other client already committed, try again by lastest snapshot.
-
+#### [Commit Metadata](concurrency-control.md#commit-metadata)
 
 ## Compaction
 
@@ -234,18 +222,4 @@ UniversalCompaction 没有触发compact，执行ForceUpLevel0Compaction.forcePic
 ```
 
 
-### [Lookup Compaction](https://paimon.apache.org/docs/master/primary-key-table/compaction/#lookup-compaction)
-
-- lookup-compact: radical/gentle
-- max(lookup-compact.max-interval, num-sorted-run.compaction-trigger)
-
-过滤掉level0，如果没有compaction，新数据不会被检索\
-- DataTableBatchScan
-    - SnapshotReader.withLevelFilter:
-      ```java
-      public boolean batchScanSkipLevel0() {
-          return deletionVectorsEnabled() || mergeEngine() == FIRST_ROW;
-      }
-      ```
-    - SparkCatalog.loadSparkTable
-      - FROM_SNAPSHOT: scan.version -> 3
+### [Lookup Compaction](lookup.md)

@@ -5,6 +5,16 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home
 mvn clean install -DskipTests
 ```
 
+Before committing:
+```bash
+mvn spotless:apply
+```
+
+For new files, also run:
+```bash
+mvn checkstyle:checkstyle
+```
+
 ## troubleshoot
 <details>
 <summary>package sun.misc does not exist？</summary>

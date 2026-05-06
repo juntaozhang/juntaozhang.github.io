@@ -18,11 +18,11 @@ public class FlinkRowTrackingExample {
                 .toUri()
                 .toString();
         Configuration conf = new Configuration();
-        conf.set(RestOptions.PORT, 8082);
+        conf.set(RestOptions.PORT, 8083);
         conf.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, ckpDir);
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(conf);
         env.setParallelism(2);
-        env.enableCheckpointing(30_000);
+        env.enableCheckpointing(5_000);
         EnvironmentSettings settings = EnvironmentSettings.newInstance()
                 .withConfiguration(conf)
                 .inStreamingMode().build();
@@ -53,7 +53,7 @@ public class FlinkRowTrackingExample {
                   price DECIMAL(32, 2),
                   ts TIMESTAMP(3)
                 ) WITH (
-                    'row-tracking.enabled' = 'true'
+                    'write-only' = 'false'
                 )
                 """;
         String query = "INSERT INTO my_order SELECT * FROM src_order";
@@ -64,7 +64,7 @@ public class FlinkRowTrackingExample {
                 )
                 """);
         tEnv.executeSql("USE CATALOG paimon_catalog");
-        tEnv.executeSql("use ods");
+//        tEnv.executeSql("use ods");
         tEnv.executeSql(createSrcTable);
         tEnv.executeSql(createSinkTable);
         tEnv.executeSql(query);

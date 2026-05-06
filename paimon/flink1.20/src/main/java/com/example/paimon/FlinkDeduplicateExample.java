@@ -19,7 +19,7 @@ public class FlinkDeduplicateExample {
         conf.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, ckpDir);
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(conf);
         env.setParallelism(2);
-        env.enableCheckpointing(30_000);
+        env.enableCheckpointing(5_000);
         EnvironmentSettings settings = EnvironmentSettings.newInstance()
                 .withConfiguration(conf)
                 .inStreamingMode().build();
@@ -52,7 +52,9 @@ public class FlinkDeduplicateExample {
                     ts TIMESTAMP(3),
                     PRIMARY KEY (order_id) NOT ENFORCED
                 ) WITH (
-                   'write-only' = 'true'
+                   --'write-only' = 'true',
+                   --'bucket' = '2',
+                   'write-only' = 'false'
                 )
                 """;
         String query = "INSERT INTO dedup_order SELECT * FROM src_order";
@@ -63,7 +65,7 @@ public class FlinkDeduplicateExample {
                 )
                 """);
         tEnv.executeSql("USE CATALOG paimon_catalog");
-        tEnv.executeSql("use ods");
+//        tEnv.executeSql("use ods");
         tEnv.executeSql(createSrcTable);
         tEnv.executeSql(createSinkTable);
         tEnv.executeSql(query);

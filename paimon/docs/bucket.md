@@ -1,27 +1,18 @@
 # Data Distribution
 
-## AppendOnly(Table w/o PK)
-```sql
-CREATE TABLE wo_pk_table (
-    order_id BIGINT,
-    price DECIMAL(32, 2),
-    ts TIMESTAMP(3)
-) WITH (
-    'bucket' = '2',
-    'bucket-key' = 'order_id'
-);
-
-insert into wo_pk_table values (1, 100.0, CAST('2025-04-05 11:45:00' AS TIMESTAMP(3)));
-insert into wo_pk_table values (2, 200.0, CAST('2025-04-05 11:45:01' AS TIMESTAMP(3))), (3, 300.0, CAST('2025-04-05 11:45:02' AS TIMESTAMP(3)));
-```
-
-
-if you set bucket = '-1', you cannot define bucket-key.
-Cannot define 'bucket-key' with bucket = -1, please remove the 'bucket-key' setting or specify a bucket number.
+## Table w/o PK
+- BUCKET_UNAWARE: bucket = 0
+- HASH_FIXED: bucket > 0
+- [append-table](append-table.md)
 
 ## Table with PK
-
-- [primary-key-table data-distribution](https://paimon.apache.org/docs/master/primary-key-table/data-distribution/)
+- bucket mode
+  - HASH_FIXED: bucket > 0
+  - bucket = -1
+    - HASH_DYNAMIC: [MyITCase.test_HASH_DYNAMIC](../paimon-flink/paimon-flink-common/src/test/java/org/apache/paimon/flink/MyITCase.java)
+    - KEY_DYNAMIC: MyITCase.test_KEY_DYNAMIC, primary keys not contain all partition fields
+  - POSTPONE_MODE: bucket = -2
+- official doc: [primary-key-table data-distribution](https://paimon.apache.org/docs/master/primary-key-table/data-distribution/)
 
 ```sql
 SET 'execution.runtime-mode' = 'batch';
@@ -44,6 +35,7 @@ CALL sys.compact('ods.with_pk_table', '', '', '', '');
 ```
 ### Dynamic Bucket (HASH_DYNAMIC)
 Default mode for primary key table, or configure 'bucket' = '-1'.
+
 ```sql
 -- Spark
 drop table T;
@@ -70,7 +62,39 @@ insert into T values (1, 1, 1);
 'dynamic-bucket.target-row-num'='3' only for HASH_DYNAMIC \
 HASH_FIXED 不会根据 target-row-num 调整
 
-Cross Partitions with index files
+#### Cross Partitions with index files
+Flink: [MyITCase.test_HASH_DYNAMIC](../paimon-flink/paimon-flink-common/src/test/java/org/apache/paimon/flink/MyITCase.java)
+```sql
+CREATE TABLE T (
+  pk INT,
+  v INT,
+  pt INT,
+  primary key (pk, pt) not enforced
+)
+partitioned by (pt)
+with (
+  'bucket' = '-1',
+  'dynamic-bucket.target-row-num'='2'
+);
+    
+insert into T values (1, 10, 1), (2, 20, 1), (3, 30, 1), (4, 40, 1);
+insert into T values (1, 11, 2);
+select * from T;
+```
+![hash-dynamic.jpg](imgs/hash-dynamic-w-partition.jpg)
+```text
++-------------+-------------+-------------+
+|          pk |           v |          pt |
++-------------+-------------+-------------+
+|           1 |          11 |           2 |
+|           1 |          10 |           1 |
+|           2 |          20 |           1 |
+|           3 |          30 |           1 |
+|           4 |          40 |           1 |
++-------------+-------------+-------------+
+```
+
+spark
 ```sparksql
 CREATE TABLE T (
   pk INT,
@@ -84,7 +108,7 @@ TBLPROPERTIES (
 ```
 
 
-### Postpone Bucket
+### Postpone Bucket(POSTPONE_MODE)
 
 #### File structure:
 
@@ -145,7 +169,7 @@ insert into postpone_bucket_table values (9, 1008, '2023-10-03', 700.00, 'COMPLE
 insert into postpone_bucket_table /*+ OPTIONS('postpone.batch-write-fixed-bucket' = 'true') */ values (10, 1009, '2023-10-03', 800.00, 'COMPLETED');
 ```
 
-### Postpone bucket deep dive
+#### Postpone bucket deep dive
 
 - read postpone bucket partitions
     ```java
@@ -186,7 +210,7 @@ insert into postpone_bucket_table /*+ OPTIONS('postpone.batch-write-fixed-bucket
     commit.commit(finalCommitMessages.asJava)
     ```
 
-#### postpone bucket delete/update 在没有commit的时候是无法生效
+##### postpone bucket delete/update 在没有commit的时候是无法生效
 ```text
 drop table T;
 CREATE TABLE T (
@@ -221,32 +245,23 @@ FlinkSinkBuilder.build()
 ```
 
 ### Cross Partitions Upsert
-#### HASH_DYNAMIC
-Flink 实现：
-```sql
-CREATE TABLE T (
-  pk INT,
-  v INT,
-  pt INT,
-  primary key (pk, pt) not enforced
-)
-partitioned by (pt)
-with (
-  'bucket' = '-1',
-  'dynamic-bucket.target-row-num'='2'
-);
-    
-insert into T values (1, 10, 1), (2, 20, 1), (3, 30, 1), (4, 40, 1);
-insert into T values (1, 11, 2);
-select * from T;
+#### buket = -1: KEY_DYNAMIC
+如果 `'primary-key' = 'pk'` 缺少 `pt` 之后, 就不会使用 index file来管理 id 索引了\
+BucketMode 从 `HASH_DYNAMIC` 切换到 `KEY_DYNAMIC`
+
+##### flink deep dive
+src code: [MyITCase.test_KEY_DYNAMIC](../paimon-flink/paimon-flink-common/src/test/java/org/apache/paimon/flink/MyITCase.java)
+![key-dynamic-w-partition.jpg](imgs/key-dynamic-w-partition.jpg)
+```text
++-------------+-------------+-------------+
+|          pk |           v |          pt |
++-------------+-------------+-------------+
+|           2 |          20 |           1 |
+|           3 |          30 |           1 |
+|           4 |          40 |           1 |
+|           1 |          11 |           2 |
++-------------+-------------+-------------+
 ```
-
-
-#### KEY_DYNAMIC
-如果 `'primary-key' = 'pk'` 缺少 `pt` 之后, 就不会使用 index file来管理 id 索引了
-
-BucketMode 从 `HASH_DYNAMIC` 切换到 `KEY_DYNAMIC`，
-
 GlobalDynamicBucketSink: build topology
 - 启动一个 INDEX_BOOTSTRAP，用来加载所有id 索引，这里如果使用全量的partition的话会有性能问题
   - 可以用 'cross-partition-upsert.index-ttl' 过滤一些旧的数据
@@ -261,7 +276,7 @@ GlobalDynamicBucketSink: build topology
 
 这么看来 引导程序中 build key index 这个事有点费资源，使用 fix bucket 会更高效，但是 fixed 需要自己维护每个 partition 的 pk 唯一性。
 
-spark 实现：
+##### spark deep dive
 ```sql
 drop table T;
 CREATE TABLE T (
@@ -279,7 +294,7 @@ TBLPROPERTIES (
 其中会在`mapPartitions`中 根据 bucket 读取 对应的key, 然后 repartition 到对应的 bucket 中，然后写入文件
 
 
-#### Cross Partitions Upsert with bucket (N > 0) or bucket (-2)
+#### bucket (N > 0)
 需要用户自己 maintain 每个partition的 pk 的唯一性
 ```sql
 drop table T;
@@ -302,6 +317,8 @@ insert into T values (1, 12, 3);
 select * from T order by pk;
 ```
 
+#### bucket (-2) TODO
+
 ## troubleshooting
 <details>
 <summary>Fix rescale procedure to only read real buckets for postpone bucket table</summary>
@@ -319,10 +336,6 @@ https://github.com/apache/paimon/pull/7168
 not support partitions `CALL sys.compact(`table` => 'ods.postpone_bucket_table', `partitions` => 'order_date=2023-10-03');`\
 直觉上针对固定分区是合理的操作，而且实现也不困难？\
 我不太确定这个是否应该支持？
-</details>
-<details>
-<summary></summary>
-
 </details>
 
 
