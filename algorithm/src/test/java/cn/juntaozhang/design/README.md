@@ -6,6 +6,14 @@
     - 例如：阿里玄铁 C950（RISC-V）：5nm；3.2GHz  -> 1个时钟周期是 0.3 ns
   - CPU L2: 5 ns
   - 用Zippy压缩1K字节：10 µs
+  
+    | 缓存级别 | 典型容量 (每核/共享) | 访问延迟 (时钟周期) | 相对速度 (对比内存) | 归属关系 |
+    | :--- | :--- | :--- | :--- | :--- |
+    | L1 Cache | 32KB - 64KB | 1 - 4 周期 | 极快 (~100倍于内存) | 核心独享 |
+    | L2 Cache | 256KB - 1MB | 10 - 20 周期 | 快 (~25倍于内存) | 核心独享 (通常) |
+    | L3 Cache | 8MB - 64MB+ | 30 - 75 周期 | 较快 (~5-10倍于内存) | 所有核心共享 |
+    | 主内存 (RAM)| 64GB+ | 100 - 300+ 周期 | 慢 (基准) | 全局共享 |
+    
 - 主存
   - 主内存访问：100 ns（相比ssd 强在随机读写）
   - 顺序读/写1MB数据：20 µs
@@ -82,7 +90,7 @@
 
 #### 基础架构与数据存储类
 目标：掌握最经典的入门题，理解哈希、存储和读写分离。
-- ~~[设计一个 URL 缩短服务 (Design TinyURL / Bit.ly)](tiny-url.md)~~
+- [设计一个 URL 缩短服务 (Design TinyURL / Bit.ly)](tiny-url.md)
   - 侧重唯一ID生成
 - [设计一个键值存储系统 (Design a Key-Value Store like Redis/Dynamo)](https://bytebytego.com/courses/system-design-interview/design-a-key-value-store)
     -   核心考点：
@@ -151,14 +159,14 @@
 
 ---
 
--   ~~设计限流器 (Design an API Rate Limiter)~~
+-   设计限流器 (Design an API Rate Limiter)
     -   核心考点：
         -   算法：令牌桶（Token Bucket）、漏桶（Leaky Bucket）、固定窗口、滑动日志。
         -   分布式限流：如何在多个实例间共享计数？（Redis + Lua 脚本）。
         -   限流粒度：按用户、按IP、按接口？
     -   关键权衡：限流的精确度 vs 系统性能（中心化计数的瓶颈）。
 
--   ~~设计分布式唯一 ID 生成器 (Design a Unique ID Generator like Snowflake)~~
+-   设计分布式唯一 ID 生成器 (Design a Unique ID Generator like Snowflake)
     -   核心考点：
         -   需求：全局唯一、趋势递增、高可用、低延迟。
         -   方案对比：UUID（无序）、数据库自增（单点瓶颈）、雪花算法（Snowflake）、号段模式。

@@ -30,6 +30,58 @@ conf.set(CheckpointingOptions.CHECKPOINTS_DIRECTORY, "file:///tmp/checkpoints/Ch
     CheckpointCoordinator 收到所有算子的 ACK 后，标记该 Checkpoint 成功；
     - 通知所有 tasks notifyCheckpointOnComplete
 
+### Checkpoint 触发周期
+```mermaid
+sequenceDiagram
+    autonumber
+    participant JM as CheckpointCoordinator
+    participant TM as TaskExecutor
+    participant ST as StreamTask
+    participant SCH as SubtaskCheckpointCoordinatorImpl
+    participant Chain as OperatorChain
+    participant Op as StreamOperator
+    participant TSM as TaskStateManagerImpl
+
+    Note over JM,Op: ===== 阶段一：JM 触发 Checkpoint =====
+    JM->>JM: startTriggeringCheckpoint
+    JM->>TM: triggerCheckpoint [RPC]
+    TM->>ST: triggerCheckpointAsync
+    ST->>ST: triggerCheckpointOnBarrier (downstream)
+
+    Note over ST,Op: ===== 阶段二：Task 执行快照 =====
+    ST->>SCH: performCheckpoint
+
+    SCH->>Chain: prepareSnapshotPreBarrier
+    Chain->>Op: prepareSnapshotPreBarrier
+
+    SCH->>Chain: broadcastEvent(CheckpointBarrier)
+    Chain->>TM: 把 CheckpointBarrier 事件传递到下游 Task
+
+    SCH->>Chain: snapshotState
+    Chain->>Op: snapshotState
+    Op->>Op: stateBackend.snapshot()
+
+    SCH->>TSM: finishAndReportAsync<br/>reportTaskStateSnapshots
+
+    Note over JM,Op: ===== 阶段三：Task 向 JM Ack =====
+    TSM->>JM: acknowledgeCheckpoint [RPC]
+    JM->>JM: receiveAcknowledgeMessage
+
+    Note over JM,Op: ===== 阶段四：JM 确认完成并回传 =====
+    JM->>JM: completePendingCheckpoint<br/>(所有 Task ack 后)
+    JM->>TM: notifyCheckpointOnComplete [RPC]
+    TM->>ST: confirmCheckpoint<br/>notifyCheckpointCompleteAsync
+    ST->>ST: notifyCheckpointComplete
+    ST->>SCH: notifyCheckpointComplete
+    SCH->>Chain: notifyCheckpointComplete
+    Chain->>Op: notifyCheckpointComplete
+    Note right of Op: 算子可在此清理旧状态<br/>如 RocksDB 的 old snapshots
+```
+
+- triggerCheckpointOnBarrier：当所有上游的 CheckpointBarrier 到达后，即执行 `performCheckpoint`
+- prepareSnapshotPreBarrier：在执行 `snapshotState` 和 发送 CheckpointBarrier 事件之前，先执行 `prepareSnapshotPreBarrier`
+  - 比如paimon在`TableWriteOperator`中先执行prepareCommit，生成manifest，然后发送到下游，下游收集到所有manifests之后再commit
+
 ### [Aligned Checkpointing](https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/concepts/stateful-stream-processing/#checkpointing)
 - 什么是barrier对齐？
   - 是指在 Checkpoint 过程中，上游多个channel 中 barrier 不是同时到达，快barrier要等慢barrier的过程

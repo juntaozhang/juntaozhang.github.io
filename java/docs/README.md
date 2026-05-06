@@ -3,16 +3,7 @@
 
 
 ## java集合
-### Map
-* [WeakReference与WeakHashMap](/java/WeakReference与WeakHashMap.md)
-* [关于 HashMap 1.8 的重大更新](http://blog.csdn.net/carson_ho/article/details/79373134)
-* [彻头彻尾理解 LinkedHashMap](http://blog.csdn.net/justloveyou_/article/details/71713781)
 
-### LinkedHashMap
-* 1.Entry 是双链表
-* 2.Entry可以定义两种顺序：插入顺序和LRU顺序
-[LinkedHashMapInsertTest](https://gitee.com/zjt_hans/hello-java/JavaSE/src/main/java/org/example/java/util/colls/LinkedHashMapInsertTest.java)
-[LinkedHashMapLRUTest](https://gitee.com/zjt_hans/hello-java/JavaSE/src/main/java/org/example/java/util/colls/LinkedHashMapLRUTest.java)
 
 ## java 死锁
 [通过MXBean程序查找死锁](https://gitee.com/zjt_hans/hello-java/blob/master/JavaSE/src/main/java/org/example/java/jvm/monitoring/ThreadDeadLockTest.java)
@@ -96,8 +87,9 @@ $ jar -uf a.jar com org
 
 ## 其他
 * [Java基础](/java/Java基础.md)
+* [对象的内存布局](对象的内存布局.md)
 * [JVM编译优化](/java/JVM编译优化.md)
-* [JSSE](/java/JSSE-SSL.md)
+* [JSSE](./JSSE-SSL.md)
 * [SSL-TLS.md](/java/其他/SSL-TLS.md)
 * [线程上下文类加载器](/java/线程上下文类加载器.md)
 * [happens-before规则](/java/happens-before规则.md)

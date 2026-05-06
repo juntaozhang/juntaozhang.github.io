@@ -652,3 +652,7 @@ Deployment 负责声明应用的期望状态。
 
 configmap 把配置从代码中分离出来，存储在 k8s 集群中。这样修改配置时，不需要重新构建镜像，只需更新 configmap 并重启 Pod 即可。
 </details>
+
+
+## Reference
+- https://www.bilibili.com/video/BV1YdYNe2Enh

@@ -40,3 +40,9 @@
 - [local](setup-local.md)
 - [flink](setup-flink.md)
 - [spark](setup-spark.md)
+
+## TODO
+- [btree data-evolution clustering 为什么不能同时开启](btree.md)
+- SparkLanceTable
+- File Index:bitmap
+- example of RESTCatalog
