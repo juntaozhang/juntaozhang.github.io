@@ -1,5 +1,7 @@
 # ORC
+
 ## ORCFile:
+
 无固定大小，通常按 64MB 切分 Stripe
 
 ![orc.jpg](assets/orc.jpg)
@@ -26,7 +28,7 @@ main:42, OrcReaderFilteredExample (com.example.orc)
                             └── readCurrentStripeRowIndex:1599, RecordReaderImpl (org.apache.orc.impl)
                                 └── readRowIndex:405, StripePlanner (org.apache.orc.impl.reader)
 
-       
+     
        [0,3084130]┌─ORC File────────────────────────────────────────────────────┐
              [0,2]│ Magic:ORC                                                   │
        [3,1735301]├─Stripe 1────────────────────────────────────────────────────┤
@@ -161,6 +163,7 @@ ORC 文件
         └── Data Stream（实际列值流：如 id/name 的编码数据）
             └── 按 Row Group 拆分（默认每 1000 行一个 Row Group）→ 点查时定位到目标 Row Group
 ```
+
 - PostScript: 固定大小 < 256B
   - footerLength
   - 压缩算法
@@ -177,7 +180,7 @@ ORC 文件
       uint64 checksum = 8;          // 校验和
     }
     ```
-- File Footer: 
+- File Footer:
   - 每个 Stripe metadata
   - 总行数
   - 每个列的统计信息
@@ -191,34 +194,34 @@ ORC 文件
       uint32 stripeStatisticsOffset = 6;      // 条带统计偏移
       // ... 其他详细元数据
     }
-    
+
     message ColumnStatistics {
       // 通用统计
       optional uint64 numberOfValues = 1; // 非空值数量
       optional bool hasNull = 2;          // 是否包含空值
-    
+
       // 数值类型统计（int/bigint/float/double等）
       optional string minimum = 3;        // 最小值（字符串存储，兼容不同类型）
       optional string maximum = 4;        // 最大值
       optional string sum = 5;            // 总和
-    
+
       // 字符串类型统计
       optional uint64 sumOfLengths = 6;   // 所有字符串长度总和
-    
+
       // 布尔类型统计
       optional uint64 numberOfTrues = 7;  // true的数量
       optional uint64 numberOfFalses = 8; // false的数量
-    
+
       // 日期/时间类型统计
       optional uint64 minimumTimestamp = 9;  // 最小时间戳（毫秒级）
       optional uint64 maximumTimestamp = 10; // 最大时间戳
-    
+
       // 复杂类型统计（数组/Map/结构体）
       optional uint64 numElements = 11;   // 元素总数
       optional uint64 nulls = 12;         // 空元素数量
       optional uint64 distinctCount = 13; // 去重后数量（近似）
     }
-    
+
     message StripeInformation {
       optional uint64 offset = 1;          // Stripe在文件中的起始偏移量（字节）
       optional uint64 indexLength = 2;     // Stripe Index部分的长度
@@ -227,110 +230,129 @@ ORC 文件
       optional uint64 numberOfRows = 5;    // 该Stripe包含的行数
       optional uint64 stripeId = 6;        // Stripe唯一ID（可选）
     }
-    
+
     ```
-    
+
 ## Stripe
+
 - [Stripe Index] -> [Row Data] -> [Stripe Footer]
+
 ### 索引数据（Index Data）
+
 - Stripe Index 是该 Stripe 的索引元数据，用于谓词下推（Predicate Pushdown） 和快速定位数据，避免全量扫描。
 - 它包含 RowIndex 和 Bloom Filter（可选）两部分：
-    - RowIndex 是 Row Group 的索引，每个 Entry 对应一个 Row Group
-    - Bloom Filter 是可选的，用于快速判断是否包含某个值（不保证 100% 准确）
-    ```text
-    message RowIndex {
-    repeated RowIndexEntry entries = 1; // 每个Entry对应一个Row Group
-    optional uint32 column = 2;         // 所属列的ID
-    }
-    
-    message RowIndexEntry {
-    // 该Row Group的列统计（与Footer的ColumnStatistics结构完全一致）
-    repeated ColumnStatistics statistics = 1;
-    
-    // 该Row Group在Row Data中的偏移量（压缩后）
-    repeated uint64 positions = 2;      
-    }
-    
-    message BloomFilterIndex {
-      optional uint32 column = 1;                // 所属列ID
-      repeated BloomFilter bloomFilters = 2;     // 每个Row Group对应一个布隆过滤器
-    }
-    
-    message BloomFilter {
-      optional uint32 numHashFunctions = 1;      // 哈希函数数量
-      optional uint64 numBits = 2;               // 位图总位数
-      optional bytes bits = 3;                   // 位图数据（压缩存储）
-    }
-    ```
-  
-    ```text
-      RowIndex 结构示意：
-    
-      Stripe 1:
-      ├── Column 0 (id) 的 RowIndex:
-      │   ├── Entry 0 (行 0-9,999):
-      │   │   ├── positions: [100, 250]           # PRESENT 流位置, DATA 流位置
-      │   │   └── statistics: {min: 1, max: 10000}
-      │   ├── Entry 1 (行 10,000-19,999):
-      │   │   ├── positions: [400, 600]
-      │   │   └── statistics: {min: 10001, max: 20000}
-      │   └── Entry 2 (行 20,000-29,999):
-      │       ├── positions: [700, 900]
-      │       └── statistics: {min: 20001, max: 30000}
-      │
-      ├── Column 1 (name) 的 RowIndex:
-      │   ├── Entry 0:
-      │   │   ├── positions: [...]
-      │   │   └── statistics: {min: "Alice", max: "Zoe"}
-      │   ├── Entry 1: ...
-      │   └── Entry 2: ...
-      │
-      └── Column 2 (age) 的 RowIndex:
-          ├── Entry 0:
-          │   ├── positions: [...]
-          │   └── statistics: {min: 18, max: 65}
-          ├── Entry 1: ...
-          └── Entry 2: ...
-      对于 INT 类型列，通常有：
-      - PRESENT 流：记录哪些值非空
-      - DATA 流：记录实际数据
-    ```
+
+  - RowIndex 是 Row Group 的索引，每个 RowIndexEntry 对应一个 Row Group
+  - Bloom Filter 是可选的，用于快速判断是否包含某个值（不保证 100% 准确）
+
+  ```text
+  message RowIndex {
+  repeated RowIndexEntry entries = 1; // 每个Entry对应一个Row Group
+  optional uint32 column = 2;         // 所属列的ID
+  }
+
+  message RowIndexEntry {
+  // 该Row Group的列统计（与Footer的ColumnStatistics结构完全一致）
+  repeated ColumnStatistics statistics = 1;
+
+  // 该Row Group在Row Data中的偏移量（压缩后）
+  repeated uint64 positions = 2;  
+  }
+
+  message BloomFilterIndex {
+    optional uint32 column = 1;                // 所属列ID
+    repeated BloomFilter bloomFilters = 2;     // 每个Row Group对应一个布隆过滤器
+  }
+
+  message BloomFilter {
+    optional uint32 numHashFunctions = 1;      // 哈希函数数量
+    optional uint64 numBits = 2;               // 位图总位数
+    optional bytes bits = 3;                   // 位图数据（压缩存储）
+  }
+  ```
+
+  ```text
+    RowIndex 结构示意：
+
+    Stripe 1:
+    ├── Column 0 (id) 的 RowIndex:
+    │   ├── Entry 0 (行 0-9,999):
+    │   │   ├── positions: [100, 250]           # PRESENT 流位置, DATA 流位置
+    │   │   └── statistics: {min: 1, max: 10000}
+    │   ├── Entry 1 (行 10,000-19,999):
+    │   │   ├── positions: [400, 600]
+    │   │   └── statistics: {min: 10001, max: 20000}
+    │   └── Entry 2 (行 20,000-29,999):
+    │       ├── positions: [700, 900]
+    │       └── statistics: {min: 20001, max: 30000}
+    │
+    ├── Column 1 (name) 的 RowIndex:
+    │   ├── Entry 0:
+    │   │   ├── positions: [...]
+    │   │   └── statistics: {min: "Alice", max: "Zoe"}
+    │   ├── Entry 1: ...
+    │   └── Entry 2: ...
+    │
+    └── Column 2 (age) 的 RowIndex:
+        ├── Entry 0:
+        │   ├── positions: [...]
+        │   └── statistics: {min: 18, max: 65}
+        ├── Entry 1: ...
+        └── Entry 2: ...
+    对于 INT 类型列，通常有：
+    - PRESENT 流：记录哪些值非空
+    - DATA 流：记录实际数据
+  ```
+
+```text
+┌────────────────────────────────┬─────────────────────────────────────────────────────────────────────────────────────────┐
+│ 问题                            │ 答案                                                                                    │
+├────────────────────────────────┼─────────────────────────────────────────────────────────────────────────────────────────┤
+│ Stream 是否按 Row Group 切分？   │ NO。每个 (column, kind) 只有一个 连续 的 Stream                                             │
+│ Row Group 是什么？              │ 纯逻辑概念（默认 10,000 行），RowIndexEntry 存的是跳到该 Row Group 起点所需的 positions          │
+│ 读第 N 个 Row Group 时怎么做？    │ 用 RowIndexEntry[N].positions 去 seek 到 Stream 的中间位置                                 │
+└────────────────────────────────┴─────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ### 行数据（Row Data）
-- 元数据流（Metadata Stream）
-    ```text
-    PRESENT流
-    原始数据：[1, NULL, 3, NULL, NULL, 6]
-    PRESENT流位图：101001
-    RLE编码后：(1,1), (0,1), (1,1), (0,2), (1,1)
-    
-    LENGTH流
-    原始字符串：["apple", "banana", "cherry"]
-    LENGTH流：5, 6, 6
-    VLQ编码后：05, 06, 06（实际存储为紧凑二进制）
-    ```
-    
-- 数据流（Data Stream）
-    ```text
-    原始字符串：["apple", "banana", "apple", "cherry", "banana"]
-    DICTIONARY_DATA流：["apple", "banana", "cherry"]
-    DATA流：[0, 1, 0, 2, 1] （字典索引）
-    
-    
-    流组合：
-    PRESENT流：位图 1011110111 → RLE编码后存储
-    LENGTH流：5, 6, 5, 6, 6, 5, 6, 5 → VLQ编码
-    DICTIONARY_DATA流："apple", "banana", "cherry" → 字符串序列
-    DATA流：0, 1, 0, 2, 1, 0, 2, 0 → 字典索引（RLE编码）
-    ```
 
+- 元数据流（Metadata Stream）
+
+  ```text
+  PRESENT流
+  原始数据：[1, NULL, 3, NULL, NULL, 6]
+  PRESENT流位图：101001
+  RLE编码后：(1,1), (0,1), (1,1), (0,2), (1,1)
+
+  LENGTH流
+  原始字符串：["apple", "banana", "cherry"]
+  LENGTH流：5, 6, 6
+  VLQ编码后：05, 06, 06（实际存储为紧凑二进制）
+  ```
+- 数据流（Data Stream）
+
+  ```text
+  原始字符串：["apple", "banana", "apple", "cherry", "banana"]
+  DICTIONARY_DATA流：["apple", "banana", "cherry"]
+  DATA流：[0, 1, 0, 2, 1] （字典索引）
+
+
+  流组合：
+  PRESENT流：位图 1011110111 → RLE编码后存储
+  LENGTH流：5, 6, 5, 6, 6, 5, 6, 5 → VLQ编码
+  DICTIONARY_DATA流："apple", "banana", "cherry" → 字符串序列
+  DATA流：0, 1, 0, 2, 1, 0, 2, 0 → 字典索引（RLE编码）
+  ```
 - Data Stream 是根据 Row Group 拆分的
-  - Row Group 的规则是：以整个 Stripe 的行号为基准，**按固定行数（默认 1000 行）拆分**，所有列的 Row Group 都对应相同的行范围。
+
+  - Row Group 的规则是：以整个 Stripe 的行号为基准，**按固定行数（默认 10000 行）拆分**，所有列的 Row Group 都对应相同的行范围。
 - **PLAIN 编码**
+
   - 下面实例：session_id PLAIN 编码
   - ORC 会在解析 session_id 列 Row Group 数据时，先构建一个行位置索引表（内存级，极快）
 
 **实例**：
+
 ```text
 Stripe 数据区 (物理字节顺序)
 │
@@ -388,12 +410,15 @@ Stripe 数据区 (物理字节顺序)
       ├─ Stream 8.2.1: PRESENT (1.25KB) - 子字段NULL位图
       └─ Stream 8.2.2: DATA (10KB) - 年龄值
 ```
+
 ### Stripe Footer
+
 - 流位置信息
 - 列编码信息
 - 列统计信息
 
 ## 实例
+
 ```text
   CREATE TABLE user_events (
     id INT,              -- Column 0
@@ -428,6 +453,7 @@ Stripe 数据区 (物理字节顺序)
 ```
 
 完整 Stripe 字节布局
+
 ```text
   ════════════════════════════════════════════════════════════
                           STRIPE
@@ -590,7 +616,6 @@ Stripe 数据区 (物理字节顺序)
   └──────────────────────────────────────────────────────────────────────────┘
 ```
 
+## Reference
 
-
-## Reference 
 - https://github.com/apache/orc/blob/main/site/specification/ORCv2.md
