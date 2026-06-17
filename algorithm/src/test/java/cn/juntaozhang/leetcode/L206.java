@@ -1,5 +1,6 @@
 package cn.juntaozhang.leetcode;
 
+import cn.juntaozhang.utils.StringUtils;
 import org.junit.Test;
 
 /**
@@ -21,39 +22,9 @@ import org.junit.Test;
  * 输入：head = []
  * 输出：[]
  *
- * 
+ *
  */
 public class L206 {
-    @Test
-    public void case1() {
-        ListNode l1 = new ListNode(1);
-        ListNode l2 = new ListNode(2);
-        ListNode l3 = new ListNode(3);
-        l1.next = l2;
-        l2.next = l3;
-        reverseList(l3);
-    }
-
-    public ListNode reverseList(ListNode head) {
-        if(head == null || head.next == null) {
-            return head;
-        }
-        // new list point
-        ListNode p1 = head;
-
-        // old list point
-        ListNode p2 = head.next, t;
-        p1.next = null;
-
-        while(p2 != null) {
-            t = p2.next;
-            p2.next = p1;
-            p1 = p2;
-            p2 = t;
-        }
-
-        return p1;
-    }
 
     public static class ListNode {
         int val;
@@ -67,5 +38,54 @@ public class L206 {
         public String toString() {
             return val + "";
         }
+    }
+
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        // new list point
+        ListNode p1 = head;
+
+        // old list point
+        ListNode p2 = head.next, t;
+        p1.next = null;
+
+        while (p2 != null) {
+            t = p2.next;
+            p2.next = p1;
+            p1 = p2;
+            p2 = t;
+        }
+
+        return p1;
+    }
+
+    public void reverseList(int[] nums) {
+        int i = 0, j = nums.length - 1;
+        while (i < j) {
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+            j--;
+            i++;
+        }
+    }
+
+    @Test
+    public void case1() {
+        ListNode l1 = new ListNode(1);
+        ListNode l2 = new ListNode(2);
+        ListNode l3 = new ListNode(3);
+        l1.next = l2;
+        l2.next = l3;
+        reverseList(l3);
+    }
+
+    @Test
+    public void case2() {
+        int[] nums = {1, 2, 3, 4, 5};
+        reverseList(nums);
+        StringUtils.print(nums);
     }
 }

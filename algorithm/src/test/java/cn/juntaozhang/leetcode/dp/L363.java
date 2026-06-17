@@ -1,7 +1,11 @@
 package cn.juntaozhang.leetcode.dp;
 
+import org.junit.Test;
+
+import java.util.TreeSet;
+
 /**
- * @author juntzhang
+ * 给你一个 m x n 的矩阵 matrix 和一个整数 k ，找出并返回矩阵内部矩形区域的不超过 k 的最大数值和。
  */
 public class L363 {
 
@@ -30,27 +34,67 @@ public class L363 {
         return ans;
     }
 
-    int maxSubarraySum(int[] nums, int k) {
-        int n = nums.length;
-        int[] dp = new int[n];
-        dp[0] = nums[0];
-        for (int i = 1; i < n; i++) {
-            dp[i] = dp[i - 1] + nums[i];
-        }
-        int ans = dp[k - 1];
-        for (int i = k; i < n; i++) {
-            ans = Math.max(ans, dp[i] - dp[i - k]);
+
+    // 和不超过 k 的最大连续子数组和 L560
+    // 前缀和
+    public int maxSumSubarray(int[] nums, int k) {
+        TreeSet<Integer> sumSet = new TreeSet<>();
+        sumSet.add(0);
+        int s = 0;
+        int ans = Integer.MIN_VALUE;
+        for (int v : nums) {
+            s += v;
+            Integer ceil = sumSet.ceiling(s - k);// sort + 二分查找（Binary Search）
+            if (ceil != null) {
+                ans = Math.max(ans, s - ceil);
+            }
+            sumSet.add(s);
         }
         return ans;
     }
 
-    public static void main(String[] args) {
+    // 找长度正好等于 k 的最大连续子数组和
+    // 直接遍历一遍也可以实现，不一定要用前缀和
+    int maxSubarraySum(int[] nums, int k) {
+        int n = nums.length;
+        int[] s = new int[n];
+        s[0] = nums[0];
+        for (int i = 1; i < n; i++) {
+            s[i] = s[i - 1] + nums[i];
+        }
+        int ans = s[k - 1];
+        for (int i = k; i < n; i++) {
+            ans = Math.max(ans, s[i] - s[i - k]);
+        }
+        return ans;
+    }
 
-        System.out.println(new L363().maxSumSubmatrix(new int[][]{
+
+    @Test
+    public void case1() {
+        System.out.println(maxSumSubmatrix(new int[][]{
                 {1, 0, 1},
                 {0, -2, 3}
         }, 2));
-        System.out.println(new L363().maxSubarraySum(new int[]{1, -2, 4}, 3));
-        System.out.println(new L363().maxSubarraySum(new int[]{1, -2, -4}, 2));
+    }
+
+    @Test
+    public void case11() {
+        System.out.println(maxSubarraySum(new int[]{1, -2, 4}, 3));
+    }
+
+    @Test
+    public void case12() {
+        System.out.println(maxSubarraySum(new int[]{1, -2, -4}, 2));
+    }
+
+    @Test
+    public void case13() {
+        System.out.println(maxSumSubarray(new int[]{7}, 5));
+    }
+
+    @Test
+    public void case14() {
+        System.out.println(maxSumSubarray(new int[]{4, 3, -1, -7, -9, 6, 2, -7}, 8));
     }
 }

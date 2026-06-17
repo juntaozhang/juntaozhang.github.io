@@ -1,10 +1,11 @@
 package cn.juntaozhang.leetcode.dp;
 
+import org.junit.Test;
+
 /**
  * @author juntzhang
  */
 public class L673 {
-
     public int findNumberOfLIS(int[] nums) {
         int n = nums.length;
         int[] dp = new int[n];
@@ -67,18 +68,56 @@ public class L673 {
         return ans;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new L673().findNumberOfLIS(new int[]{1, 2, 4, 3, 5, 4, 7, 2}));
-        System.out.println(new L673().findNumberOfLIS(new int[]{2, 2, 2, 2}));
-        System.out.println(new L673().findNumberOfLIS(new int[]{1, 3, 5, 4, 1}));
-        System.out.println(new L673().findNumberOfLIS(new int[]{1, 3, 5, 4, 7}));
-        System.out.println(new L673().findNumberOfLIS(new int[]{1, 1, 1, 2, 2, 2, 3, 3, 3}));
+    public int findNumberOfLIS3(int[] nums) {
+        int[] dp = new int[nums.length];
+        int[] cnt = new int[nums.length];
+        int maxDP = 1;
+        for(int i = 0; i < nums.length; i++) {
+            dp[i] = 1;
+            cnt[i] = 1;
+            for(int j = i - 1; j >= 0; j--) {
+                if(nums[i] > nums[j]) {
+                    if(dp[j] + 1 > dp[i]) {
+                        dp[i] = dp[j] + 1;
+                        cnt[i] = cnt[j];
+                    } else if(dp[j] + 1 == dp[i]) {
+                        cnt[i] += cnt[j];
+                    }
+                }
+            }
+            maxDP = Math.max(dp[i], maxDP);
+        }
+        int result = 0;
+        for(int i = 0; i < nums.length; i++) {
+            if(maxDP == dp[i]) {
+                result += cnt[i];
+            }
+        }
+        return result;
+    }
+
+    @Test
+    public void case1() {
+        System.out.println(findNumberOfLIS3(new int[]{1, 3, 5, 4, 7}));
+    }
+
+    @Test
+    public void case2() {
+        System.out.println(findNumberOfLIS3(new int[]{2, 2, 2, 2}));
+    }
+
+    @Test
+    public void case3() {
+
+        System.out.println(findNumberOfLIS(new int[]{1, 2, 4, 3, 5, 4, 7, 2}));
+        System.out.println(findNumberOfLIS(new int[]{1, 3, 5, 4, 1}));
+        System.out.println(findNumberOfLIS(new int[]{1, 1, 1, 2, 2, 2, 3, 3, 3}));
 
         System.out.println();
-        System.out.println(new L673().findNumberOfLIS2(new int[]{1, 2, 4, 3, 5, 4, 7, 2}));
-        System.out.println(new L673().findNumberOfLIS2(new int[]{2, 2, 2, 2}));
-        System.out.println(new L673().findNumberOfLIS2(new int[]{1, 3, 5, 4, 1}));
-        System.out.println(new L673().findNumberOfLIS2(new int[]{1, 3, 5, 4, 7}));
-        System.out.println(new L673().findNumberOfLIS2(new int[]{1, 1, 1, 2, 2, 2, 3, 3, 3}));
+        System.out.println(findNumberOfLIS2(new int[]{1, 2, 4, 3, 5, 4, 7, 2}));
+        System.out.println(findNumberOfLIS2(new int[]{2, 2, 2, 2}));
+        System.out.println(findNumberOfLIS2(new int[]{1, 3, 5, 4, 1}));
+        System.out.println(findNumberOfLIS2(new int[]{1, 3, 5, 4, 7}));
+        System.out.println(findNumberOfLIS2(new int[]{1, 1, 1, 2, 2, 2, 3, 3, 3}));
     }
 }
