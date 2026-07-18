@@ -2,11 +2,11 @@
   - bucket = 0: BUCKET_UNAWARE
   - bucket > 0: HASH_FIXED
 - example: [MyITCase.test_append_table](../paimon-flink/paimon-flink-common/src/test/java/org/apache/paimon/flink/MyITCase.java)
-- [related data-evolution.md](../docs/content/append-table/data-evolution.md) 
+- [related data-evolution.md](../docs/content/append-table/data-evolution.md)
   - https://paimon.apache.org/docs/master/append-table/overview/
 
-
 ## AppendOnly 架构
+
 - AppendOnlyFileStoreTable
 - AppendOnlyFileStore
 - AppendOnlyFileStoreScan
@@ -41,27 +41,205 @@ FileStoreWrite<InternalRow>：Write 负责接收记录、缓冲、刷盘、compa
               └── BucketedAppendFileStoreWrite (HASH_FIXED)
 ```
 
+## SQL filter
+
+```mermaid
+sequenceDiagram
+    autonumber
+
+    participant SQL as SQL Parser
+    participant AN as Analyzer
+    participant OP as Optimizer
+    participant PSB as PaimonScanBuilder
+    participant PS as PaimonScan
+    participant RB as ReadBuilderImpl
+    participant TS as TableScan
+    participant EX as Executor
+
+%% Driver 端
+    rect rgb(230, 245, 255)
+        Note over SQL,TS: Driver 端
+        SQL->>SQL: Parse SQL<br/>SELECT * FROM t WHERE id = 2
+        SQL->>AN: Unresolved Logical Plan
+        AN->>AN: Bind Schema<br/>Resolve Table/Column
+        AN->>OP: Resolved Logical Plan<br/>Project → Filter → RelationV2
+        OP->>OP: V2ScanRelationPushDown
+        OP->>PSB: pushDownFilters<br/>[id = 2]
+        PSB->>PSB: pushPredicates<br/>Spark Predicate → Paimon Predicate
+        PSB->>PS: build()<br/>PaimonScan(pushedFilters=[id=2])
+        PS->>RB: readBuilder<br/>.withFilter([id=2])
+        RB->>TS: newScan()<br/>withFilter → 统计过滤文件
+        TS->>TS: plan()<br/>生成 DataSplits
+        TS->>EX: 序列化 Splits
+    end
+
+%% Executor 端
+    rect rgb(255, 245, 230)
+        Note over EX: Executor 端
+        EX->>EX: DataSourceRDD.compute
+        EX->>EX: PaimonPartitionReader
+        EX->>RB: newRead()<br/>withFilter([id=2])
+        EX->>EX: RawFileSplitRead
+        EX->>EX: ParquetReader<br/>ColumnIndex过滤
+        EX->>EX: 返回 Row(id=2, ...)
+    end
+```
+```text
+────────────────────────────────────────────────────────────────────────────────
+Driver 端流程
+─────────────
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  1. SQL 解析                                                                 │
+│     SELECT * FROM image_table WHERE id = 2                                  │
+│                              ↓                                              │
+│  Unresolved Logical Plan:                                                   │
+│    Project[*] → Filter[id = 2] → UnresolvedRelation[image_table]            │
+└─────────────────────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  2. Analyzer 解析                                                            │
+│     表/列名解析 → 绑定 Schema                                                 │
+│                              ↓                                              │
+│  Resolved Logical Plan:                                                     │
+│    Project[id, name, image] → Filter[id = 2] → DataSourceV2Relation         │
+└─────────────────────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  3. Optimizer: V2ScanRelationPushDown                                       │
+│     Rule: pushDownFilters                                                   │
+│                              ↓                                              │
+│  Catalyst Expression → V2 Predicate                                         │
+│  [id = 2] → Predicate("=", field("id"), value(2))                           │
+│                              ↓                                              │
+│  PushDownUtils.pushFilters(sHolder.builder, [id = 2])                       │
+│                              ↓                                              │
+│  PaimonScanBuilder.pushPredicates([Predicate("=", "id", 2)])                │
+│    → 保存到 pushedDataFilters                                                │
+│    → 返回 [] (全部接受，无 post-scan filter)                                   │
+│                              ↓                                              │
+│  Filter 节点被移除，只剩 ScanBuilderHolder                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  4. 构建 PaimonScan                                                         │
+│     PaimonScanBuilder.build()                                               │
+│                              ↓                                              │
+│  PaimonScan(                                                                │
+│    table = image_table,                                                     │
+│    pushedDataFilters = [Predicate("=", "id", 2)]  ← 下推的过滤                │
+│  )                                                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  5. PaimonScan → ReadBuilder                                                │
+│     BaseScan.readBuilder                                                    │
+│                              ↓                                              │
+│  ReadBuilder.withFilter([Predicate("=", "id", 2)])                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  6. ReadBuilder → TableScan (plan splits)                                   │
+│     ReadBuilderImpl.newScan()                                               │
+│                              ↓                                              │
+│  InnerTableScan.withFilter([id = 2])                                        │
+│    → 用 min/max 统计信息过滤文件                                               │
+│    → 跳过不满足条件的文件                                                      │
+│                              ↓                                              │
+│  DataSplit[file1.parquet, file2.parquet, ...]                               │
+│  (blob 文件也包含在 dataFiles 中)                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  7. 生成物理计划                                                              │
+│     BatchScanExec(PaimonScan, splits) ->  DataSourceRDD                     │
+│                              ↓                                              │
+│  序列化到 Executors                                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+─────────────────────────────────────────────────────────────────────────────────
+Executor 端流程
+───────────────
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  8. DataSourceRDD.compute(partition)                                        │
+│     partition = PaimonInputPartition([Split0, Split1, ...])                 │
+│                              ↓                                              │
+│  PaimonPartitionReaderFactory.createReader(partition)                       │
+│                              ↓                                              │
+│  PaimonPartitionReader(                                                     │
+│    readBuilder = ReadBuilder(withFilter [id = 2]),                          │
+│    blobAsDescriptor = false                                                 │
+│  )                                                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  9. PaimonPartitionReader 读取数据                                           │
+│     readSplit() → read.createReader(split)                                  │
+│                              ↓                                              │
+│  ReadBuilderImpl.newRead()                                                  │
+│    → InnerTableRead.withFilter([id = 2])                                    │
+│                              ↓                                              │
+│  RawFileSplitRead.createReader(split)                                       │
+│    → 遍历 split.dataFiles()                                                  │
+│    → 为每个文件创建 FileRecordReader                                          │
+│                              ↓                                              │
+│  ParquetReaderFactory.createReader(context)                                 │
+│    → Parquet 内部应用过滤 pushdown                                            │
+│    → ColumnIndex 跳过不满足 id=2 的 Page                                      │
+│                              ↓                                              │
+│  BlobReader? → 不，Parquet 中存的是 descriptor                                │
+│    → BlobRef.toData() 延迟读取 blob 数据                                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  10. 返回行给 Spark                                                          │
+│      PaimonPartitionReader.next()                                           │
+│        → currentRecordReader.next()                                         │
+│        → sparkRow.replace(currentRow)                                       │
+│                              ↓                                              │
+│      Row(id=2, name="xxx", image=actual_blob_data)                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+SQL 解析 → Logical Plan
+Analyzer 解析 → Resolved Logical Plan
+Optimizer: V2ScanRelationPushDown
+pushDownFilters 关键逻辑
+Paimon 侧: PaimonScanBuilder.pushPredicates
+构建 PaimonScan
+PaimonScan → ReadBuilder
+ReadBuilder → TableScan
+。。。
+
+
+DataSourceRDD in Executor: createReader
+PaimonPartitionReaderFactory: create PaimonPartitionReader
+paimon filter: ReadBuilderImpl.newRead()
+
 ## bucket=-1
+
 在 append table 中是 `BucketMode.BUCKET_UNAWARE`
 在 primary key table 中是 `BucketMode.HASH_DYNAMIC`
 
 1. Writer 内无Compaction
 2. 独立的operator: Compaction Coordinator
-![flink-example-AppendTable-wo-bucket.png](imgs/flink-example-AppendTable-wo-bucket.png)
-![unaware-bucket-topo](https://paimon.apache.org/docs/master/img/unaware-bucket-topo.png)
-3.RowAppendTableSink
+   ![flink-example-AppendTable-wo-bucket.png](imgs/flink-example-AppendTable-wo-bucket.png)
+   ![unaware-bucket-topo](https://paimon.apache.org/docs/master/img/unaware-bucket-topo.png)
+   3.RowAppendTableSink
    - FlinkTableSink -> getSinkRuntimeProvider -> FlinkSinkBuilder -> buildUnawareBucketSink->RowAppendTableSink
    - sinkFrom: Compact Coordinator： 全局分配, Compact Worker：独立处理Coordinator分配的task
-       - doWrite: Compact Coordinator -> Compact Worker
-       - doCommit: generate a new snapshot(APPEND/COMPACT)
-
+     - doWrite: Compact Coordinator -> Compact Worker
+     - doCommit: generate a new snapshot(APPEND/COMPACT)
 
 ## bucket (N > 0)
+
 在 append table 中是 `BucketMode.HASH_FIXED`
 
 ![flink-example-AppendTable.jpg](imgs/flink-example-AppendTable.jpg)
 
 ## write-only
+
 ![flink-example-AppendTable-WriteOnly.jpg](imgs/flink-example-AppendTable-WriteOnly.jpg)
 
 ## compaction for BUCKET_UNAWARE
@@ -72,20 +250,23 @@ Normal append-only 表没有多级 LSM，compaction
 就是按文件数量和总大小挑选候选文件，然后把多个小文件顺序合并成更大的文件。大文件（超过
 compactionFileSize）会被跳过，不参与合并。
 
-| 条件       | 含义     |
-|----------|--------|
-| fileNum >= minFileNum | 文件数量达到阈值（默认来自 num-sorted-run.compaction-trigger） |
-| totalFileSize >= targetFileSize * 2 | 总大小超过目标文件大小的 2 倍时，去掉最老的文件，避免一次合并太多|
+
+| 条件                                | 含义                                                              |
+| ----------------------------------- | ----------------------------------------------------------------- |
+| fileNum >= minFileNum               | 文件数量达到阈值（默认来自 num-sorted-run.compaction-trigger）    |
+| totalFileSize >= targetFileSize * 2 | 总大小超过目标文件大小的 2 倍时，去掉最老的文件，避免一次合并太多 |
 
 大文件被跳过是正常且正确的行为。Unaware-bucket append 表的 compact 目标就是合并小文件，跳过大文件避免了无意义的
 IO，对性能没有负面影响。
 
 什么时候需要关注大文件？
+
 - Deletion Vector 模式下，大文件如果删除比例高（默认阈值 0.2），会被 tooHighDeleteRatio 捕获，强制 compact
   来清理无效数据
 - 手动 full compact 时（比如 CALL compact('t', '', '', '', '', '', '', 'full')），会走不同的代码路径，可能涉及大文件
 
 ## 三种更新模式
+
 ```text
    维度         Normal Append   Row Tracking         Data Evolution
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -100,10 +281,13 @@ IO，对性能没有负面影响。
 ```
 
 ### 普通模式
+
 不支持行级更新。只能 INSERT OVERWRITE 整个分区或全表。要改几行数据，必须重写整个分区。
 
 ### Row Tracking
+
 支持行级 UPDATE/DELETE，但是全文件重写（COW），比整表和分区性能好一点。
+
 ```text
 UPDATE t SET b = 11 WHERE id = 1
 │
@@ -113,14 +297,17 @@ UPDATE t SET b = 11 WHERE id = 1
 ├── 4. 写回新文件（所有 100 列）
 └── 5. 旧文件标记删除，新文件提交
 ```
+
 特点：
+
 - 只重写 impacted files，不是整个分区
 - 但重写的文件包含所有列，I/O 与列数成正比
 - 适合：更新行数少、列数少的场景
 
-
 ### data evolution
+
 支持部分列全表或整个分区内数据重写（MOR 列合并）。
+
 ```text
 MERGE INTO t USING s ON t.id = s.id
 WHEN MATCHED THEN UPDATE SET t.b = s.b
@@ -130,7 +317,9 @@ WHEN MATCHED THEN UPDATE SET t.b = s.b
 ├── 3. 原文件保留不动
 └── 4. 读时从原文件取 99 列，从新文件取 b 列
 ```
+
 特点：
+
 - 只写变更的列，I/O 与变更列数成正比，与总列数无关
 - 原始文件 + N 个部分列文件共存
 - 读时 DataEvolutionFileReader 多文件合并
@@ -140,26 +329,32 @@ WHEN MATCHED THEN UPDATE SET t.b = s.b
 > AppendOnlyFileStoreTable.newRead->AppendOnlyFileStore.newDataEvolutionRead->DataEvolutionSplitRead
 
 ## Q&A
+
 <details>
 <summary>BUCKET_UNAWARE 为什么不像 HASH_DYNAMIC 一样在writer中实现compaction呢？</summary>
 
-| BucketMode            | 文件隔离方式      | Compaction 位置 | 原因 |
-|-----------------------|-------------|---------------|-------------------|
-| HASH_FIXED / HASH_DYNAMIC | 按 bucket 切分 | Writer 内      | 每个 writer 只持有自己 bucket 的文件，可以独立 compact |
-| BUCKET_UNAWARE    | 无隔离，全局混排    | 外部独立 job      | 需要全局视角做文件分组，避免多 writer 竞争同一文件   |
+
+| BucketMode                | 文件隔离方式     | Compaction 位置 | 原因                                                   |
+| ------------------------- | ---------------- | --------------- | ------------------------------------------------------ |
+| HASH_FIXED / HASH_DYNAMIC | 按 bucket 切分   | Writer 内       | 每个 writer 只持有自己 bucket 的文件，可以独立 compact |
+| BUCKET_UNAWARE            | 无隔离，全局混排 | 外部独立 job    | 需要全局视角做文件分组，避免多 writer 竞争同一文件     |
 
 无文件隔离边界:
+
 - BUCKET_UNAWARE 虽然底层写到 bucket-0，但写入并行度不受 bucket 数限制
 - 多个 writer 可能同时向同一个 partition 追加数据，产生大量零散小文件
 - 这些文件在逻辑上都属于同一空间，没有 bucket 把它们切分给不同 writer
 
 并发冲突难以处理:
+
 - 如果多个 writer 各自尝试 compact 同一 partition 下的文件，会产生严重的写冲突
 - 两个 writer 同时读取文件 A、B，各自合并后尝试提交，commit 时必然失败
 - 这需要外部锁或复杂的事务重试，而在 writer 内引入这种全局协调会严重拖慢写入链路
 
 Writer 只能看到局部文件：
+
 - 每个 writer 的 restoreFiles 只包含自己之前写入的文件（或为空）
 - 但 compaction 的最优决策需要全局视角：哪些文件太小、哪些文件 delete ratio 高、哪些应该合并到一起
 - 单个 writer 如果只做局部 compact，既可能漏掉真正需要合并的文件，也可能重复合并同一组文件
+
 </details>

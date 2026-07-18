@@ -1,21 +1,24 @@
-
 ## use jdk11
+
 ```shell
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home
-mvn clean install -DskipTests
+mvn clean install -Pspark3 -Pflink1 -DskipTests
 ```
 
 Before committing:
+
 ```bash
 mvn spotless:apply
 ```
 
 For new files, also run:
+
 ```bash
 mvn checkstyle:checkstyle
 ```
 
 ## troubleshoot
+
 <details>
 <summary>package sun.misc does not exist？</summary>
 
@@ -24,11 +27,13 @@ mvn checkstyle:checkstyle
 package sun.misc does not exist
 sun.misc.Unsafe
 ```
+
 fixed in https://github.com/apache/paimon/issues/692
 
 unchecked Java Compiler:
 
-![unchecked-java-compiler.png](docs/imgs/unchecked-java-compiler.png)
+![unchecked-java-compiler.png](imgs/unchecked-java-compiler.png)
+
 </details>
 
 <details>
@@ -41,6 +46,7 @@ fixed use jdk11, I see maven-surefire-plugin already add `--add-exports=java.bas
 ```text
 java.lang.IllegalAccessError: class org.apache.spark.storage.StorageUtils$ (in unnamed module @0x17f6480) cannot access class sun.nio.ch.DirectBuffer (in module java.base) because module java.base does not export sun.nio.ch to unnamed module @0x17f6480
 ```
+
 </details>
 
 <details>
@@ -207,4 +213,5 @@ Caused by: java.lang.NullPointerException
 RC: can't find `CodeGenLoader`
 
 need to rebuild the project: `mvn clean install -DskipTests`
+
 </details>

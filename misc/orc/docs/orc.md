@@ -1,10 +1,14 @@
 # ORC
 
-## ORCFile:
+## ORCFile
 
 无固定大小，通常按 64MB 切分 Stripe
 
 ![orc.jpg](assets/orc.jpg)
+
+Index Data/ColumnX/ 是按行切分且 column 对齐的
+
+Row Data/ColumnX/Data Stream 是按压缩 buffer 大小切分的，每个 column 的每个 stream 独立，不对齐。
 
 ```text
 ReaderImpl init metadata
@@ -27,8 +31,12 @@ main:42, OrcReaderFilteredExample (com.example.orc)
                         └── pickRowGroups:1267, RecordReaderImpl (org.apache.orc.impl)
                             └── readCurrentStripeRowIndex:1599, RecordReaderImpl (org.apache.orc.impl)
                                 └── readRowIndex:405, StripePlanner (org.apache.orc.impl.reader)
+```
 
-     
+### ORC File Layout
+
+```
+   
        [0,3084130]┌─ORC File────────────────────────────────────────────────────┐
              [0,2]│ Magic:ORC                                                   │
        [3,1735301]├─Stripe 1────────────────────────────────────────────────────┤
@@ -36,7 +44,7 @@ main:42, OrcReaderFilteredExample (com.example.orc)
           [3,1973]│ ┌─Index STREAMS:1971──────────────────────────────────────┐ │
                   │ │   ┌─ Column 0 ???                                       │ │
                   │ │   ├─ Column 1 (id INT)                                  │ │
-                  │ │   │    Entry 0 (RG 0): positions=[0,0,0],               │ │---positions 分别代表什么？
+                  │ │   │    Entry 0 (RG 0): positions=[0,0,0],               │ │---positions TODO: [presentOffset, blockNumber, byteOffset] 
                   │ │   │                    {min:0, max:9999}                │ │
                   │ │   │    Entry 1 (RG 1): positions=[0,97,272],            │ │
                   │ │   │                    {min:10000, max:19999}           │ │
@@ -351,108 +359,13 @@ ORC 文件
   - 下面实例：session_id PLAIN 编码
   - ORC 会在解析 session_id 列 Row Group 数据时，先构建一个行位置索引表（内存级，极快）
 
-**实例**：
-
-```text
-Stripe 数据区 (物理字节顺序)
-│
-├─ Column 0 (root struct) - 无实际数据流
-│
-├─ Column 1 (id: INT)
-│  ├─ Stream 1.1: PRESENT (1.25KB) - NULL值位图
-│  └─ Stream 1.2: DATA (40KB) - RLE编码的整数值
-│
-├─ Column 2 (session_id: STRING) - 变长唯一键
-│  ├─ Stream 2.1: PRESENT (1.25KB) - NULL值位图（Preset Stream）
-│  │  作用：标记每行 session_id 是否为 NULL，1 位对应 1 行，1=非空/0=空
-│  │  特点：体积极小，Stripe 级存储，无 Row Group 拆分
-│  ├─ Stream 2.2: LENGTH (8.5KB) - 长度流（Data Stream）
-│  │  作用：存储每行 session_id 的字节长度（以 VLI 编码，1~5 字节/个）
-│  │  特点：按 Row Group 拆分，与 DATA Stream 一一对应
-│  └─ Stream 2.3: DATA (120KB) - 内容流（Data Stream）
-│     作用：存储每行 session_id 的 UTF-8 原始字节内容
-│     特点：按 Row Group 拆分，长度与 LENGTH Stream 中的值一一匹配
-│
-├─ Column 3 (salary: DOUBLE)
-│  ├─ Stream 3.1: PRESENT (1.25KB) - NULL值位图
-│  ├─ Stream 3.2: DATA (70KB) - 浮点值尾数
-│  └─ Stream 3.3: SECONDARY (35KB) - 浮点值指数
-│
-├─ Column 4 (is_active: BOOLEAN)
-│  ├─ Stream 4.1: PRESENT (1.25KB) - NULL值位图
-│  └─ Stream 4.2: DATA (1.25KB) - 位打包的布尔值
-│
-├─ Column 5 (hire_date: DATE)
-│  ├─ Stream 5.1: PRESENT (1.25KB) - NULL值位图
-│  └─ Stream 5.2: DATA (20KB) - 日期值(从1970-01-01的天数)
-│
-├─ Column 6 (tags: ARRAY<STRING>)
-│  ├─ Stream 6.1: PRESENT (1.25KB) - NULL值位图
-│  ├─ Stream 6.2: LENGTH (10KB) - 数组长度
-│  ├─ Stream 6.3: DATA (25KB) - 元素字典索引
-│  └─ Stream 6.4: DICTIONARY_DATA (40KB) - 唯一标签值
-│
-├─ Column 7 (contact_info: MAP<STRING, STRING>)
-│  ├─ Stream 7.1: PRESENT (1.25KB) - NULL值位图
-│  ├─ Stream 7.2: LENGTH (8KB) - 键值对数量
-│  ├─ Stream 7.3: KEY_DATA (15KB) - 键字典索引
-│  ├─ Stream 7.4: KEY_DICTIONARY (20KB) - 唯一键值
-│  ├─ Stream 7.5: VALUE_DATA (15KB) - 值字典索引
-│  └─ Stream 7.6: VALUE_DICTIONARY (25KB) - 唯一值
-│
-└─ Column 8 (details: STRUCT<city:STRING, age:INT>)
-   ├─ Stream 8.1: PRESENT (1.25KB) - NULL值位图
-   ├─ Sub-column 8.1 (city: STRING)
-   │  ├─ Stream 8.1.1: PRESENT (1.25KB) - 子字段NULL位图
-   │  ├─ Stream 8.1.2: DATA (18KB) - 字典索引
-   │  └─ Stream 8.1.3: DICTIONARY_DATA (30KB) - 唯一城市名
-   └─ Sub-column 8.2 (age: INT)
-      ├─ Stream 8.2.1: PRESENT (1.25KB) - 子字段NULL位图
-      └─ Stream 8.2.2: DATA (10KB) - 年龄值
-```
-
 ### Stripe Footer
 
 - 流位置信息
 - 列编码信息
 - 列统计信息
 
-## 实例
-
-```text
-  CREATE TABLE user_events (
-    id INT,              -- Column 0
-    name STRING,         -- Column 1 (字典编码)
-    country STRING,      -- Column 2 (直接编码 + Bloom Filter)
-    salary DOUBLE,       -- Column 3
-    sessionId STRING     -- Column 4 (唯一ID，直接编码 + Bloom Filter)
-  )
-  
-  Row Group 0 (行 0-9,999):
-    id: [1, 2, 3, ..., 10000]
-    name: ["Alice", "Bob", "Charlie", ..., "Zoe"]  (有重复)
-    country: ["CN", "US", "CN", "UK", ...] (有重复)
-    salary: [50000.0, 60000.0, ..., 150000.0]
-    sessionId: ["sess_00001_abc123", "sess_00002_def456", ..., "sess_10000_xyz789"]
-               ↑ 完全不重复（每个事件唯一ID）
-
-  Row Group 1 (行 10,000-19,999):
-    id: [10001, ..., 20000]
-    name: [...]
-    country: ["US", "DE", "JP", ...]
-    salary: [...]
-    sessionId: ["sess_10001_pqr678", "sess_10002_mno235", ..., "sess_20000_lkj459"]
-
-  Row Group 2 (行 20,000-29,999):
-    id: [20001, ..., 30000]
-    name: [...]
-    country: [...]
-    salary: [...]
-    sessionId: ["sess_20001_vxt982", "sess_20002_bnm123", ..., "sess_30000_abc456"]
-
-```
-
-完整 Stripe 字节布局
+### Stripe layout
 
 ```text
   ════════════════════════════════════════════════════════════

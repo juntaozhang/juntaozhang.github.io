@@ -3,7 +3,7 @@
   - [Spark](spark/README.md)
   - [Flink](flink/README.md)
   - [Amoro](misc/amoro/README.md)
-  - [Amoro](misc/amoro/README.md)
+  - [Fluss](misc/fluss/docs/setup-flink.md)
 - File Format
   - [parquet](misc/parquet/docs/parquet.md)
   - [orc](misc/orc/docs/orc.md)
@@ -11,5 +11,5 @@
 - [Kubernetes](kubernetes/README.md)
 - [Algorithm](algorithm/README.md)
 - Misc
-  - [ai-coding](misc/ai-coding.md)
+  - [ai-coding](misc/ai/ai-coding.md)
 

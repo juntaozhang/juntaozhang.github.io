@@ -2,6 +2,17 @@
 
 [official concurrency control](../docs/content/concepts/concurrency-control.md)
 
+
+| 操作 A | 操作 B | 兼容性 | 源码依据                                                                                                                      |
+|---|---|---|---------------------------------------------------------------------------------------------------------------------------|
+| Append | Append | ✅ 兼容，乐观重试 | `tryCommit` while 循环重读最新 snapshot 后重试；只新增 ADD 文件，`checkDeleteInEntries` 不触发  |
+| Append | Delete (DV / compact 删旧文件) | ✅ 兼容 | Append 只新增 ADD entry，与 base 中被 DELETE 的旧文件无交集  |
+| Delete | Delete | ⚠️ 不重叠才兼容 | `checkDeleteInEntries` 第 422 行：若要删的文件已不在 base 中（被对方先删了），抛 "Trying to delete file ... which is not previously added"       |
+| Delete | Compact / Append | ✅ 通常兼容 | 只要被删文件还存在；DV 场景额外走 `buildBaseEntriesWithDV` 校验  |
+| Overwrite | 任何 | ❌ 后提交方失败 | `checkBucketKeepSame` 第 283 行 OVERWRITE 直接 return，但 OVERWRITE 把分区现存所有文件标 DELETE，并发的 Append/Compact 重试时会发现自己引用的 base 文件已被删 → `checkDeleteInEntries` 失败 |
+| Compact (改同一 bucket) | Compact (改同一 bucket) | ❌ 冲突 | 二者都把同一批 base 文件标 DELETE + 写新文件；后提交方在 `checkDeleteInEntries` 失败。LSM level≥1 时还会再被 `checkKeyRange` 第 380 行的 key range 重叠检查拦截 |
+| Compact 不同 bucket | Compact 不同 bucket | ✅ 兼容 | 操作的文件集合不相交   |
+
 ## commit manifest
 `compactAwareBucketTable` commit manifest
 ```mermaid

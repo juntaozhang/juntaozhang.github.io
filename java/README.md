@@ -7,5 +7,7 @@
   - [NIO](docs/NIO.md)
   - [WeakReference与WeakHashMap](docs/WeakReference与WeakHashMap.md)
   - [ThreadLocal源码分析](docs/ThreadLocal源码分析.md)
+  - [GC](docs/GC.md)
+  - [分布式协调一致算法](分布式协调一致算法.md)
 - [设计模式](design-patterns/README.md)
   - [Visitor](design-patterns/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-Visitor.md)

@@ -1,5 +1,7 @@
 package cn.juntaozhang.leetcode.dp;
 
+import org.junit.Test;
+
 /**
  * @author juntzhang
  */
@@ -7,27 +9,13 @@ public class L198 {
 
 
     public int rob(int[] nums) {
-        if (nums == null) {
-            return 0;
+        int n = nums.length;
+        int[] dp = new int[n + 1];
+        dp[1] = nums[0];
+        for (int i = 1; i < n; i++) {
+            dp[i + 1] = Math.max(dp[i], dp[i - 1] + nums[i]);
         }
-        int[] dp = new int[nums.length];
-        int res = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (i - 2 >= 0) {
-                dp[i] = Math.max(nums[i] + dp[i - 2], dp[i - 1]);
-            } else if (i == 1) {
-                dp[i] = Math.max(nums[i], dp[i - 1]);
-            } else {
-                dp[i] = nums[i];
-            }
-            res = Math.max(res, dp[i]);
-        }
-
-        for (int i = 0; i < nums.length; i++) {
-            System.out.print(dp[i] + "\t");
-        }
-        System.out.println();
-        return res;
+        return dp[n];
     }
 
     public int rob2(int[] nums) {
@@ -52,8 +40,9 @@ public class L198 {
     }
 
 
-    public static void main(String[] args) {
-        System.out.println(new L198().rob(new int[]{1, 2, 3, 1}));
-        System.out.println(new L198().rob(new int[]{2, 7, 9, 3, 1}));
+    @Test
+    public void case1() {
+        System.out.println(rob(new int[]{1, 2, 3, 1}));
+        System.out.println(rob(new int[]{2, 7, 9, 3, 1}));
     }
 }

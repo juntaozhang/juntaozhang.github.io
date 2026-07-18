@@ -29,7 +29,7 @@ public class L354 {
     public int maxEnvelopes2(int[][] envelopes) {
         // 只需要考虑第二个维度
         Arrays.sort(envelopes, (p1, p2) -> p1[0] != p2[0] ? p1[0] - p2[0] : p2[1] - p1[1]);
-        // [1,2],[1,3],[1,4] -> [1,4],[1,3],[1,2] 如果只看第一个维度就是 3， 倒序之后还是 1
+        // [1,2}, {1,3}, {1,4] -> [1,4}, {1,3}, {1,2] 如果只看第一个维度就是 3， 倒序之后还是 1
         // 倒序之后，这样可以处理 第一个维度 相同的问题
 
         // greedy list, 单调
@@ -48,7 +48,7 @@ public class L354 {
 
     private static int binarySearch(List<Integer> list, int num) {
         int l = 0, r = list.size() - 1;
-        while (l <= r) {
+        while (l <= r) {// 为什么要 =, 为了找到> l 的第一个值
             int mid = l + (r - l) / 2;
             if (list.get(mid) < num) {
                 l = mid + 1;
@@ -59,6 +59,11 @@ public class L354 {
             }
         }
         return l;
+    }
+
+    @Test
+    public void searchCase1() {
+        System.out.println(binarySearch(List.of(3, 6, 7), 4));
     }
 
     @Test
@@ -79,5 +84,10 @@ public class L354 {
     @Test
     public void case4() {
         System.out.println(maxEnvelopes2(new int[][]{{46, 89}, {50, 53}, {52, 68}, {72, 45}, {77, 81}}));
+    }
+
+    @Test
+    public void case5() {
+        System.out.println(maxEnvelopes2(new int[][]{{4,5}, {4,6}, {6,7}, {2,3}, {1,1}}));
     }
 }

@@ -1,0 +1,29 @@
+[package]
+name = "hello_rust"
+version = "0.1.0"
+edition = "2024"
+
+[package.metadata.maturin]
+
+[lib]
+name = "hello_pyrust"
+crate-type = ["cdylib"]
+
+[[example]]
+name = "test_async"
+path = "src/test_async.rs"
+
+[[example]]
+name = "test_macro"
+path = "src/test_macro.rs"
+
+
+[dependencies]
+pyo3 = { version = "0.28", features = [
+    "abi3-py38",
+    "experimental-inspect"
+]}
+hello_macro={path = "../hello_macro"}
+tokio = { version = "1", features = ["full"] }
+
+

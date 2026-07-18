@@ -1,6 +1,7 @@
 # Table Mode
 
 ## MOR (Merge On Read)
+
 ```flinksql
 CREATE TABLE T (
   k INT,
@@ -17,6 +18,7 @@ INSERT INTO T VALUES (5, 50, 1);
 INSERT INTO T VALUES (6, 60, 1);
 SELECT * FROM T$files ORDER BY level DESC;
 ```
+
 ```text
 +---------+------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------+---------+-----+------------+------------------+-------+-------+-----------------+------------------+------------------+-------------------+-------------------+-----------------------+--------------+-----------+------------+----------+
 |partition|bucket|file_path                                                                                                                                                                 |file_format|schema_id|level|record_count|file_size_in_bytes|min_key|max_key|null_value_counts|min_value_stats   |max_value_stats   |min_sequence_number|max_sequence_number|creation_time          |deleteRowCount|file_source|first_row_id|write_cols|
@@ -32,16 +34,26 @@ SELECT * FROM T$files ORDER BY level DESC;
 - 写入性能好，读取性能相对较差
 
 ### MOR Read Optimized
+
 定时触发compaction，合并L0文件
 
 ## COW (Copy On Write)
+
 'full-compaction.delta-commits' = '1'
 每次commit都会触发一次compaction
 写性能差
 
-
 ## MOW (Merge On Write)
+
 'deletion-vectors.enabled' = 'true'
+
+MergeFileSplitRead 用 IntervalPartition 把文件按 key 范围分成 section，每个 section 走 SortMergeReader（[MinHeap/LoserTree](../../algorithm/src/test/java/cn/juntaozhang/leetcode/sort/README.md#多路归并排序l)），把同 key 的记录聚到一起，再交给
+MergeFunctionWrapper + 内部 MergeFunction（比如 DeduplicateMergeFunction）做最终合并。
+
+DV 提升性能的原因就是：
+
+- 减少了进入归并的记录数：-D、-U 这些 retract 行在 compact 后不会保留在最终数据文件里，旧文件里对应的行又被 DV bitmap 直接跳过。
+- 这样 SortMergeReader 要比较、排序、merge 的 key 变少了。
 
 ```sparksql
 drop table T;
@@ -59,6 +71,7 @@ update T set v = 11 where pk = 1;
 SELECT * FROM `T$snapshots` ORDER BY level DESC;
 SELECT * FROM `T$files` ORDER BY level DESC;
 ```
+
 ```text
 +-----------+---------+------------------------------------+-------------------+-----------+-----------------------+----------------------------------------------------+----------------------------------------------------+-----------------------+------------------+------------------+----------------------+---------+-----------+
 |snapshot_id|schema_id|commit_user                         |commit_identifier  |commit_kind|commit_time            |base_manifest_list                                  |delta_manifest_list                                 |changelog_manifest_list|total_record_count|delta_record_count|changelog_record_count|watermark|next_row_id|
@@ -79,6 +92,7 @@ SELECT * FROM `T$files` ORDER BY level DESC;
 compaction 会 [forcePickL0](compact.md#forceuplevel0compaction)
 
 compact vs prepareCommit:\
+
 - compact
   - flushWriteBuffer(forcedFullCompaction=true) : default true
 - MergeTreeWriter.prepareCommit：
@@ -87,22 +101,26 @@ compact vs prepareCommit:\
   - KeyValueFileStoreWrite.createWriter中 createCompactManager 可以看到 CompactManager 创建过程
 
 为什么 table.newScan().plan().splits() 看不到 deletion-vectors.enabled 的数据？
+
 - table.newSnapshotReader().onlyReadRealBuckets().read().splits() 可以看到 deletion-vectors.enabled 的数据
 - `table.newScan()` 读取数据时会跳过 level0
-    ```text
-    CoreOptions.batchScanSkipLevel0 中 DELETION_VECTORS_ENABLED || FIRST_ROW 会启动： 
-    DataTableBatchScan 中会跳过 level0
-    if (!schema.primaryKeys().isEmpty() && options.batchScanSkipLevel0()) {
-        if (options.toConfiguration()
-                .get(CoreOptions.BATCH_SCAN_MODE)
-                .equals(CoreOptions.BatchScanMode.NONE)) {
-            snapshotReader.withLevelFilter(level -> level > 0).enableValueFilter();
-        }
-    }
-    ```
+  ```text
+  CoreOptions.batchScanSkipLevel0 中 DELETION_VECTORS_ENABLED || FIRST_ROW 会启动： 
+  DataTableBatchScan 中会跳过 level0
+  if (!schema.primaryKeys().isEmpty() && options.batchScanSkipLevel0()) {
+      if (options.toConfiguration()
+              .get(CoreOptions.BATCH_SCAN_MODE)
+              .equals(CoreOptions.BatchScanMode.NONE)) {
+          snapshotReader.withLevelFilter(level -> level > 0).enableValueFilter();
+      }
+  }
+  ```
+
 ### append files
-`INSERT INTO T VALUES (1, 10, 1), (2, 20, 1), (3, 30, 1), (4, 40, 1);`:\
+
+`INSERT INTO T VALUES (1, 10, 1), (2, 20, 1), (3, 30, 1), (4, 40, 1);`:
 会产生两个 sortedRuns，一个是 append，一个是 compaction
+
 ```text
 partition: BinaryRow{pos=1}
 bucket: 0
@@ -121,38 +139,42 @@ CompactIncrement {
   deletedIndexFiles = []
 }
 ```
-commitMessages 会有 newFilesIncrement 和 compactIncrement， 这两种类型的commits 会导致两个sortedRuns,\
+
+commitMessages 会有 newFilesIncrement 和 compactIncrement， 这两种类型的commits 会导致两个sortedRuns,
 外面看就是一次action会有两个snapshots。
 
-与 Postpone compaction 的区别是，Postpone 把 postpose bucket 的 文件写到 fixed bucket中，\
-这个过程是就是 compaction的一部分，所以 BucketFiles 会从 compactIncrement 文件中去掉 newFilesIncrement 文件,\
+与 Postpone compaction 的区别是，Postpone 把 postpose bucket 的 文件写到 fixed bucket中，
+这个过程是就是 compaction的一部分，所以 BucketFiles 会从 compactIncrement 文件中去掉 newFilesIncrement 文件,
 从最终来看就只有一个snapshot。
 
+### write deleted index file
 
-### write deleted index file 
+Paimon 的 DV 实现确实先用 delete record 走了一遍 LSM 流程，再通过 compaction 转成 DV index。这不是最纯粹的 DV 实现（最纯粹的应该是直接写 DV index，不经过 delete record data file），但它复用了现有的 compaction 框架。
+
 - 当 deletion-vectors.enabled = 'false'（默认）：使用传统 Delete Record
 - 当 deletion-vectors.enabled = 'true'：使用 Deletion Vector Index，不再使用 Delete Record
-    - `delete from T where id > 2`, 会生成以下 commits：
-      ```text
-      - partition: BinaryRow{pos=1}
-      - bucket: 0
-      - newFilesIncrement:
-        - newFiles: [data-17787bc0-0d46-4dda-a016-4c2ed4b2d3fd.parquet]
-        - deletionFiles: [] 
-        - newIndexFiles: []
-      - compactIncrement:
-        - compactBefore: [data-17787bc0-0d46-4dda-a016-4c2ed4b2d3fd.parquet]
-        - compactAfter: []
-        - changedLogFiles: []
-        - newIndexFiles: [index-848a8794-3da4-4d68-8ba0-2683da383853] 
-      ```
-    - 会生成两个 sortedRuns，一个是 append，实际上是删除的record`data-17787bc0-0d46-4dda-a016-4c2ed4b2d3fd.parquet`，一个是 compaction
-      - compaction 可以看成删除之前 delete record文件`data-17787bc0-0d46-4dda-a016-4c2ed4b2d3fd.parquet`，使用 deleted index file`index-848a8794-3da4-4d68-8ba0-2683da383853`
-      - 这样好处是在read的时候不需要再做merge操作了
-      - 目前这种实现方式，会导致两个sortedRuns，本来是一个sortedRun，如果从上一个 snapshot3 开始读，还是会使用`data-17787bc0-0d46-4dda-a016-4c2ed4b2d3fd.parquet`这个文件，则违背了deletion-vectors的设计初衷（TODO）
+  - `delete from T where id > 2`, 会生成以下 commits：
+    ```text
+    - partition: BinaryRow{pos=1}
+    - bucket: 0
+    - newFilesIncrement:
+      - newFiles: [data-17787bc0-0d46-4dda-a016-4c2ed4b2d3fd.parquet]
+      - deletionFiles: [] 
+      - newIndexFiles: []
+    - compactIncrement:
+      - compactBefore: [data-17787bc0-0d46-4dda-a016-4c2ed4b2d3fd.parquet]
+      - compactAfter: []
+      - changedLogFiles: []
+      - newIndexFiles: [index-848a8794-3da4-4d68-8ba0-2683da383853] 
+    ```
+  - 会生成两个 sortedRuns，一个是 append，实际上是删除的record`data-17787bc0-0d46-4dda-a016-4c2ed4b2d3fd.parquet`，一个是 compaction
+    - compaction 可以看成删除之前 delete record文件`data-17787bc0-0d46-4dda-a016-4c2ed4b2d3fd.parquet`，使用 deleted index file`index-848a8794-3da4-4d68-8ba0-2683da383853`
+    - 这样好处是在read的时候不需要再做merge操作了
+    - 目前这种实现方式，会导致两个sortedRuns，本来是一个sortedRun，如果从上一个 snapshot3 开始读，还是会使用`data-17787bc0-0d46-4dda-a016-4c2ed4b2d3fd.parquet`这个文件，则违背了deletion-vectors的设计初衷
 - 源码中：`MergeTreeCompactTask`->`ChangelogMergeTreeRewriter.rewriteOrProduceChangelog`中由于`dropDelete`(标识是deletion-vectors，所以Compact After 为空)
 
 delete index files generation, when compact will:
+
 ```text
 `MergeTreeCompactTask.doCompact` -> `ChangelogMergeTreeRewriter.upgrade` -> `SortMergeIterator.merge` 
     -> `LookupChangelogMergeFunctionWrapper.getResult`: which will get fileName and position
@@ -160,6 +182,7 @@ delete index files generation, when compact will:
 ```
 
 write deleted index file:
+
 ```text
 `AbstractFileStoreWrite.prepareCommit`
     -> `LazyCompactDeletionFile.getOrCompute`
@@ -168,17 +191,19 @@ write deleted index file:
 ```
 
 ### read deleted index file
+
 `select * from T`, 会从deleted index 中过滤掉删除的record
 
-spark 流程：\
+spark 流程：
 ReadBuilderImpl -> PrimaryKeyFileStoreTable
 
-SparkTable -> PaimonScanBuilder -> PaimonScan -> PaimonBatch 
+SparkTable -> PaimonScanBuilder -> PaimonScan -> PaimonBatch
 -> PaimonPartitionReaderFactory -> PaimonPartitionReader.readSplit
 
 KeyValueTableRead ->  RawFileSplitRead-> ApplyDeletionVectorReader -> ApplyDeletionFileRecordIterator -> 过滤被删除的record
 
 ### MOW manual compaction
+
 ```sparksql
 drop table T;
 CREATE TABLE T (
@@ -202,7 +227,7 @@ SELECT * FROM `T$files` ORDER BY level DESC;
 
 [full compaction](compact.md#full-compaction) 会枚举 partitions buckets `write.compact` 对应的 files
 
-源码中：\
+源码中：
 KeyValueFileStoreWrite.compact -> createWriterContainer create BucketedDvMaintainer -> DeletionVectorsIndexFile(read bitmap)\
 
 full compaction -> MergeTreeWriter.compact -> FileRewriteCompactTask -> MergeTreeCompactRewriter -> DropDeleteReader->ApplyDeletionFileRecordIterator

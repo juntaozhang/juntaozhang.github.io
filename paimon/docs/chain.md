@@ -1,58 +1,24 @@
 # Chain Table
 
 ## Example
-| case：查询  | main 有数据 | snapshot 有数据 | 找到前置快照    | 读取策略   | snapshot 分区 | delta 分区范围    | 最终数据来源         |
-|----------|----------|--------------|-----------|--------|------------|---------------|----------------|
-| hour=21  | ✗ 无      | ✗ 无          | ✗ 无       | 【路径 C】只读 delta | -          | [21,22,23,24] | delta(21)      |
-| hour=22  | ✓ 有      | ✓ 有          | -         | 【路径 A】直接读 main | [22]       | [21,22,23,24] | main(22)       |
-| hour=22  | ✗ 无      | ✓ 有          | -         | 【路径 B】只读 snapshot | [22]     |[21,22,23,24]  | snapshot(22)       |
-| hour=23  | ✗ 无      | ✗ 无          | ✓ hour=22 | 【路径 D】Chain Read | [22]       | [21,22,23,24] | snapshot(22) + delta(23) |
-| *hour=24 | ✗ 无      | ✗ 无          | ✓ hour=22 | 【路径 D】Chain Read | [22]       | [21,22,23,24] | snapshot(22) + delta(23,24) |
+
+
+| case：查询 | main 有数据 | snapshot 有数据 | 找到前置快照 | 读取策略                | snapshot 分区 | delta 分区范围 | 最终数据来源                |
+| ---------- | ----------- | --------------- | ------------ | ----------------------- | ------------- | -------------- | --------------------------- |
+| hour=21    | ✗ 无       | ✗ 无           | ✗ 无        | 【路径 C】只读 delta    | -             | [21,22,23,24]  | delta(21)                   |
+| hour=22    | ✓ 有       | ✓ 有           | -            | 【路径 A】直接读 main   | [22]          | [21,22,23,24]  | main(22)                    |
+| hour=22    | ✗ 无       | ✓ 有           | -            | 【路径 B】只读 snapshot | [22]          | [21,22,23,24]  | snapshot(22)                |
+| hour=23    | ✗ 无       | ✗ 无           | ✓ hour=22   | 【路径 D】Chain Read    | [22]          | [21,22,23,24]  | snapshot(22) + delta(23)    |
+| *hour=24   | ✗ 无       | ✗ 无           | ✓ hour=22   | 【路径 D】Chain Read    | [22]          | [21,22,23,24]  | snapshot(22) + delta(23,24) |
 
 ### *hour=24 示例
+
 ```text
-  查询分区 X (如 *hour=24)
-    ↓
-  ┌─────────────────────────────────┐
-  │  Step 1: 检查 main 分支          │
-  └─────────────────────────────────┘
-    ↓
-    ├─ ✓ main 有分区 X
-    │     ↓
-    │  【路径 A】直接返回 main 数据
-    │     结果：main(X)
-    │
-    └─ ✗ main 无分区 X
-          ↓
-    ┌─────────────────────────────────┐
-    │  Step 2: 检查 snapshot 分支      │
-    └─────────────────────────────────┘
-      ↓
-      ├─ ✓ snapshot 有分区 X
-      │     ↓
-      │  【路径 B】直接返回 snapshot 数据
-      │     结果：snapshot(X)
-      │
-      └─ ✗ snapshot 无分区 X
-            ↓
-      ┌─────────────────────────────────┐
-      │  Step 3: 查找前置快照             │
-      │  (snapshot 中 < X 的最大分区)     │
-      └─────────────────────────────────┘
-        ↓
-        ├─ ✗ 没有前置快照
-        │     ↓
-        │  【路径 C】只读 delta
-        │     结果：delta(X)
-        │
-        └─ ✓ 找到前置快照 S (如 hour=22)
-              ↓
-        【路径 D】Chain Read
-               读取范围：snapshot(S) + delta(S+1 ~ X)
-               结果：基于 primary-key 合并去重
+span
 ```
 
 ### Delta INSERT OVERWRITE
+
 ```text
   INSERT OVERWRITE `t$branch_snapshot` PARTITION (date = '20250810')
   VALUES ('1', '1', '1');
@@ -75,6 +41,7 @@
 ```
 
 > SELECT t1, t2, t3 FROM `t` WHERE date = '20250811'
+
 ```text
   Chain Read 路径：
   1. main 没有 date='20250811' ✗
@@ -93,6 +60,7 @@
 ```
 
 > SELECT * FROM `t$branch_delta` WHERE date = '20250811'
+
 ```text
   结果：只有 delta 的数据 
   +---+----+----+
@@ -111,6 +79,7 @@
 ```
 
 > SELECT * FROM `t` WHERE date = '20250811'
+
 ```text
 +---+---+---+
 |t1 |t2 |t3 |
@@ -119,7 +88,9 @@
 |2  |2-1|2-1|
 +---+---+---+
 ```
+
 > SELECT * FROM `t$branch_snapshot` WHERE date = '20250811'
+
 ```text
 +---+---+---+--------+
 |t1 |t2 |t3 |date    |
@@ -129,8 +100,16 @@
 +---+---+---+--------+
 ```
 
+#### INSERT OVERWRITE truncate brunch_snapshot
+
+`FileStoreCommitImpl.tryCommitOnce`->`ChainTableOverwriteCommitCallback`:
+这个 callback 的设计意图是：
+
+- 当在 delta 分支上 OVERWRITE 写入时，需要清空 snapshot 分支上对应分区的数据，以保证读取时 delta 分支的数据优先。
+- 因为 chain table 的读取逻辑是：先读 snapshot 分支，如果分区不存在再读 delta 分支。如果 snapshot 分支上已经有数据，那么即使 delta 分支写入了新数据，读取时还是会看到 snapshot 的旧数据。
 
 ## Deep Dive into Chain Table
+
 > select t1, t2, t3 from `t` where date = '20250811'
 
 ```text
@@ -146,6 +125,7 @@ loadTable:300, SparkCatalog (org.apache.paimon.spark)
 ```
 
 ### FallbackReadFileStoreTable
+
 ```text
   FallbackReadFileStoreTable (外层)
   ├── wrapped: table (主分支，如 'main')
@@ -155,6 +135,7 @@ loadTable:300, SparkCatalog (org.apache.paimon.spark)
 ```
 
 所以 内层的 fallback 就是增量分支表，这个设计实现了三级数据回退：
+
 1. main（主分支，最新全量）
 2. branch_snapshot（快照分支，历史全量）
 3. branch_delta（增量分支，增量补充）
@@ -183,10 +164,29 @@ tableScan = FallbackReadFileStoreTable$FallbackReadScan@26574
       └─ fallbackScan     = DataTableBatchScan@26563                       --- 【delta】
 ```
 
-tableScan.plan() 逻辑见 ***hour=24 示例** 
+tableScan.plan() 逻辑见 ***hour=24 示例**
 
+## Notice that
+
+- [offical chain-table notice that](../docs/docs/primary-key-table/chain-table.md)
+- `SELECT * FROM t where dt = '20250812'` no data case [#7532](https://github.com/apache/paimon/issues/7532) :
+  ```text
+  main: (20250809)
+  snapshot: (20250810)
+  delta:    (20250811), (20250813)
+
+  查询 dt=20250813:
+  - delta 有 (20250811), (20250813)
+  - 找到 snapshot anchor (20250810)
+  - 合并返回 20250810~20250813 数据 ✓
+
+  查询 dt=20250812:
+  - delta 没有 (20250812) ✗
+  - 返回为空 ✗
+  ```
 
 ## Troubleshooting
+
 <details>
 <summary>[fs] Fix AWS SDK miss jar s3-transfer-manager</summary>
 
@@ -478,6 +478,7 @@ Caused by: java.lang.ClassNotFoundException: software.amazon.awssdk.transfer.s3.
 	at java.base/java.lang.ClassLoader.loadClass(Unknown Source)
 	... 107 more
 ```
+
 </details>
 
 <details>
@@ -681,10 +682,10 @@ org.apache.spark.SparkException: Job aborted due to stage failure: Failed to ser
 	at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:1134)
 	at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
 ```
+
 </details>
 <details>
 <summary>[spark] Support compact_chain_table procedure</summary>
-
 
 Compact the incremental data of the current cycle with the full data of the previous cycle to generate the full data for the day; for example, the full data for date=20250729 is generated by compacting all incremental partition from 20250723 to 20250729 on t$branch_delta and 20250722 on t$branch_snapshot
 
@@ -692,6 +693,7 @@ Compact the incremental data of the current cycle with the full data of the prev
 - ChainSplit 中增加 dataSplits 字段，是否必要？这里需要：PaimonUtils.createDataset(DataSplit)
   - `CALL sys.compact_chain_table(table => 't', partition => 'dt=20250810,hour=22')`
 - https://github.com/apache/paimon/pull/7313
+
 </details>
 
 ## Reference

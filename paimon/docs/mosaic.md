@@ -1,4 +1,4 @@
-
+## MOSAIC FILE
 ```text
   ┌──────────────────────────────────────────────────────────────────────────────┐
   │                              MOSAIC FILE                                     │
@@ -161,7 +161,7 @@
   └───────────────────┴─────────┴─────────────────────────────────────────────────────────┘
 ```
 
-## mosaic vs parquet
+## mosaic vs other format
 
 ### data structure
 ```text
@@ -206,9 +206,69 @@ orc 通过 RowIndex 来实现快速定位到指定的 Row Group。
 每个row group 默认 128M
 ```
 
-Mosaic Schema 相比其他格式做了很多优化：
-- 压缩列名（front coding + BPE）
+### Parquet vs Mosaic Footer
+```text
+  Parquet Footer 结构:
+  ┌─────────────────────────────────────────────────────────────┐
+  │ FileMetadata (Thrift 编码)                                   │
+  │   - schema: List<SchemaElement>                             │
+  │     - 每个列: name, type, num_children, ...                  │
+  │     - 10,000 列 × ~100 bytes = ~1 MB                        │
+  │   - row_groups: List<RowGroup>                              │
+  │     - 每个 RowGroup: List<ColumnChunk>                       │
+  │     - 每个 ColumnChunk: meta_data, offset, size, stats       │
+  │     - 10,000 列 × ~200 bytes = ~2 MB                         │
+  │   - 总计 Footer: 3-5 MB                                      │
+  └─────────────────────────────────────────────────────────────┘
 
-Mosaic Stat TODO
+  读取 1 列的开销:
+    - 读取 Footer: 3-5 MB I/O
+    - Thrift 反序列化: 解析 10,000 个对象
+    - 构建内存结构: 10,000 个 ColumnChunk 对象
+
+  Mosaic Footer 结构:
+  ┌─────────────────────────────────────────────────────────────┐
+  │ Footer (32 bytes 固定)                                       │
+  │   - indexOffset: 8 bytes                                    │
+  │   - schemaBlockOffset: 8 bytes                              │
+  │   - numBuckets: 4 bytes                                     │
+  │   - numRowGroups: 4 bytes                                   │
+  │   - compression: 1 byte                                     │
+  │   - version: 1 byte                                         │
+  │   - reserved: 2 bytes                                       │
+  │   - magic: 4 bytes                                          │
+  └─────────────────────────────────────────────────────────────┘
+
+  读取 1 列的开销:
+    - 读取 Footer: 32 bytes I/O
+    - 计算桶 ID: hash(columnName) % numBuckets
+    - 读取 Row Group Index: 只解析相关桶的条目（~1/100）
+```
+
+### ORC vs Mosaic
+
+ORC 的 Stripe Footer 确实包含每个列的元数据（Stream、Encoding、Statistics），10,000 列时每个 Stripe Footer 可能达数百 KB。
+读取时需要反序列化这些元数据，即使只读 1 列也要解析所有 10,000 个列的条目，这是 O(n) 开销。
+
+### Mosaic Schema
+Mosaic Schema 相比其他格式做了很多优化：
+- 压缩列名（front coding + BPE） TODO
+  - paimon 为什么不 把 column name 抽到 schema 中？
+    - 既然有 manifest 管理，为什么还把冗余scheme 信息放到 file中？
+- 桶化投影 (Bucket-based Projection)
+    - 10000 列分 100 桶，每桶 ~100 列
+    - 查询 10 列可能只触及 1-2 个桶
+    - 只需解压 1-2% 的数据，而非 100%
+- 小 Footer
+    - 固定 32 bytes 
+    - Parquet/ORC 的 Footer 随列数线性增长，10000 列时可能达 MB 级
+    - 没有 stat
+
+
+
+## Mosaic Stat TODO
 - 但 Mosaic 文件内部没有任何 Row Group 级或更细粒度的统计，所以打开文件后必须读取所有 Row Group，无法跳过。
+- 为什么 manifest里面的 stat 粒度是 file？ 为什么不能是 row group / strip 级别？
+  - 感觉还是工程问题
+  - 既然把统计和 data 分开为什么不能更彻底一点？
 

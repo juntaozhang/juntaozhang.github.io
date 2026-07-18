@@ -98,12 +98,12 @@ public class L673 {
 
     @Test
     public void case1() {
-        System.out.println(findNumberOfLIS3(new int[]{1, 3, 5, 4, 7}));
+        System.out.println(findNumberOfLIS(new int[]{1, 3, 5, 4, 7}));
     }
 
     @Test
     public void case2() {
-        System.out.println(findNumberOfLIS3(new int[]{2, 2, 2, 2}));
+        System.out.println(findNumberOfLIS(new int[]{2, 2, 2, 2}));
     }
 
     @Test

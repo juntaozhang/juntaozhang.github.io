@@ -19,16 +19,16 @@ Parquet 文件采用分层结构，从整体到局部依次为：
 
 - Row group 大小通常与 HDFS 对齐
 
-![Parquet](https://parquet.apache.org/images/FileLayout.gif)
+[Parquet](https://parquet.apache.org/images/FileLayout.gif)
 
-![File metadata](https://parquet.apache.org/images/FileMetaData.svg)
+[File metadata](https://parquet.apache.org/images/FileMetaData.svg)
 
 ### Page Header
 
 - Page size 一般是 1 MB
 - next page header offset = current page header offset + page_header_size + compressed_page_size
 
-![Page header](https://parquet.apache.org/images/PageHeader.svg)
+[Page header](https://parquet.apache.org/images/PageHeader.svg)
 
 通过 data page offset 与 index page offset 读取 PageHeader，通过 compressed page size 获取 PageData 的大小，这样就可以确定 下一个page 的 offset
 
@@ -55,7 +55,7 @@ Parquet 文件采用分层结构，从整体到局部依次为：
 ### Page Data
 
 - PLAIN 编码 + 无空值 + 非嵌套
-  - `[字符串1长度][字符串1字节内容][字符串2长度][字符串2字节内容]...[字符串N长度][字符串N字节内容]`
+  - [字符串1长度][字符串1字节内容][字符串2长度][字符串2字节内容]...
 - PLAIN 编码 + 有空值（新增空值位图）
   - [空值位图（BIT_PACKED 编码）][有效字符串1长度][有效字符串1内容][有效字符串2长度][有效字符串2内容]...
 
@@ -412,6 +412,7 @@ Data Page 0:
 ```
 
 parquet 嵌套带来的劣势：
+
 ```text
 对每个值判断 DL：
  if DL == 0: 整个路径为 null
@@ -423,12 +424,14 @@ parquet 嵌套带来的劣势：
 ```
 
 ORC 无法区分这两种情况：
+
 ```text
 {"id": 2, "user": null}                           // user 为 null
 {"id": 2, "user": {"name": null, "age": null, "sex": null}}  // user 存在但全 null
 ```
 
 Parquet 可以区分：
+
 ```text
 // user 为 null
 user.name DL=0, user.age DL=0, user.sex DL=0
@@ -525,12 +528,8 @@ user.name DL=1, user.age DL=1, user.sex DL=1
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-
-
-
-
-
 ### Map
+
 ```json
 [
   {"id": 1, "tags": {"red": 10, "blue": 20}},
