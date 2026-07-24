@@ -89,7 +89,36 @@
       │                                          (paimon-core/.../mergetree/)
       ├── SortMergeReader (k-way)                ← 归并排序
 ```
-## FLink Connector
+
+### sequenceNumber
+解决什么问题：读的时候是如何合并数据的？
+
+https://paimon.apache.org/docs/master/primary-key-table/sequence-rowkind
+
+MergeTreeWriter：
+它是 每个 bucket 内部单调递增的写序号，从当前 bucket 已有文件的最大 seq + 1 开始
+
+SortMergeReader：
+- you can choose snapshot id instead of the original increased number in `KeyValueDataFileRecordReader`
+- MIN_HEAP
+- LOSER_TREE SortMergeReaderWithLoserTree
+
+```text
+┌──────────────────┬────────────────────────┬──────────────────────────────────┐
+│      比较器      │          作用          │               来源               │
+├──────────────────┼────────────────────────┼──────────────────────────────────┤
+│ firstComparator  │ 比较 user key（主键）  │ keyComparator                    │
+├──────────────────┼────────────────────────┼──────────────────────────────────┤
+│ secondComparator │ 比较 同 key 记录的顺序 │ 由 userDefinedSeqComparator 决定 │
+└──────────────────┴────────────────────────┴──────────────────────────────────┘
+```
+
+key 决定哪些记录要合并，seq 决定合并时的先后顺序。
+没配 sequence.field 用内部 seq；配了先用用户 seq，相等再用内部 sequenceNumber。
+
+对于chain table 涉及多个brunch 会遇到内部sequenceNumber相同情况，需要外部定义字段能递增
+
+## Flink Connector 
 
 Flink 使用 DynamicTableFactory SPI：
 

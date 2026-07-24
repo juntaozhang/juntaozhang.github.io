@@ -13,6 +13,11 @@
 意味着没有额外生成 changelog
 后续 Flink Job 需要该表的 changelog，需要开启 Normalize 算子
 
+StreamExec`ChangelogNormalize `will translateToPlanInternal => ChangelogNormalize which is expensive.
+- KeyedProcessOperator: first will shuffle
+- ProcTimeDeduplicateKeepLastRowFunction: will have a large state to store history to gen -D/-U/+U
+- DeduplicateFunctionHelper
+
 ChangelogNormalize 对于保证数据准确性是必不可少的，但它被称为 Flink CDC 作业中的“重量级”算子。
 在很多生产环境中，它是导致作业反压（Backpressure）和 Checkpoint 超时的首要原因
 

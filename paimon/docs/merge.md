@@ -5,6 +5,32 @@ example `testPartialUpdateRemoveRecordOnSequenceGroup`
 
 PrimaryKeyFileStoreTable
 
+### -U / +U
+Partial-update treats -U and +U as an atomic pair. 
+-U marks which fields to retract;
++U supplies the new values. Without a matching +U, 
+-U is a no-op — no fields are cleared.
+
+### -D
+Partial-update supports two delete behaviors (mutually exclusive):
+- remove-record-on-delete
+  
+  deletes the entire row unconditionally.
+
+- remove-record-on-sequence-group: `testPartialUpdateRemoveRecordOnSequenceGroup`
+  ```text
+    options.set("fields.seq1.sequence-group", "b");
+    options.set("fields.seq2.sequence-group", "c,d");
+    options.set("partial-update.remove-record-on-sequence-group", "seq2");
+  ```
+
+  - -D seq1 >= old version, set null
+  - -D seq2 >= old version, delete entire row
+
+
+
+
+
 ### write
 写入初始化链
 ```text

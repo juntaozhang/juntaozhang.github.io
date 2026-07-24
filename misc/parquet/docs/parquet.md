@@ -19,7 +19,7 @@ Parquet 文件采用分层结构，从整体到局部依次为：
 
 - Row group 大小通常与 HDFS 对齐
 
-[Parquet](https://parquet.apache.org/images/FileLayout.gif)
+![Parquet](https://parquet.apache.org/images/FileLayout.gif)
 
 [File metadata](https://parquet.apache.org/images/FileMetaData.svg)
 
@@ -28,7 +28,7 @@ Parquet 文件采用分层结构，从整体到局部依次为：
 - Page size 一般是 1 MB
 - next page header offset = current page header offset + page_header_size + compressed_page_size
 
-[Page header](https://parquet.apache.org/images/PageHeader.svg)
+![Page header](https://parquet.apache.org/images/PageHeader.svg)
 
 通过 data page offset 与 index page offset 读取 PageHeader，通过 compressed page size 获取 PageData 的大小，这样就可以确定 下一个page 的 offset
 

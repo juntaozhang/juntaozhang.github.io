@@ -26,7 +26,7 @@ span
   snapshot(date='20250810'):
     t1='1', t2='1', t3='1'
 
-  INSERT OVERWRITE `t$branch_delta` PARTITION (date = '20250811')
+  INSERT OVERWRITE `t$branch_delta` PARTITION (date = '202508ChainTableOverwriteCommitCallback11')
   VALUES ('2', '2-2', '2-2'), ('3', '3', '3');
   结果：
   delta(date='20250811'):
@@ -101,6 +101,16 @@ span
 ```
 
 #### INSERT OVERWRITE truncate brunch_snapshot
+
+```text
+Step 1: snapshot@20250808: k=1,2,3
+Step 2: snapshot@20250809: k=1(snap_1_1)
+Step 3: INSERT OVERWRITE delta@20250809: k=2(updated), k=4
+```
+result: snapshot@20250808 + delta@20250809, and snapshot@20250809 will be ignored
+
+Delta insert will append a snapshot in branch-snapshot, to del snapshot@20250809's splits
+
 
 `FileStoreCommitImpl.tryCommitOnce`->`ChainTableOverwriteCommitCallback`:
 这个 callback 的设计意图是：
@@ -184,6 +194,18 @@ tableScan.plan() 逻辑见 ***hour=24 示例**
   - delta 没有 (20250812) ✗
   - 返回为空 ✗
   ```
+  
+## Chain Table Streaming
+chain table stream incremental delta split's has -D -U
+- changelog-producer=none
+  - phase1: ChangelogNormalize will also filter, because of value state is null, key is dt+id
+  - phase2: DataTableStreamScan.createFollowUpScanner -> DeltaFollowUpScanner
+    - get data file, and create dataKind in ChangelogNormalize
+- changelog-producer=input
+  - phase1: DropDeleteReader will filter
+  - phase2 is isolation. it read changelog file directly.
+    - DataTableStreamScan.nextPlan use ChangelogFollowUpScanner get direct changelog file
+    - MergeFileSplitRead.createReader -> createNoMergeReader
 
 ## Troubleshooting
 
