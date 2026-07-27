@@ -20,7 +20,7 @@ imageRegistryCredentials:
   enabled: false
   registry: ""
   username: ""
-  password: ""
+  password: "CHANGEME"
   email: ""
 
 # This is to override the chart name.
@@ -36,8 +36,8 @@ mode:
 secret:
   existingSecret: ""
   rustfs:
-    access_key: rustfsadmin
-    secret_key: rustfsadmin
+    access_key: CHANGEME
+    secret_key: CHANGEME
 
 config:
   rustfs:

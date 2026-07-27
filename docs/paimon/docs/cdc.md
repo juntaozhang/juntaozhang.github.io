@@ -17,7 +17,7 @@ mysql_sync_table
 --mysql_conf hostname=localhost
 --mysql_conf username=root
 --mysql_conf port=3307
---mysql_conf password=root123
+--mysql_conf password=CHANGEME
 --mysql_conf database-name=test
 --mysql_conf table-name=orders
 --mysql_conf server-time-zone=UTC

@@ -17,7 +17,7 @@ public class SparkRowTrackingExample {
             .config("spark.sql.catalog.paimon.warehouse", "s3://warehouse/paimon")
             .config("spark.sql.catalog.paimon.s3.path.style.access", "true")
             .config("spark.sql.catalog.paimon.s3.access-key", "test")
-            .config("spark.sql.catalog.paimon.s3.secret-key", "11111111")
+            .config("spark.sql.catalog.paimon.s3.secret-key", "CHANGEME")
             .config("spark.sql.catalog.paimon.s3.endpoint", "http://localhost:32000")
             .getOrCreate();
     spark.sql("USE paimon.ods");

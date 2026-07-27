@@ -28,7 +28,7 @@ public class PostgreSQLReplicationExample {
     // Database configuration
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/test";
     private static final String DB_USER = "postgres";
-    private static final String DB_PASSWORD = "postgres123";
+    private static final String DB_PASSWORD = "CHANGEME";
     private static final String REPLICATION_SLOT_NAME = "pg_java_cdc_slot";
 
     // Replication configuration

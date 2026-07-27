@@ -7,7 +7,7 @@ This project is currently **under maintenance** and is not accepting new changes
 ```shell
 helm install minio minio/minio \
     --set mode=standalone \
-    --set rootUser=minio,rootPassword=minio12345 \
+    --set rootUser=minio,rootPassword=CHANGEME \
     --set service.type=LoadBalancer \
     --set service.port=9000
 ```
@@ -25,7 +25,7 @@ curl --progress-bar -L https://dl.min.io/aistor/mc/release/darwin-amd64/mc \
     --create-dirs \
     -o /usr/local/bin/mc
     
-mc alias set minio http://127.0.0.1:9000 minio minio12345
+mc alias set minio http://127.0.0.1:9000 minio CHANGEME
 mc mb minio/test
 mc ls minio
 ```
@@ -39,7 +39,7 @@ k run mc \
 ```
 >k exec -it mc -- bash
 ```
-mc alias set minio http://minio-svc:9000 minio minio12345
+mc alias set minio http://minio-svc:9000 minio CHANGEME
 mc ls minio
 ```
 
@@ -53,7 +53,7 @@ Verify data stored in MinIO using mc (MinIO Client):
 
 ```bash
 # Setup MinIO alias
-mc alias set myminio http://minio-svc:9000 minio minio12345
+mc alias set myminio http://minio-svc:9000 minio CHANGEME
 
 # List Paimon table files
 mc ls localminio/warehouse/paimon/ods.db/my_order1/
@@ -97,7 +97,7 @@ Inspect Parquet data files using parquet-tools:
 ```bash
 # Set AWS credentials for S3 access
 export AWS_ACCESS_KEY_ID=minio
-export AWS_SECRET_ACCESS_KEY=minio12345
+export AWS_SECRET_ACCESS_KEY=CHANGEME
 export AWS_REGION=us-east-1
 export AWS_ENDPOINT_URL=http://localhost:9000
 

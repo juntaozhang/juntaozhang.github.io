@@ -8,12 +8,12 @@
 ### mapping问题
 
 #### get all mapping
-- `http://1.82.228.134:19202/_all/_mapping`
+- `http://192.0.2.2:9200/_all/_mapping`
 
 
 #### get indices types
-- `http://1.82.228.134:19202/logs-2017.04.07/_mapping/nginx`
-- `http://1.82.228.134:19202/error-logs-2017.04.05`
+- `http://192.0.2.2:9200/logs-2017.04.07/_mapping/nginx`
+- `http://192.0.2.2:9200/error-logs-2017.04.05`
 
 ### keyword vs text
 ```
@@ -24,13 +24,13 @@ text:会分词
 
 ```
 
-curl -XGET '192.168.0.134:9201/_analyze' -d '
+curl -XGET '192.168.0.1:9201/_analyze' -d '
 {
   "analyzer" : "standard",
   "text" : "this is a test"
 }'
 
-curl -XGET '192.168.0.134:9201/_analyze' -d '
+curl -XGET '192.168.0.1:9201/_analyze' -d '
 {
   "tokenizer" : "keyword",
   "filter" : ["lowercase"],

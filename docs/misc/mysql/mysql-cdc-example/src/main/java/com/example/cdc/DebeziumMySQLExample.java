@@ -25,7 +25,7 @@ public class DebeziumMySQLExample {
         p.setProperty("database.hostname", "localhost");
         p.setProperty("database.port", "3307");
         p.setProperty("database.user", "root");
-        p.setProperty("database.password", "root123");
+        p.setProperty("database.password", "CHANGEME");
         p.setProperty("database.server.id", "1");
         p.setProperty("database.server.name", "mysql");
 

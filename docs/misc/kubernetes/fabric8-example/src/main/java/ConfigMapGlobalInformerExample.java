@@ -21,7 +21,7 @@ public class ConfigMapGlobalInformerExample {
     public static void main(String[] args) throws Exception {
 
         Config config = Config.fromKubeconfig("docker-desktop",
-                IOUtils.toString(new FileInputStream("/Users/juntao/.kube/config")), null);
+                IOUtils.toString(new FileInputStream("~/.kube/config")), null);
         config.setNamespace("default");
         try (KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build()) {
             System.out.println("成功连接集群：" + client.getMasterUrl());

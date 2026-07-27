@@ -30,7 +30,7 @@ datalake.paimon.metastore: filesystem
 datalake.paimon.warehouse: s3://warehouse/paimon
 datalake.paimon.s3.endpoint: http://localhost:32000
 datalake.paimon.s3.access-key: test
-datalake.paimon.s3.secret-key: 11111111
+datalake.paimon.s3.secret-key: CHANGEME
 datalake.paimon.s3.path.style.access: true
 ```
 
@@ -69,7 +69,7 @@ Caused by: java.lang.NullPointerException: Cannot invoke "org.apache.fluss.serve
 remote.data.dir: s3://fluss-bucket/data
 s3.endpoint: http://localhost:32000
 s3.access-key: test
-s3.secret-key: 11111111
+s3.secret-key: CHANGEME
 s3.region: us-east-1
 s3.path.style.access: true
 ```
@@ -88,7 +88,7 @@ Caused by: org.apache.fluss.exception.SecurityTokenException: Failed to get file
 CREATE CATALOG fluss_catalog WITH (
   'type' = 'fluss',
   'paimon.s3.access-key' = 'test',
-  'paimon.s3.secret-key' = '11111111',
+  'paimon.s3.secret-key' = 'CHANGEME',
   'bootstrap.servers' = 'localhost:9123'
 )
 ```

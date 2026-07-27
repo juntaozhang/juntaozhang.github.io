@@ -57,7 +57,7 @@ CREATE TABLE default_catalog.default_database.pg_orders_src (
     'hostname' = 'postgresql',
     'port' = '5432',
     'username' = 'postgres',
-    'password' = 'postgres123',
+    'password' = 'CHANGEME',
     'database-name' = 'test',
     'schema-name' = 'public',
     'table-name' = 'orders',                      -- 可支持正则
@@ -111,7 +111,7 @@ bin/flink run \
     --postgres_conf hostname=postgresql \
     --postgres_conf port=5432 \
     --postgres_conf username=postgres \
-    --postgres_conf password=postgres123 \
+    --postgres_conf password=CHANGEME \
     --postgres_conf database-name=test \
     --postgres_conf schema-name=public \
     --postgres_conf table-name=orders \
@@ -141,7 +141,7 @@ bin/flink run-application \
     -Dfs.s3a.path.style.access=true \
     -Dfs.s3a.connection.ssl.enabled=false \
     -Dfs.s3a.access.key=test \
-    -Dfs.s3a.secret.key=11111111 \
+    -Dfs.s3a.secret.key=CHANGEME \
     -Dstate.checkpoints.dir=s3a://flink-bucket/$cluster_id/checkpoints \
     -Dstate.savepoints.dir=s3a://flink-bucket/$cluster_id/savepoints \
     local:///opt/flink/lib/paimon-flink-action-1.3-20250828.003001-72.jar \
@@ -153,7 +153,7 @@ bin/flink run-application \
     --postgres_conf hostname=postgresql.default.svc.cluster.local \
     --postgres_conf port=5432 \
     --postgres_conf username=postgres \
-    --postgres_conf password=postgres123 \
+    --postgres_conf password=CHANGEME \
     --postgres_conf database-name=test \
     --postgres_conf schema-name=public \
     --postgres_conf table-name=orders \
@@ -184,7 +184,7 @@ bin/flink run \
     --mysql_conf hostname=mysql \
     --mysql_conf username=root \
     --mysql_conf port=3307 \
-    --mysql_conf password=root123 \
+    --mysql_conf password=CHANGEME \
     --mysql_conf database-name='test' \
     --mysql_conf table-name='orders' \
     --table_conf bucket=1 \
@@ -212,7 +212,7 @@ bin/flink run-application \
     -Dfs.s3a.path.style.access=true \
     -Dfs.s3a.connection.ssl.enabled=false \
     -Dfs.s3a.access.key=test \
-    -Dfs.s3a.secret.key=11111111 \
+    -Dfs.s3a.secret.key=CHANGEME \
     local:///opt/flink/lib/paimon-flink-action.jar \
     mysql_sync_table \
     --warehouse s3a://warehouse/paimon \
@@ -222,7 +222,7 @@ bin/flink run-application \
     --mysql_conf hostname=mysql \
     --mysql_conf port=3307 \
     --mysql_conf username=root \
-    --mysql_conf password=root123 \
+    --mysql_conf password=CHANGEME \
     --mysql_conf database-name=test \
     --mysql_conf table-name=orders \
     --table_conf bucket=1 \

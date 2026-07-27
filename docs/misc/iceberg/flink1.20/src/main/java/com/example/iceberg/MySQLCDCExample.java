@@ -78,7 +78,7 @@ public class MySQLCDCExample {
                         'hostname' = 'localhost',
                         'port' = '3306',
                         'username' = 'root',
-                        'password' = 'password',
+                        'password' = 'CHANGEME',
                         'database-name' = 'ecommerce',
                         'table-name' = 'orders',
                         'server-time-zone' = 'Asia/Shanghai',

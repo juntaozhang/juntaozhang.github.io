@@ -13,7 +13,7 @@
 	</property>
 	<property>
 		<name>fs.s3a.secret.key</name>
-		<value>11111111</value>
+		<value>CHANGEME</value>
 	</property>
 	<property>
 		<name>fs.s3a.connection.ssl.enabled</name>

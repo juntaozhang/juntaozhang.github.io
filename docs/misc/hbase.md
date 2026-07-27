@@ -2,10 +2,10 @@
 
 ### create 
 ```
-create 'test',{NAME =>'c', COMPRESSION => 'SNAPPY', VERSIONS => 1, BLOCKCACHE => 'false', BLOOMFILTER => 'ROW', DATA_BLOCK_ENCODING => 'FAST_DIFF'}, {SPLITS_FILE => '/home/dmpots/output_partitions.lst'}
+create 'test',{NAME =>'c', COMPRESSION => 'SNAPPY', VERSIONS => 1, BLOCKCACHE => 'false', BLOOMFILTER => 'ROW', DATA_BLOCK_ENCODING => 'FAST_DIFF'}, {SPLITS_FILE => '/home/user/output_partitions.lst'}
 
 
-hadoop distcp -pb -update -delete hdfs://bd04-001/tmp/device_id_tags_mapping_profile_full/ hdfs://bd15-130.yzdns.com/tmp/device_id_tags_mapping_profile_full/
+hadoop distcp -pb -update -delete hdfs://example-namenode-1/tmp/device_id_tags_mapping_profile_full/ hdfs://example-namenode-2/tmp/device_id_tags_mapping_profile_full/
 hbase org.apache.hadoop.hbase.mapreduce.LoadIncrementalHFiles  bulk_path table_name
 
 测试了一下明确几个问题:
@@ -16,15 +16,15 @@ hbase org.apache.hadoop.hbase.mapreduce.LoadIncrementalHFiles  bulk_path table_n
 3. 数据会被移动到/hbase/data对应表下
 ```
 
-hbase(main):006:0> grant 'juntao','R','test'
+hbase(main):006:0> grant 'example-user','R','test'
 
 major_compact 'dm_phone_mapping_test'
 
-hadoop distcp -pb -update hdfs://bd04-001/user/dataengine/hbase/rp_device_profile_info_test/ hdfs://bd15-101.yzdns.com/tmp/rp_device_profile_info_test/
+hadoop distcp -pb -update hdfs://example-namenode-1/user/dataengine/hbase/rp_device_profile_info_test/ hdfs://example-namenode-2/tmp/rp_device_profile_info_test/
 
 disable 'rp_mobeye_o2o:rp_device_profile_info_test'
 drop 'rp_mobeye_o2o:rp_device_profile_info_test'
-create 'rp_mobeye_o2o:rp_device_profile_info_test',{NAME =>'cf', COMPRESSION => 'SNAPPY', VERSIONS => 1, BLOCKCACHE => 'false', BLOOMFILTER => 'ROW', DATA_BLOCK_ENCODING => 'FAST_DIFF'}, {SPLITS_FILE => '/home/dmpots/output_partitions.lst'}
+create 'rp_mobeye_o2o:rp_device_profile_info_test',{NAME =>'cf', COMPRESSION => 'SNAPPY', VERSIONS => 1, BLOCKCACHE => 'false', BLOOMFILTER => 'ROW', DATA_BLOCK_ENCODING => 'FAST_DIFF'}, {SPLITS_FILE => '/home/user/output_partitions.lst'}
 
 
 自定义partiton df join 
@@ -58,7 +58,7 @@ spark.sql.sources.provider	orc
 主要是shuffle阶段依赖的文件太多导致:具体问题还待研究
 
 DiskStore IllegalArgumentException: Size exceeds Integer.MAX_VALUE 没有解决
-http://bd04-031:18089/history/application_1530348593010_5185/1/executors/
+http://example-host:18089/history/application_1530348593010_5185/1/executors/
 https://issues.apache.org/jira/browse/SPARK-6238   
 >hdfs dfs -du -h $HDFS_HIVE/rp_dataengine.db/rp_device_profile_info|grep -v "32."|grep -v "33."|grep -v "34."|grep -v "31."
 

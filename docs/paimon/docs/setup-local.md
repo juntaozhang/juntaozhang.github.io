@@ -23,7 +23,7 @@ mvn checkstyle:checkstyle
 <summary>package sun.misc does not exist？</summary>
 
 ```text
-/Users/juntao/src/github.com/apache/paimon/paimon-common/src/main/java/org/apache/paimon/memory/MemorySegment.java:49:33
+/path/to/paimon/paimon-common/src/main/java/org/apache/paimon/memory/MemorySegment.java:49:33
 package sun.misc does not exist
 sun.misc.Unsafe
 ```

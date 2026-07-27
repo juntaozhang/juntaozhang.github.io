@@ -46,7 +46,7 @@ public class MySqlCdcDemo {
         this.host = props.getProperty("mysql.host", "localhost");
         this.port = Integer.parseInt(props.getProperty("mysql.port", "3307"));
         this.username = props.getProperty("mysql.username", "test");
-        this.password = props.getProperty("mysql.password", "test12345");
+        this.password = props.getProperty("mysql.password", "CHANGEME");
     }
 
     public void startCdcListener() throws IOException {

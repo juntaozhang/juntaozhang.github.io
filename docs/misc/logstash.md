@@ -14,7 +14,7 @@
 #### [grok debug](http://grokdebug.herokuapp.com/?#)
 
 ```
-9789123.12 12 209.131.54.138 TCP_HIT/200 4771 GET https://docs.trafficserver.apache.org/en/latest/admin-guide/monitoring/logging/log-formats.en.html?highlight=logformat - NONE/- image/jpeg
+9789123.12 12 192.0.2.10 TCP_HIT/200 4771 GET https://docs.trafficserver.apache.org/en/latest/admin-guide/monitoring/logging/log-formats.en.html?highlight=logformat - NONE/- image/jpeg
 
 %{BASE16FLOAT:cqtq} %{INT:ttms} %{IPORHOST:chi} %{WORD:crc}/%{INT:pssc} %{INT:psql} %{WORD:cqhm} %{URI:cauc} %{USERNAME:caun} %{WORD:phr}/%{ATS_PQSN:pqsn} %{ATS_CONTENT_TYPE:psct}
 
@@ -48,7 +48,7 @@ logstash-filter-example.gemspec 改为=>
 **???Could not find gem 'logstash-devutils' in any of the gem sources listed in your Gemfile or available on this machine.**
 
 ```
-MacBookPro:logstash-filter-example juntao$ sudo gem install logstash-devutils
+MacBookPro:logstash-filter-example example-user$ sudo gem install logstash-devutils
 Password:
 ERROR:  Could not find a valid gem 'logstash-devutils' (>= 0), here is why:
           Found logstash-devutils (1.0.2), but was for platform java
@@ -74,7 +74,7 @@ logstash agent -f conf/test.conf -r -w 40 -b 1000 | pv -btr > /dev/null
 ```
     elasticsearch {
          remove_field => ["remote_user","request_method", "message","@version","path","time_local","request_url","http_version","http_referer","http_user_agent","http_x_forwarded_for","connection","remote_addr_main" ]
-         hosts => ["219.144.80.196:19200"]
+         hosts => ["localhost:9200"]
          template => "/home/logstash/elasticsearch-template.json"
          template_overwrite => true
     }
@@ -88,8 +88,8 @@ logstash agent -f conf/test.conf -r -w 40 -b 1000 | pv -btr > /dev/null
         batch=> true
         batch_events=> 100
                key=> "logstash-%{type}"
-               sentinel_hosts=>["192.168.1.158:26379","192.168.1.156:26379"]
-               password=>"redis!QAZxsw2"
+               sentinel_hosts=>["192.168.0.11:26379","192.168.0.12:26379"]
+               password=>"${CHANGEME}"
    }
 ```
 

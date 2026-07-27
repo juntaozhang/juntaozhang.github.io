@@ -22,6 +22,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run TruffleHog
+        uses: trufflesecurity/trufflehog@v3.96.0
+        with:
+          path: ./
+          extra_args: --config .trufflehog.yml --results=verified,unknown,unverified
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -33,10 +41,15 @@ jobs:
           npm install -g yarn
           yarn install --frozen-lockfile || yarn install
 
-      - name: Build
+      - name: Build doc
         env:
           NODE_OPTIONS: --max-old-space-size=4096
         run: yarn build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
 
   deploy:
     name: Deploy to GitHub Pages
@@ -48,4 +61,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

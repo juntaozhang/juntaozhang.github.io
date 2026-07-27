@@ -34,7 +34,7 @@ $FLINK_HOME/bin/kubernetes-session.sh \
     -Dfs.s3a.path.style.access=true \
     -Dfs.s3a.connection.ssl.enabled=false \
     -Dfs.s3a.access.key=test \
-    -Dfs.s3a.secret.key=11111111 \
+    -Dfs.s3a.secret.key=CHANGEME \
     -Dstate.checkpoints.dir=s3a://flink-bucket/$cluster_id/checkpoints \
     -Dstate.savepoints.dir=s3a://flink-bucket/$cluster_id/savepoints
 ```

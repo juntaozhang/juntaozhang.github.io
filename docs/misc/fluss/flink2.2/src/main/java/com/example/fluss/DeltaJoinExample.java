@@ -73,7 +73,7 @@ public class DeltaJoinExample {
                 "CREATE CATALOG fluss_catalog WITH ("
                         + "'type' = 'fluss', "
                         + "'paimon.s3.access-key' = 'test', "
-                        + "'paimon.s3.secret-key' = '11111111', "
+                        + "'paimon.s3.secret-key' = 'CHANGEME', "
                         + "'bootstrap.servers' = 'localhost:9123'"
                         + ")"
         );

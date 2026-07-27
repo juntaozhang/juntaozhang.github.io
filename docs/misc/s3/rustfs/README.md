@@ -30,7 +30,7 @@ curl --progress-bar -L https://dl.min.io/aistor/mc/release/linux-amd64/mc \
     --create-dirs \
     -o /usr/bin/mc
 chmod +x /usr/bin/mc
-mc alias set rustfs http://rustfs-svc:9000 test 11111111
+mc alias set rustfs http://rustfs-svc:9000 test CHANGEME
 mc ls rustfs
 ```
 

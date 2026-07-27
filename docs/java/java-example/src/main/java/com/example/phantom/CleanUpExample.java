@@ -14,7 +14,7 @@ public class CleanUpExample {
 
   {
     try {
-      input = new FileInputStream("/Users/juntaozhang/src/juntaozhang/juntaozhang.github.io/java/phantom/CleanUpExample.java");
+      input = new FileInputStream("/path/to/project/java/phantom/CleanUpExample.java");
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }

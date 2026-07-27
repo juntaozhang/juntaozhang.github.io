@@ -53,15 +53,15 @@ sidebar_position: 4
 
 给classes下的文件赋读写权限
 ```
-grant codeBase "file:/Users/juntaozhang/GitProj/my-jdk-test/jaas/demo3/classes/*" {
-    permission "java.io.FilePermission" "/Users/juntaozhang/GitProj/my-jdk-test/jaas/demo3/data/test.txt", "read,write";
+grant codeBase "file:/path/to/GitProj/my-jdk-test/jaas/demo3/classes/*" {
+    permission "java.io.FilePermission" "/path/to/GitProj/my-jdk-test/jaas/demo3/data/test.txt", "read,write";
 };
 ``` 
 
 给classes下的文件赋所有权限
 
 ``` 
-grant codeBase "file:/Users/juntaozhang/GitProj/my-jdk-test/jaas/demo3/classes/*" {
+grant codeBase "file:/path/to/GitProj/my-jdk-test/jaas/demo3/classes/*" {
     permission java.security.AllPermission;
 };
 ```

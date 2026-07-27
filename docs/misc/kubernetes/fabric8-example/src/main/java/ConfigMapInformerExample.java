@@ -16,7 +16,7 @@ public class ConfigMapInformerExample {
         String name = "my-test";
         String key = "%s/%s".formatted(namespace, name);
         Config config = Config.fromKubeconfig("docker-desktop",
-                IOUtils.toString(new FileInputStream("/Users/juntao/.kube/config")), null);
+                IOUtils.toString(new FileInputStream("~/.kube/config")), null);
         config.setNamespace(namespace);
         try (KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build()) {
             System.out.println("成功连接到 Kubernetes 集群：" + client.getMasterUrl());

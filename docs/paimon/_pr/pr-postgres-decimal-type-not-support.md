@@ -52,7 +52,7 @@ bin/flink run \
     --postgres_conf hostname=xxx \
     --postgres_conf port=5432 \
     --postgres_conf username=postgres \
-    --postgres_conf password=xxx \
+    --postgres_conf password=CHANGEME \
     --postgres_conf database-name=test \
     --postgres_conf schema-name=public \
     --postgres_conf table-name=orders \

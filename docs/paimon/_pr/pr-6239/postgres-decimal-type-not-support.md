@@ -119,7 +119,7 @@ postgres_sync_table
 --postgres_conf hostname=localhost
 --postgres_conf port=5432
 --postgres_conf username=postgres
---postgres_conf password=postgres123
+--postgres_conf password=CHANGEME
 --postgres_conf database-name=test
 --postgres_conf schema-name=public
 --postgres_conf table-name=orders
@@ -149,7 +149,7 @@ username=root
 --mysql_conf
 port=3307
 --mysql_conf
-password=root123
+password=CHANGEME
 --mysql_conf
 database-name=test
 --mysql_conf

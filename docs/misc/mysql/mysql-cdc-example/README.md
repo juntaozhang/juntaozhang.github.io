@@ -40,7 +40,7 @@ GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'root'@'%';
 mysql.host=localhost
 mysql.port=3307
 mysql.username=root
-mysql.password=root123
+mysql.password=CHANGEME
 ```
 
 3. Run the application:

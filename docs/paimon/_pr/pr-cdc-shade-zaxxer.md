@@ -70,7 +70,7 @@ bin/kubernetes-session.sh \
     -Dfs.s3a.path.style.access=true \
     -Dfs.s3a.connection.ssl.enabled=false \
     -Dfs.s3a.access.key=test \
-    -Dfs.s3a.secret.key=11111111 \
+    -Dfs.s3a.secret.key=CHANGEME \
     -Dstate.checkpoints.dir=s3a://flink-bucket/$cluster_id/checkpoints \
     -Dstate.savepoints.dir=s3a://flink-bucket/$cluster_id/savepoints
 
@@ -88,7 +88,7 @@ bin/flink run \
     --mysql_conf hostname=mysql \
     --mysql_conf username=root \
     --mysql_conf port=3307 \
-    --mysql_conf password=root123 \
+    --mysql_conf password=CHANGEME \
     --mysql_conf database-name='test' \
     --mysql_conf table-name='orders' \
     --table_conf bucket=1 \
@@ -98,7 +98,7 @@ bin/flink run \
 
 https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/deployment/resource-providers/native_kubernetes/
 ```shell
-k run mysql-client   --image=docker.io/bitnamilegacy/mysql:8.3.0-debian-12-r3   --rm -it   --restart=Never -- mysql -h mysql -u root -proot123 -P3307
+k run mysql-client   --image=docker.io/bitnamilegacy/mysql:8.3.0-debian-12-r3   --rm -it   --restart=Never -- mysql -h mysql -u root -pCHANGEME -P3307
 
 export cluster_id=flink-mysql-sync-table
 bin/flink run-application \
@@ -117,7 +117,7 @@ bin/flink run-application \
     -Dfs.s3a.path.style.access=true \
     -Dfs.s3a.connection.ssl.enabled=false \
     -Dfs.s3a.access.key=test \
-    -Dfs.s3a.secret.key=11111111 \
+    -Dfs.s3a.secret.key=CHANGEME \
     lib/paimon-flink-action.jar \
     mysql_sync_table \
     --warehouse s3a://warehouse/paimon \
@@ -127,7 +127,7 @@ bin/flink run-application \
     --mysql_conf hostname=mysql \
     --mysql_conf port=3307 \
     --mysql_conf username=root \
-    --mysql_conf password=root123 \
+    --mysql_conf password=CHANGEME \
     --mysql_conf database-name=test \
     --mysql_conf table-name=orders \
     --table_conf bucket=1 \
@@ -140,11 +140,11 @@ IntelliJ local test:
 ```log
 Connected to the target VM, address: '127.0.0.1:57722', transport: 'socket'
 SLF4J: Class path contains multiple SLF4J bindings.
-SLF4J: Found binding in [jar:file:/Users/juntao/.m2/repository/org/slf4j/slf4j-reload4j/1.7.36/slf4j-reload4j-1.7.36.jar!/org/slf4j/impl/StaticLoggerBinder.class]
-SLF4J: Found binding in [jar:file:/Users/juntao/.m2/repository/org/apache/logging/log4j/log4j-slf4j-impl/2.20.0/log4j-slf4j-impl-2.20.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:~/.m2/repository/org/slf4j/slf4j-reload4j/1.7.36/slf4j-reload4j-1.7.36.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:~/.m2/repository/org/apache/logging/log4j/log4j-slf4j-impl/2.20.0/log4j-slf4j-impl-2.20.0.jar!/org/slf4j/impl/StaticLoggerBinder.class]
 SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
 SLF4J: Actual binding is of type [org.slf4j.impl.Reload4jLoggerFactory]
-09:31:04,621 INFO  org.apache.paimon.flink.action.ActionFactory                 [] - mysql_sync_table job args: --warehouse s3a://warehouse/paimon --database ods --table orders --primary_keys id --mysql_conf hostname=localhost --mysql_conf username=root --mysql_conf port=3307 --mysql_conf password=root123 --mysql_conf database-name=test --mysql_conf table-name=orders --mysql_conf server-time-zone=UTC --table_conf bucket=1 --table_conf merge-engine=deduplicate --table_conf changelog-producer=input
+09:31:04,621 INFO  org.apache.paimon.flink.action.ActionFactory                 [] - mysql_sync_table job args: --warehouse s3a://warehouse/paimon --database ods --table orders --primary_keys id --mysql_conf hostname=localhost --mysql_conf username=root --mysql_conf port=3307 --mysql_conf password=CHANGEME --mysql_conf database-name=test --mysql_conf table-name=orders --mysql_conf server-time-zone=UTC --table_conf bucket=1 --table_conf merge-engine=deduplicate --table_conf changelog-producer=input
 09:31:04,695 WARN  org.apache.paimon.utils.HadoopUtils                          [] - Could not find Hadoop configuration via any of the supported methods
 09:31:05,190 WARN  org.apache.hadoop.metrics2.impl.MetricsConfig                [] - Cannot locate configuration: tried hadoop-metrics2-s3a-file-system.properties,hadoop-metrics2.properties
 09:31:05,320 WARN  org.apache.hadoop.util.NativeCodeLoader                      [] - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable

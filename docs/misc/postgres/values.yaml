@@ -1,5 +1,5 @@
 auth:
-  postgresPassword: "postgres123"
+  postgresPassword: "CHANGEME"
   database: "test"
 
 image:

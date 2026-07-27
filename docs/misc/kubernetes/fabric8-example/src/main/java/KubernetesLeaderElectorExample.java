@@ -107,7 +107,7 @@ public class KubernetesLeaderElectorExample {
     public static void main(String[] args) throws Exception {
         String namespace = "default";
         Config config = Config.fromKubeconfig("docker-desktop",
-                IOUtils.toString(new FileInputStream("/Users/juntao/.kube/config")), null);
+                IOUtils.toString(new FileInputStream("~/.kube/config")), null);
         config.setNamespace(namespace);
         try (KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build()) {
             KubernetesLeaderElector elector = new KubernetesLeaderElector(namespace, "ha-test", client);

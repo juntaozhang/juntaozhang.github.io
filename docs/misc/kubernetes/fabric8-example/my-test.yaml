@@ -4,4 +4,4 @@ metadata:
   name: my-test
   namespace: default
 data:
-  name: juntao
+  name: example-user

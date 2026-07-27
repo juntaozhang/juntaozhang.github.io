@@ -20,7 +20,7 @@ request payload:
     "auth.kerberos.krb5": "",
     "auth.type": "AK/SK",
     "auth.ak_sk.access_key": "test",
-    "auth.ak_sk.secret_key": "11111111"
+    "auth.ak_sk.secret_key": "CHANGEME"
   },
   "properties": {
     "warehouse": "s3://warehouse/paimon",

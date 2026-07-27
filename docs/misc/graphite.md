@@ -56,7 +56,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'USER': 'graphite',
-        'PASSWORD': 'graphite',
+        'PASSWORD': 'CHANGEME',
         'HOST': 'localhost',
         'PORT': 'graphite'
     }
@@ -70,7 +70,7 @@ cp conf/storage-aggregation.conf{.example,}
 
 create mysql database
 CREATE DATABASE graphite;
-GRANT ALL PRIVILEGES ON graphite.* TO 'graphite'@'192.168.11.78' IDENTIFIED BY 'graphite';
+GRANT ALL PRIVILEGES ON graphite.* TO 'graphite'@'192.168.0.20' IDENTIFIED BY 'CHANGEME';
 FLUSH PRIVILEGES;
 
 python manage.py syncdb
@@ -90,7 +90,7 @@ bin/carbon-cache.py start
 
 ```
 [uwsgi]
-socket = 192.168.11.78:8630
+socket = 192.168.0.20:8630
 chdir=/opt/graphite/conf
 module=wsgi
 master=True
@@ -99,7 +99,7 @@ pidfile=/var/run/uwsgi-graphite.pid
 vacuum=True
 max-requests=5000
 daemonize=/var/log/uwsgi-graphite.log
-stats=192.168.11.78:9192
+stats=192.168.0.20:9192
 protocol=http
 
 uwsgi --ini graphite.ini

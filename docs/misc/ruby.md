@@ -36,9 +36,9 @@ tmp = DmCodec.encodeB62("aaa")
 require 'redis'
 
 Sentinels = [{:host => "127.0.0.1", :port => 26380}]
-r = Redis.new(:url => "redis://mymaster", :sentinels => Sentinels, :role => :master,:password=>'123')
+r = Redis.new(:url => "redis://mymaster", :sentinels => Sentinels, :role => :master,:password=>'CHANGEME')
 
 puts r.get("name")
-r.set("name","zhangjt")
+r.set("name","example-user")
 puts r.get("name")
 ```

@@ -43,7 +43,7 @@ public class FlinkReadExample {
         tEnv.executeSql("CREATE CATALOG fluss_catalog WITH (\n" +
                 "                  'type' = 'fluss',\n" +
                 "                  'paimon.s3.access-key' = 'test',\n" +
-                "                  'paimon.s3.secret-key' = '11111111',\n" +
+                "                  'paimon.s3.secret-key' = 'CHANGEME',\n" +
                 "                  'bootstrap.servers' = 'localhost:9123'\n" +
                 "                )");
         tEnv.executeSql("use catalog fluss_catalog");

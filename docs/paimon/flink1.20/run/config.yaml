@@ -302,5 +302,5 @@ fs:
     path.style.access: true
     connection.ssl.enabled: false
     access.key: test
-    secret.key: 11111111
+    secret.key: CHANGEME
     aws.credentials.provider: org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider

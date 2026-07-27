@@ -1,8 +1,8 @@
 auth:
-  rootPassword: root123
+  rootPassword: CHANGEME
   database: test
   username: test
-  password: test12345
+  password: CHANGEME
 
 image:
   registry: docker.io

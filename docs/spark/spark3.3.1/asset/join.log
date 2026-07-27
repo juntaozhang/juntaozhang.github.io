@@ -7,11 +7,11 @@
 15:13:53.115 [ScalaTest-run] INFO  org.apache.spark.resource.ResourceProfile - Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
 15:13:53.128 [ScalaTest-run] INFO  org.apache.spark.resource.ResourceProfile - Limiting resource is cpu
 15:13:53.128 [ScalaTest-run] INFO  org.apache.spark.resource.ResourceProfileManager - Added ResourceProfile id: 0
-15:13:53.206 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - Changing view acls to: juntao
-15:13:53.206 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - Changing modify acls to: juntao
+15:13:53.206 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - Changing view acls to: example-user
+15:13:53.206 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - Changing modify acls to: example-user
 15:13:53.207 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - Changing view acls groups to: 
 15:13:53.207 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - Changing modify acls groups to: 
-15:13:53.207 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(juntao); groups with view permissions: Set(); users  with modify permissions: Set(juntao); groups with modify permissions: Set()
+15:13:53.207 [ScalaTest-run] INFO  org.apache.spark.SecurityManager - SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(example-user); groups with view permissions: Set(); users  with modify permissions: Set(example-user); groups with modify permissions: Set()
 15:13:53.304 [ScalaTest-run] DEBUG io.netty.util.internal.logging.InternalLoggerFactory - Using SLF4J as the default logging framework
 15:13:53.315 [ScalaTest-run] DEBUG io.netty.util.internal.InternalThreadLocalMap - -Dio.netty.threadLocalMap.stringBuilder.initialSize: 1024
 15:13:53.315 [ScalaTest-run] DEBUG io.netty.util.internal.InternalThreadLocalMap - -Dio.netty.threadLocalMap.stringBuilder.maxSize: 4096
@@ -77,17 +77,17 @@
 15:13:53.786 [ScalaTest-run] DEBUG org.apache.spark.SecurityManager - Created SSL options for ui: SSLOptions{enabled=false, port=None, keyStore=None, keyStorePassword=None, trustStore=None, trustStorePassword=None, protocol=None, enabledAlgorithms=Set()}
 15:13:53.977 [ScalaTest-run] DEBUG org.apache.spark.ui.JettyUtils - Using requestHeaderSize: 8192
 15:13:54.011 [ScalaTest-run] INFO  org.apache.spark.util.Utils - Successfully started service 'SparkUI' on port 4040.
-15:13:54.126 [ScalaTest-run] INFO  org.apache.spark.executor.Executor - Starting executor ID driver on host 192.168.31.150
+15:13:54.126 [ScalaTest-run] INFO  org.apache.spark.executor.Executor - Starting executor ID driver on host 192.168.0.100
 15:13:54.135 [ScalaTest-run] INFO  org.apache.spark.executor.Executor - Starting executor with user classpath (userClassPathFirst = false): ''
 15:13:54.160 [ScalaTest-run] DEBUG org.apache.spark.network.server.TransportServer - Shuffle server started on port: 56517
 15:13:54.160 [ScalaTest-run] INFO  org.apache.spark.util.Utils - Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 56517.
-15:13:54.160 [ScalaTest-run] INFO  org.apache.spark.network.netty.NettyBlockTransferService - Server created on 192.168.31.150:56517
+15:13:54.160 [ScalaTest-run] INFO  org.apache.spark.network.netty.NettyBlockTransferService - Server created on 192.168.0.100:56517
 15:13:54.162 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManager - Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
-15:13:54.169 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManagerMaster - Registering BlockManager BlockManagerId(driver, 192.168.31.150, 56517, None)
-15:13:54.172 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.DefaultTopologyMapper - Got a request for 192.168.31.150
-15:13:54.173 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerMasterEndpoint - Registering block manager 192.168.31.150:56517 with 4.1 GiB RAM, BlockManagerId(driver, 192.168.31.150, 56517, None)
-15:13:54.176 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManagerMaster - Registered BlockManager BlockManagerId(driver, 192.168.31.150, 56517, None)
-15:13:54.177 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManager - Initialized BlockManager: BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:13:54.169 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManagerMaster - Registering BlockManager BlockManagerId(driver, 192.168.0.100, 56517, None)
+15:13:54.172 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.DefaultTopologyMapper - Got a request for 192.168.0.100
+15:13:54.173 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerMasterEndpoint - Registering block manager 192.168.0.100:56517 with 4.1 GiB RAM, BlockManagerId(driver, 192.168.0.100, 56517, None)
+15:13:54.176 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManagerMaster - Registered BlockManager BlockManagerId(driver, 192.168.0.100, 56517, None)
+15:13:54.177 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManager - Initialized BlockManager: BlockManagerId(driver, 192.168.0.100, 56517, None)
 15:13:54.401 [ScalaTest-run] DEBUG org.apache.spark.SparkContext - Adding shutdown hook
 
 
@@ -96,7 +96,7 @@
 15:13:54.598 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.internal.SharedState - Applying other initial session options to HadoopConf: spark.app.name -> LogicalPlanTest
 15:13:54.598 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.internal.SharedState - Applying other initial session options to HadoopConf: spark.master -> local
 15:13:54.599 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.internal.SharedState - Applying static initial session options to SparkConf: spark.sql.catalogImplementation -> hive
-15:13:54.604 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.internal.SharedState - Warehouse path is 'file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse'.
+15:13:54.604 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.internal.SharedState - Warehouse path is 'file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse'.
 15:13:55.870 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.execution.SparkSqlParser - Parsing command: SET spark.sql.adaptive.enabled = false
 org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleStatementContext =>  SETspark.sql.adaptive.enabled=false <EOF>
 org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleStatementContext =>  SETspark.sql.adaptive.enabled=false <EOF>
@@ -235,13 +235,13 @@ Unresolved Logical Plan ====>
    +- 'UnresolvedRelation [t2], [], false
 
 15:13:58.986 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.hive.HiveUtils - Initializing HiveMetastoreConnection version 2.3.9 using Spark classes.
-15:13:59.569 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.hive.client.HiveClientImpl - Warehouse location for Hive client (version 2.3.9) is file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse
+15:13:59.569 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.hive.client.HiveClientImpl - Warehouse location for Hive client (version 2.3.9) is file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse
 15:13:59.854 [ScalaTest-run-running-SortMergeJoinSpec] WARN  org.apache.hadoop.hive.conf.HiveConf - HiveConf of name hive.stats.jdbc.timeout does not exist
 15:13:59.855 [ScalaTest-run-running-SortMergeJoinSpec] WARN  org.apache.hadoop.hive.conf.HiveConf - HiveConf of name hive.stats.retries.wait does not exist
 15:14:00.662 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG com.jolbox.bonecp.BoneCPDataSource - JDBC URL = jdbc:derby:;databaseName=metastore_db;create=true, Username = APP, partitions = 1, max (per partition) = 10, min (per partition) = 0, idle max age = 60 min, idle test period = 240 min, strategy = DEFAULT
 15:14:02.263 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG com.jolbox.bonecp.BoneCPDataSource - JDBC URL = jdbc:derby:;databaseName=metastore_db;create=true, Username = APP, partitions = 1, max (per partition) = 10, min (per partition) = 0, idle max age = 60 min, idle test period = 240 min, strategy = DEFAULT
 15:14:02.667 [ScalaTest-run-running-SortMergeJoinSpec] WARN  org.apache.hadoop.hive.metastore.ObjectStore - Version information not found in metastore. hive.metastore.schema.verification is not enabled so recording the schema version 2.3.0
-15:14:02.667 [ScalaTest-run-running-SortMergeJoinSpec] WARN  org.apache.hadoop.hive.metastore.ObjectStore - setMetaStoreSchemaVersion called but recording version is disabled: version = 2.3.0, comment = Set by MetaStore juntao@192.168.31.150
+15:14:02.667 [ScalaTest-run-running-SortMergeJoinSpec] WARN  org.apache.hadoop.hive.metastore.ObjectStore - setMetaStoreSchemaVersion called but recording version is disabled: version = 2.3.0, comment = Set by MetaStore example-user@192.168.0.100
 15:14:03.080 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: int
 org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  int <EOF>
 org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  int
@@ -668,7 +668,7 @@ Project [id#20, name#21]
 】 --> 【
 Project [id#20, name#21]
 +- Filter isnotnull(id#20)
-   +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+   +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
 】
 
 15:14:03.774 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.sql.execution.datasources.DataSourceStrategy - Pruning directories with: 
@@ -682,7 +682,7 @@ Project [id#23, value#24]
 】 --> 【
 Project [id#23, value#24]
 +- Filter isnotnull(id#23)
-   +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+   +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 】
 
 sparkPlan ====> 
@@ -691,10 +691,10 @@ CollectLimit 21
    +- SortMergeJoin [id#20], [id#23], Inner
       :- Project [id#20, name#21]
       :  +- Filter isnotnull(id#20)
-      :     +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :     +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- Project [id#23, value#24]
          +- Filter isnotnull(id#23)
-            +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+            +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 
 org.apache.spark.sql.execution.QueryExecution$ - org.apache.spark.sql.execution.exchange.EnsureRequirements -->【
 CollectLimit 21
@@ -702,10 +702,10 @@ CollectLimit 21
    +- SortMergeJoin [id#20], [id#23], Inner
       :- Project [id#20, name#21]
       :  +- Filter isnotnull(id#20)
-      :     +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :     +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- Project [id#23, value#24]
          +- Filter isnotnull(id#23)
-            +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+            +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 】 --> 【
 CollectLimit 21
 +- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
@@ -714,12 +714,12 @@ CollectLimit 21
       :  +- Exchange hashpartitioning(id#20, 2), ENSURE_REQUIREMENTS, [plan_id=33]
       :     +- Project [id#20, name#21]
       :        +- Filter isnotnull(id#20)
-      :           +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :           +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- Sort [id#23 ASC NULLS FIRST], false, 0
          +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=34]
             +- Project [id#23, value#24]
                +- Filter isnotnull(id#23)
-                  +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+                  +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 】
 
 org.apache.spark.sql.execution.QueryExecution$ - org.apache.spark.sql.execution.ApplyColumnarRulesAndInsertTransitions -->【
@@ -730,12 +730,12 @@ CollectLimit 21
       :  +- Exchange hashpartitioning(id#20, 2), ENSURE_REQUIREMENTS, [plan_id=33]
       :     +- Project [id#20, name#21]
       :        +- Filter isnotnull(id#20)
-      :           +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :           +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- Sort [id#23 ASC NULLS FIRST], false, 0
          +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=34]
             +- Project [id#23, value#24]
                +- Filter isnotnull(id#23)
-                  +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+                  +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 】 --> 【
 CollectLimit 21
 +- Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
@@ -745,13 +745,13 @@ CollectLimit 21
       :     +- Project [id#20, name#21]
       :        +- Filter isnotnull(id#20)
       :           +- ColumnarToRow
-      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- Sort [id#23 ASC NULLS FIRST], false, 0
          +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=48]
             +- Project [id#23, value#24]
                +- Filter isnotnull(id#23)
                   +- ColumnarToRow
-                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 】
 
 org.apache.spark.sql.execution.QueryExecution$ - org.apache.spark.sql.execution.CollapseCodegenStages -->【
@@ -763,13 +763,13 @@ CollectLimit 21
       :     +- Project [id#20, name#21]
       :        +- Filter isnotnull(id#20)
       :           +- ColumnarToRow
-      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- Sort [id#23 ASC NULLS FIRST], false, 0
          +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=48]
             +- Project [id#23, value#24]
                +- Filter isnotnull(id#23)
                   +- ColumnarToRow
-                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 】 --> 【
 CollectLimit 21
 +- *(5) Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
@@ -779,13 +779,13 @@ CollectLimit 21
       :     +- *(1) Project [id#20, name#21]
       :        +- *(1) Filter isnotnull(id#20)
       :           +- *(1) ColumnarToRow
-      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- *(4) Sort [id#23 ASC NULLS FIRST], false, 0
          +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=68]
             +- *(3) Project [id#23, value#24]
                +- *(3) Filter isnotnull(id#23)
                   +- *(3) ColumnarToRow
-                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 】
 
 org.apache.spark.sql.execution.QueryExecution$ prepareForExecution final result ==>【
@@ -794,10 +794,10 @@ CollectLimit 21
    +- SortMergeJoin [id#20], [id#23], Inner
       :- Project [id#20, name#21]
       :  +- Filter isnotnull(id#20)
-      :     +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :     +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- Project [id#23, value#24]
          +- Filter isnotnull(id#23)
-            +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+            +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 】 ==> 【
 CollectLimit 21
 +- *(5) Project [cast(id#20 as string) AS id#34, name#21, cast(value#24 as string) AS value#36]
@@ -807,13 +807,13 @@ CollectLimit 21
       :     +- *(1) Project [id#20, name#21]
       :        +- *(1) Filter isnotnull(id#20)
       :           +- *(1) ColumnarToRow
-      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- *(4) Sort [id#23 ASC NULLS FIRST], false, 0
          +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=68]
             +- *(3) Project [id#23, value#24]
                +- *(3) Filter isnotnull(id#23)
                   +- *(3) ColumnarToRow
-                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 】
 
 executedPlan ====> 
@@ -825,13 +825,13 @@ CollectLimit 21
       :     +- *(1) Project [id#20, name#21]
       :        +- *(1) Filter isnotnull(id#20)
       :           +- *(1) ColumnarToRow
-      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- *(4) Sort [id#23 ASC NULLS FIRST], false, 0
          +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=68]
             +- *(3) Project [id#23, value#24]
                +- *(3) Filter isnotnull(id#23)
                   +- *(3) ColumnarToRow
-                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 
 Analyzer(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$1@77e6053) org.apache.spark.sql.catalyst.analysis.Analyzer$ResolveDeserializer --> old【
 'DeserializeToObject unresolveddeserializer(createexternalrow(getcolumnbyordinal(0, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)).toString, getcolumnbyordinal(1, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)).toString, getcolumnbyordinal(2, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true)).toString, StructField(id,StringType,true), StructField(name,StringType,true), StructField(value,StringType,true))), obj#40: org.apache.spark.sql.Row
@@ -860,13 +860,13 @@ CollectLimit 21
       :     +- *(1) Project [id#20, name#21]
       :        +- *(1) Filter isnotnull(id#20)
       :           +- *(1) ColumnarToRow
-      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- *(4) Sort [id#23 ASC NULLS FIRST], false, 0
          +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=68]
             +- *(3) Project [id#23, value#24]
                +- *(3) Filter isnotnull(id#23)
                   +- *(3) ColumnarToRow
-                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 
 15:14:04.256 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - 
 /* 001 */ public Object generate(Object[] references) {
@@ -1212,8 +1212,8 @@ CollectLimit 21
 15:14:04.674 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_0 locally took 50 ms
 15:14:04.675 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_0 without replication took 51 ms
 15:14:05.073 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_0_piece0 stored as bytes in memory (estimated size 34.5 KiB, free 4.1 GiB)
-15:14:05.076 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_0_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
-15:14:05.077 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_0_piece0 in memory on 192.168.31.150:56517 (size: 34.5 KiB, free: 4.1 GiB)
+15:14:05.076 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_0_piece0 for BlockManagerId(driver, 192.168.0.100, 56517, None)
+15:14:05.077 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_0_piece0 in memory on 192.168.0.100:56517 (size: 34.5 KiB, free: 4.1 GiB)
 15:14:05.081 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_0_piece0
 15:14:05.082 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_0_piece0
 15:14:05.082 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_0_piece0 locally took 10 ms
@@ -1396,8 +1396,8 @@ org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  
 15:14:05.655 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_1 locally took 3 ms
 15:14:05.655 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_1 without replication took 3 ms
 15:14:05.669 [ScalaTest-run-running-SortMergeJoinSpec] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_1_piece0 stored as bytes in memory (estimated size 34.5 KiB, free 4.1 GiB)
-15:14:05.669 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_1_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
-15:14:05.669 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_1_piece0 in memory on 192.168.31.150:56517 (size: 34.5 KiB, free: 4.1 GiB)
+15:14:05.669 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_1_piece0 for BlockManagerId(driver, 192.168.0.100, 56517, None)
+15:14:05.669 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_1_piece0 in memory on 192.168.0.100:56517 (size: 34.5 KiB, free: 4.1 GiB)
 15:14:05.669 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_1_piece0
 15:14:05.669 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_1_piece0
 15:14:05.669 [ScalaTest-run-running-SortMergeJoinSpec] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_1_piece0 locally took 1 ms
@@ -1447,8 +1447,8 @@ org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  
 15:14:05.828 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_2 locally took 0 ms
 15:14:05.828 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_2 without replication took 0 ms
 15:14:05.847 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_2_piece0 stored as bytes in memory (estimated size 7.6 KiB, free 4.1 GiB)
-15:14:05.848 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_2_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
-15:14:05.848 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_2_piece0 in memory on 192.168.31.150:56517 (size: 7.6 KiB, free: 4.1 GiB)
+15:14:05.848 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_2_piece0 for BlockManagerId(driver, 192.168.0.100, 56517, None)
+15:14:05.848 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_2_piece0 in memory on 192.168.0.100:56517 (size: 7.6 KiB, free: 4.1 GiB)
 15:14:05.848 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_2_piece0
 15:14:05.848 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_2_piece0
 15:14:05.848 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_2_piece0 locally took 2 ms
@@ -1467,8 +1467,8 @@ org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  
 15:14:05.969 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_3 locally took 5 ms
 15:14:05.969 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_3 without replication took 5 ms
 15:14:05.971 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_3_piece0 stored as bytes in memory (estimated size 7.6 KiB, free 4.1 GiB)
-15:14:05.972 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_3_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
-15:14:05.972 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_3_piece0 in memory on 192.168.31.150:56517 (size: 7.6 KiB, free: 4.1 GiB)
+15:14:05.972 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_3_piece0 for BlockManagerId(driver, 192.168.0.100, 56517, None)
+15:14:05.972 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_3_piece0 in memory on 192.168.0.100:56517 (size: 7.6 KiB, free: 4.1 GiB)
 15:14:05.979 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_3_piece0
 15:14:05.979 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_3_piece0
 15:14:05.979 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_3_piece0 locally took 9 ms
@@ -1478,7 +1478,7 @@ org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  
 15:14:05.980 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Adding task set 1.0 with 1 tasks resource profile 0
 15:14:05.998 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_0.0, runningTasks: 0
 15:14:05.999 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 0.0: NO_PREF, ANY
-15:14:06.016 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 0.0 (TID 0) (192.168.31.150, executor driver, partition 0, PROCESS_LOCAL, 6074 bytes) taskResourceAssignments Map()
+15:14:06.016 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 0.0 (TID 0) (192.168.0.100, executor driver, partition 0, PROCESS_LOCAL, 6074 bytes) taskResourceAssignments Map()
 15:14:06.021 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Epoch for TaskSet 1.0: 0
 15:14:06.021 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Adding pending tasks took 0 ms
 15:14:06.021 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 1.0: NO_PREF, ANY
@@ -1615,7 +1615,7 @@ org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  
 /* 061 */ }
 
 15:14:06.576 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - Code generated in 32.672117 ms
-15:14:06.606 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-00/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-00]
+15:14:06.606 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-00/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-00]
 15:14:06.608 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_1
 15:14:06.609 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.storage.BlockManager - Level for block broadcast_1 is StorageLevel(disk, memory, deserialized, 1 replicas)
 15:14:07.102 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
@@ -1644,7 +1644,7 @@ root
 
        
 15:14:07.164 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-00]
-15:14:07.743 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-01/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-01]
+15:14:07.743 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-01/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-01]
 15:14:07.754 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
 Parquet file schema:
 message spark_schema {
@@ -1671,7 +1671,7 @@ root
 
        
 15:14:07.755 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-01]
-15:14:07.756 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-02/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-02]
+15:14:07.756 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-02/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-02]
 15:14:07.763 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
 Parquet file schema:
 message spark_schema {
@@ -1698,7 +1698,7 @@ root
 
        
 15:14:07.764 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-02]
-15:14:07.765 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-03/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-03]
+15:14:07.765 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-03/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-693, partition values: [2023-01-03]
 15:14:07.772 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
 Parquet file schema:
 message spark_schema {
@@ -1725,7 +1725,7 @@ root
 
        
 15:14:07.773 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-03]
-15:14:07.774 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-04/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-692, partition values: [2023-01-04]
+15:14:07.774 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t2/date=2023-01-04/part-00000-1d390801-2f85-42f2-b0df-31f83e894b4b.c000.snappy.parquet, range: 0-692, partition values: [2023-01-04]
 15:14:07.780 [Executor task launch worker for task 0.0 in stage 0.0 (TID 0)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
 Parquet file schema:
 message spark_schema {
@@ -1759,12 +1759,12 @@ root
 15:14:07.828 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_0.0, runningTasks: 0
 15:14:07.828 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_1.0, runningTasks: 0
 15:14:07.829 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NO_PREF, so moving to locality level ANY
-15:14:07.830 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 1.0 (TID 1) (192.168.31.150, executor driver, partition 0, PROCESS_LOCAL, 6074 bytes) taskResourceAssignments Map()
+15:14:07.830 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 1.0 (TID 1) (192.168.0.100, executor driver, partition 0, PROCESS_LOCAL, 6074 bytes) taskResourceAssignments Map()
 15:14:07.830 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.executor.Executor - Running task 0.0 in stage 1.0 (TID 1)
 15:14:07.832 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (1, 0) -> 1
 15:14:07.833 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_3
 15:14:07.833 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.storage.BlockManager - Level for block broadcast_3 is StorageLevel(disk, memory, deserialized, 1 replicas)
-15:14:07.834 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 0.0 (TID 0) in 1827 ms on 192.168.31.150 (executor driver) (1/1)
+15:14:07.834 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 0.0 (TID 0) in 1827 ms on 192.168.0.100 (executor driver) (1/1)
 15:14:07.837 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 0.0, whose tasks have all completed, from pool 
 15:14:07.842 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.catalyst.expressions.codegen.GenerateUnsafeProjection - code for pmod(hash(input[0, int, true], 42), 2):
 /* 001 */ public java.lang.Object generate(Object[] references) {
@@ -1829,7 +1829,7 @@ root
 /* 060 */
 /* 061 */ }
 
-15:14:07.843 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-00/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-702, partition values: [2023-01-00]
+15:14:07.843 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-00/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-702, partition values: [2023-01-00]
 15:14:07.843 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_0
 15:14:07.843 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.storage.BlockManager - Level for block broadcast_0 is StorageLevel(disk, memory, deserialized, 1 replicas)
 15:14:07.845 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
@@ -1868,7 +1868,7 @@ root
 
        
 15:14:07.870 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-00]
-15:14:07.872 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-02/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-702, partition values: [2023-01-02]
+15:14:07.872 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-02/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-702, partition values: [2023-01-02]
 15:14:07.877 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
 Parquet file schema:
 message spark_schema {
@@ -1895,7 +1895,7 @@ root
 
        
 15:14:07.878 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-02]
-15:14:07.878 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-03/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-701, partition values: [2023-01-03]
+15:14:07.878 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-03/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-701, partition values: [2023-01-03]
 15:14:07.883 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
 Parquet file schema:
 message spark_schema {
@@ -1922,7 +1922,7 @@ root
 
        
 15:14:07.884 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-03]
-15:14:07.885 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-04/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-701, partition values: [2023-01-04]
+15:14:07.885 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-04/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-701, partition values: [2023-01-04]
 15:14:07.891 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
 Parquet file schema:
 message spark_schema {
@@ -1949,7 +1949,7 @@ root
 
        
 15:14:07.892 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Appending StructType(StructField(date,StringType,true)) [2023-01-04]
-15:14:07.893 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-01/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-699, partition values: [2023-01-01]
+15:14:07.893 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] INFO  org.apache.spark.sql.execution.datasources.FileScanRDD - Reading File path: file:///Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/t1/date=2023-01-01/part-00000-bd1de732-401b-4161-91d1-792239d4589c.c000.snappy.parquet, range: 0-699, partition values: [2023-01-01]
 15:14:07.897 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.sql.execution.datasources.parquet.ParquetReadSupport - Going to read the following fields from the Parquet file with the following schema:
 Parquet file schema:
 message spark_schema {
@@ -1982,7 +1982,7 @@ root
 15:14:07.903 [Executor task launch worker for task 0.0 in stage 1.0 (TID 1)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (1, 0) -> 0
 15:14:07.903 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_1.0, runningTasks: 0
 15:14:07.903 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NO_PREF, so moving to locality level ANY
-15:14:07.903 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 1.0 (TID 1) in 73 ms on 192.168.31.150 (executor driver) (1/1)
+15:14:07.903 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 1.0 (TID 1) in 73 ms on 192.168.0.100 (executor driver) (1/1)
 15:14:07.904 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 1.0, whose tasks have all completed, from pool 
 15:14:07.904 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 15:14:07.904 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - ShuffleMapStage 1 (show at SortMergeJoinSpec.scala:131) finished in 1.969 s
@@ -1999,8 +1999,8 @@ root
 15:14:07.918 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_4 locally took 0 ms
 15:14:07.918 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_4 without replication took 0 ms
 15:14:07.918 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_4_piece0 stored as bytes in memory (estimated size 18.2 KiB, free 4.1 GiB)
-15:14:07.919 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_4_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
-15:14:07.919 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_4_piece0 in memory on 192.168.31.150:56517 (size: 18.2 KiB, free: 4.1 GiB)
+15:14:07.919 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_4_piece0 for BlockManagerId(driver, 192.168.0.100, 56517, None)
+15:14:07.919 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_4_piece0 in memory on 192.168.0.100:56517 (size: 18.2 KiB, free: 4.1 GiB)
 15:14:07.919 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_4_piece0
 15:14:07.919 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_4_piece0
 15:14:07.919 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_4_piece0 locally took 0 ms
@@ -2012,7 +2012,7 @@ root
 15:14:07.922 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Adding pending tasks took 1 ms
 15:14:07.923 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 2.0: NODE_LOCAL, ANY
 15:14:07.924 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-15:14:07.927 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 2.0 (TID 2) (192.168.31.150, executor driver, partition 0, NODE_LOCAL, 4735 bytes) taskResourceAssignments Map()
+15:14:07.927 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 2.0 (TID 2) (192.168.0.100, executor driver, partition 0, NODE_LOCAL, 4735 bytes) taskResourceAssignments Map()
 15:14:07.928 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] INFO  org.apache.spark.executor.Executor - Running task 0.0 in stage 2.0 (TID 2)
 15:14:07.929 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 1
 15:14:07.929 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_4
@@ -2324,7 +2324,7 @@ root
 15:14:08.399 [Executor task launch worker for task 0.0 in stage 2.0 (TID 2)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
 15:14:08.399 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
 15:14:08.399 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NODE_LOCAL, so moving to locality level ANY
-15:14:08.400 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 2.0 (TID 2) in 476 ms on 192.168.31.150 (executor driver) (1/1)
+15:14:08.400 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 2.0 (TID 2) in 476 ms on 192.168.0.100 (executor driver) (1/1)
 15:14:08.400 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 2.0, whose tasks have all completed, from pool 
 15:14:08.401 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - ResultStage 2 (show at SortMergeJoinSpec.scala:131) finished in 0.489 s
 15:14:08.406 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - After removal of stage 2, remaining stages = 2
@@ -2360,12 +2360,12 @@ root
 15:14:08.428 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_5 without replication took 1 ms
 15:14:08.429 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_3_piece0 of size 7831 dropped from memory (free 4391769190)
 15:14:08.429 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_5_piece0 stored as bytes in memory (estimated size 18.1 KiB, free 4.1 GiB)
-15:14:08.430 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_3_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
-15:14:08.431 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_3_piece0 on 192.168.31.150:56517 in memory (size: 7.6 KiB, free: 4.1 GiB)
+15:14:08.430 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_3_piece0 for BlockManagerId(driver, 192.168.0.100, 56517, None)
+15:14:08.431 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_3_piece0 on 192.168.0.100:56517 in memory (size: 7.6 KiB, free: 4.1 GiB)
 15:14:08.431 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_3_piece0
-15:14:08.431 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_5_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
+15:14:08.431 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_5_piece0 for BlockManagerId(driver, 192.168.0.100, 56517, None)
 15:14:08.431 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_3_piece0
-15:14:08.432 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_5_piece0 in memory on 192.168.31.150:56517 (size: 18.1 KiB, free: 4.1 GiB)
+15:14:08.432 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_5_piece0 in memory on 192.168.0.100:56517 (size: 18.1 KiB, free: 4.1 GiB)
 15:14:08.432 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_5_piece0
 15:14:08.432 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_5_piece0
 15:14:08.432 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_5_piece0 locally took 2 ms
@@ -2377,9 +2377,9 @@ root
 15:14:08.433 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Epoch for TaskSet 5.0: 2
 15:14:08.433 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Adding pending tasks took 0 ms
 15:14:08.434 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 5.0: NODE_LOCAL, ANY
-15:14:08.434 [block-manager-storage-async-thread-pool-2] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.31.150:56516
+15:14:08.434 [block-manager-storage-async-thread-pool-2] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.0.100:56516
 15:14:08.434 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_5.0, runningTasks: 0
-15:14:08.435 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 5.0 (TID 3) (192.168.31.150, executor driver, partition 1, NODE_LOCAL, 4735 bytes) taskResourceAssignments Map()
+15:14:08.435 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 5.0 (TID 3) (192.168.0.100, executor driver, partition 1, NODE_LOCAL, 4735 bytes) taskResourceAssignments Map()
 15:14:08.435 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] INFO  org.apache.spark.executor.Executor - Running task 0.0 in stage 5.0 (TID 3)
 15:14:08.436 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (5, 0) -> 1
 15:14:08.436 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_5
@@ -2389,14 +2389,14 @@ root
 15:14:08.437 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManager - Removing broadcast 2
 15:14:08.437 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_2_piece0
 15:14:08.438 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_2_piece0 of size 7801 dropped from memory (free 4391758408)
-15:14:08.438 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_2_piece0 for BlockManagerId(driver, 192.168.31.150, 56517, None)
-15:14:08.439 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_2_piece0 on 192.168.31.150:56517 in memory (size: 7.6 KiB, free: 4.1 GiB)
+15:14:08.438 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_2_piece0 for BlockManagerId(driver, 192.168.0.100, 56517, None)
+15:14:08.439 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_2_piece0 on 192.168.0.100:56517 in memory (size: 7.6 KiB, free: 4.1 GiB)
 15:14:08.439 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_2_piece0
 15:14:08.439 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_2_piece0
 15:14:08.439 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_2
 15:14:08.439 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_2 of size 17328 dropped from memory (free 4391775736)
 15:14:08.440 [block-manager-storage-async-thread-pool-5] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Done removing broadcast 2, response is 0
-15:14:08.440 [block-manager-storage-async-thread-pool-5] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.31.150:56516
+15:14:08.440 [block-manager-storage-async-thread-pool-5] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.0.100:56516
 15:14:08.444 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.MapOutputTrackerMaster - Fetching outputs for shuffle 0
 15:14:08.444 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.MapOutputTrackerMaster - Convert map statuses for shuffle 0, mappers 0-1, partitions 1-2
 15:14:08.444 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.storage.ShuffleBlockFetcherIterator - maxBytesInFlight: 50331648, targetRemoteRequestSize: 10066329, maxBlocksInFlightPerAddress: 2147483647
@@ -2609,7 +2609,7 @@ root
 15:14:08.480 [Executor task launch worker for task 0.0 in stage 5.0 (TID 3)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (5, 0) -> 0
 15:14:08.480 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_5.0, runningTasks: 0
 15:14:08.481 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NODE_LOCAL, so moving to locality level ANY
-15:14:08.481 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 5.0 (TID 3) in 47 ms on 192.168.31.150 (executor driver) (1/1)
+15:14:08.481 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 5.0 (TID 3) in 47 ms on 192.168.0.100 (executor driver) (1/1)
 15:14:08.481 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 5.0, whose tasks have all completed, from pool 
 15:14:08.483 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - ResultStage 5 (show at SortMergeJoinSpec.scala:131) finished in 0.059 s
 15:14:08.483 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - After removal of stage 5, remaining stages = 2
@@ -2851,7 +2851,7 @@ root
 +---+------+-----+
 
 
-15:14:08.572 [ScalaTest-run] INFO  org.apache.spark.ui.SparkUI - Stopped Spark web UI at http://192.168.31.150:4040
+15:14:08.572 [ScalaTest-run] INFO  org.apache.spark.ui.SparkUI - Stopped Spark web UI at http://192.168.0.100:4040
 15:14:08.590 [dispatcher-event-loop-1] INFO  org.apache.spark.MapOutputTrackerMasterEndpoint - MapOutputTrackerMasterEndpoint stopped!
 15:14:08.628 [ScalaTest-run] INFO  org.apache.spark.storage.memory.MemoryStore - MemoryStore cleared
 15:14:08.629 [ScalaTest-run] INFO  org.apache.spark.storage.BlockManager - BlockManager stopped

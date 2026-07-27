@@ -2,7 +2,7 @@
 21:32:43.303 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG org.apache.spark.sql.internal.SharedState - Applying other initial session options to HadoopConf: spark.app.name -> LogicalPlanTest
 21:32:43.303 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG org.apache.spark.sql.internal.SharedState - Applying other initial session options to HadoopConf: spark.master -> local
 21:32:43.303 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG org.apache.spark.sql.internal.SharedState - Applying static initial session options to SparkConf: spark.sql.catalogImplementation -> hive
-21:32:43.310 [ScalaTest-run-running-PhysicalPlanSpec] INFO  org.apache.spark.sql.internal.SharedState - Warehouse path is 'file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse'.
+21:32:43.310 [ScalaTest-run-running-PhysicalPlanSpec] INFO  org.apache.spark.sql.internal.SharedState - Warehouse path is 'file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse'.
 21:32:44.514 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG org.apache.spark.sql.execution.SparkSqlParser - Parsing command: drop table if exists order_all
 org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleStatementContext =>  droptableifexistsorder_all <EOF>
 org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleStatementContext =>  droptableifexistsorder_all <EOF>
@@ -17,13 +17,13 @@ Unresolved Logical Plan ====>
 org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleMultipartIdentifierContext =>  spark_grouping_id <EOF>
 org.apache.spark.sql.catalyst.parser.SqlBaseParser$MultipartIdentifierContext =>  spark_grouping_id
 21:32:45.079 [ScalaTest-run-running-PhysicalPlanSpec] INFO  org.apache.spark.sql.hive.HiveUtils - Initializing HiveMetastoreConnection version 2.3.9 using Spark classes.
-21:32:45.590 [ScalaTest-run-running-PhysicalPlanSpec] INFO  org.apache.spark.sql.hive.client.HiveClientImpl - Warehouse location for Hive client (version 2.3.9) is file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse
+21:32:45.590 [ScalaTest-run-running-PhysicalPlanSpec] INFO  org.apache.spark.sql.hive.client.HiveClientImpl - Warehouse location for Hive client (version 2.3.9) is file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse
 21:32:45.826 [ScalaTest-run-running-PhysicalPlanSpec] WARN  org.apache.hadoop.hive.conf.HiveConf - HiveConf of name hive.stats.jdbc.timeout does not exist
 21:32:45.827 [ScalaTest-run-running-PhysicalPlanSpec] WARN  org.apache.hadoop.hive.conf.HiveConf - HiveConf of name hive.stats.retries.wait does not exist
 21:32:46.327 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG com.jolbox.bonecp.BoneCPDataSource - JDBC URL = jdbc:derby:;databaseName=metastore_db;create=true, Username = APP, partitions = 1, max (per partition) = 10, min (per partition) = 0, idle max age = 60 min, idle test period = 240 min, strategy = DEFAULT
 21:32:47.833 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG com.jolbox.bonecp.BoneCPDataSource - JDBC URL = jdbc:derby:;databaseName=metastore_db;create=true, Username = APP, partitions = 1, max (per partition) = 10, min (per partition) = 0, idle max age = 60 min, idle test period = 240 min, strategy = DEFAULT
 21:32:48.253 [ScalaTest-run-running-PhysicalPlanSpec] WARN  org.apache.hadoop.hive.metastore.ObjectStore - Version information not found in metastore. hive.metastore.schema.verification is not enabled so recording the schema version 2.3.0
-21:32:48.253 [ScalaTest-run-running-PhysicalPlanSpec] WARN  org.apache.hadoop.hive.metastore.ObjectStore - setMetaStoreSchemaVersion called but recording version is disabled: version = 2.3.0, comment = Set by MetaStore juntao@192.168.31.69
+21:32:48.253 [ScalaTest-run-running-PhysicalPlanSpec] WARN  org.apache.hadoop.hive.metastore.ObjectStore - setMetaStoreSchemaVersion called but recording version is disabled: version = 2.3.0, comment = Set by MetaStore example-user@192.168.0.101
 21:32:48.693 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG org.apache.spark.sql.catalyst.parser.CatalystSqlParser - Parsing command: bigint
 org.apache.spark.sql.catalyst.parser.SqlBaseParser$SingleDataTypeContext =>  bigint <EOF>
 org.apache.spark.sql.catalyst.parser.SqlBaseParser$PrimitiveDataTypeContext =>  bigint
@@ -1874,7 +1874,7 @@ Execute CreateDataSourceTableAsSelectCommand `order_all`, Overwrite, [order_id, 
                   +- Filter (isnotnull((id#58L % 1000)) AND isnotnull((id#58L % 10)))
                      +- Range (0, 10000, step=1, splits=10)
 
-21:32:53.058 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG org.apache.spark.internal.io.FileCommitProtocol - Creating committer org.apache.spark.sql.execution.datasources.SQLHadoopMapReduceCommitProtocol; job 3c078869-a689-431d-9543-6f900ece7ba0; output=file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/order_all; dynamic=false
+21:32:53.058 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG org.apache.spark.internal.io.FileCommitProtocol - Creating committer org.apache.spark.sql.execution.datasources.SQLHadoopMapReduceCommitProtocol; job 3c078869-a689-431d-9543-6f900ece7ba0; output=file:/Users/example-user/src/github.com/apache/spark-v3.3.1-study/spark-warehouse/order_all; dynamic=false
 21:32:53.064 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG org.apache.spark.internal.io.FileCommitProtocol - Using (String, String, Boolean) constructor
 21:32:53.103 [ScalaTest-run-running-PhysicalPlanSpec] INFO  org.apache.spark.sql.execution.datasources.parquet.ParquetFileFormat - Using default output committer for Parquet: org.apache.parquet.hadoop.ParquetOutputCommitter
 21:32:53.134 [ScalaTest-run-running-PhysicalPlanSpec] INFO  org.apache.spark.sql.execution.datasources.SQLHadoopMapReduceCommitProtocol - Using user defined output committer class org.apache.parquet.hadoop.ParquetOutputCommitter
@@ -2017,8 +2017,8 @@ Exchange hashpartitioning(user_id#61L, region_id#62L, region_id#62L, 8), ENSURE_
 21:32:54.079 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_0 locally took 20 ms
 21:32:54.081 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_0 without replication took 21 ms
 21:32:54.403 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_0_piece0 stored as bytes in memory (estimated size 7.2 KiB, free 4.1 GiB)
-21:32:54.404 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_0_piece0 for BlockManagerId(driver, 192.168.31.69, 63737, None)
-21:32:54.405 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_0_piece0 in memory on 192.168.31.69:63737 (size: 7.2 KiB, free: 4.1 GiB)
+21:32:54.404 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_0_piece0 for BlockManagerId(driver, 192.168.0.101, 63737, None)
+21:32:54.405 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_0_piece0 in memory on 192.168.0.101:63737 (size: 7.2 KiB, free: 4.1 GiB)
 21:32:54.408 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_0_piece0
 21:32:54.408 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_0_piece0
 21:32:54.409 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_0_piece0 locally took 7 ms
@@ -2043,8 +2043,8 @@ Exchange hashpartitioning(user_id#61L, region_id#62L, region_id#62L, 8), ENSURE_
 21:32:54.462 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_1 locally took 1 ms
 21:32:54.462 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_1 without replication took 1 ms
 21:32:54.464 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_1_piece0 stored as bytes in memory (estimated size 6.8 KiB, free 4.1 GiB)
-21:32:54.464 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_1_piece0 for BlockManagerId(driver, 192.168.31.69, 63737, None)
-21:32:54.464 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_1_piece0 in memory on 192.168.31.69:63737 (size: 6.8 KiB, free: 4.1 GiB)
+21:32:54.464 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_1_piece0 for BlockManagerId(driver, 192.168.0.101, 63737, None)
+21:32:54.464 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_1_piece0 in memory on 192.168.0.101:63737 (size: 6.8 KiB, free: 4.1 GiB)
 21:32:54.464 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_1_piece0
 21:32:54.465 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_1_piece0
 21:32:54.465 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_1_piece0 locally took 1 ms
@@ -2054,7 +2054,7 @@ Exchange hashpartitioning(user_id#61L, region_id#62L, region_id#62L, 8), ENSURE_
 21:32:54.466 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Adding task set 1.0 with 1 tasks resource profile 0
 21:32:54.468 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_0.0, runningTasks: 0
 21:32:54.468 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 0.0: NO_PREF, ANY
-21:32:54.493 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 0.0 (TID 0) (192.168.31.69, executor driver, partition 0, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:54.493 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 0.0 (TID 0) (192.168.0.101, executor driver, partition 0, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
 21:32:54.497 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Epoch for TaskSet 1.0: 0
 21:32:54.497 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Adding pending tasks took 0 ms
 21:32:54.497 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 1.0: NO_PREF, ANY
@@ -2074,8 +2074,8 @@ Exchange hashpartitioning(user_id#61L, region_id#62L, region_id#62L, 8), ENSURE_
 21:32:54.506 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_2 locally took 1 ms
 21:32:54.506 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_2 without replication took 1 ms
 21:32:54.507 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_2_piece0 stored as bytes in memory (estimated size 7.4 KiB, free 4.1 GiB)
-21:32:54.507 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_2_piece0 for BlockManagerId(driver, 192.168.31.69, 63737, None)
-21:32:54.508 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_2_piece0 in memory on 192.168.31.69:63737 (size: 7.4 KiB, free: 4.1 GiB)
+21:32:54.507 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_2_piece0 for BlockManagerId(driver, 192.168.0.101, 63737, None)
+21:32:54.508 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_2_piece0 in memory on 192.168.0.101:63737 (size: 7.4 KiB, free: 4.1 GiB)
 21:32:54.508 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_2_piece0
 21:32:54.508 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_2_piece0
 21:32:54.508 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_2_piece0 locally took 1 ms
@@ -2101,10 +2101,10 @@ Exchange hashpartitioning(user_id#61L, region_id#62L, region_id#62L, 8), ENSURE_
 21:32:54.847 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_0.0, runningTasks: 0
 21:32:54.847 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_1.0, runningTasks: 0
 21:32:54.847 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:54.847 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 1.0 in stage 0.0 (TID 1) (192.168.31.69, executor driver, partition 1, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:54.847 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 1.0 in stage 0.0 (TID 1) (192.168.0.101, executor driver, partition 1, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
 21:32:54.848 [Executor task launch worker for task 1.0 in stage 0.0 (TID 1)] INFO  org.apache.spark.executor.Executor - Running task 1.0 in stage 0.0 (TID 1)
 21:32:54.848 [Executor task launch worker for task 1.0 in stage 0.0 (TID 1)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (0, 0) -> 1
-21:32:54.851 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 0.0 (TID 0) in 378 ms on 192.168.31.69 (executor driver) (1/5)
+21:32:54.851 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 0.0 (TID 0) in 378 ms on 192.168.0.101 (executor driver) (1/5)
 21:32:54.861 [Executor task launch worker for task 1.0 in stage 0.0 (TID 1)] DEBUG org.apache.spark.shuffle.sort.io.LocalDiskShuffleMapOutputWriter - Writing shuffle index file for mapId 1 with length 8
 21:32:54.862 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:54.862 [Executor task launch worker for task 1.0 in stage 0.0 (TID 1)] DEBUG org.apache.spark.shuffle.IndexShuffleBlockResolver - Shuffle index for mapId 1: [256,256,0,681,746,841,0,0]
@@ -2113,8 +2113,8 @@ Exchange hashpartitioning(user_id#61L, region_id#62L, region_id#62L, 8), ENSURE_
 21:32:54.864 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_0.0, runningTasks: 0
 21:32:54.864 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_1.0, runningTasks: 0
 21:32:54.864 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:54.864 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 2.0 in stage 0.0 (TID 2) (192.168.31.69, executor driver, partition 2, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
-21:32:54.865 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 1.0 in stage 0.0 (TID 1) in 18 ms on 192.168.31.69 (executor driver) (2/5)
+21:32:54.864 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 2.0 in stage 0.0 (TID 2) (192.168.0.101, executor driver, partition 2, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:54.865 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 1.0 in stage 0.0 (TID 1) in 18 ms on 192.168.0.101 (executor driver) (2/5)
 21:32:54.865 [Executor task launch worker for task 2.0 in stage 0.0 (TID 2)] INFO  org.apache.spark.executor.Executor - Running task 2.0 in stage 0.0 (TID 2)
 21:32:54.866 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:54.866 [Executor task launch worker for task 2.0 in stage 0.0 (TID 2)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (0, 0) -> 1
@@ -2125,9 +2125,9 @@ Exchange hashpartitioning(user_id#61L, region_id#62L, region_id#62L, 8), ENSURE_
 21:32:54.882 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_0.0, runningTasks: 0
 21:32:54.882 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_1.0, runningTasks: 0
 21:32:54.882 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:54.882 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 3.0 in stage 0.0 (TID 3) (192.168.31.69, executor driver, partition 3, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:54.882 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 3.0 in stage 0.0 (TID 3) (192.168.0.101, executor driver, partition 3, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
 21:32:54.882 [Executor task launch worker for task 3.0 in stage 0.0 (TID 3)] INFO  org.apache.spark.executor.Executor - Running task 3.0 in stage 0.0 (TID 3)
-21:32:54.882 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 2.0 in stage 0.0 (TID 2) in 18 ms on 192.168.31.69 (executor driver) (3/5)
+21:32:54.882 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 2.0 in stage 0.0 (TID 2) in 18 ms on 192.168.0.101 (executor driver) (3/5)
 21:32:54.883 [Executor task launch worker for task 3.0 in stage 0.0 (TID 3)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (0, 0) -> 1
 21:32:54.883 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:54.893 [Executor task launch worker for task 3.0 in stage 0.0 (TID 3)] DEBUG org.apache.spark.shuffle.sort.io.LocalDiskShuffleMapOutputWriter - Writing shuffle index file for mapId 3 with length 8
@@ -2137,9 +2137,9 @@ Exchange hashpartitioning(user_id#61L, region_id#62L, region_id#62L, 8), ENSURE_
 21:32:54.911 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_0.0, runningTasks: 0
 21:32:54.911 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_1.0, runningTasks: 0
 21:32:54.912 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:54.912 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 4.0 in stage 0.0 (TID 4) (192.168.31.69, executor driver, partition 4, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:54.912 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 4.0 in stage 0.0 (TID 4) (192.168.0.101, executor driver, partition 4, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
 21:32:54.913 [Executor task launch worker for task 4.0 in stage 0.0 (TID 4)] INFO  org.apache.spark.executor.Executor - Running task 4.0 in stage 0.0 (TID 4)
-21:32:54.936 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 3.0 in stage 0.0 (TID 3) in 54 ms on 192.168.31.69 (executor driver) (4/5)
+21:32:54.936 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 3.0 in stage 0.0 (TID 3) in 54 ms on 192.168.0.101 (executor driver) (4/5)
 21:32:54.937 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:54.987 [Executor task launch worker for task 4.0 in stage 0.0 (TID 4)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (0, 0) -> 1
 21:32:54.995 [Executor task launch worker for task 4.0 in stage 0.0 (TID 4)] DEBUG org.apache.spark.shuffle.sort.io.LocalDiskShuffleMapOutputWriter - Writing shuffle index file for mapId 4 with length 8
@@ -2150,9 +2150,9 @@ Exchange hashpartitioning(user_id#61L, region_id#62L, region_id#62L, 8), ENSURE_
 21:32:54.998 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_1.0, runningTasks: 0
 21:32:54.998 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
 21:32:54.998 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NO_PREF, so moving to locality level ANY
-21:32:55.000 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 1.0 (TID 5) (192.168.31.69, executor driver, partition 0, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:55.000 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 1.0 (TID 5) (192.168.0.101, executor driver, partition 0, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
 21:32:55.000 [Executor task launch worker for task 0.0 in stage 1.0 (TID 5)] INFO  org.apache.spark.executor.Executor - Running task 0.0 in stage 1.0 (TID 5)
-21:32:55.000 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 4.0 in stage 0.0 (TID 4) in 88 ms on 192.168.31.69 (executor driver) (5/5)
+21:32:55.000 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 4.0 in stage 0.0 (TID 4) in 88 ms on 192.168.0.101 (executor driver) (5/5)
 21:32:55.001 [Executor task launch worker for task 0.0 in stage 1.0 (TID 5)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (1, 0) -> 1
 21:32:55.001 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:55.001 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 0.0, whose tasks have all completed, from pool
@@ -2189,7 +2189,7 @@ PlanLater Project [order_id#60L, user_id#61L, region_id#62L, order_num#63, user_
 21:32:55.035 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_1.0, runningTasks: 0
 21:32:55.035 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
 21:32:55.036 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NO_PREF, so moving to locality level ANY
-21:32:55.036 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 2.0 (TID 6) (192.168.31.69, executor driver, partition 0, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:55.036 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 2.0 (TID 6) (192.168.0.101, executor driver, partition 0, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
 SparkPlanner(org.apache.spark.sql.hive.HiveSessionStateBuilder$$anon$2@321bf4b1) - org.apache.spark.sql.execution.SparkStrategies$BasicOperators$ -->【
 Project [order_id#60L, user_id#61L, region_id#62L, order_num#63, user_name#72, region_name#79]
 +- Join Inner, (((user_id#61L = user_id#70L) AND (region_id#62L = region_id#71L)) AND (region_id#62L = region_id#78L))
@@ -2202,7 +2202,7 @@ Project [order_id#60L, user_id#61L, region_id#62L, order_num#63, user_name#72, r
 +- PlanLater Join Inner, (((user_id#61L = user_id#70L) AND (region_id#62L = region_id#71L)) AND (region_id#62L = region_id#78L))
 】
 
-21:32:55.037 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 1.0 (TID 5) in 37 ms on 192.168.31.69 (executor driver) (1/1)
+21:32:55.037 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 1.0 (TID 5) in 37 ms on 192.168.0.101 (executor driver) (1/1)
 21:32:55.037 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG org.apache.spark.sql.catalyst.planning.ExtractEquiJoinKeys - Considering join on: Some((((user_id#61L = user_id#70L) AND (region_id#62L = region_id#71L)) AND (region_id#62L = region_id#78L)))
 21:32:55.037 [Executor task launch worker for task 0.0 in stage 2.0 (TID 6)] INFO  org.apache.spark.executor.Executor - Running task 0.0 in stage 2.0 (TID 6)
 21:32:55.037 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 1.0, whose tasks have all completed, from pool
@@ -2492,9 +2492,9 @@ ShuffleQueryStage 2
 21:32:55.081 [Executor task launch worker for task 0.0 in stage 2.0 (TID 6)] INFO  org.apache.spark.executor.Executor - Finished task 0.0 in stage 2.0 (TID 6). 1804 bytes result sent to driver
 21:32:55.081 [Executor task launch worker for task 0.0 in stage 2.0 (TID 6)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
 21:32:55.081 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:55.082 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 1.0 in stage 2.0 (TID 7) (192.168.31.69, executor driver, partition 1, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:55.082 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 1.0 in stage 2.0 (TID 7) (192.168.0.101, executor driver, partition 1, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
 21:32:55.082 [Executor task launch worker for task 1.0 in stage 2.0 (TID 7)] INFO  org.apache.spark.executor.Executor - Running task 1.0 in stage 2.0 (TID 7)
-21:32:55.082 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 2.0 (TID 6) in 46 ms on 192.168.31.69 (executor driver) (1/10)
+21:32:55.082 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 2.0 (TID 6) in 46 ms on 192.168.0.101 (executor driver) (1/10)
 21:32:55.082 [Executor task launch worker for task 1.0 in stage 2.0 (TID 7)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 1
 21:32:55.082 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec$ - applyPhysicalRules - org.apache.spark.sql.execution.exchange.EnsureRequirements -->【
@@ -2596,9 +2596,9 @@ Project [order_id#60L, user_id#61L, region_id#62L, order_num#63, user_name#72, r
 
 21:32:55.098 [Executor task launch worker for task 1.0 in stage 2.0 (TID 7)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
 21:32:55.098 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:55.098 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 2.0 in stage 2.0 (TID 8) (192.168.31.69, executor driver, partition 2, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:55.098 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 2.0 in stage 2.0 (TID 8) (192.168.0.101, executor driver, partition 2, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
 21:32:55.098 [Executor task launch worker for task 2.0 in stage 2.0 (TID 8)] INFO  org.apache.spark.executor.Executor - Running task 2.0 in stage 2.0 (TID 8)
-21:32:55.098 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 1.0 in stage 2.0 (TID 7) in 17 ms on 192.168.31.69 (executor driver) (2/10)
+21:32:55.098 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 1.0 in stage 2.0 (TID 7) in 17 ms on 192.168.0.101 (executor driver) (2/10)
 21:32:55.099 [Executor task launch worker for task 2.0 in stage 2.0 (TID 8)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 1
 21:32:55.099 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:55.106 [ScalaTest-run-running-PhysicalPlanSpec] INFO  org.apache.spark.sql.execution.adaptive.ShufflePartitionsUtil - For shuffle(0, 1), advisory target size: 67108864, actual target size 1048576, minimum partition size: 1048576
@@ -2607,9 +2607,9 @@ Project [order_id#60L, user_id#61L, region_id#62L, order_num#63, user_name#72, r
 21:32:55.111 [Executor task launch worker for task 2.0 in stage 2.0 (TID 8)] INFO  org.apache.spark.executor.Executor - Finished task 2.0 in stage 2.0 (TID 8). 1804 bytes result sent to driver
 21:32:55.111 [Executor task launch worker for task 2.0 in stage 2.0 (TID 8)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
 21:32:55.111 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:55.111 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 3.0 in stage 2.0 (TID 9) (192.168.31.69, executor driver, partition 3, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:55.111 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 3.0 in stage 2.0 (TID 9) (192.168.0.101, executor driver, partition 3, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
 21:32:55.112 [Executor task launch worker for task 3.0 in stage 2.0 (TID 9)] INFO  org.apache.spark.executor.Executor - Running task 3.0 in stage 2.0 (TID 9)
-21:32:55.112 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 2.0 in stage 2.0 (TID 8) in 14 ms on 192.168.31.69 (executor driver) (3/10)
+21:32:55.112 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 2.0 in stage 2.0 (TID 8) in 14 ms on 192.168.0.101 (executor driver) (3/10)
 21:32:55.112 [Executor task launch worker for task 3.0 in stage 2.0 (TID 9)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 1
 21:32:55.112 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 optimizeQueryStage - org.apache.spark.sql.execution.adaptive.CoalesceShufflePartitions -> old【
@@ -2716,9 +2716,9 @@ Exchange hashpartitioning(user_id#70L, region_id#71L, region_id#71L, 8), ENSURE_
 21:32:55.125 [Executor task launch worker for task 3.0 in stage 2.0 (TID 9)] INFO  org.apache.spark.executor.Executor - Finished task 3.0 in stage 2.0 (TID 9). 1804 bytes result sent to driver
 21:32:55.125 [Executor task launch worker for task 3.0 in stage 2.0 (TID 9)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
 21:32:55.126 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:55.127 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 4.0 in stage 2.0 (TID 10) (192.168.31.69, executor driver, partition 4, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:55.127 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 4.0 in stage 2.0 (TID 10) (192.168.0.101, executor driver, partition 4, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
 21:32:55.127 [Executor task launch worker for task 4.0 in stage 2.0 (TID 10)] INFO  org.apache.spark.executor.Executor - Running task 4.0 in stage 2.0 (TID 10)
-21:32:55.127 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 3.0 in stage 2.0 (TID 9) in 16 ms on 192.168.31.69 (executor driver) (4/10)
+21:32:55.127 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 3.0 in stage 2.0 (TID 9) in 16 ms on 192.168.0.101 (executor driver) (4/10)
 21:32:55.127 [Executor task launch worker for task 4.0 in stage 2.0 (TID 10)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 1
 21:32:55.128 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:55.130 [ScalaTest-run-running-PhysicalPlanSpec] DEBUG org.apache.spark.sql.execution.adaptive.ShuffleQueryStageExec - Materialize query stage ShuffleQueryStageExec: 3, query stage plan:
@@ -2743,8 +2743,8 @@ Exchange hashpartitioning(user_id#70L, region_id#71L, region_id#71L, 8), ENSURE_
 21:32:55.141 [Executor task launch worker for task 4.0 in stage 2.0 (TID 10)] INFO  org.apache.spark.executor.Executor - Finished task 4.0 in stage 2.0 (TID 10). 1804 bytes result sent to driver
 21:32:55.141 [Executor task launch worker for task 4.0 in stage 2.0 (TID 10)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
 21:32:55.142 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:55.142 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 5.0 in stage 2.0 (TID 11) (192.168.31.69, executor driver, partition 5, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
-21:32:55.142 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 4.0 in stage 2.0 (TID 10) in 16 ms on 192.168.31.69 (executor driver) (5/10)
+21:32:55.142 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 5.0 in stage 2.0 (TID 11) (192.168.0.101, executor driver, partition 5, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:55.142 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 4.0 in stage 2.0 (TID 10) in 16 ms on 192.168.0.101 (executor driver) (5/10)
 21:32:55.142 [Executor task launch worker for task 5.0 in stage 2.0 (TID 11)] INFO  org.apache.spark.executor.Executor - Running task 5.0 in stage 2.0 (TID 11)
 21:32:55.143 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:55.143 [Executor task launch worker for task 5.0 in stage 2.0 (TID 11)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 1
@@ -2753,8 +2753,8 @@ Exchange hashpartitioning(user_id#70L, region_id#71L, region_id#71L, 8), ENSURE_
 21:32:55.157 [Executor task launch worker for task 5.0 in stage 2.0 (TID 11)] INFO  org.apache.spark.executor.Executor - Finished task 5.0 in stage 2.0 (TID 11). 1804 bytes result sent to driver
 21:32:55.157 [Executor task launch worker for task 5.0 in stage 2.0 (TID 11)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
 21:32:55.157 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:55.158 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 6.0 in stage 2.0 (TID 12) (192.168.31.69, executor driver, partition 6, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
-21:32:55.158 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 5.0 in stage 2.0 (TID 11) in 16 ms on 192.168.31.69 (executor driver) (6/10)
+21:32:55.158 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 6.0 in stage 2.0 (TID 12) (192.168.0.101, executor driver, partition 6, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:55.158 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 5.0 in stage 2.0 (TID 11) in 16 ms on 192.168.0.101 (executor driver) (6/10)
 21:32:55.158 [Executor task launch worker for task 6.0 in stage 2.0 (TID 12)] INFO  org.apache.spark.executor.Executor - Running task 6.0 in stage 2.0 (TID 12)
 21:32:55.158 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:55.158 [Executor task launch worker for task 6.0 in stage 2.0 (TID 12)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 1
@@ -2763,8 +2763,8 @@ Exchange hashpartitioning(user_id#70L, region_id#71L, region_id#71L, 8), ENSURE_
 21:32:55.172 [Executor task launch worker for task 6.0 in stage 2.0 (TID 12)] INFO  org.apache.spark.executor.Executor - Finished task 6.0 in stage 2.0 (TID 12). 1804 bytes result sent to driver
 21:32:55.172 [Executor task launch worker for task 6.0 in stage 2.0 (TID 12)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
 21:32:55.172 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:55.172 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 7.0 in stage 2.0 (TID 13) (192.168.31.69, executor driver, partition 7, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
-21:32:55.173 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 6.0 in stage 2.0 (TID 12) in 15 ms on 192.168.31.69 (executor driver) (7/10)
+21:32:55.172 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 7.0 in stage 2.0 (TID 13) (192.168.0.101, executor driver, partition 7, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:55.173 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 6.0 in stage 2.0 (TID 12) in 15 ms on 192.168.0.101 (executor driver) (7/10)
 21:32:55.173 [Executor task launch worker for task 7.0 in stage 2.0 (TID 13)] INFO  org.apache.spark.executor.Executor - Running task 7.0 in stage 2.0 (TID 13)
 21:32:55.173 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:55.173 [Executor task launch worker for task 7.0 in stage 2.0 (TID 13)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 1
@@ -2774,8 +2774,8 @@ Exchange hashpartitioning(user_id#70L, region_id#71L, region_id#71L, 8), ENSURE_
 21:32:55.184 [Executor task launch worker for task 7.0 in stage 2.0 (TID 13)] INFO  org.apache.spark.executor.Executor - Finished task 7.0 in stage 2.0 (TID 13). 1804 bytes result sent to driver
 21:32:55.184 [Executor task launch worker for task 7.0 in stage 2.0 (TID 13)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
 21:32:55.185 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:55.185 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 8.0 in stage 2.0 (TID 14) (192.168.31.69, executor driver, partition 8, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
-21:32:55.185 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 7.0 in stage 2.0 (TID 13) in 13 ms on 192.168.31.69 (executor driver) (8/10)
+21:32:55.185 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 8.0 in stage 2.0 (TID 14) (192.168.0.101, executor driver, partition 8, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:55.185 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 7.0 in stage 2.0 (TID 13) in 13 ms on 192.168.0.101 (executor driver) (8/10)
 21:32:55.185 [Executor task launch worker for task 8.0 in stage 2.0 (TID 14)] INFO  org.apache.spark.executor.Executor - Running task 8.0 in stage 2.0 (TID 14)
 21:32:55.186 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:55.186 [Executor task launch worker for task 8.0 in stage 2.0 (TID 14)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 1
@@ -2784,9 +2784,9 @@ Exchange hashpartitioning(user_id#70L, region_id#71L, region_id#71L, 8), ENSURE_
 21:32:55.200 [Executor task launch worker for task 8.0 in stage 2.0 (TID 14)] INFO  org.apache.spark.executor.Executor - Finished task 8.0 in stage 2.0 (TID 14). 1804 bytes result sent to driver
 21:32:55.200 [Executor task launch worker for task 8.0 in stage 2.0 (TID 14)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
 21:32:55.200 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
-21:32:55.201 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 9.0 in stage 2.0 (TID 15) (192.168.31.69, executor driver, partition 9, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
+21:32:55.201 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 9.0 in stage 2.0 (TID 15) (192.168.0.101, executor driver, partition 9, PROCESS_LOCAL, 4567 bytes) taskResourceAssignments Map()
 21:32:55.201 [Executor task launch worker for task 9.0 in stage 2.0 (TID 15)] INFO  org.apache.spark.executor.Executor - Running task 9.0 in stage 2.0 (TID 15)
-21:32:55.201 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 8.0 in stage 2.0 (TID 14) in 16 ms on 192.168.31.69 (executor driver) (9/10)
+21:32:55.201 [task-result-getter-2] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 8.0 in stage 2.0 (TID 14) in 16 ms on 192.168.0.101 (executor driver) (9/10)
 21:32:55.202 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:55.202 [Executor task launch worker for task 9.0 in stage 2.0 (TID 15)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 1
 21:32:55.203 [ScalaTest-run-running-PhysicalPlanSpec] INFO  org.apache.spark.sql.catalyst.expressions.codegen.CodeGenerator - Code generated in 17.392284 ms
@@ -2798,7 +2798,7 @@ Exchange hashpartitioning(user_id#70L, region_id#71L, region_id#71L, 8), ENSURE_
 21:32:55.219 [Executor task launch worker for task 9.0 in stage 2.0 (TID 15)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (2, 0) -> 0
 21:32:55.219 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_2.0, runningTasks: 0
 21:32:55.219 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NO_PREF, so moving to locality level ANY
-21:32:55.220 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 9.0 in stage 2.0 (TID 15) in 20 ms on 192.168.31.69 (executor driver) (10/10)
+21:32:55.220 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 9.0 in stage 2.0 (TID 15) in 20 ms on 192.168.0.101 (executor driver) (10/10)
 21:32:55.220 [task-result-getter-3] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 2.0, whose tasks have all completed, from pool
 21:32:55.220 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:55.221 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - ShuffleMapStage 2 (saveAsTable at PhysicalPlanSpec.scala:338) finished in 0.720 s
@@ -3026,8 +3026,8 @@ Project [order_id#60L, user_id#61L, region_id#62L, order_num#63, user_name#72, r
 21:32:55.343 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_3 locally took 0 ms
 21:32:55.343 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_3 without replication took 0 ms
 21:32:55.344 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_3_piece0 stored as bytes in memory (estimated size 17.2 KiB, free 4.1 GiB)
-21:32:55.344 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_3_piece0 for BlockManagerId(driver, 192.168.31.69, 63737, None)
-21:32:55.344 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_3_piece0 in memory on 192.168.31.69:63737 (size: 17.2 KiB, free: 4.1 GiB)
+21:32:55.344 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_3_piece0 for BlockManagerId(driver, 192.168.0.101, 63737, None)
+21:32:55.344 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_3_piece0 in memory on 192.168.0.101:63737 (size: 17.2 KiB, free: 4.1 GiB)
 21:32:55.344 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_3_piece0
 21:32:55.344 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_3_piece0
 21:32:55.344 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_3_piece0 locally took 0 ms
@@ -3039,7 +3039,7 @@ Project [order_id#60L, user_id#61L, region_id#62L, order_num#63, user_name#72, r
 21:32:55.347 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Adding pending tasks took 1 ms
 21:32:55.348 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 5.0: NODE_LOCAL, ANY
 21:32:55.348 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_5.0, runningTasks: 0
-21:32:55.351 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 5.0 (TID 16) (192.168.31.69, executor driver, partition 0, NODE_LOCAL, 4724 bytes) taskResourceAssignments Map()
+21:32:55.351 [dispatcher-event-loop-0] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 5.0 (TID 16) (192.168.0.101, executor driver, partition 0, NODE_LOCAL, 4724 bytes) taskResourceAssignments Map()
 21:32:55.351 [Executor task launch worker for task 0.0 in stage 5.0 (TID 16)] INFO  org.apache.spark.executor.Executor - Running task 0.0 in stage 5.0 (TID 16)
 21:32:55.352 [Executor task launch worker for task 0.0 in stage 5.0 (TID 16)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (5, 0) -> 1
 21:32:55.352 [Executor task launch worker for task 0.0 in stage 5.0 (TID 16)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_3
@@ -3083,7 +3083,7 @@ Project [order_id#60L, user_id#61L, region_id#62L, order_num#63, user_name#72, r
 21:32:55.609 [Executor task launch worker for task 0.0 in stage 5.0 (TID 16)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (5, 0) -> 0
 21:32:55.609 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_5.0, runningTasks: 0
 21:32:55.609 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NODE_LOCAL, so moving to locality level ANY
-21:32:55.609 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 5.0 (TID 16) in 261 ms on 192.168.31.69 (executor driver) (1/1)
+21:32:55.609 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 5.0 (TID 16) in 261 ms on 192.168.0.101 (executor driver) (1/1)
 21:32:55.610 [task-result-getter-0] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 5.0, whose tasks have all completed, from pool
 21:32:55.610 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - ShuffleMapTask finished on driver
 21:32:55.611 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - ShuffleMapStage 5 (saveAsTable at PhysicalPlanSpec.scala:338) finished in 0.275 s
@@ -3562,8 +3562,8 @@ Project [order_id#60L, user_id#61L, region_id#62L, order_num#63, user_name#72, r
 21:32:55.868 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_4 locally took 0 ms
 21:32:55.868 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Putting block broadcast_4 without replication took 0 ms
 21:32:55.871 [dag-scheduler-event-loop] INFO  org.apache.spark.storage.memory.MemoryStore - Block broadcast_4_piece0 stored as bytes in memory (estimated size 90.3 KiB, free 4.1 GiB)
-21:32:55.871 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_4_piece0 for BlockManagerId(driver, 192.168.31.69, 63737, None)
-21:32:55.871 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_4_piece0 in memory on 192.168.31.69:63737 (size: 90.3 KiB, free: 4.1 GiB)
+21:32:55.871 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_4_piece0 for BlockManagerId(driver, 192.168.0.101, 63737, None)
+21:32:55.871 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Added broadcast_4_piece0 in memory on 192.168.0.101:63737 (size: 90.3 KiB, free: 4.1 GiB)
 21:32:55.871 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_4_piece0
 21:32:55.872 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_4_piece0
 21:32:55.872 [dag-scheduler-event-loop] DEBUG org.apache.spark.storage.BlockManager - Put block broadcast_4_piece0 locally took 1 ms
@@ -3575,7 +3575,7 @@ Project [order_id#60L, user_id#61L, region_id#62L, order_num#63, user_name#72, r
 21:32:55.873 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Adding pending tasks took 0 ms
 21:32:55.873 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.TaskSetManager - Valid locality levels for TaskSet 10.0: NODE_LOCAL, ANY
 21:32:55.874 [dispatcher-event-loop-1] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_10.0, runningTasks: 0
-21:32:55.875 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 10.0 (TID 17) (192.168.31.69, executor driver, partition 0, NODE_LOCAL, 4735 bytes) taskResourceAssignments Map()
+21:32:55.875 [dispatcher-event-loop-1] INFO  org.apache.spark.scheduler.TaskSetManager - Starting task 0.0 in stage 10.0 (TID 17) (192.168.0.101, executor driver, partition 0, NODE_LOCAL, 4735 bytes) taskResourceAssignments Map()
 21:32:55.876 [Executor task launch worker for task 0.0 in stage 10.0 (TID 17)] INFO  org.apache.spark.executor.Executor - Running task 0.0 in stage 10.0 (TID 17)
 21:32:55.877 [Executor task launch worker for task 0.0 in stage 10.0 (TID 17)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (10, 0) -> 1
 21:32:55.878 [Executor task launch worker for task 0.0 in stage 10.0 (TID 17)] DEBUG org.apache.spark.storage.BlockManager - Getting local block broadcast_4
@@ -3664,12 +3664,12 @@ message spark_schema {
 21:32:56.552 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_3 of size 38920 dropped from memory (free 4392132653)
 21:32:56.553 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_3_piece0
 21:32:56.555 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_3_piece0 of size 17565 dropped from memory (free 4392150218)
-21:32:56.555 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_3_piece0 for BlockManagerId(driver, 192.168.31.69, 63737, None)
-21:32:56.556 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_3_piece0 on 192.168.31.69:63737 in memory (size: 17.2 KiB, free: 4.1 GiB)
+21:32:56.555 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_3_piece0 for BlockManagerId(driver, 192.168.0.101, 63737, None)
+21:32:56.556 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_3_piece0 on 192.168.0.101:63737 in memory (size: 17.2 KiB, free: 4.1 GiB)
 21:32:56.556 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_3_piece0
 21:32:56.556 [block-manager-storage-async-thread-pool-0] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_3_piece0
 21:32:56.557 [block-manager-storage-async-thread-pool-2] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Done removing broadcast 3, response is 0
-21:32:56.557 [block-manager-storage-async-thread-pool-2] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.31.69:63736
+21:32:56.557 [block-manager-storage-async-thread-pool-2] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.0.101:63736
 21:32:56.558 [Spark Context Cleaner] DEBUG org.apache.spark.broadcast.TorrentBroadcast - Unpersisting TorrentBroadcast 1
 21:32:56.558 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - removing broadcast 1
 21:32:56.558 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManager - Removing broadcast 1
@@ -3677,38 +3677,38 @@ message spark_schema {
 21:32:56.559 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_1 of size 14416 dropped from memory (free 4392164634)
 21:32:56.559 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_1_piece0
 21:32:56.559 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_1_piece0 of size 7006 dropped from memory (free 4392171640)
-21:32:56.560 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_1_piece0 for BlockManagerId(driver, 192.168.31.69, 63737, None)
-21:32:56.560 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_1_piece0 on 192.168.31.69:63737 in memory (size: 6.8 KiB, free: 4.1 GiB)
+21:32:56.560 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_1_piece0 for BlockManagerId(driver, 192.168.0.101, 63737, None)
+21:32:56.560 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_1_piece0 on 192.168.0.101:63737 in memory (size: 6.8 KiB, free: 4.1 GiB)
 21:32:56.560 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_1_piece0
 21:32:56.560 [block-manager-storage-async-thread-pool-3] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_1_piece0
 21:32:56.560 [block-manager-storage-async-thread-pool-5] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Done removing broadcast 1, response is 0
-21:32:56.560 [block-manager-storage-async-thread-pool-5] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.31.69:63736
+21:32:56.560 [block-manager-storage-async-thread-pool-5] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.0.101:63736
 21:32:56.561 [Spark Context Cleaner] DEBUG org.apache.spark.broadcast.TorrentBroadcast - Unpersisting TorrentBroadcast 2
 21:32:56.561 [block-manager-storage-async-thread-pool-6] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - removing broadcast 2
 21:32:56.561 [block-manager-storage-async-thread-pool-6] DEBUG org.apache.spark.storage.BlockManager - Removing broadcast 2
 21:32:56.561 [block-manager-storage-async-thread-pool-6] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_2_piece0
 21:32:56.562 [block-manager-storage-async-thread-pool-6] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_2_piece0 of size 7534 dropped from memory (free 4392179174)
-21:32:56.562 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_2_piece0 for BlockManagerId(driver, 192.168.31.69, 63737, None)
-21:32:56.562 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_2_piece0 on 192.168.31.69:63737 in memory (size: 7.4 KiB, free: 4.1 GiB)
+21:32:56.562 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_2_piece0 for BlockManagerId(driver, 192.168.0.101, 63737, None)
+21:32:56.562 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_2_piece0 on 192.168.0.101:63737 in memory (size: 7.4 KiB, free: 4.1 GiB)
 21:32:56.562 [block-manager-storage-async-thread-pool-6] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_2_piece0
 21:32:56.562 [block-manager-storage-async-thread-pool-6] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_2_piece0
 21:32:56.562 [block-manager-storage-async-thread-pool-6] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_2
 21:32:56.562 [block-manager-storage-async-thread-pool-6] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_2 of size 16088 dropped from memory (free 4392195262)
 21:32:56.563 [block-manager-storage-async-thread-pool-8] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Done removing broadcast 2, response is 0
-21:32:56.563 [block-manager-storage-async-thread-pool-8] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.31.69:63736
+21:32:56.563 [block-manager-storage-async-thread-pool-8] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.0.101:63736
 21:32:56.563 [Spark Context Cleaner] DEBUG org.apache.spark.broadcast.TorrentBroadcast - Unpersisting TorrentBroadcast 0
 21:32:56.563 [block-manager-storage-async-thread-pool-9] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - removing broadcast 0
 21:32:56.564 [block-manager-storage-async-thread-pool-9] DEBUG org.apache.spark.storage.BlockManager - Removing broadcast 0
 21:32:56.564 [block-manager-storage-async-thread-pool-9] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_0_piece0
 21:32:56.564 [block-manager-storage-async-thread-pool-9] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_0_piece0 of size 7332 dropped from memory (free 4392202594)
-21:32:56.564 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_0_piece0 for BlockManagerId(driver, 192.168.31.69, 63737, None)
-21:32:56.564 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_0_piece0 on 192.168.31.69:63737 in memory (size: 7.2 KiB, free: 4.1 GiB)
+21:32:56.564 [dispatcher-BlockManagerMaster] DEBUG org.apache.spark.storage.BlockManagerMasterEndpoint - Updating block info on master broadcast_0_piece0 for BlockManagerId(driver, 192.168.0.101, 63737, None)
+21:32:56.564 [dispatcher-BlockManagerMaster] INFO  org.apache.spark.storage.BlockManagerInfo - Removed broadcast_0_piece0 on 192.168.0.101:63737 in memory (size: 7.2 KiB, free: 4.1 GiB)
 21:32:56.564 [block-manager-storage-async-thread-pool-9] DEBUG org.apache.spark.storage.BlockManagerMaster - Updated info of block broadcast_0_piece0
 21:32:56.564 [block-manager-storage-async-thread-pool-9] DEBUG org.apache.spark.storage.BlockManager - Told master about block broadcast_0_piece0
 21:32:56.564 [block-manager-storage-async-thread-pool-9] DEBUG org.apache.spark.storage.BlockManager - Removing block broadcast_0
 21:32:56.564 [block-manager-storage-async-thread-pool-9] DEBUG org.apache.spark.storage.memory.MemoryStore - Block broadcast_0 of size 15272 dropped from memory (free 4392217866)
 21:32:56.565 [block-manager-storage-async-thread-pool-11] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Done removing broadcast 0, response is 0
-21:32:56.565 [block-manager-storage-async-thread-pool-11] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.31.69:63736
+21:32:56.565 [block-manager-storage-async-thread-pool-11] DEBUG org.apache.spark.storage.BlockManagerStorageEndpoint - Sent response: 0 to 192.168.0.101:63736
 21:32:56.603 [Executor task launch worker for task 0.0 in stage 10.0 (TID 17)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 17 acquired 64.0 MiB for org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@1805ed4d
 21:32:56.615 [Executor task launch worker for task 0.0 in stage 10.0 (TID 17)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 17 acquired 64.0 MiB for org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@2734d009
 21:32:56.624 [Executor task launch worker for task 0.0 in stage 10.0 (TID 17)] DEBUG org.apache.spark.memory.TaskMemoryManager - Task 17 acquired 128.0 KiB for org.apache.spark.util.collection.unsafe.sort.UnsafeExternalSorter@2734d009
@@ -3725,7 +3725,7 @@ message spark_schema {
 21:32:57.561 [Executor task launch worker for task 0.0 in stage 10.0 (TID 17)] DEBUG org.apache.spark.executor.ExecutorMetricsPoller - stageTCMP: (10, 0) -> 0
 21:32:57.562 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSchedulerImpl - parentName: , name: TaskSet_10.0, runningTasks: 0
 21:32:57.562 [dispatcher-event-loop-0] DEBUG org.apache.spark.scheduler.TaskSetManager - No tasks for locality level NODE_LOCAL, so moving to locality level ANY
-21:32:57.562 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 10.0 (TID 17) in 1688 ms on 192.168.31.69 (executor driver) (1/1)
+21:32:57.562 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSetManager - Finished task 0.0 in stage 10.0 (TID 17) in 1688 ms on 192.168.0.101 (executor driver) (1/1)
 21:32:57.562 [task-result-getter-1] INFO  org.apache.spark.scheduler.TaskSchedulerImpl - Removed TaskSet 10.0, whose tasks have all completed, from pool
 21:32:57.563 [dag-scheduler-event-loop] INFO  org.apache.spark.scheduler.DAGScheduler - ResultStage 10 (saveAsTable at PhysicalPlanSpec.scala:338) finished in 1.728 s
 21:32:57.564 [dag-scheduler-event-loop] DEBUG org.apache.spark.scheduler.DAGScheduler - After removal of stage 8, remaining stages = 4

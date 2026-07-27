@@ -109,12 +109,12 @@ Execute CreateDataSourceTableAsSelectCommand `t3`, Overwrite, [key, value1, valu
          :        :              +- ObjectHashAggregate(keys=[], functions=[partial_bloom_filter_agg(xxhash64(key#61L, 42), 1000000, 8388608, 0, 0)], output=[buf#75])
          :        :                 +- Project [key#61L]
          :        :                    +- Filter ((isnotnull(value2#62) AND (value2#62 > 0.01)) AND isnotnull(key#61L))
-         :        :                       +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
-         :        +- FileScan parquet default.t1[key#59L,value1#60] Batched: true, DataFilters: [isnotnull(key#59L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(key)], ReadSchema: struct<key:bigint,value1:double>
+         :        :                       +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
+         :        +- FileScan parquet default.t1[key#59L,value1#60] Batched: true, DataFilters: [isnotnull(key#59L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(key)], ReadSchema: struct<key:bigint,value1:double>
          +- Sort [key#61L ASC NULLS FIRST], false, 0
             +- Exchange hashpartitioning(key#61L, 3), ENSURE_REQUIREMENTS, [plan_id=67]
                +- Filter ((isnotnull(value2#62) AND (value2#62 > 0.01)) AND isnotnull(key#61L))
-                  +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
+                  +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
 
 ```
 ## 核心组件
@@ -162,14 +162,14 @@ AdaptiveSparkPlan isFinalPlan=true id=2
             +- *(1) Project [key#61L]
                +- *(1) Filter ((isnotnull(value2#62) AND (value2#62 > 0.01)) AND isnotnull(key#61L))
                   +- *(1) ColumnarToRow
-                     +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
+                     +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
 +- == Initial Plan ==
    ObjectHashAggregate(keys=[], functions=[bloom_filter_agg(xxhash64(key#61L, 42), 1000000, 8388608, 0, 0)], output=[bloomFilter#72])
    +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=55]
       +- ObjectHashAggregate(keys=[], functions=[partial_bloom_filter_agg(xxhash64(key#61L, 42), 1000000, 8388608, 0, 0)], output=[buf#75])
          +- Project [key#61L]
             +- Filter ((isnotnull(value2#62) AND (value2#62 > 0.01)) AND isnotnull(key#61L))
-               +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
+               +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
 
 ```
 ## 执行流程
@@ -255,9 +255,9 @@ Exchange hashpartitioning(key#59L, 3), ENSURE_REQUIREMENTS, [plan_id=95]
    :              +- ObjectHashAggregate(keys=[], functions=[partial_bloom_filter_agg(xxhash64(key#61L, 42), 1000000, 8388608, 0, 0)], output=[buf#75])
    :                 +- Project [key#61L]
    :                    +- Filter ((isnotnull(value2#62) AND (value2#62 > 0.01)) AND isnotnull(key#61L))
-   :                       +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
+   :                       +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
    +- *(1) ColumnarToRow
-      +- FileScan parquet default.t1[key#59L,value1#60] Batched: true, DataFilters: [isnotnull(key#59L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(key)], ReadSchema: struct<key:bigint,value1:double>
+      +- FileScan parquet default.t1[key#59L,value1#60] Batched: true, DataFilters: [isnotnull(key#59L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(key)], ReadSchema: struct<key:bigint,value1:double>
 ```
 ### ShuffleQueryStageExec 1
 
@@ -266,7 +266,7 @@ Exchange hashpartitioning(key#59L, 3), ENSURE_REQUIREMENTS, [plan_id=95]
 Exchange hashpartitioning(key#61L, 3), ENSURE_REQUIREMENTS, [plan_id=117]
 +- *(2) Filter ((isnotnull(value2#62) AND (value2#62 > 0.01)) AND isnotnull(key#61L))
    +- *(2) ColumnarToRow
-      +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
+      +- FileScan parquet default.t2[key#61L,value2#62] Batched: true, DataFilters: [isnotnull(value2#62), (value2#62 > 0.01), isnotnull(key#61L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(value2), GreaterThan(value2,0.01), IsNotNull(key)], ReadSchema: struct<key:bigint,value2:double>
 ```
 - 负责处理连接的右表 t2 数据
 - 同样按 key#61L 进行哈希分区，为后续与 ShuffleQueryStageExec: 0 的结果进行连接做准备

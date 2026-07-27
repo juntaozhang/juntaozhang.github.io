@@ -44,7 +44,7 @@ https://github.com/mdirolf/nginx-gridfs/tree/v0.8
     proxy_set_header host $host;
     proxy_set_header X-real-ip $remote_addr;
     proxy_set_header X-forward-for $proxy_add_x_forwarded_for;
-    proxy_pass http://124.116.245.100:18001/backend-1.0.0/;
+    proxy_pass http://192.0.2.1:8080/backend-1.0.0/;
   }
 
   location / {

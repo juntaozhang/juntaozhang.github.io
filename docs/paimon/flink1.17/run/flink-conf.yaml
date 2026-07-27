@@ -310,5 +310,5 @@ fs.s3a.endpoint: http://rustfs-svc:9000
 fs.s3a.path.style.access: true
 fs.s3a.connection.ssl.enabled: false
 fs.s3a.access.key: test
-fs.s3a.secret.key: 11111111
+fs.s3a.secret.key: CHANGEME
 fs.s3a.aws.credentials.provider: org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider

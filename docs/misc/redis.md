@@ -16,7 +16,7 @@ SCAN查找:`SCAN 0 MATCH 1478755240* SIZE 100`
 
 `DBSIZE`:db key number
 
-> redis-cli -p 26179 -a 'pass' -h 192.168.1.156 -n `{database number}`
+> redis-cli -p 26179 -a 'pass' -h 192.168.0.10 -n `{database number}`
 
 python
 ```
@@ -34,13 +34,13 @@ Bar
 python sentinel
 ```
 from redis.sentinel import Sentinel
-sentinel = Sentinel(sentinels=[('192.168.0.131', 26379),('192.168.0.134', 26379),('192.168.0.136', 26379)], socket_timeout=0.1)
+sentinel = Sentinel(sentinels=[('192.168.0.11', 26379),('192.168.0.12', 26379),('192.168.0.13', 26379)], socket_timeout=0.1)
 sentinel.discover_master(service_name='mymaster')
-master = sentinel.master_for(service_name='mymaster', socket_timeout=0.1, password='123')
+master = sentinel.master_for(service_name='mymaster', socket_timeout=0.1, password='CHANGEME')
 master.set('foo', 'bar')
 master.get('foo')
 
-slave = sentinel.slave_for('mymaster', socket_timeout=0.1, password='123')
+slave = sentinel.slave_for('mymaster', socket_timeout=0.1, password='CHANGEME')
 slave.get('foo')
 ```
 

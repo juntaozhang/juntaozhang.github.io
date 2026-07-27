@@ -161,14 +161,14 @@ CollectLimit 21
       :        +- *(1) Project [id#0, name#1]
       :           +- *(1) Filter isnotnull(id#0)
       :              +- *(1) ColumnarToRow
-      :                 +- FileScan parquet default.t1[id#0,name#1,date#2] Batched: true, DataFilters: [isnotnull(id#0)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :                 +- FileScan parquet default.t1[id#0,name#1,date#2] Batched: true, DataFilters: [isnotnull(id#0)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- Sort [id#3 ASC NULLS FIRST], false, 0
          +- ShuffleQueryStage 1
             +- Exchange hashpartitioning(id#3, 200), ENSURE_REQUIREMENTS, [plan_id=79]
                +- *(2) Project [id#3, value#4]
                   +- *(2) Filter ((isnotnull(value#4) AND (value#4 > 1)) AND isnotnull(id#3))
                      +- *(2) ColumnarToRow
-                        +- FileScan parquet default.t2[id#3,value#4,date#5] Batched: true, DataFilters: [isnotnull(value#4), (value#4 > 1), isnotnull(id#3)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(value), GreaterThan(value,1), IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+                        +- FileScan parquet default.t2[id#3,value#4,date#5] Batched: true, DataFilters: [isnotnull(value#4), (value#4 > 1), isnotnull(id#3)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(value), GreaterThan(value,1), IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 】AQE ==> new【
 CollectLimit 21
 +- Project [cast(id#0 as string) AS id#14, name#1, cast(value#4 as string) AS value#16]
@@ -180,7 +180,7 @@ CollectLimit 21
       :           +- *(1) Project [id#0, name#1]
       :              +- *(1) Filter isnotnull(id#0)
       :                 +- *(1) ColumnarToRow
-      :                    +- FileScan parquet default.t1[id#0,name#1,date#2] Batched: true, DataFilters: [isnotnull(id#0)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :                    +- FileScan parquet default.t1[id#0,name#1,date#2] Batched: true, DataFilters: [isnotnull(id#0)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- Sort [id#3 ASC NULLS FIRST], false, 0
          +- AQEShuffleRead coalesced
             +- ShuffleQueryStage 1
@@ -188,7 +188,7 @@ CollectLimit 21
                   +- *(2) Project [id#3, value#4]
                      +- *(2) Filter ((isnotnull(value#4) AND (value#4 > 1)) AND isnotnull(id#3))
                         +- *(2) ColumnarToRow
-                           +- FileScan parquet default.t2[id#3,value#4,date#5] Batched: true, DataFilters: [isnotnull(value#4), (value#4 > 1), isnotnull(id#3)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(value), GreaterThan(value,1), IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+                           +- FileScan parquet default.t2[id#3,value#4,date#5] Batched: true, DataFilters: [isnotnull(value#4), (value#4 > 1), isnotnull(id#3)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(value), GreaterThan(value,1), IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 】
 ```
 
@@ -1129,7 +1129,7 @@ Filter (isnotnull(date#32) AND dynamicpruning#49 [date#32])
 :     +- Relation default.dim_table[date#33,event#34] parquet
 +- Relation default.fact_table[id#30,value#31,date#32] parquet
 】 --> 【
-FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruning#49 [date#32]], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruning#49 [date#32]], PushedFilters: [], ReadSchema: struct<id:int,value:int>
    +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
       +- Relation default.dim_table[date#33,event#34] parquet
 】
@@ -1142,24 +1142,24 @@ InsertAdaptiveSparkPlan
 CollectLimit 21
 +- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
    +- BroadcastHashJoin [date#32], [date#33], Inner, BuildRight, false
-      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruning#49 [date#32]], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruning#49 [date#32]], PushedFilters: [], ReadSchema: struct<id:int,value:int>
       :     +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
       :        +- Relation default.dim_table[date#33,event#34] parquet
       +- Project [date#33, event#34]
          +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
-            +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+            +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
  ==>
 CollectLimit 21
 +- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
    +- BroadcastHashJoin [date#32], [date#33], Inner, BuildRight, false
-      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
       :     +- SubqueryAdaptiveBroadcast dynamicpruning#49, 0, false, Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33)), [date#33]
       :        +- AdaptiveSparkPlan isFinalPlan=false
       :           +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
-      :              +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+      :              +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
       +- Project [date#33, event#34]
          +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
-            +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+            +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
 ```
 
 executedPlan
@@ -1169,14 +1169,14 @@ AdaptiveSparkPlan isFinalPlan=false
 +- CollectLimit 21
    +- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
       +- BroadcastHashJoin [date#32], [date#33], Inner, BuildRight, false
-         :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+         :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
          :     +- SubqueryAdaptiveBroadcast dynamicpruning#49, 0, false, Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33)), [date#33]
          :        +- AdaptiveSparkPlan isFinalPlan=false
          :           +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
-         :              +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+         :              +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
          +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=52]
             +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
-               +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+               +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
 
 ```
 
@@ -1211,13 +1211,13 @@ org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec$ - applyPhysicalRu
 HashAggregate(keys=[date#33#54], functions=[], output=[date#33#54])
 +- HashAggregate(keys=[date#33 AS date#33#54], functions=[], output=[date#33#54])
    +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
-      +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+      +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
 】AQE --> 【
 HashAggregate(keys=[date#33#54], functions=[], output=[date#33#54])
 +- Exchange hashpartitioning(date#33#54, 200), ENSURE_REQUIREMENTS, [plan_id=116]
    +- HashAggregate(keys=[date#33 AS date#33#54], functions=[], output=[date#33#54])
       +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
-         +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+         +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
 】
 ```
 
@@ -1232,31 +1232,31 @@ optimizeQueryStage - org.apache.spark.sql.execution.adaptive.PlanAdaptiveDynamic
 CollectLimit 21
 +- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
    +- BroadcastHashJoin [date#32], [date#33], Inner, BuildRight, false
-      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
       :     +- SubqueryAdaptiveBroadcast dynamicpruning#49, 0, false, Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33)), [date#33]
       :        +- AdaptiveSparkPlan isFinalPlan=false
       :           +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
-      :              +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+      :              +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
       +- BroadcastQueryStage 0
          +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=70]
             +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
-               +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+               +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
 】AQE --> new【
 CollectLimit 21
 +- Project [cast(id#30 as string) AS id#43, cast(value#31 as string) AS value#44, event#34]
    +- BroadcastHashJoin [date#32], [date#33], Inner, BuildRight, false
-      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+      :- FileScan parquet default.fact_table[id#30,value#31,date#32] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#32), dynamicpruningexpression(date#32 IN dynamicpruning#49)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
       :     +- Subquery dynamicpruning#49, [id=#118]
       :        +- AdaptiveSparkPlan isFinalPlan=false
       :           +- HashAggregate(keys=[date#33#54], functions=[], output=[date#33#54])
       :              +- Exchange hashpartitioning(date#33#54, 200), ENSURE_REQUIREMENTS, [plan_id=116]
       :                 +- HashAggregate(keys=[date#33 AS date#33#54], functions=[], output=[date#33#54])
       :                    +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
-      :                       +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+      :                       +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
       +- BroadcastQueryStage 0
          +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=70]
             +- Filter ((isnotnull(event#34) AND (event#34 = New Year)) AND isnotnull(date#33))
-               +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+               +- FileScan parquet default.dim_table[date#33,event#34] Batched: false, DataFilters: [isnotnull(event#34), (event#34 = New Year), isnotnull(date#33)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
 】
 ```
 
@@ -1273,7 +1273,7 @@ createQueryStages -> reuseQueryStage
 ```text
 +- Project [cast(id#20 as string) AS id#33, cast(value#21 as string) AS value#34, event#24]
    +- BroadcastHashJoin [date#22], [date#23], Inner, BuildRight, false
-      :- FileScan parquet default.fact_table[id#20,value#21,date#22] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#22), dynamicpruningexpression(date#22 IN dynamicpruning#39)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
+      :- FileScan parquet default.fact_table[id#20,value#21,date#22] Batched: false, DataFilters: [], Format: Parquet, Location: InMemoryFileIndex(3 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [isnotnull(date#22), dynamicpruningexpression(date#22 IN dynamicpruning#39)], PushedFilters: [], ReadSchema: struct<id:int,value:int>
       :     +- SubqueryBroadcast dynamicpruning#39, 0, [date#23], [id=#76]
       :        +- AdaptiveSparkPlan isFinalPlan=true
                   +- == Final Plan ==
@@ -1282,11 +1282,11 @@ createQueryStages -> reuseQueryStage
                   +- == Initial Plan ==
                      BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=70]
                      +- Filter ((isnotnull(event#24) AND (event#24 = New Year)) AND isnotnull(date#23))
-                        +- FileScan parquet default.dim_table[date#23,event#24] Batched: false, DataFilters: [isnotnull(event#24), (event#24 = New Year), isnotnull(date#23)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+                        +- FileScan parquet default.dim_table[date#23,event#24] Batched: false, DataFilters: [isnotnull(event#24), (event#24 = New Year), isnotnull(date#23)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
       +- BroadcastQueryStage 0
          +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, false]),false), [plan_id=42]
             +- Filter ((isnotnull(event#24) AND (event#24 = New Year)) AND isnotnull(date#23))
-               +- FileScan parquet default.dim_table[date#23,event#24] Batched: false, DataFilters: [isnotnull(event#24), (event#24 = New Year), isnotnull(date#23)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
+               +- FileScan parquet default.dim_table[date#23,event#24] Batched: false, DataFilters: [isnotnull(event#24), (event#24 = New Year), isnotnull(date#23)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-ware..., PartitionFilters: [], PushedFilters: [IsNotNull(event), EqualTo(event,New Year), IsNotNull(date)], ReadSchema: struct<date:string,event:string>
 ```
 
 ### 条件：显示式的逻辑关联关系

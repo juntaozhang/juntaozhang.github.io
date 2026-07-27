@@ -256,10 +256,10 @@ CollectLimit 21
    +- SortMergeJoin [id#20], [id#23], Inner
       :- Project [id#20, name#21]
       :  +- Filter isnotnull(id#20)
-      :     +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :     +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- Project [id#23, value#24]
          +- Filter isnotnull(id#23)
-            +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+            +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 ```
 
 ## QueryExecution.prepareForExecution
@@ -278,13 +278,13 @@ CollectLimit 21
       :     +- *(1) Project [id#20, name#21]
       :        +- *(1) Filter isnotnull(id#20)
       :           +- *(1) ColumnarToRow
-      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
+      :              +- FileScan parquet default.t1[id#20,name#21,date#22] Batched: true, DataFilters: [isnotnull(id#20)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,name:string>
       +- *(4) Sort [id#23 ASC NULLS FIRST], false, 0
          +- Exchange hashpartitioning(id#23, 2), ENSURE_REQUIREMENTS, [plan_id=68]
             +- *(3) Project [id#23, value#24]
                +- *(3) Filter isnotnull(id#23)
                   +- *(3) ColumnarToRow
-                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/Users/juntao/src/github.com/apache/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
+                     +- FileScan parquet default.t2[id#23,value#24,date#25] Batched: true, DataFilters: [isnotnull(id#23)], Format: Parquet, Location: CatalogFileIndex(1 paths)[file:/path/to/spark-v3.3.1-study/spark-wareh..., PartitionFilters: [], PushedFilters: [IsNotNull(id)], ReadSchema: struct<id:int,value:int>
 ```
 
 

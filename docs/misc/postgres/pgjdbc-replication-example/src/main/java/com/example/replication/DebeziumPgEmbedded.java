@@ -27,7 +27,7 @@ public class DebeziumPgEmbedded {
         p.setProperty("database.hostname", "localhost");
         p.setProperty("database.port", "5432");
         p.setProperty("database.user", "postgres");
-        p.setProperty("database.password", "postgres123");
+        p.setProperty("database.password", "CHANGEME");
         p.setProperty("database.dbname", "test");
 
         // 逻辑复制插件/发布与复制槽

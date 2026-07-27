@@ -228,7 +228,7 @@ https://github.com/apache/paimon/issues/7303
     .config("spark.sql.catalog.paimon.warehouse", "s3://warehouse/paimon")
     .config("spark.sql.catalog.paimon.s3.path.style.access", "true")
     .config("spark.sql.catalog.paimon.s3.access-key", "test")
-    .config("spark.sql.catalog.paimon.s3.secret-key", "11111111")
+    .config("spark.sql.catalog.paimon.s3.secret-key", "CHANGEME")
     .config("spark.sql.catalog.paimon.s3.endpoint", "http://localhost:9000")
     .getOrCreate
   spark.sql("USE paimon")
@@ -246,7 +246,7 @@ spark@spark-client-6989dd9c57-9kjvv:/opt/spark/work-dir$ ../bin/spark-sql \
 >     --conf spark.sql.catalog.paimon.s3.path.style.access=true \
 >     --conf spark.sql.catalog.paimon.s3.endpoint=$MY_S3_ENDPOINT \
 >     --conf spark.sql.catalog.paimon.s3.access-key=test \
->     --conf spark.sql.catalog.paimon.s3.secret-key=11111111 \
+>     --conf spark.sql.catalog.paimon.s3.secret-key=CHANGEME \
 >     --conf spark.sql.catalog.paimon=org.apache.paimon.spark.SparkCatalog \
 >     --conf spark.sql.catalog.paimon.warehouse=s3://warehouse/paimon \
 >     --conf spark.sql.extensions=org.apache.paimon.spark.extensions.PaimonSparkSessionExtensions \
@@ -262,7 +262,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 26/02/25 09:55:05 WARN ObjectStore: Version information not found in metastore. hive.metastore.schema.verification is not enabled so recording the schema version 2.3.0
 26/02/25 09:55:05 WARN ObjectStore: setMetaStoreSchemaVersion called but recording version is disabled: version = 2.3.0, comment = Set by MetaStore UNKNOWN@10.1.2.184
 26/02/25 09:55:05 WARN ObjectStore: Failed to get database default, returning NoSuchObjectException
-Spark Web UI available at http://10.1.2.184:4040
+Spark Web UI available at http://10.0.0.10:4040
 Spark master: k8s://https://kubernetes.docker.internal:6443, Application Id: spark-2b199adbbb284e6ca9d66d006a02bc4c
 26/02/25 09:55:07 WARN SparkSQLCLIDriver: WARNING: Directory for Hive history file: /home/spark does not exist.   History will not be available during this session.
 spark-sql (default)> USE paimon;

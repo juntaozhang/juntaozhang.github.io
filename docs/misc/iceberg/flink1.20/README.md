@@ -163,7 +163,7 @@ CREATE TABLE orders (
 'hostname' = 'localhost',
 'port' = '3306',
 'username' = 'root',
-'password' = 'password',
+'password' = 'CHANGEME',
 'database-name' = 'ecommerce',
 'table-name' = 'orders'
 ```
@@ -203,7 +203,7 @@ curl -X POST http://localhost:8083/connectors \
       "database.hostname": "mysql",
       "database.port": "3306",
       "database.user": "debezium",
-      "database.password": "dbz",
+      "database.password": "CHANGEME",
       "database.server.id": "184054",
       "database.server.name": "dbserver1",
       "database.include.list": "ecommerce",

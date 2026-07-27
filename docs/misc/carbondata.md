@@ -127,7 +127,7 @@ carbon.sql(
         |select device,mac,imei,clienttime,clientip,bssid,ssid,flag_mapping,plat,day from test.rp_gapoi_ip_bssid_device_list
       """.stripMargin)
 
-carbon.sql("select * from rp_dataengine.rp_gapoi_ip_bssid_device_list_carbon2 where clientip='111.144.206.112' ").show(false)
+carbon.sql("select * from rp_dataengine.rp_gapoi_ip_bssid_device_list_carbon2 where clientip='192.0.2.20' ").show(false)
 carbon.sql("select * from rp_dataengine.rp_gapoi_ip_bssid_device_list_carbon2 where imei='864129035644386'").show(false)
 carbon.sql("select * from rp_dataengine.rp_gapoi_ip_bssid_device_list_carbon2 where clienttime='2018-07-07 13:39:19' and bssid='b0:95:8e:36:71:ba'").show(false)
 ```

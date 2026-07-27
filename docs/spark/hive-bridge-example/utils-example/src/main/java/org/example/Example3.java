@@ -13,7 +13,7 @@ public class Example3 {
             @Override
             public Class<?> findClass(String name) throws ClassNotFoundException {
                 try {
-                    try (JarFile jarFile = new JarFile("/Users/juntzhang/.m2/repository/org/example/utils/1.0.0/utils-1.0.0.jar")) {
+                    try (JarFile jarFile = new JarFile("~/.m2/repository/org/example/utils/1.0.0/utils-1.0.0.jar")) {
                         String classPath = name.replace('.', '/') + ".class";
                         JarEntry entry = jarFile.getJarEntry(classPath);
                         InputStream inputStream = jarFile.getInputStream(entry);

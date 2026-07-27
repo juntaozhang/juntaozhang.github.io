@@ -304,7 +304,7 @@ fs.s3a.endpoint: http://127.0.0.1:9000
 fs.s3a.path.style.access: true
 fs.s3a.connection.ssl.enabled: false
 fs.s3a.access.key: minio
-fs.s3a.secret.key: minio12345
+fs.s3a.secret.key: CHANGEME
 fs.s3a.aws.credentials.provider: org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider
 ```
 

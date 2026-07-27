@@ -20,7 +20,7 @@ public class PaimonExample {
                 "warehouse", "s3://warehouse/paimon",
                 "s3.path.style.access", "true",
                 "s3.access-key", "test",
-                "s3.secret-key", "11111111",
+                "s3.secret-key", "CHANGEME",
                 "s3.endpoint", "http://localhost:32000"
         ));
         CatalogContext catalogContext = CatalogContext.create(options, new Configuration());
