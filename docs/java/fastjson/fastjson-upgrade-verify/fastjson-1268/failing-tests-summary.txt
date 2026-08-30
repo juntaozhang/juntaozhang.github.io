@@ -1,0 +1,253 @@
+=== com.alibaba.json.bvt.issue_1200.Issue1240.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.issue_1200.Issue1240
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.001 sec <<< FAILURE! - in com.alibaba.json.bvt.issue_1200.Issue1240
+test_for_issue(com.alibaba.json.bvt.issue_1200.Issue1240)  Time elapsed: 0.001 sec  <<< ERROR!
+com.alibaba.fastjson.JSONException: autoType is not support. org.springframework.util.LinkedMultiValueMap
+	at com.alibaba.fastjson.parser.ParserConfig.checkAutoType(ParserConfig.java:1451)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:343)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parse(DefaultJSONParser.java:1430)
+	at com.alibaba.fastjson.parser.deserializer.JavaObjectDeserializer.deserialze(JavaObjectDeserializer.java:46)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:705)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:394)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:362)
+	at com.alibaba.json.bvt.issue_1200.Issue1240.test_for_issue(Issue1240.java:19)
+
+
+=== com.alibaba.json.bvt.issue_1400.Issue1493.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.issue_1400.Issue1493
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.006 sec <<< FAILURE! - in com.alibaba.json.bvt.issue_1400.Issue1493
+test_for_issue(com.alibaba.json.bvt.issue_1400.Issue1493)  Time elapsed: 0.006 sec  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<...,"time2":"2017-09-22[T]15:08:56"}> but was:<...,"time2":"2017-09-22[ ]15:08:56"}>
+	at org.junit.Assert.assertEquals(Assert.java:117)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at com.alibaba.json.bvt.issue_1400.Issue1493.test_for_issue(Issue1493.java:34)
+
+
+=== com.alibaba.json.bvt.issue_2300.Issue2387.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.issue_2300.Issue2387
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec <<< FAILURE! - in com.alibaba.json.bvt.issue_2300.Issue2387
+test_for_issue(com.alibaba.json.bvt.issue_2300.Issue2387)  Time elapsed: 0.002 sec  <<< FAILURE!
+junit.framework.ComparisonFailure: expected:<{"ddd":"[","id":"","name":"]"}> but was:<{"ddd":"[sdfsd","id":"ss","name":"hh]"}>
+	at junit.framework.Assert.assertEquals(Assert.java:100)
+	at junit.framework.Assert.assertEquals(Assert.java:107)
+	at junit.framework.TestCase.assertEquals(TestCase.java:260)
+	at com.alibaba.json.bvt.issue_2300.Issue2387.test_for_issue(Issue2387.java:12)
+
+
+=== com.alibaba.json.bvt.issue_2600.Issue2685.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.issue_2600.Issue2685
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.003 sec <<< FAILURE! - in com.alibaba.json.bvt.issue_2600.Issue2685
+test_field(com.alibaba.json.bvt.issue_2600.Issue2685)  Time elapsed: 0.003 sec  <<< ERROR!
+java.lang.NoSuchMethodError: org.apache.commons.lang3.RandomUtils.nextInt()I
+	at com.zx.sms.common.util.DefaultSequenceNumberUtil.<clinit>(DefaultSequenceNumberUtil.java:85)
+	at com.zx.sms.codec.smgp.msg.SMGPBaseMessage.<init>(SMGPBaseMessage.java:25)
+	at com.zx.sms.codec.smgp.msg.SMGPSubmitMessage.<init>(SMGPSubmitMessage.java:60)
+	at com.alibaba.json.bvt.issue_2600.Issue2685.test_field(Issue2685.java:22)
+
+
+=== com.alibaba.json.bvt.JSONArrayTest2.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.JSONArrayTest2
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.004 sec <<< FAILURE! - in com.alibaba.json.bvt.JSONArrayTest2
+test_0(com.alibaba.json.bvt.JSONArrayTest2)  Time elapsed: 0.004 sec  <<< ERROR!
+com.alibaba.fastjson.JSONException: syntax error, expect [, actual EOF, pos 52, fieldName null
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseArray(DefaultJSONParser.java:1182)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseArray(DefaultJSONParser.java:1169)
+	at com.alibaba.fastjson.JSON.parseArray(JSON.java:612)
+	at com.alibaba.fastjson.JSON.parseArray(JSON.java:592)
+	at com.alibaba.json.bvt.JSONArrayTest2.test_0(JSONArrayTest2.java:41)
+
+
+=== com.alibaba.json.bvt.parser.autoType.AutoTypeTest7.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.parser.autoType.AutoTypeTest7
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0 sec <<< FAILURE! - in com.alibaba.json.bvt.parser.autoType.AutoTypeTest7
+test_2(com.alibaba.json.bvt.parser.autoType.AutoTypeTest7)  Time elapsed: 0 sec  <<< ERROR!
+com.alibaba.fastjson.JSONException: autoType is not support. org.springframework.cache.support.NullValue
+	at com.alibaba.fastjson.parser.ParserConfig.checkAutoType(ParserConfig.java:1497)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:343)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parse(DefaultJSONParser.java:1430)
+	at com.alibaba.fastjson.parser.deserializer.JavaObjectDeserializer.deserialze(JavaObjectDeserializer.java:46)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:705)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:394)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:298)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:588)
+	at com.alibaba.json.bvt.parser.autoType.AutoTypeTest7.test_2(AutoTypeTest7.java:17)
+
+test_3(com.alibaba.json.bvt.parser.autoType.AutoTypeTest7)  Time elapsed: 0 sec  <<< ERROR!
+java.lang.ClassCastException: com.alibaba.fastjson.JSONObject cannot be cast to java.lang.Exception
+	at com.alibaba.json.bvt.parser.autoType.AutoTypeTest7.test_3(AutoTypeTest7.java:22)
+
+
+=== com.alibaba.json.bvt.parser.ReadOnlyMapTest2.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.parser.ReadOnlyMapTest2
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec <<< FAILURE! - in com.alibaba.json.bvt.parser.ReadOnlyMapTest2
+test_readOnlyNullList(com.alibaba.json.bvt.parser.ReadOnlyMapTest2)  Time elapsed: 0 sec  <<< FAILURE!
+java.lang.AssertionError: expected null, but was:<{a=com.alibaba.json.bvt.parser.ReadOnlyMapTest2$A@29420437}>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotNull(Assert.java:756)
+	at org.junit.Assert.assertNull(Assert.java:738)
+	at org.junit.Assert.assertNull(Assert.java:748)
+	at com.alibaba.json.bvt.parser.ReadOnlyMapTest2.test_readOnlyNullList(ReadOnlyMapTest2.java:17)
+
+
+=== com.alibaba.json.bvt.parser.TypeUtilsTest.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.parser.TypeUtilsTest
+-------------------------------------------------------------------------------
+Tests run: 46, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec <<< FAILURE! - in com.alibaba.json.bvt.parser.TypeUtilsTest
+test_cast_to_Timestamp_error(com.alibaba.json.bvt.parser.TypeUtilsTest)  Time elapsed: 0 sec  <<< FAILURE!
+java.lang.AssertionError: null
+	at org.junit.Assert.fail(Assert.java:87)
+	at org.junit.Assert.assertTrue(Assert.java:42)
+	at org.junit.Assert.assertNotNull(Assert.java:713)
+	at org.junit.Assert.assertNotNull(Assert.java:723)
+	at com.alibaba.json.bvt.parser.TypeUtilsTest.test_cast_to_Timestamp_error(TypeUtilsTest.java:304)
+
+
+=== com.alibaba.json.bvt.path.JSONPath_12.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.path.JSONPath_12
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0 sec <<< FAILURE! - in com.alibaba.json.bvt.path.JSONPath_12
+test(com.alibaba.json.bvt.path.JSONPath_12)  Time elapsed: 0 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: null
+	at junit.framework.Assert.fail(Assert.java:55)
+	at junit.framework.Assert.assertTrue(Assert.java:22)
+	at junit.framework.Assert.assertTrue(Assert.java:31)
+	at junit.framework.TestCase.assertTrue(TestCase.java:200)
+	at com.alibaba.json.bvt.path.JSONPath_12.test(JSONPath_12.java:43)
+
+
+=== com.alibaba.json.bvt.serializer.exception.ExceptionTest.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.serializer.exception.ExceptionTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec <<< FAILURE! - in com.alibaba.json.bvt.serializer.exception.ExceptionTest
+test_exception(com.alibaba.json.bvt.serializer.exception.ExceptionTest)  Time elapsed: 0.001 sec  <<< FAILURE!
+junit.framework.AssertionFailedError: null
+	at junit.framework.Assert.fail(Assert.java:55)
+	at junit.framework.Assert.assertTrue(Assert.java:22)
+	at junit.framework.Assert.assertTrue(Assert.java:31)
+	at junit.framework.TestCase.assertTrue(TestCase.java:200)
+	at com.alibaba.json.bvt.serializer.exception.ExceptionTest.test_exception(ExceptionTest.java:14)
+
+
+=== com.alibaba.json.bvt.support.spring.security.DefaultOAuth2AccessTokenTest.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.support.spring.security.DefaultOAuth2AccessTokenTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.006 sec <<< FAILURE! - in com.alibaba.json.bvt.support.spring.security.DefaultOAuth2AccessTokenTest
+test_0(com.alibaba.json.bvt.support.spring.security.DefaultOAuth2AccessTokenTest)  Time elapsed: 0.005 sec  <<< ERROR!
+com.alibaba.fastjson.JSONException: autoType is not support. org.springframework.security.oauth2.common.DefaultOAuth2AccessToken
+	at com.alibaba.fastjson.parser.ParserConfig.checkAutoType(ParserConfig.java:1451)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:343)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parse(DefaultJSONParser.java:1430)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parse(DefaultJSONParser.java:1390)
+	at com.alibaba.fastjson.JSON.parse(JSON.java:181)
+	at com.alibaba.fastjson.JSON.parse(JSON.java:191)
+	at com.alibaba.fastjson.JSON.parse(JSON.java:147)
+	at com.alibaba.json.bvt.support.spring.security.DefaultOAuth2AccessTokenTest.test_0(DefaultOAuth2AccessTokenTest.java:15)
+
+
+=== com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest
+-------------------------------------------------------------------------------
+Tests run: 11, Failures: 0, Errors: 5, Skipped: 0, Time elapsed: 0.023 sec <<< FAILURE! - in com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest
+test_SecurityContextImpl_x(com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest)  Time elapsed: 0 sec  <<< ERROR!
+com.alibaba.fastjson.JSONException: autoType is not support. org.springframework.security.core.context.SecurityContextImpl
+	at com.alibaba.fastjson.parser.ParserConfig.checkAutoType(ParserConfig.java:1451)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:343)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parse(DefaultJSONParser.java:1430)
+	at com.alibaba.fastjson.parser.deserializer.JavaObjectDeserializer.deserialze(JavaObjectDeserializer.java:46)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:705)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:394)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:357)
+	at com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest.test_SecurityContextImpl_x(DefaultSavedRequestTest.java:143)
+
+test_User(com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest)  Time elapsed: 0 sec  <<< ERROR!
+com.alibaba.fastjson.JSONException: autoType is not support. org.springframework.security.core.userdetails.User
+	at com.alibaba.fastjson.parser.ParserConfig.checkAutoType(ParserConfig.java:1451)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:343)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parse(DefaultJSONParser.java:1430)
+	at com.alibaba.fastjson.parser.deserializer.JavaObjectDeserializer.deserialze(JavaObjectDeserializer.java:46)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:705)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:394)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:298)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:588)
+	at com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest.test_User(DefaultSavedRequestTest.java:130)
+
+test_SecurityContextImpl(com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest)  Time elapsed: 0 sec  <<< ERROR!
+com.alibaba.fastjson.JSONException: autoType is not support. org.springframework.security.core.context.SecurityContextImpl
+	at com.alibaba.fastjson.parser.ParserConfig.checkAutoType(ParserConfig.java:1451)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:343)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parse(DefaultJSONParser.java:1430)
+	at com.alibaba.fastjson.parser.deserializer.JavaObjectDeserializer.deserialze(JavaObjectDeserializer.java:46)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:705)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:394)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:298)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:588)
+	at com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest.test_SecurityContextImpl(DefaultSavedRequestTest.java:100)
+
+test_UsernamePasswordAuthenticationToken(com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest)  Time elapsed: 0.001 sec  <<< ERROR!
+com.alibaba.fastjson.JSONException: autoType is not support. org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+	at com.alibaba.fastjson.parser.ParserConfig.checkAutoType(ParserConfig.java:1451)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:343)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parse(DefaultJSONParser.java:1430)
+	at com.alibaba.fastjson.parser.deserializer.JavaObjectDeserializer.deserialze(JavaObjectDeserializer.java:46)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:705)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:394)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:298)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:588)
+	at com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest.test_UsernamePasswordAuthenticationToken(DefaultSavedRequestTest.java:107)
+
+test_SimpleGrantedAuthority(com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest)  Time elapsed: 0 sec  <<< ERROR!
+com.alibaba.fastjson.JSONException: autoType is not support. org.springframework.security.core.authority.SimpleGrantedAuthority
+	at com.alibaba.fastjson.parser.ParserConfig.checkAutoType(ParserConfig.java:1451)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:343)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parse(DefaultJSONParser.java:1430)
+	at com.alibaba.fastjson.parser.deserializer.JavaObjectDeserializer.deserialze(JavaObjectDeserializer.java:46)
+	at com.alibaba.fastjson.parser.DefaultJSONParser.parseObject(DefaultJSONParser.java:705)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:394)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:298)
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:588)
+	at com.alibaba.json.bvt.support.spring.security.DefaultSavedRequestTest.test_SimpleGrantedAuthority(DefaultSavedRequestTest.java:118)
+
+
+=== com.alibaba.json.bvt.writeClassName.WriteClassNameTest_Set4.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.writeClassName.WriteClassNameTest_Set4
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec <<< FAILURE! - in com.alibaba.json.bvt.writeClassName.WriteClassNameTest_Set4
+test_list(com.alibaba.json.bvt.writeClassName.WriteClassNameTest_Set4)  Time elapsed: 0.002 sec  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<...Test_Set4$A","list":[][{"valueB":100},{"@t...> but was:<...Test_Set4$A","list":[Set][{"valueB":100},{"@t...>
+	at org.junit.Assert.assertEquals(Assert.java:117)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at com.alibaba.json.bvt.writeClassName.WriteClassNameTest_Set4.test_list(WriteClassNameTest_Set4.java:27)
+
+
+=== com.alibaba.json.bvt.writeClassName.WriteClassNameTest_Set.txt ===
+-------------------------------------------------------------------------------
+Test set: com.alibaba.json.bvt.writeClassName.WriteClassNameTest_Set
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.002 sec <<< FAILURE! - in com.alibaba.json.bvt.writeClassName.WriteClassNameTest_Set
+test_list(com.alibaba.json.bvt.writeClassName.WriteClassNameTest_Set)  Time elapsed: 0.001 sec  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<...eTest_Set$A","list":[][{},{"@type":"com.al...> but was:<...eTest_Set$A","list":[Set][{},{"@type":"com.al...>
+	at org.junit.Assert.assertEquals(Assert.java:117)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at com.alibaba.json.bvt.writeClassName.WriteClassNameTest_Set.test_list(WriteClassNameTest_Set.java:27)
+
+
